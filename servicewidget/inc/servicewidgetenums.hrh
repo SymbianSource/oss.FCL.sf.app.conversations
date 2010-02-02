@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  class presence cache handler class implementation
+ *
+*/
+
+ 
+#ifndef SERVICEWIDGETENUMS_HRH
+#define SERVICEWIDGETENUMS_HRH
+
+/**
+* do not modify the below order
+*/
+/**
+ * @class presence cache handler class implementation
+ * @since 5.0
+ */
+enum TWSPresenceStatus
+    {
+	EWSUnknown = -1, // add new enums below this
+    EWSOnline = 0,
+    EWSAway, // 1
+    EWSbusy, // 2
+    EWSDoNotDisturb, // 3
+    EWSOffline, // 4
+    EWSOnPhone,//5
+    EWSBlocked, //6
+    EWSNewMessage ,//7
+    EWSServiceIcon, //8
+    EWSInvisible, //9
+    EWSLast = 10  // add new enums above this
+    
+    };
+
+/**
+ * @operation id 
+ * @since 5.0
+ */ 
+ enum TWServiceOperationId
+	{
+	EWSOperationUnknown = -1,
+	EWSOperationBind,
+	EWSOperationUnbind,
+	EWSOperationFetching,
+	EWSOperationGrandList,
+	EWSOperationComplete
+	}; 
+
+	
+/**
+* A enum
+* Registration states to control views
+*/
+enum TSWSTRegistrationState
+	{
+	ESWSNotRegistered = 0,/* Service Not registered*/
+	ESWSRegistered = 0x8, /* Service registered */
+	ESWSNetworkConnecting = 0x4, /* service connecting */		    
+	ESWSWaitingForNetwork = 0x2, /* service waiting for connection*/
+	ESWSNetworkDisConnecting = 0x1, /* service disconnecting */
+	ESWSUpdatingContacts = 0x10
+	};
+
+/*
+* enum for appview launch
+*/
+enum TSWAExecuteOperation
+    {
+    ESWAUnknown = -1,
+    ESWALaunchServiceTab  ,
+    ESWALaunchConverView,
+    ESWALaunchSTAutoLogin,
+    ESWAStartLogin
+    };
+    
+#endif  // SERVICEWIDGETENUMS_HRH
+
+
+// End of File

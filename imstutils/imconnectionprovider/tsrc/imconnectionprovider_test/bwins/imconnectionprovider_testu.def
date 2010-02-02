@@ -1,0 +1,67 @@
+EXPORTS
+	?LibEntryL@@YAPAVCScriptBase@@AAVCTestModuleIf@@@Z @ 1 NONAME ; class CScriptBase * __cdecl LibEntryL(class CTestModuleIf &)
+	?GetParamL@CXmppSettingsApi@@QAEXKABVTDesC16@@AAH@Z @ 2 NONAME ; void CXmppSettingsApi::GetParamL(unsigned long, class TDesC16 const &, int &)
+	?FindSubServicePropertiesL@CSPSettings@@QAEHIW4TSPItemType@@AAV?$RPointerArray@VCSPProperty@@@@@Z @ 3 NONAME ; int CSPSettings::FindSubServicePropertiesL(unsigned int, enum TSPItemType, class RPointerArray<class CSPProperty> &)
+	?SettingsCountL@CSPSettings@@QAEHXZ @ 4 NONAME ; int CSPSettings::SettingsCountL(void)
+	?GetValue@CSPProperty@@QBEHAAW4TOnOff@@@Z @ 5 NONAME ; int CSPProperty::GetValue(enum TOnOff &) const
+	?FindServiceIdsL@CSPSettings@@QAEHAAV?$RArray@I@@@Z @ 6 NONAME ; int CSPSettings::FindServiceIdsL(class RArray<unsigned int> &)
+	?AddOrUpdatePropertiesL@CSPSettings@@QAEHIABV?$RPointerArray@VCSPProperty@@@@@Z @ 7 NONAME ; int CSPSettings::AddOrUpdatePropertiesL(unsigned int, class RPointerArray<class CSPProperty> const &)
+	?UpdateProperty@CSPEntry@@QAEHW4TServicePropertyName@@ABVTDesC16@@@Z @ 8 NONAME ; int CSPEntry::UpdateProperty(enum TServicePropertyName, class TDesC16 const &)
+	?NewLC@CSPProperty@@SAPAV1@XZ @ 9 NONAME ; class CSPProperty * CSPProperty::NewLC(void)
+	?DefaultSettingsRecordL@CXmppSettingsApi@@QAEXAAK@Z @ 10 NONAME ; void CXmppSettingsApi::DefaultSettingsRecordL(unsigned long &)
+	?PropertyType@CSPProperty@@SA?AW4TSPItemType@@W4TServicePropertyName@@@Z @ 11 NONAME ; enum TSPItemType CSPProperty::PropertyType(enum TServicePropertyName)
+	?GetParamL@CXmppSettingsApi@@QAEXKABVTDesC16@@AAVTDes16@@@Z @ 12 NONAME ; void CXmppSettingsApi::GetParamL(unsigned long, class TDesC16 const &, class TDes16 &)
+	?GetAllProperties@CSPEntry@@QBEABV?$RPointerArray@VCSPProperty@@@@XZ @ 13 NONAME ; class RPointerArray<class CSPProperty> const & CSPEntry::GetAllProperties(void) const
+	?Set@RProperty@@SAHVTUid@@IH@Z @ 14 NONAME ; int RProperty::Set(class TUid, unsigned int, int)
+	?SetServiceName@CSPEntry@@QAEHABVTDesC16@@@Z @ 15 NONAME ; int CSPEntry::SetServiceName(class TDesC16 const &)
+	?FindEntryL@CSPSettings@@QAEHIAAVCSPEntry@@@Z @ 16 NONAME ; int CSPSettings::FindEntryL(unsigned int, class CSPEntry &)
+	?GetPropertyType@CSPProperty@@QBE?AW4TSPItemType@@XZ @ 17 NONAME ; enum TSPItemType CSPProperty::GetPropertyType(void) const
+	?GetServiceName@CSPEntry@@QBEABVTDesC16@@XZ @ 18 NONAME ; class TDesC16 const & CSPEntry::GetServiceName(void) const
+	?UpdateProperty@CSPEntry@@QAEHW4TServicePropertyName@@W4TOnOff@@@Z @ 19 NONAME ; int CSPEntry::UpdateProperty(enum TServicePropertyName, enum TOnOff)
+	?SetValue@CSPProperty@@QAEHH@Z @ 20 NONAME ; int CSPProperty::SetValue(int)
+	?GetProperty@CSPEntry@@QBEHAAPBVCSPProperty@@H@Z @ 21 NONAME ; int CSPEntry::GetProperty(class CSPProperty const * &, int) const
+	?RemoveParamL@CXmppSettingsApi@@QAEXKABVTDesC16@@@Z @ 22 NONAME ; void CXmppSettingsApi::RemoveParamL(unsigned long, class TDesC16 const &)
+	?AddPropertyL@CSPEntry@@QAEHABVCSPProperty@@@Z @ 23 NONAME ; int CSPEntry::AddPropertyL(class CSPProperty const &)
+	?Attach@RProperty@@QAEHVTUid@@IW4TOwnerType@@@Z @ 24 NONAME ; int RProperty::Attach(class TUid, unsigned int, enum TOwnerType)
+	?PropertyCount@CSPEntry@@QBEHXZ @ 25 NONAME ; int CSPEntry::PropertyCount(void) const
+	?DeleteProperty@CSPEntry@@QAEHH@Z @ 26 NONAME ; int CSPEntry::DeleteProperty(int)
+	?GetValue@CSPProperty@@QBEHAAH@Z @ 27 NONAME ; int CSPProperty::GetValue(int &) const
+	?Get@RProperty@@QAEHAAH@Z @ 28 NONAME ; int RProperty::Get(int &)
+	?ImplementationGroupProxy@@YAPBUTImplementationProxy@@AAH@Z @ 29 NONAME ; struct TImplementationProxy const * ImplementationGroupProxy(int &)
+	?FindPropertyL@CSPSettings@@QAEHIW4TServicePropertyName@@AAVCSPProperty@@@Z @ 30 NONAME ; int CSPSettings::FindPropertyL(unsigned int, enum TServicePropertyName, class CSPProperty &)
+	??1CSPProperty@@UAE@XZ @ 31 NONAME ; CSPProperty::~CSPProperty(void)
+	?SetValue@CSPProperty@@QAEHABVTDesC16@@@Z @ 32 NONAME ; int CSPProperty::SetValue(class TDesC16 const &)
+	?NewL@CSPSettings@@SAPAV1@XZ @ 33 NONAME ; class CSPSettings * CSPSettings::NewL(void)
+	?GetRepositoryKeyL@CXmppSettingsApi@@QAEXKABVTDesC16@@HAAK@Z @ 34 NONAME ; void CXmppSettingsApi::GetRepositoryKeyL(unsigned long, class TDesC16 const &, int, unsigned long &)
+	?Cancel@RProperty@@QAEXXZ @ 35 NONAME ; void RProperty::Cancel(void)
+	?UpdateEntryL@CSPSettings@@QAEHABVCSPEntry@@@Z @ 36 NONAME ; int CSPSettings::UpdateEntryL(class CSPEntry const &)
+	?SetName@CSPProperty@@QAEHW4TServicePropertyName@@@Z @ 37 NONAME ; int CSPProperty::SetName(enum TServicePropertyName)
+	?UpdateProperty@CSPEntry@@QAEHW4TServicePropertyName@@H@Z @ 38 NONAME ; int CSPEntry::UpdateProperty(enum TServicePropertyName, int)
+	?NewL@CSPProperty@@SAPAV1@XZ @ 39 NONAME ; class CSPProperty * CSPProperty::NewL(void)
+	?GetServiceId@CSPEntry@@QBEIXZ @ 40 NONAME ; unsigned int CSPEntry::GetServiceId(void) const
+	?DataType@CSPProperty@@SA?AW4TPropertyDataType@@W4TServicePropertyName@@@Z @ 41 NONAME ; enum TPropertyDataType CSPProperty::DataType(enum TServicePropertyName)
+	?NewLC@CSPEntry@@SAPAV1@XZ @ 42 NONAME ; class CSPEntry * CSPEntry::NewLC(void)
+	?GetDataType@CSPProperty@@QBE?AW4TPropertyDataType@@XZ @ 43 NONAME ; enum TPropertyDataType CSPProperty::GetDataType(void) const
+	?Get@RProperty@@SAHVTUid@@IAAH@Z @ 44 NONAME ; int RProperty::Get(class TUid, unsigned int, int &)
+	??8CSPProperty@@QBEHABV0@@Z @ 45 NONAME ; int CSPProperty::operator==(class CSPProperty const &) const
+	?Subscribe@RProperty@@QAEXAAVTRequestStatus@@@Z @ 46 NONAME ; void RProperty::Subscribe(class TRequestStatus &)
+	??1CSPSettings@@UAE@XZ @ 47 NONAME ; CSPSettings::~CSPSettings(void)
+	?SetValue@CSPProperty@@QAEHW4TOnOff@@@Z @ 48 NONAME ; int CSPProperty::SetValue(enum TOnOff)
+	?SetParamL@CXmppSettingsApi@@QAEXKABVTDesC16@@0@Z @ 49 NONAME ; void CXmppSettingsApi::SetParamL(unsigned long, class TDesC16 const &, class TDesC16 const &)
+	??1CSPEntry@@UAE@XZ @ 50 NONAME ; CSPEntry::~CSPEntry(void)
+	?NewL@CSPEntry@@SAPAV1@XZ @ 51 NONAME ; class CSPEntry * CSPEntry::NewL(void)
+	?CreateSettingsRecordL@CXmppSettingsApi@@QAEXAAK@Z @ 52 NONAME ; void CXmppSettingsApi::CreateSettingsRecordL(unsigned long &)
+	?AddOrUpdatePropertyL@CSPSettings@@QAEHIABVCSPProperty@@@Z @ 53 NONAME ; int CSPSettings::AddOrUpdatePropertyL(unsigned int, class CSPProperty const &)
+	?Close@RHandleBase@@QAEXXZ @ 54 NONAME ; void RHandleBase::Close(void)
+	?RemoveSettingsRecordL@CXmppSettingsApi@@QAEXK@Z @ 55 NONAME ; void CXmppSettingsApi::RemoveSettingsRecordL(unsigned long)
+	?DeleteProperty@CSPEntry@@QAEHW4TServicePropertyName@@@Z @ 56 NONAME ; int CSPEntry::DeleteProperty(enum TServicePropertyName)
+	?SetParamL@CXmppSettingsApi@@QAEXKABVTDesC16@@H@Z @ 57 NONAME ; void CXmppSettingsApi::SetParamL(unsigned long, class TDesC16 const &, int)
+	?AddEntryL@CSPSettings@@QAEHAAVCSPEntry@@@Z @ 58 NONAME ; int CSPSettings::AddEntryL(class CSPEntry &)
+	?GetProperty@CSPEntry@@QBEHAAPBVCSPProperty@@W4TServicePropertyName@@@Z @ 59 NONAME ; int CSPEntry::GetProperty(class CSPProperty const * &, enum TServicePropertyName) const
+	?GetSettingsRecordIdArrayL@CXmppSettingsApi@@QAEXAAV?$RArray@K@@@Z @ 60 NONAME ; void CXmppSettingsApi::GetSettingsRecordIdArrayL(class RArray<unsigned long> &)
+	?Define@RProperty@@SAHVTUid@@IHH@Z @ 61 NONAME ; int RProperty::Define(class TUid, unsigned int, int, int)
+	?CopyL@CSPProperty@@QAEXABV1@@Z @ 62 NONAME ; void CSPProperty::CopyL(class CSPProperty const &)
+	?GetName@CSPProperty@@QBE?AW4TServicePropertyName@@XZ @ 63 NONAME ; enum TServicePropertyName CSPProperty::GetName(void) const
+	?GetValue@CSPProperty@@QBEHAAVTDes16@@@Z @ 64 NONAME ; int CSPProperty::GetValue(class TDes16 &) const
+	?NewLC@CSPSettings@@SAPAV1@XZ @ 65 NONAME ; class CSPSettings * CSPSettings::NewLC(void)
+

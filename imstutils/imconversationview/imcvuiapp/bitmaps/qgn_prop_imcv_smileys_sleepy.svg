@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg width="16" height="16" viewBox="0 0 16 16">
+<radialGradient id="_2" gradientUnits="userSpaceOnUse" cx="6.69" cy="4.59" r="7.7">
+<stop stop-color="#CEE1EF" offset="0"/>
+<stop stop-color="#A2C2DD" offset="1"/>
+</radialGradient>
+<path fill="url(#_2)" d="M14.362,7.996c0,3.52-2.845,6.365-6.361,6.365c-3.513,0-6.362-2.846-6.362-6.365 c0-3.514,2.85-6.356,6.362-6.356C11.518,1.64,14.362,4.482,14.362,7.996z"/>
+<rect x="6.206" y="10.206" fill="#496DA2" width="3.653" height="1"/>
+<polygon fill="#496DA2" points="7.166,6.26 6.635,5.73 5.676,6.689 4.728,5.742 4.198,6.272 5.672,7.746 5.688,7.73 5.691,7.734 "/>
+<polygon fill="#496DA2" points="11.959,6.26 11.429,5.73 10.47,6.689 9.522,5.742 8.992,6.272 10.466,7.746 10.481,7.73 10.485,7.734 "/>
+</svg>

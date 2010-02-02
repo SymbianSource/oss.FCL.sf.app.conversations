@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg width="16" height="16" viewBox="0 0 16 16">
+<radialGradient id="_2" gradientUnits="userSpaceOnUse" cx="6.69" cy="4.59" r="7.7">
+<stop stop-color="#CEE1EF" offset="0"/>
+<stop stop-color="#A2C2DD" offset="1"/>
+</radialGradient>
+<path fill="url(#_2)" d="M14.362,7.996c0,3.52-2.845,6.365-6.361,6.365c-3.513,0-6.362-2.846-6.362-6.365 c0-3.514,2.85-6.356,6.362-6.356C11.518,1.64,14.362,4.482,14.362,7.996z"/>
+<circle fill="#FFFFFF" cx="5.83" cy="5.399" r="1.479"/>
+<path fill="#FFFFFF" d="M11.616,9.06c-0.311,2.124-1.605,3.258-3.584,3.258S4.835,11.238,4.448,9.06H11.616z"/>
+<path fill="#496DA2" d="M3.757,8.563c0,2.361,1.914,4.275,4.275,4.275s4.275-1.914,4.275-4.275H3.757z M8.032,12.153 c-1.889,0-3.051-0.961-3.42-2.899h6.84C11.155,11.145,9.921,12.153,8.032,12.153z"/>
+<circle fill="#496DA2" cx="5.829" cy="5.399" r="0.929"/>
+<circle fill="#FFFFFF" cx="10.231" cy="5.399" r="1.479"/>
+<circle fill="#496DA2" cx="10.23" cy="5.399" r="0.929"/>
+</svg>

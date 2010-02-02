@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="conversations" name="Conversation Apps" levels="settings utils ui">
+    <collection id="uiservicetabsettings" name="UI Service Tab Settings" level="settings">
+      <component id="vimpstsettings" filter="s60" name="VIMP Service Tab Settings">
+        <unit bldFile="uiservicetabsettings/group"/>
+      </component>
+    </collection>
+    <collection id="imstutils" name="IM Service Tab Utils" level="utils">
+      <component id="imstutils_help" filter="s60" name="IM Service Tab Help">
+        <unit bldFile="imstutils/help/group"/>
+      </component>
+      <component id="imconnectionprovider" filter="s60" name="IM Connection Provider" class="plugin">
+        <unit bldFile="imstutils/imconnectionprovider/group"/>
+        	<!-- does this test need to be #incldued? -->
+        <!-- <unit bldFile="imstutils/imconnectionprovider/tsrc/imconnectionprovider_test/group"/> -->
+      </component>
+      <component id="xmppadapter" filter="s60" name="XMPP Settings Adapter" class="plugin">
+        <unit bldFile="imstutils/xmppadapter/group"/>
+        	<!-- does this test need to be #incldued? -->
+        <!-- <unit bldFile="imstutils/xmppadapter/tsrc/xmppadapter_test/group"/> -->
+      </component>
+      <component id="imconversationview" filter="s60" name="IM Conversation View">
+        <unit bldFile="imstutils/imconversationview/group"/>
+        <!-- <unit bldFile="imstutils/imconversationview/tsrc/imcvuiengine_test/dummytestadaptation/group"/> -->
+        <!-- <unit bldFile="imstutils/imconversationview/tsrc/imcvuiengine_test/group"/> -->
+      </component>
+      <component id="imstutils_build" filter="s60" name="IM Service Tab Utils Build">
+      	<!-- can this be distributed into the above bld.infs? -->
+        <unit bldFile="imstutils/group"/>
+      </component>
+    </collection>
+    <collection id="uiservicetab" name="UI Service Tab" level="ui">
+      <component id="vimpstutils" filter="s60" name="VIMP Service Tab Utilities">
+      	<!-- need to spell out VIMP at least once -->
+        <unit bldFile="uiservicetab/vimpstutils/group"/>
+      </component>
+      <component id="vimpststorage" filter="s60" name="VIMP Service Tab Storage">
+        <unit bldFile="uiservicetab/vimpststorage/group"/>
+        	<!-- do these tests need to be #incldued? -->
+        <!-- <unit bldFile="uiservicetab/vimpststorage/tsrc/vimpststorage_ut/cvimpststoragecontactlist_ut/group"/> -->
+        <!-- <unit bldFile="uiservicetab/vimpststorage/tsrc/vimpststorage_ut/cvimpststoragecontactsorter_ut/group"/> -->
+        <!-- <unit bldFile="uiservicetab/vimpststorage/tsrc/vimpststorage_ut/cvimpststoragecontact_ut/group"/> -->
+      </component>
+      <component id="vimpstengine" filter="s60" name="VIMP Service Tab Engine">
+        <unit bldFile="uiservicetab/vimpstengine/group"/>
+        	<!-- does this test need to be #incldued? -->
+        <!-- <unit bldFile="uiservicetab/vimpstengine/tsrc/group"/> -->
+      </component>
+      <component id="vimpstcmdprocess" filter="s60" name="VIMP Service Tab Command Process">
+        <unit bldFile="uiservicetab/vimpstcmdprocess/group"/>
+        	<!-- does this test need to be #incldued? -->
+        <!-- <unit bldFile="uiservicetab/vimpstcmdprocess/tsrc/group"/> -->
+      </component>
+      <component id="vimpstui" filter="s60" name="VIMP Service Tab UI">
+        <unit bldFile="uiservicetab/vimpstui/group"/>
+      </component>
+      <component id="vimpstdetailsviewplugin" filter="s60" name="VIMP ST Details View Plugin" class="plugin">
+        <unit bldFile="uiservicetab/vimpstdetailsviewplugin/group"/>
+      </component>
+      <component id="uiservicetab_build" filter="s60" name="UI Service Tab Build">
+      	<!-- can this be distributed into the above bld.infs? -->
+        <unit bldFile="uiservicetab/group"/>
+      </component>
+    </collection>
+    <collection id="servicewidget" name="Service Widget" level="ui">
+      <component id="servicewidgetactionhandler" filter="s60" name="Service Widget Action Handler" class="plugin">
+        <unit bldFile="servicewidget/servicewidgetactionhandler/group"/>
+      </component>
+      <component id="servicewidgetdatapublisher" filter="s60" name="Service Widget Data Publisher" class="plugin">
+        <unit bldFile="servicewidget/servicewidgetdatapublisher/group"/>
+      </component>
+      <component id="themes" filter="s60" name="Service Widget Themes" class="config">
+        <unit bldFile="servicewidget/themes/install-themes/install/servicewidget/group"/>
+      </component>
+      <component id="servicewidget_build" filter="s60" name="Service Widget Build">
+      	<!-- can this be distributed into the above bld.infs? -->
+        <unit bldFile="servicewidget/group"/>
+      </component>
+    </collection>
+    <collection id="conversations_info" name="Conversation Apps Info" level="ui">
+      <component id="conversations_plat" filter="s60" name="Conversation Apps Platform Interfaces" class="api">
+        <unit bldFile="conversations_plat/group"/>
+      </component>
+      <component id="conversations_build" filter="s60" name="Conversation Apps Build">
+      	<!-- can the exports be moved to other components? -->
+        <unit bldFile="group"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

@@ -1,0 +1,200 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  hrh file collection of constants
+ *
+*/
+
+
+#ifndef __VIMPSTDETAILSVIEW_HRH__
+#define __VIMPSTDETAILSVIEW_HRH__
+
+/** do not change any of this , ccappdetailsviewplugin's enumerated command codes */
+enum TCCAppDetailsViewCmdIds
+	{
+
+	ECCAppDetailsViewEditItemCmd = 1,// start value must not be 0
+	ECCAppDetailsViewImageCmd,
+	ECCAppDetailsViewNumberCmd,
+	ECCAppDetailsViewAddressCmd,
+	ECCAppDetailsViewSendBusinessCardCmd,
+	ECCAppDetailsViewSetTopContactCmd,
+	ECCAppDetailsViewRemoveTopContactCmd,
+	ECCAppDetailsViewDeleteCmd,
+	ECCAppDetailsViewCopyCmd,
+	ECCAppDetailsViewCopyNumberCmd,
+	ECCAppDetailsViewCopyAddressCmd,
+	ECCAppDetailsViewCopyDetailCmd,
+	ECCAppDetailsViewAssignSpeedDialCmd,
+	ECCAppDetailsViewSetAsDefaultCmd,
+	ECCAppDetailsViewPrependCmd,
+
+	// KAiwCmdAssign AIW service cmd used as Edit Options-menu item
+	// set AIW commands at last
+	ECCAppDetailsViewAiwBaseCmd = 1000 // leave this last
+
+	};
+
+/** vimpstdetailsview's enumerated command codes */
+
+enum TVIMPSTDetailsViewCmdIds
+	{
+	EVIMPSTDetailsEditCmd = 1001,// start value must not be 0
+	EVIMPSTDetailsViewImageCmd,
+	EVIMPSTDetailsCopyCmd,
+	EVIMPSTDetailsDeleteCmd,
+	// KAiwCmdAssign AIW service cmd used as Edit Options-menu item
+	// set AIW commands at last
+	EVIMPSTDetailsAiwBaseCmd = 2000 // leave this last
+
+	};
+
+//
+#define KVIMPST_MAX_LENGTH 152
+
+//  CONSTANTS  
+///////////////////////////////////////////////////////////
+// Unique Phonebook field type ids
+///////////////////////////////////////////////////////////
+
+#define EPbkFieldIdNone                  0x00
+#define EVIMPSTFieldIdThumbnailImage     0x01
+#define EVIMPSTFieldIdStatusMsg          0x02
+#define EVIMPSTFieldIdEmailAddress       0x03
+#define EVIMPSTFieldIdEmailWork          0x04
+#define EVIMPSTFieldIdEmailGen           0x05
+#define EVIMPSTFieldIdFirstName          0x06
+#define EVIMPSTFieldIdLastName     		 0x07
+#define EVIMPSTFieldIdMiddleName         0x08
+#define EVIMPSTFieldIdWvAddress          0x09
+#define EVIMPSTFieldIdEmailSip           0x10
+#define EVIMPSTFieldIdVoipHome           0x11
+#define EVIMPSTFieldIdVoipWork           0x12
+#define EVIMPSTFieldIdVoipGen            0x13
+#define EVIMPSTFieldIdDepartment         0x14 
+#define EVIMPSTFieldIdCountryHome        0x15
+#define EVIMPSTFieldIdCountryGen         0x16
+#define EVIMPSTFieldIdImpp               0x17
+#define EVIMPSTFieldIdDisplayName        0x18
+
+#define EVIMPSTFieldIdAbout              0x19
+#define EVIMPSTFieldIdHomepage           0x1A
+#define EVIMPSTFieldIdHomePhone          0x1B
+#define EVIMPSTFieldIdMobilePhone        0x1C
+#define EVIMPSTFieldIdOfficePhone        0x1D
+#define EVIMPSTFieldIdBirthday           0x1E
+
+/**
+ * The storage type of data in Versit.dll.
+ * Note that corresponding Uids exist in 
+ * vuid.h.
+ */
+enum TVIMPSTVersitStorageType
+    {
+    EVIMPSTVersitPropertyNULL = 0,
+    EVIMPSTVersitPropertyHBufC,
+    EVIMPSTVersitPropertyBinary,
+    EVIMPSTVersitPropertyCDesCArray,
+    EVIMPSTVersitPropertyMultiDateTime,
+    EVIMPSTVersitPropertyDateTime,
+    EVIMPSTVersitPropertyInt
+    };
+/**
+ * Phonebook 2 field type ordering items.
+ */
+enum TVIMPSTOrderingItem
+    {
+    EVIMPSTIOrderingUndefined = -1,
+    EVIMPSTOrderingItemThumbnailImage = 1,
+    EVIMPSTOrderingItemDisplayName,
+    EVIMPSTOrderingItemStatusMsg,
+    EVIMPSTOrderingItemEmailAddressHome,
+    EVIMPSTOrderingItemEmailWork,
+    EVIMPSTOrderingItemEmailGen,
+    EVIMPSTOrderingItemFirstName,
+    EVIMPSTOrderingItemLastName,
+    EVIMPSTOrderingItemMiddleName,
+    EVIMPSTOrderingItemWvAddress,
+    EVIMPSTOrderingItemSip,
+    EVIMPSTOrderingItemVoipHome,
+    EVIMPSTOrderingItemVoipWork,
+    EVIMPSTOrderingItemVoipGen,
+    EVIMPSTOrderingItemDepartment,
+    EVIMPSTOrderingItemCountryHome,
+    EVIMPSTOrderingItemAddCountryGen,
+    EVIMPSTOrderingItemImpp
+    };
+
+/**
+ * Phonebook 2 Add Item field ordering.
+ */
+enum TVIMPSTAddItemOrdering
+	{
+	// A value that is used for field types that can not be
+	// directly selected by the user.
+	EVIMPSTAddItemOrderUndefined = -1,
+	EVIMPSTAddItemOrderImage = 1,
+	EVIMPSTAddItemOrderDisplaName,
+	EVIMPSTAddItemOrderStatusMsg,
+	EVIMPSTAddItemOrderEmailHome,
+	EVIMPSTAddItemOrderEmailWork,
+	EVIMPSTAddItemOrderEmailGen,
+	EVIMPSTAddItemOrderFirstName,
+	EVIMPSTAddItemOrderLastName,
+	EVIMPSTAddItemOrderMiddleName,
+	EVIMPSTAddItemOrderWvAddress,
+	EVIMPSTAddItemOrderSip,
+	EVIMPSTAddItemOrderVoipHome,
+	EVIMPSTAddItemOrderVoipWork,
+	EVIMPSTAddItemOrderVoipGen,
+	EVIMPSTAddItemOrderDepartment,
+	EVIMPSTAddItemOrderCountryHome,
+	EVIMPSTAddItemOrderAddCountryGen,
+	EVIMPSTAddItemOrderImpp
+	};
+
+
+enum TVIMPSTIconIds
+	{
+	EVIMPSTServiceIconEmpty = -1,
+	EVIMPSTServiceIconOff,
+	EVIMPSTServiceIconOn,
+	EVIMPSTServiceIconAway,
+	EVIMPSTServiceIconBusy,
+	EVIMPSTServiceIconInvi,
+	EVIMPSTServiceIconService,
+	EVIMPSTServiceIconMsgNew,
+	EVIMPSTServiceIconAvatar,
+	EVIMPSTServiceIconFrdReq,
+	EVIMPSTServiceIconFrdReqSent,
+	EVIMPSTServiceIconFrdReqOff,
+	EVIMPSTServiceIconFrdReqSentOff,
+	EVIMPSTServiceIconBlocked,
+	EVIMPSTServiceIconOnMobile,
+	EVIMPSTServiceIconCallForward
+	};
+
+enum TVIMPSTOnlineStatus
+	{
+ 	EVIMPSTUnknown = -1, /* unknown status */
+    EVIMPSTOffline, /* Offline status */
+    EVIMPSTOnline, /* Online status */
+    EVIMPSTInvisible, /* Invisible status */
+    EVIMPSTAway, /* Away status */
+    EVIMPSTBusy, /* Busy status */
+    EVIMPSTBlocked /* block status */
+	};
+	
+#endif // __VIMPSTDETAILSVIEW_HRH__
+
+// End of File

@@ -1,0 +1,59 @@
+ /*
+* Copyright (c) 2005-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  resource file
+*
+*/
+
+//  NAME    ?resource_name
+//  RESOURCE IDENTIFIER
+NAME XADA // 4 letter ID , im service details
+
+#include <badef.rh>
+#include <bldvariant.hrh>
+#include <meco.loc>
+
+#include <data_caging_paths_strings.hrh>
+
+#include <eikon.rh>
+#include <avkon.rh>
+
+#include <eikcore.rsg>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#include <avkon.loc>
+
+// ---------------------------------------------------------------------------
+// RSS_SIGNATURE
+// ---------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+STRUCT STRING{
+LTEXT text;
+}
+
+// Rich text labels
+RESOURCE STRING r_qtn_ipcomm_msg_text
+	{
+	text = qtn_ipcomm_msg_text;
+	}
+	
+RESOURCE STRING r_qtn_ipcomm_msg_title
+	{
+	text = qtn_ipcomm_msg_title;
+	}
+
+// End of file.
+

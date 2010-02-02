@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<title>CTC++ Coverage Report - Execution Profile - testinstantmsgalert.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="keyword" content="CTC++, Testwell, Test Coverage Analyzer">
+<meta name="date" content="Wed Sep 30 16:37:09 2009">
+<meta name="generator" content="Testwell CTC++ add-on utility ctc2html v2.5">
+<link rel="stylesheet" type="text/css" href="ctc.css">
+<link rel="contents" href="index.html">
+</head>
+<body text="#150040" bgcolor="#ffffff" link="#000088" vlink="#007788">
+<span class="head1">CTC++ Coverage Report - </span>
+<span class="head2">Execution Profile</span>
+<span class="head3">&nbsp;&nbsp;&nbsp;#5/8</span><br><br>
+<span class="black"><a href="indexF.html" target="_top">Directory Summary</a> | <a href="index.html" target="_top">Files Summary</a> | <a href="indexB1.html" target="_top">Functions Summary</a> | <a href="indexD1.html">Execution Profile</a><br>
+To files: <a href="indexD1.html">First</a> | <a href="indexD4.html">Previous</a> | <a href="indexD6.html">Next</a> | <a href="indexD8.html">Last</a> | <a href="indexA.html#a5">Index</a> | <a href="indexD5.html" target="_top">No Index</a></span><br><br>
+<span class="black"><strong>File: \meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp</strong></span><br>
+<span class="black"><strong>Instrumentation&nbsp;mode:&nbsp;</strong>function-decision</span><br>
+<span class="black"><strong>TER: </strong></span><span class="red">79 % ( 11/ 14)</span><br><br>
+<table cellspacing="0">
+<tr><td align="right" class="black"><strong>Start/</strong>&nbsp;</td><td align="right" class="black"><strong>End/</strong>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td align="right" class="black"><strong>True</strong>&nbsp;</td><td align="right" class="black"><strong>False</strong>&nbsp;</td><td align="right" class="black"><strong>-</strong></td><td align="right" class="black">&nbsp;<a href="indexD5.html#ut1" title="First untested"><strong>Line</strong></a>&nbsp;</td><td class="black"><strong>Source</strong></td></tr>
+<tr><td colspan="5"><hr></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;1&nbsp;</td><td class="black_source">/*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;2&nbsp;</td><td class="black_source">*&nbsp;Copyright&nbsp;(c)&nbsp;2009&nbsp;Nokia&nbsp;Corporation&nbsp;and/or&nbsp;its&nbsp;subsidiary(-ies).&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;3&nbsp;</td><td class="black_source">*&nbsp;All&nbsp;rights&nbsp;reserved.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;4&nbsp;</td><td class="black_source">*&nbsp;This&nbsp;component&nbsp;and&nbsp;the&nbsp;accompanying&nbsp;materials&nbsp;are&nbsp;made&nbsp;available</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;5&nbsp;</td><td class="black_source">*&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;License&nbsp;"Eclipse&nbsp;Public&nbsp;License&nbsp;v1.0"</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;6&nbsp;</td><td class="black_source">*&nbsp;which&nbsp;accompanies&nbsp;this&nbsp;distribution,&nbsp;and&nbsp;is&nbsp;available</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;7&nbsp;</td><td class="black_source">*&nbsp;at&nbsp;the&nbsp;URL&nbsp;"http://www.eclipse.org/legal/epl-v10.html".</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;8&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;9&nbsp;</td><td class="black_source">*&nbsp;Initial&nbsp;Contributors:</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;10&nbsp;</td><td class="black_source">*&nbsp;Nokia&nbsp;Corporation&nbsp;-&nbsp;initial&nbsp;contribution.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;11&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;12&nbsp;</td><td class="black_source">*&nbsp;Contributors:</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;13&nbsp;</td><td class="black_source">*&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;14&nbsp;</td><td class="black_source">*&nbsp;Description:&nbsp;This&nbsp;file&nbsp;contains&nbsp;testclass&nbsp;implementation.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;15&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;16&nbsp;</td><td class="black_source">*/</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;17&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;18&nbsp;</td><td class="black_source">//&nbsp;INCLUDE&nbsp;FILES</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;19&nbsp;</td><td class="black_source">#include&nbsp;&lt;Stiftestinterface.h&gt;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;20&nbsp;</td><td class="black_source">#include&nbsp;"testinstantmsgalert.h"</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;21&nbsp;</td><td class="black_source">#include&nbsp;&lt;SettingServerClient.h&gt;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;22&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;23&nbsp;</td><td class="black_source">//&nbsp;EXTERNAL&nbsp;DATA&nbsp;STRUCTURES</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;24&nbsp;</td><td class="black_source">//extern&nbsp;&nbsp;?external_data;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;25&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;26&nbsp;</td><td class="black_source">//&nbsp;EXTERNAL&nbsp;FUNCTION&nbsp;PROTOTYPES&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;27&nbsp;</td><td class="black_source">//extern&nbsp;?external_function(&nbsp;?arg_type,?arg_type&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;28&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;29&nbsp;</td><td class="black_source">//&nbsp;CONSTANTS</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;30&nbsp;</td><td class="black_source">//const&nbsp;?type&nbsp;?constant_var&nbsp;=&nbsp;?constant;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;31&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;32&nbsp;</td><td class="black_source">//&nbsp;MACROS</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;33&nbsp;</td><td class="black_source">//#define&nbsp;?macro&nbsp;?macro_def</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;34&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;35&nbsp;</td><td class="black_source">//&nbsp;LOCAL&nbsp;CONSTANTS&nbsp;AND&nbsp;MACROS</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;36&nbsp;</td><td class="black_source">//const&nbsp;?type&nbsp;?constant_var&nbsp;=&nbsp;?constant;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;37&nbsp;</td><td class="black_source">//#define&nbsp;?macro_name&nbsp;?macro_def</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;38&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;39&nbsp;</td><td class="black_source">//&nbsp;MODULE&nbsp;DATA&nbsp;STRUCTURES</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;40&nbsp;</td><td class="black_source">//enum&nbsp;?declaration</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;41&nbsp;</td><td class="black_source">//typedef&nbsp;?declaration</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;42&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;43&nbsp;</td><td class="black_source">//&nbsp;LOCAL&nbsp;FUNCTION&nbsp;PROTOTYPES</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;44&nbsp;</td><td class="black_source">//?type&nbsp;?function_name(&nbsp;?arg_type,&nbsp;?arg_type&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;45&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;46&nbsp;</td><td class="black_source">//&nbsp;FORWARD&nbsp;DECLARATIONS</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;47&nbsp;</td><td class="black_source">//class&nbsp;?FORWARD_CLASSNAME;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;48&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;49&nbsp;</td><td class="black_source">//&nbsp;=============================&nbsp;LOCAL&nbsp;FUNCTIONS&nbsp;===============================</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;50&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;51&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;52&nbsp;</td><td class="black_source">//&nbsp;?function_name&nbsp;?description.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;53&nbsp;</td><td class="black_source">//&nbsp;?description</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;54&nbsp;</td><td class="black_source">//&nbsp;Returns:&nbsp;?value_1:&nbsp;?description</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;55&nbsp;</td><td class="black_source">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?value_n:&nbsp;?description_line1</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;56&nbsp;</td><td class="black_source">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?description_line2</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;57&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;58&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;59&nbsp;</td><td class="black_source">/*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;60&nbsp;</td><td class="black_source">?type&nbsp;?function_name(</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;61&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;?arg_type&nbsp;arg,&nbsp;&nbsp;//&nbsp;?description</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;62&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;?arg_type&nbsp;arg)&nbsp;&nbsp;//&nbsp;?description</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;63&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;64&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;65&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;?code&nbsp;&nbsp;//&nbsp;?comment</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;66&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;67&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;?comment</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;68&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;?code</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;69&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;70&nbsp;</td><td class="black_source">*/</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;71&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;72&nbsp;</td><td class="black_source">//&nbsp;============================&nbsp;MEMBER&nbsp;FUNCTIONS&nbsp;===============================</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;73&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;74&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;75&nbsp;</td><td class="black_source">//&nbsp;Ctestinstantmsgalert::Ctestinstantmsgalert</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;76&nbsp;</td><td class="black_source">//&nbsp;C++&nbsp;default&nbsp;constructor&nbsp;can&nbsp;NOT&nbsp;contain&nbsp;any&nbsp;code,&nbsp;that</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;77&nbsp;</td><td class="black_source">//&nbsp;might&nbsp;leave.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;78&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;79&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a41"></a>17&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;80&nbsp;</td><td class="black_source">Ctestinstantmsgalert::Ctestinstantmsgalert(&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;81&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CTestModuleIf&amp;&nbsp;aTestModuleIf&nbsp;):</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;82&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CScriptBase(&nbsp;aTestModuleIf&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;83&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;84&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;85&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;86&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;87&nbsp;</td><td class="black_source">//&nbsp;Ctestinstantmsgalert::ConstructL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;88&nbsp;</td><td class="black_source">//&nbsp;Symbian&nbsp;2nd&nbsp;phase&nbsp;constructor&nbsp;can&nbsp;leave.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;89&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;90&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a42"></a>17&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;91&nbsp;</td><td class="black_source">void&nbsp;Ctestinstantmsgalert::ConstructL()</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;92&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;93&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//Read&nbsp;logger&nbsp;settings&nbsp;to&nbsp;check&nbsp;whether&nbsp;test&nbsp;case&nbsp;name&nbsp;is&nbsp;to&nbsp;be</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;94&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//appended&nbsp;to&nbsp;log&nbsp;file&nbsp;name.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;95&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;RSettingServer&nbsp;settingServer;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;96&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;TInt&nbsp;ret&nbsp;=&nbsp;settingServer.Connect();</td></tr>
+<tr><td align="right" class="red_profile">0&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut1" href="indexD5.html#ut2">97</a>&nbsp;</td><td class="red_source">&nbsp;&nbsp;&nbsp;&nbsp;if(ret&nbsp;!=&nbsp;KErrNone)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;98&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;99&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User::Leave(ret);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;100&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;101&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Struct&nbsp;to&nbsp;StifLogger&nbsp;settigs.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;102&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;TLoggerSettings&nbsp;loggerSettings;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;103&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Parse&nbsp;StifLogger&nbsp;defaults&nbsp;from&nbsp;STIF&nbsp;initialization&nbsp;file.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;104&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;=&nbsp;settingServer.GetLoggerSettings(loggerSettings);</td></tr>
+<tr><td align="right" class="red_profile">0&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut2" href="indexD5.html#ut3">105</a>&nbsp;</td><td class="red_source">&nbsp;&nbsp;&nbsp;&nbsp;if(ret&nbsp;!=&nbsp;KErrNone)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;106&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;107&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User::Leave(ret);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;108&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;109&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Close&nbsp;Setting&nbsp;server&nbsp;session</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;110&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;settingServer.Close();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;111&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;112&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;TFileName&nbsp;logFileName;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;113&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td align="right" class="red_profile">0&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut3" href="indexD5.html#ut4">114</a>&nbsp;</td><td class="red_source">&nbsp;&nbsp;&nbsp;&nbsp;if(loggerSettings.iAddTestCaseTitle)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;115&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;116&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TName&nbsp;title;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;117&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TestModuleIf().GetTestCaseTitleL(title);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;118&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logFileName.Format(KtestinstantmsgalertLogFileWithTitle,&nbsp;&amp;title);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;119&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td align="right" class="red_profile">&nbsp;</td><td align="right" class="red_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;120&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;else</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;121&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;122&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logFileName.Copy(KtestinstantmsgalertLogFile);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;123&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;124&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;TestModuleIf().SetBehavior(&nbsp;CTestModuleIf::ETestLeaksRequests&nbsp;);&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;125&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;TestModuleIf().SetBehavior(&nbsp;CTestModuleIf::ETestLeaksHandles&nbsp;);&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;126&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;iLog&nbsp;=&nbsp;CStifLogger::NewL(&nbsp;KtestinstantmsgalertLogPath,&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;127&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logFileName,</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;128&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CStifLogger::ETxt,</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;129&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CStifLogger::EFile,</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;130&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EFalse&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;131&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;132&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;SendTestClassVersion();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;133&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;134&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;135&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;136&nbsp;</td><td class="black_source">//&nbsp;Ctestinstantmsgalert::NewL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;137&nbsp;</td><td class="black_source">//&nbsp;Two-phased&nbsp;constructor.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;138&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;139&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a43"></a>17&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;140&nbsp;</td><td class="black_source">Ctestinstantmsgalert*&nbsp;Ctestinstantmsgalert::NewL(&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;141&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CTestModuleIf&amp;&nbsp;aTestModuleIf&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;142&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;143&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;Ctestinstantmsgalert*&nbsp;self&nbsp;=&nbsp;new&nbsp;(ELeave)&nbsp;Ctestinstantmsgalert(&nbsp;aTestModuleIf&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;144&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;145&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CleanupStack::PushL(&nbsp;self&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;146&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;self-&gt;ConstructL();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;147&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CleanupStack::Pop();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;148&nbsp;</td><td class="black_source"></td></tr>
+<tr><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="red_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;149&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;self;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;150&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;151&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;152&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;153&nbsp;</td><td class="black_source">//&nbsp;Destructor</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a44"></a>17&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;154&nbsp;</td><td class="black_source">Ctestinstantmsgalert::~Ctestinstantmsgalert()</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;155&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;156&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;157&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Delete&nbsp;resources&nbsp;allocated&nbsp;from&nbsp;test&nbsp;methods</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;158&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;Delete();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;159&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;160&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Delete&nbsp;logger</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;161&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;delete&nbsp;iLog;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;162&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;163&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;164&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;165&nbsp;</td><td class="black_source">//-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;166&nbsp;</td><td class="black_source">//&nbsp;Ctestinstantmsgalert::SendTestClassVersion</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;167&nbsp;</td><td class="black_source">//&nbsp;Method&nbsp;used&nbsp;to&nbsp;send&nbsp;version&nbsp;of&nbsp;test&nbsp;class</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;168&nbsp;</td><td class="black_source">//-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;169&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a45"></a>17&nbsp;</td><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;170&nbsp;</td><td class="black_source">void&nbsp;Ctestinstantmsgalert::SendTestClassVersion()</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;171&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;172&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;TVersion&nbsp;moduleVersion;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;173&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;moduleVersion.iMajor&nbsp;=&nbsp;TEST_CLASS_VERSION_MAJOR;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;174&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;moduleVersion.iMinor&nbsp;=&nbsp;TEST_CLASS_VERSION_MINOR;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;175&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;moduleVersion.iBuild&nbsp;=&nbsp;TEST_CLASS_VERSION_BUILD;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;176&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;177&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;TFileName&nbsp;moduleName;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;178&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;moduleName&nbsp;=&nbsp;_L("testinstantmsgalert.dll");</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;179&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;180&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;TBool&nbsp;newVersionOfMethod&nbsp;=&nbsp;ETrue;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;181&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;TestModuleIf().SendTestModuleVersion(moduleVersion,&nbsp;moduleName,&nbsp;newVersionOfMethod);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;182&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;183&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;184&nbsp;</td><td class="black_source">//&nbsp;==========================&nbsp;OTHER&nbsp;EXPORTED&nbsp;FUNCTIONS&nbsp;=========================</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;185&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;186&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;187&nbsp;</td><td class="black_source">//&nbsp;LibEntryL&nbsp;is&nbsp;a&nbsp;polymorphic&nbsp;Dll&nbsp;entry&nbsp;point.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;188&nbsp;</td><td class="black_source">//&nbsp;Returns:&nbsp;CScriptBase:&nbsp;New&nbsp;CScriptBase&nbsp;derived&nbsp;object</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;189&nbsp;</td><td class="black_source">//&nbsp;-----------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;190&nbsp;</td><td class="black_source">//</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD5.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\testinstantmsgalert.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a46"></a>17&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;191&nbsp;</td><td class="black_source">EXPORT_C&nbsp;CScriptBase*&nbsp;LibEntryL(&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;192&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CTestModuleIf&amp;&nbsp;aTestModuleIf&nbsp;)&nbsp;//&nbsp;Backpointer&nbsp;to&nbsp;STIF&nbsp;Test&nbsp;Framework</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;193&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;194&nbsp;</td><td class="black_source"></td></tr>
+<tr><td align="right" class="black_profile">17&nbsp;</td><td align="right" class="red_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;195&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(&nbsp;CScriptBase*&nbsp;)&nbsp;Ctestinstantmsgalert::NewL(&nbsp;aTestModuleIf&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;196&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;197&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;198&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;199&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;200&nbsp;</td><td class="black_source">//&nbsp;&nbsp;End&nbsp;of&nbsp;File</td></tr>
+<tr><td colspan="5" class="red"><strong>***TER 79% (11/14) of SOURCE FILE <a name="ut4"></a>testinstantmsgalert.cpp</strong></td></tr>
+</table><br>
+<span class="black"><a href="indexF.html" target="_top">Directory Summary</a> | <a href="index.html" target="_top">Files Summary</a> | <a href="indexB1.html" target="_top">Functions Summary</a> | <a href="indexD1.html">Execution Profile</a><br>
+To files: <a href="indexD1.html">First</a> | <a href="indexD4.html">Previous</a> | <a href="indexD6.html">Next</a> | <a href="indexD8.html">Last</a> | <a href="indexD5.html">Top</a> | <a href="indexA.html#a5">Index</a> | <a href="indexD5.html" target="_top">No Index</a></span><br><br>
+</body></html>

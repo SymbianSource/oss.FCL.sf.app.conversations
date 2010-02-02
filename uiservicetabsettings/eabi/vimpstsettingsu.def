@@ -1,0 +1,8 @@
+EXPORTS
+	_ZN20CVIMPSTSettingsStore4NewLEv @ 1 NONAME
+	_ZN20CVIMPSTSettingsStore5NewLCEv @ 2 NONAME
+	_ZTI15CVIMPSTSettings @ 3 NONAME ; #<TI>#
+	_ZTI20CVIMPSTSettingsStore @ 4 NONAME ; #<TI>#
+	_ZTV15CVIMPSTSettings @ 5 NONAME ; #<VT>#
+	_ZTV20CVIMPSTSettingsStore @ 6 NONAME ; #<VT>#
+

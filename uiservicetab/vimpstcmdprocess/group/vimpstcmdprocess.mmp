@@ -1,0 +1,103 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file for command process
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+#include		"../../inc/vimpstbuilddefinitions.h"
+
+#include        "../../inc/vimpstextentionuiuid.h"
+
+// Target information
+TARGET          vimpstcmdprocess.dll
+TARGETTYPE      dll
+UID             0x100039CE 0x20012420
+CAPABILITY      CAP_GENERAL_DLL
+
+VERSION      10.0
+// Source path
+SOURCEPATH      ../src
+
+// common Source files
+SOURCE          cvimpstcmdfactory.cpp
+
+// Command objects
+SOURCE          cvimpstcmdhandler.cpp
+
+SOURCE			cvimpstcmdlogin.cpp
+SOURCE			cvimpstcmdcancellogin.cpp
+SOURCE			cvimpstcmdlogout.cpp
+SOURCE			cvimpstcmdcca.cpp
+SOURCE			cvimpstcmdaddcontact.cpp
+SOURCE			cvimpstcmddeletecontact.cpp
+SOURCE          cvimpstcmdchangeownstatus.cpp
+SOURCE          cvimpstcmdchangeownmessage.cpp
+SOURCE			cvimpstcmdsearch.cpp
+// process & call back objects
+SOURCE			cvimpstprocessArray.cpp	
+SOURCE          cvimpstprocessarrayitem.cpp
+SOURCE			cvimpstprocessfriendrequestitem.cpp 
+SOURCE			cvimstcmdfriendrequest.cpp
+SOURCE			cvimpstcmdchangeownavtar.cpp
+SOURCE			cvimpstcmdcloseconversation.cpp
+SOURCE			cvimpstcmdaddtopbk.cpp
+SOURCE			cvimpstcmdprocessselectedcontact.cpp
+SOURCE          cvimpstcmdblockcontact.cpp 
+SOURCE          cvimpstcmdunblockcontact.cpp
+SOURCE          cvimpstcmdfetchblockedlist.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../vimpstengine/inc
+USERINCLUDE     ../../vimpststorage/inc
+USERINCLUDE     ../../vimpstutils/inc
+USERINCLUDE     ../../vimpstdetailsviewplugin/inc
+USERINCLUDE     ../../../group
+
+APP_LAYER_SYSTEMINCLUDE
+
+
+LIBRARY     euser.lib cone.lib ecom.lib bafl.lib
+LIBRARY     eikcore.lib eikctl.lib eikcoctl.lib 
+LIBRARY     avkon.lib aknnotify.lib
+LIBRARY		vimpstutils.lib
+LIBRARY 	commonengine.lib
+
+// dependency to PbkGcServiceTab components
+
+LIBRARY 	vimpstengine.lib 
+LIBRARY 	vimpststorage.lib
+LIBRARY 	serviceprovidersettings.lib
+
+// Dependencies to other Phonebook 2 components
+LIBRARY vpbkeng.lib pbk2presentation.lib
+LIBRARY pbk2commonui.lib
+
+//CCA
+LIBRARY ccaclient.lib
+
+LIBRARY 	aiwdialdata.lib
+LIBRARY 	sysutil.lib efsrv.lib 
+LIBRARY     servicehandler.lib
+LIBRARY		apgrfx.lib 
+
+#ifdef CHAT_ENABLE_DEBUG_PRINT
+LIBRARY                 flogger.lib
+#endif
+
+
+// end of file

@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+#include "../../inc/imcvuicommonuids.h"
+
+CAPABILITY      CAP_GENERAL_DLL
+
+TARGET          imcvengine.dll
+TARGETTYPE		dll
+UID             KIMCVUIENGINEDLLUID2 KIMCVUIENGINEDLLUID3
+
+VENDORID        VID_DEFAULT
+
+VERSION      10.0
+
+SOURCEPATH        ../src
+
+SOURCE			cimcvenginefactory.cpp
+SOURCE			cimcvengine.cpp
+SOURCE			cimcvengineopenchats.cpp
+SOURCE			cimcvenginechatcontainer.cpp
+SOURCE			cimcvenginecontextobserver.cpp
+SOURCE		        cimcvenginemessagebase.cpp
+SOURCE			cimcvenginemessagecontainer.cpp
+SOURCE			cimcvenginemessagecreator.cpp
+SOURCE 			cimcvenginemessagehandler.cpp
+SOURCE			cimcvenginetextmessage.cpp
+SOURCE			imcvenginemessageutils.cpp
+SOURCE			cimcvenginecchhandler.cpp
+SOURCE			cimcvenginestoragelistener.cpp 
+
+
+SOURCEPATH        ../group
+
+USERINCLUDE       ../inc 
+USERINCLUDE       ../../inc 
+USERINCLUDE       ../../../../group 
+
+APP_LAYER_SYSTEMINCLUDE
+
+LANG              SC
+
+// common libraries
+LIBRARY 	commonengine.lib    // StringLoader
+LIBRARY		bafl.lib            // Desc arrays
+LIBRARY		cone.lib            // Coe env
+LIBRARY     euser.lib           // Common usage.
+LIBRARY		estor.lib  		    // For stream usage
+LIBRARY     charconv.lib        // unicode -> utf8
+LIBRARY     imageconversion.lib // Image decoding and encoding
+LIBRARY     fbscli.lib          // CFBsBitmap
+LIBRARY		efsrv.lib			// fileserver
+LIBRARY     bitmaptransforms.lib// Image scaling.
+LIBRARY     inetprotutil.lib // for escapeutils used in CAUtils.cpp
+LIBRARY     hal.lib             // HAL
+LIBRARY	    ecom.lib
+LIBRARY     flogger.lib
+LIBRARY     apgrfx.lib // aptasklist
+LIBRARY     ws32.lib 
+
+
+// new  presence cache  libraries
+LIBRARY         presencecacheclient2.lib
+LIBRARY         presencecacheutils.lib
+
+// imcachelibray
+LIBRARY			imcacheclient.lib
+// cch settings
+LIBRARY     	serviceprovidersettings.lib
+
+LIBRARY			cch.lib
+
+// xmpp settings
+LIBRARY         jabbersettings.lib
+LIBRARY	        bsclient.lib
+LIBRARY			egul.lib
+//end of file
+
+
+
+
+
+

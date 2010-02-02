@@ -1,0 +1,160 @@
+/*TYPE STIFUNIT*/
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STIF Test Framework's STIFUnit test module.
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          vimpstcmdprocess_utest.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E7
+
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+
+//TARGETPATH      ?target_path
+DEFFILE         vimpstcmdprocess_utest.def
+
+USERINCLUDE     ../inc 
+
+OS_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+SOURCE          vimpstcmdprocess_utest.cpp
+SOURCE          vimpstcmdprocess_utestCases.cpp
+
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdaddcontact.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdaddtopbk.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdcancellogin.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdcca.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdchangeownavtar.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdchangeownmessage.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdchangeownstatus.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdcloseconversation.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmddeletecontact.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdfactory.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdhandler.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdlogin.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdlogout.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdprocessselectedcontact.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdsearch.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstprocessArray.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstprocessarrayitem.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstprocessfriendrequestitem.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimstcmdfriendrequest.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdunblockcontact.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdblockcontact.cpp
+SOURCE          ../../../../vimpstcmdprocess/src/cvimpstcmdfetchblockedlist.cpp
+
+ 
+SOURCE      ../src/stub/s_CVPbkContactLinkArray.cpp 
+SOURCE      ../src/stub/s_MVPbkContactLinkstub.cpp 
+SOURCE      ../src/stub/s_ccafactory.cpp 
+SOURCE      ../src/stub/s_engineextentionfeatures.cpp 
+SOURCE      ../src/stub/s_enginesearchextention.cpp 
+SOURCE      ../src/stub/s_imsubservice.cpp 
+SOURCE      ../src/stub/s_mccaparameter.cpp 
+SOURCE      ../src/stub/s_processarrayobserver.cpp 
+SOURCE      ../src/stub/s_storageitemmodel.cpp 
+SOURCE      ../src/stub/s_vimpstcmdobserver.cpp 
+SOURCE      ../src/stub/s_vimpstengin.cpp 
+SOURCE      ../src/stub/s_vimpstenginepresencesubservice.cpp 
+SOURCE      ../src/stub/s_vimpstprocessarrayItem.cpp 
+SOURCE      ../src/stub/s_vimpststoragecontact.cpp 
+SOURCE      ../src/stub/s_vimpststoragecontactlist.cpp 
+SOURCE      ../src/stub/s_vimpststoragemanagerfactory.cpp 
+SOURCE      ../src/stub/s_vimpststorageserviceview.cpp 
+SOURCE      ../src/stub/s_vimpststorecontact.cpp 
+SOURCE      ../src/stub/s_mccaconnection.cpp
+
+//RESOURCE        resource_file
+//RESOURCE        resource_file2
+
+USERINCLUDE     ../../../../../group
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../../../vimpstcmdprocess/inc
+USERINCLUDE     ../../../inc
+USERINCLUDE     ../../../../inc
+USERINCLUDE     ../../../../vimpstengine/inc
+USERINCLUDE     ../../../../vimpststorage/inc
+USERINCLUDE     ../../../../vimpstdetailsviewplugin/inc
+USERINCLUDE     ../../../../vimpstutils/inc
+
+SYSTEMINCLUDE   /epoc32/include 
+SYSTEMINCLUDE   /epoc32/include/internal
+
+MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         vimpstutils.lib
+LIBRARY         vimpststorage.lib
+LIBRARY         vimpstengine.lib
+LIBRARY		estor.lib
+LIBRARY		efsrv.lib 
+LIBRARY		edbms.lib 
+
+LIBRARY		sysutil.lib
+
+LIBRARY      cone.lib ecom.lib bafl.lib
+LIBRARY     eikcore.lib eikctl.lib eikcoctl.lib 
+LIBRARY     avkon.lib aknnotify.lib
+LIBRARY 	commonengine.lib
+
+// dependency to PbkGcServiceTab components
+//LIBRARY 	serviceprovidersettings.lib
+
+// Dependencies to other Phonebook 2 components
+LIBRARY VPbkEng.lib Pbk2Presentation.lib
+LIBRARY Pbk2CommonUI.lib
+
+//CCA
+LIBRARY ccaclient.lib
+
+LIBRARY 	aiwdialdata.lib
+
+LIBRARY     ServiceHandler.lib
+LIBRARY		apgrfx.lib 
+LIBRARY                 flogger.lib
+LIBRARY                 imcacheclient.lib 
+
+LANG            SC
+
+/*
+START WINS      
+?wins_specific_information
+END
+
+START MARM
+?marm_specific_information
+END
+*/
+// Other possible keywords:
+ 
+// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
+/*
+START BITMAP ?target
+TARGETPATH   ?emulated_path_on_target_machine
+HEADER
+SOURCE       ?color_depth ?source_bitmap
+END
+*/
+// DEFFILE ?filename
+// AIF ?filename// End of File

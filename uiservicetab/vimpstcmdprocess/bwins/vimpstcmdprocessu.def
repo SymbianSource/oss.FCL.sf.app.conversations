@@ -1,0 +1,3 @@
+EXPORTS
+	?NewL@CVIMPSTCmdHandler@@SAPAV1@AAVMVIMPSTEngine@@@Z @ 1 NONAME ; class CVIMPSTCmdHandler * CVIMPSTCmdHandler::NewL(class MVIMPSTEngine &)
+

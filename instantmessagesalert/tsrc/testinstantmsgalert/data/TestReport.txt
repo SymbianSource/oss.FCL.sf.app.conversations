@@ -1,0 +1,122 @@
+***************************************************************************
+Wednesday 30th September 2009
+3:47:03 pm
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+SUMMARY:
+	Passed cases: 17          
+	Failed cases: 0           
+	Timeout cases: 0           
+	Crashed cases: 0           
+	Total cases: 17          
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+ENVIRONMENT INFO:
+HW Info:
+	Manufacturer: 0x4, MachineUid: 0x10005f62, Model: 0x4d24 
+	HW Rev: 0x1, CPU: 0x2, CPU Speed: 0 MHz 
+	Language: 1 
+SW Info:
+	SW Rev: 0x100, SW Build: 0x250
+Memory Info:
+	RAM: 48 MB, RAM Free: 20 MB
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+TESTCASE SUMMARY:
+[testscripter][c:\testframework\testinstantmsgalert.cfg][1] Title:[1.NewL-CIMAlertManager]
+	StartTime: 3:47:53.2550 pm, EndTime: 3:47:55.3100 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][2] Title:[2.PlayL-CIMAlertManager]
+	StartTime: 3:47:55.3350 pm, EndTime: 3:47:57.2656 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][3] Title:[3.Stop-CIMAlertManager]
+	StartTime: 3:47:57.2756 pm, EndTime: 3:47:58.0937 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][4] Title:[4.SetVolume-CIMAlertManager]
+	StartTime: 3:47:58.1037 pm, EndTime: 3:47:58.8593 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][5] Title:[5.SetRingingType-CIMAlertManager]
+	StartTime: 3:47:58.8743 pm, EndTime: 3:47:59.7031 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][6] Title:[6.SetVibra-CIMAlertManager]
+	StartTime: 3:47:59.7131 pm, EndTime: 3:48:00.5312 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][7] Title:[7.DoSetRingingType-CIMAlertManager]
+	StartTime: 3:48:00.5412 pm, EndTime: 3:48:01.4062 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][8] Title:[8.ConvertVolume-CIMAlertManager]
+	StartTime: 3:48:01.4262 pm, EndTime: 3:48:02.2968 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][9] Title:[9.MapcInitComplete-CIMAlertManager]
+	StartTime: 3:48:02.3368 pm, EndTime: 3:48:03.2500 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][10] Title:[10.MapcPlayComplete-CIMAlertManager]
+	StartTime: 3:48:03.2750 pm, EndTime: 3:48:04.0468 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][11] Title:[11.HandleKeyChange-CIMAlertManager]
+	StartTime: 3:48:04.0718 pm, EndTime: 3:48:04.8437 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][12] Title:[12.HandleNotifyInt-CIMAlertManager]
+	StartTime: 3:48:04.8587 pm, EndTime: 3:48:05.7031 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][13] Title:[13.MatoPrepareComplete-CIMAlertManager]
+	StartTime: 3:48:05.8531 pm, EndTime: 3:48:06.7118 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][14] Title:[14.MatoPlayComplete-CIMAlertManager]
+	StartTime: 3:48:07.5800 pm, EndTime: 3:48:11.1712 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][15] Title:[15.AddObserverL-CIMAlertManager]
+	StartTime: 3:48:11.1962 pm, EndTime: 3:48:12.8993 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][16] Title:[16.RemoveObserver-CIMAlertManager]
+	StartTime: 3:48:13.0000 pm, EndTime: 3:48:13.6875 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+[testscripter][c:\testframework\testinstantmsgalert.cfg][17] Title:[17.HandleError-CIMAlertManager]
+	StartTime: 3:48:13.6975 pm, EndTime: 3:48:14.4218 pm
+	Result: 0 [] ==> PASSED
+- - - - - - - - - - 
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+TESTMODULE SUMMARIES:
+Module: [testscripter]
+	Passed cases: 17
+	Failed cases: 0
+	Timeout cases: 0
+	Crashed cases: 0
+	Total cases: 17
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+TEST MODULES VERSIONS:
+testinstantmsgalert.dll 0.0.0
+

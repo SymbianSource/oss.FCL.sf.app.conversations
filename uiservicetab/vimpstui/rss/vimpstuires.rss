@@ -1,0 +1,1354 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains all the resources for Example module.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    VIPT // 4 letter ID VIPT-voip im presence tab -to make it unique
+
+#include <aknsconstants.hrh>
+
+#include <eikon.rh>
+#include <vimpstui.mbg>
+
+
+#include <meco.loc>
+#include "eikon.rsg"
+#include <avkon.loc>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <finditem.hrh>
+#include <appinfo.rh>
+#include <AknFep.rsg>
+#include <data_caging_paths_strings.hrh>
+
+#include <xSPViewInfo.rh>
+#include <xSPCommandInfo.rh>
+
+#include <AiwCommon.rh>
+#include <AiwCommon.hrh>
+#include <AiwGenericParam.hrh>
+#include "vimpstui.hrh"
+#include "vimpstuiicons.hrh"
+
+#include <VPbkFieldType.rh>
+
+//  RESOURCE DEFINITIONS 
+//  DEFINES
+
+// ---------------------------------------------------------
+// Standard resource signature
+// ---------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+//----------------------------------------------------
+//
+//    r_chatclient_general_menu
+//    Items for general menu
+//
+//----------------------------------------------------
+//
+
+RESOURCE TBUF r_qtn_chat_deleting_contact
+    {
+    buf = qtn_chat_deleting_contact;
+    }
+
+RESOURCE TBUF r_qtn_use_existing
+    {
+    buf = qtn_servtab_query_use_existing;
+    }
+
+RESOURCE TBUF r_qtn_update_existing
+    {
+    buf = qtn_servtab_query_update_existing;
+    }
+RESOURCE TBUF r_qtn_create_new
+    {
+    buf = qtn_servtab_query_register_new;
+    }
+RESOURCE TBUF r_qtn_create_new_contact
+    {
+    buf = qtn_servtab_query_create_new;
+    }
+
+RESOURCE TBUF r_qtn_select_action
+    {
+    buf = qtn_servtab_acc_creation_title;
+    }
+
+//common option menu for both Voip and IM
+RESOURCE MENU_PANE r_tabbed_view_general_menu
+	{
+    items=
+	    {
+    	MENU_ITEM { command = ECmdLogin;        txt = qtn_chat_main_om_login; },
+    	MENU_ITEM { command = ECmdChangeConnectioninWaitingState;  txt = qtn_servtab_change_connection; },
+      	MENU_ITEM { command = ECmdGetBlockedList;     txt = qtn_servtab_option_blockedlist;},
+    	MENU_ITEM { command = ECmdLogout;       txt = qtn_chat_main_om_logout;},
+    	MENU_ITEM { command = ECmdChangeConnectioninOnlineState;   txt = qtn_servtab_change_connection; },
+        MENU_ITEM { command = ECmdCancelLogin;  txt = qtn_servtab_cancel_login;},
+        MENU_ITEM { command = ECmdSettings;     txt = qtn_chat_settings;},
+        MENU_ITEM { command = EAknCmdHelp;      txt = qtn_options_help; },
+        MENU_ITEM { command = EAknSoftkeyExit;  txt = qtn_options_exit; }
+	    };
+	}
+
+RESOURCE MENU_PANE r_servtab_createnew_option_submenu
+	{
+	items=
+	    {    
+	    MENU_ITEM { command=ECmdAddContact;           txt = qtn_servtab_add_manually; },
+	    MENU_ITEM { command=ECmdAddFromPhoneBook;     txt = qtn_servtab_add_from_phonebook; },
+	    MENU_ITEM { command=ECmdSearch;               txt = qtn_servtab_search; }
+	    };
+	}
+ 
+RESOURCE MENU_PANE r_servtab_changeavatar_submenu
+	{
+    items=
+    	{
+        MENU_ITEM { command=ECmdAvatarGallery;  txt = qtn_servtab_avatar_from_gallery; },
+        MENU_ITEM { command=ECmdAvatarNewPhoto; txt = qtn_servtab_avatar_new_photo; },
+        MENU_ITEM { command=ECmdDefaultAvatar;  txt = qtn_servtab_avatar_default; }
+   	 	};
+	}
+	
+/**    
+ * tab view IM service specific menu pane.
+ */
+RESOURCE MENU_PANE r_servtab_tabbed_view_menu
+    {
+    items =
+    {
+       MENU_ITEM
+           {
+           command = ECmdContactAddAsFriend;
+           txt = qtn_servtab_add_as_friend;
+           },        
+
+        MENU_ITEM
+            { 
+            command = KAiwCmdCall; // The same ID than in interest.
+            txt = ""; // Will be replaced by AIW (plugin).
+            cascade=AIW_CASCADE_ID;            
+            //cascade = AIW_INTELLIGENT_CASCADE_ID;            
+            flags = EEikMenuItemSpecific;
+
+            },
+            
+         MENU_ITEM
+             {
+            command = ECmdCloseConversation;
+            txt = qtn_servtab_close_conversation;
+            flags = EEikMenuItemSpecific;
+             },
+
+         MENU_ITEM 
+             { 
+             command = ECmdCreateNewOption; 
+             cascade = r_servtab_createnew_option_submenu;
+             txt = qtn_servtab_new_contact; 
+             },
+
+         MENU_ITEM 
+             { 
+             command=ECmdContactDetails;   
+             txt = qtn_servtab_contact_details; 
+             flags = EEikMenuItemSpecific;
+             },
+         MENU_ITEM 
+             { 
+             command=ECmdOpenFriendRequest;
+             txt = qtn_servtab_open; 
+             flags = EEikMenuItemSpecific;
+             },
+         MENU_ITEM 
+             { 
+             command=ECmdContactEdit;      
+             txt = qtn_chat_friend_om_edit;
+             flags = EEikMenuItemSpecific;
+             }, 
+         MENU_ITEM 
+             { 
+             command=ECmdAIWAddToContact;  
+             txt = qtn_servtab_add_to_phonebook_new;
+             flags = EEikMenuItemSpecific;
+             },//AIW
+         MENU_ITEM 
+             { 
+             command=ECmdAIWLinkToContact; 
+             txt = qtn_servtab_add_to_phonebook_update;
+
+             flags = EEikMenuItemSpecific;
+
+             },//AIW
+         MENU_ITEM 
+             { 
+             command=ECmdBlock;            
+             txt = qtn_servtab_block_presence;
+             flags = EEikMenuItemSpecific;
+             },
+         MENU_ITEM 
+              { 
+             command=ECmdUnBlock;          
+             txt = qtn_servtab_unblock_presence;
+             flags = EEikMenuItemSpecific;
+              },
+         MENU_ITEM 
+             { 
+              command=ECmdContactDelete;    
+              txt = qtn_servtab_delete; 
+              flags = EEikMenuItemSpecific;
+             },   
+	     
+ 	MENU_ITEM 
+            { 
+            command = ECmdChangeStatus; 
+            txt = qtn_chat_friend_change_status; 
+            }, 
+         MENU_ITEM 
+             { 
+             command=ECmdMyAvatar; 
+             cascade = r_servtab_changeavatar_submenu; 
+             txt = qtn_servtab_avatar_set; 
+            }
+        };
+    }
+    
+
+
+/**    
+ * tab view cba.
+ */
+RESOURCE CBA r_im_contacts_tabbed_view_softkeys
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt=text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyExit; txt= text_softkey_exit;}
+        };
+    }
+
+
+RESOURCE XSP_VIEW_INFO_ARRAY r_im_contacts_view_info	
+	{
+	items =
+		{
+
+		};
+	}
+
+// these are used with  double line listbox
+RESOURCE TBUF r_qtn_servtab_login_list_item       { buf = qtn_servtab_login_list_item; }
+RESOURCE TBUF r_qtn_servtab_logging_list_item        { buf = qtn_servtab_logging_list_item; }
+RESOURCE TBUF r_qtn_servtab_loggingout_list_item        { buf = qtn_servtab_loggingout_list_item; }	
+RESOURCE TBUF r_qtn_servtab_updating_list_item				{ buf = qtn_servtab_updating_list_item; }	
+RESOURCE TBUF r_qtn_servtab_login_list_item_name       { buf = qtn_servtab_login_list_item_name; }
+RESOURCE TBUF r_qtn_servtab_waiting_list_item       { buf = qtn_servtab_waiting_list_item; }
+
+// these are used with single line listbox 
+RESOURCE TBUF r_qtn_servtab_single_line_login_list_item   { buf = qtn_servtab_single_line_login_list_item; }
+RESOURCE TBUF r_qtn_servtab_single_line_login_list_item_with_username   { buf = qtn_servtab_single_line_login_list_item_with_username; }
+RESOURCE TBUF r_qtn_servtab_single_line_logging_list_item   { buf = qtn_servtab_single_line_logging_list_item; }
+RESOURCE TBUF r_qtn_servtab_single_line_updating_list_item   { buf = qtn_servtab_single_line_updating_list_item; }
+RESOURCE TBUF r_qtn_servtab_single_line_waiting_list_item   { buf = qtn_servtab_single_line_waiting_list_item; }
+RESOURCE TBUF r_qtn_servtab_single_line_loggingout_list_item   { buf = qtn_servtab_single_line_loggingout_list_item; }
+
+RESOURCE TBUF r_servtab_unnamed       { buf = qtn_servtab_unnamed; }
+RESOURCE TBUF r_servtab_unknown_buddy { buf = qtn_servtab_unknown_buddy ; }
+// avatar related 
+
+RESOURCE TBUF r_qtn_servtab_gallery_error_drmfile       { buf = qtn_servtab_gallery_error_drmfile; }
+RESOURCE TBUF r_qtn_servtab_gallery_error_badfile       { buf = qtn_servtab_gallery_error_badfile; }
+RESOURCE TBUF r_qtn_servtab_gallery_lsk_select      	{ buf = qtn_servtab_gallery_lsk_select; }
+RESOURCE TBUF r_qtn_servtab_gallery_title_avatar        { buf = qtn_servtab_gallery_title_avatar; }
+RESOURCE TBUF r_qtn_servtab_error_update_avatar			{ buf = qtn_servtab_error_update_avatar	; }
+RESOURCE TBUF r_qtn_servtab_change_avatar_changing		{ buf = qtn_servtab_change_avatar_changing	; }
+RESOURCE TBUF r_qtn_servtab_change_avatar_changed		{ buf = qtn_servtab_change_avatar_changed	; }
+
+RESOURCE DIALOG r_im_error_note_template
+    {
+    flags = EAknErrorNoteFlags | EEikDialogFlagWait;
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EGeneralNote;
+            control= AVKON_NOTE
+                {
+                    layout = EGeneralLayout;
+                    animation = R_QGN_NOTE_ERROR_ANIM;
+                };
+            }
+        };
+    }
+RESOURCE DIALOG r_im_error_note_template_with_ok
+    {
+    flags = EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_EMPTY__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationQueryLayout;
+                animation = R_QGN_NOTE_ERROR_ANIM;
+                };
+            }
+        };
+    }
+RESOURCE DIALOG r_im_add_contact_manual_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            //itemflags=EEikDlgItemTakesEnterKey;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_servtab_add_userid;
+                control=EDWIN
+                    {
+                    flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                    maxlength=100;
+                    width=16;
+                    lines=1;
+                    default_case = EAknEditorLowerCase;
+                    avkon_flags = EAknEditorFlagLatinInputModesOnly;
+                    };
+                };
+            }
+        };
+    }
+ 
+RESOURCE TBUF r_qtn_servtab_searching { buf = qtn_servtab_searching; }
+RESOURCE TBUF r_qtn_chat_empty_search_primary { buf = qtn_chat_empty_search_primary; }
+RESOURCE TBUF r_qtn_chat_empty_search { buf = qtn_chat_empty_search; }
+RESOURCE TBUF r_qtn_servtab_search_results { buf = qtn_servtab_search_results; }
+RESOURCE TBUF r_qtn_servtab_blocking { buf = qtn_servtab_blocking; }
+RESOURCE TBUF r_qtn_chat_unblocking { buf = qtn_chat_unblocking; }
+RESOURCE TBUF r_qtn_servtab_title_blockedlist { buf = qtn_servtab_title_blockedlist; }
+    
+RESOURCE DIALOG r_im_search_contacts_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_chat_search_data_prtx;
+                control=EDWIN
+                    {
+                    flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                    maxlength=100;
+                    width=16;
+                    lines=1;
+                    default_case = EAknEditorLowerCase;
+                    avkon_flags = EAknEditorFlagLatinInputModesOnly;
+                    };
+                };
+            }
+        };
+    }
+    
+    
+//----------------------------------------------------
+//
+//    Items for menupane in search view
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_servtab_search_view_menu
+{
+    items=
+    {
+       
+        MENU_ITEM { command = ESearchAddFriends;
+                    txt = qtn_servtab_add_to_contacts;
+
+            flags = EEikMenuItemSpecific;
+
+                  },
+                  
+	MENU_ITEM { command = ESearchMore;
+                    txt = qtn_chat_search_om_more;
+                  },
+        MENU_ITEM { command = ESearchPrev;
+                    txt = qtn_chat_search_om_prev;
+                  },
+
+
+        MENU_ITEM { command = ESearchOpenConversation;
+                    txt = qtn_servtab_open_conversation;
+
+            flags = EEikMenuItemSpecific;
+
+                  }
+                  ,
+                                                    
+        MENU_ITEM { command = ESearchNew;
+                    txt = qtn_chat_search_om_new;
+                  }
+
+
+    };
+}
+RESOURCE DIALOG r_im_info_note_template
+    {
+    flags = EAknInformationNoteFlags | EEikDialogFlagWait;
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EGeneralNote;
+            control= AVKON_NOTE
+                {
+                    layout = EGeneralLayout;
+                    animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+
+RESOURCE TBUF r_qtn_im_contact_remove_note { buf = qtn_im_contact_remove_note; }
+
+RESOURCE TBUF r_qtn_servtab_delete_contact { buf = qtn_servtab_delete_contact; }
+
+RESOURCE TBUF r_qtn_servtab_saving_contact { buf = qtn_servtab_saving_contact; }
+RESOURCE TBUF r_qtn_servtab_add_to_contacts { buf = qtn_servtab_add_to_contacts; }
+RESOURCE TBUF r_qtn_servtab_close_conv  { buf = qtn_chat_cquery_close_conv; }
+RESOURCE TBUF r_qtn_sertab_contact_already_exists_error_note  { buf = qtn_sertab_contact_already_exists_error_note; }
+
+RESOURCE TBUF r_qtn_servtab_select_user { buf = qtn_servtab_add_contact_select_username; }
+
+RESOURCE TBUF r_qtn_servtab_declining_invite { buf = qtn_servtab_declining_invite; }
+
+RESOURCE TBUF r_qtn_servtab_add_friend_blocked  { buf = qtn_servtab_add_friend_blocked; }
+
+
+RESOURCE DIALOG r_generic_yes_no_confirmation_query
+	{
+	flags=EGeneralQueryFlags;
+	buttons=R_AVKON_SOFTKEYS_YES_NO__YES;
+    items=
+		{
+		DLG_LINE
+			{
+			type=EAknCtQuery;
+			id=EGeneralQuery;
+			control= AVKON_CONFIRMATION_QUERY 
+				{ 
+					layout = EConfirmationQueryLayout;
+				};
+			}
+		};
+	}
+
+// ---------------------------------------------------------
+//
+//    r_message_query
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE DIALOG r_message_query
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            itemflags = EEikDlgItemNonFocusing;
+            control = AVKON_HEADING
+                {
+                label = KNullDesC;
+                headinglayout=R_AVKON_LIST_HEADING_PANE_POPUPS;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;
+            control = AVKON_MESSAGE_QUERY
+                {
+                };
+            }
+        };
+    } 
+// Own status change
+RESOURCE TBUF r_qtn_chat_change_own_online { buf = qtn_chat_change_own_online; }
+RESOURCE TBUF r_qtn_chat_change_own_away { buf = qtn_chat_change_own_away; }
+RESOURCE TBUF r_qtn_servtab_change_own_dnd { buf = qtn_servtab_change_own_dnd; }
+RESOURCE TBUF r_qtn_chat_change_own_appear_offline { buf = qtn_chat_change_own_appear_offline; }
+RESOURCE TBUF r_qtn_chat_change_status_message { buf = qtn_chat_change_status_message; }
+RESOURCE TBUF r_qtn_chat_change_status_changing { buf = qtn_chat_change_status_changing; }
+RESOURCE TBUF r_qtn_chat_change_status_changed { buf = qtn_chat_change_status_changed; }
+RESOURCE TBUF r_qtn_chat_change_status_failed { buf = qtn_chat_change_status_failed; }
+RESOURCE TBUF r_qtn_chat_change_message_failed { buf = qtn_chat_change_message_failed; }
+RESOURCE TBUF r_qtn_chat_change_message_changed { buf = qtn_chat_change_message_changed; }
+RESOURCE TBUF r_qtn_chat_change_message_changing { buf = qtn_chat_change_message_changing; }
+RESOURCE TBUF r_qtn_im_change_status_not_changed { buf = qtn_im_change_status_not_changed; }
+RESOURCE TBUF r_qtn_chat_change_new_message { buf = qtn_chat_change_new_message; }
+RESOURCE TBUF r_qtn_chat_change_select_message { buf = qtn_chat_change_select_message; }
+
+// search related resources
+RESOURCE TBUF r_qtn_servtab_search_firstname       { buf = qtn_servtab_search_firstname; }
+RESOURCE TBUF r_qtn_servtab_search_lastname        { buf = qtn_servtab_search_lastname; }
+RESOURCE TBUF r_qtn_servtab_search_nickname        { buf = qtn_servtab_search_nickname; }	
+RESOURCE TBUF r_qtn_servtab_search_fullname			{ buf = qtn_servtab_search_fullname; }	
+RESOURCE TBUF r_qtn_servtab_search_city       { buf = qtn_servtab_search_city; }
+RESOURCE TBUF r_qtn_servtab_search_state        { buf = qtn_servtab_search_state; }
+RESOURCE TBUF r_qtn_servtab_search_org        { buf = qtn_servtab_search_org; }	
+RESOURCE TBUF r_qtn_servtab_search_orgunit			{ buf = qtn_servtab_search_orgunit; }	
+RESOURCE TBUF r_qtn_servtab_search_email       { buf = qtn_servtab_search_email; }
+RESOURCE TBUF r_qtn_servtab_search_birthday        { buf = qtn_servtab_search_birthday; }
+RESOURCE TBUF r_qtn_servtab_search_country        { buf = qtn_servtab_search_country; }	
+RESOURCE TBUF r_qtn_servtab_search_user			{ buf = qtn_servtab_search_user; }	
+RESOURCE TBUF r_qtn_servtab_search_middlename       { buf = qtn_servtab_search_middlename; }
+
+RESOURCE TBUF r_qtn_servtab_search_basic			{ buf = qtn_servtab_search_title; }	
+RESOURCE TBUF r_qtn_servtab_search_advanced       { buf = qtn_servtab_search_adv_title; }
+
+// status message query
+RESOURCE DIALOG r_chatclient_enter_status_message_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                    layout = EDataLayout;
+                    //label = "--";
+                    control=EDWIN
+                        {
+                        flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                        maxlength=40;
+                        width=16;
+                        lines=4;
+                        default_case = EAknEditorLowerCase;
+                        };
+                };
+            }
+        };
+    }
+ 
+
+	
+RESOURCE AVKON_LIST_QUERY r_im_status_change_dlg
+    {
+    softkeys = R_AVKON_SOFTKEYS_SELECT_CANCEL__SELECT;
+    items =
+	    {
+	    AVKON_LIST_QUERY_DLG_LINE
+	        {
+	        control = AVKON_LIST_QUERY_CONTROL
+	            {
+	            listtype = EAknCtSingleGraphicPopupMenuListBox;
+	            listbox = AVKON_LIST_QUERY_LIST;
+	            heading = qtn_servtab_set_my_status;
+	            };
+	        }
+	    };
+    }
+    
+ RESOURCE AVKON_LIST_QUERY r_im_list_select_status_message_dlg
+    {
+    items =
+        {
+        AVKON_LIST_QUERY_DLG_LINE
+            {
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = AVKON_LIST_QUERY_LIST
+                    {
+
+                    };
+                heading = qtn_chat_change_status_message;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_im_wait_note_template
+    {
+
+    flags = EAknWaitNoteFlags;
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESearchWaitNote;
+            control= AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+    
+RESOURCE DIALOG r_im_wait_note_template_with_cancel
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESearchWaitNote;
+            control = AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    } 
+       
+RESOURCE DIALOG r_im_enter_status_message_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                    layout = EDataLayout;
+                    //label = "--";
+                    control=EDWIN
+                        {
+                        flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                        maxlength=40;
+                        width=16;
+                        lines=4;
+                        default_case = EAknEditorLowerCase;
+                        };
+                };
+            }
+        };
+    }
+    
+RESOURCE DIALOG r_chat_contact_may_not_receive_message_dialog
+    {
+    flags=EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                    layout = EConfirmationQueryLayout;
+                };
+            }
+        };
+    }
+    
+// query text for reactive authorization request
+RESOURCE TBUF r_qtn_servtab_contact_request_conf { buf = qtn_servtab_contact_request_conf; }
+
+// adding user to contacts
+RESOURCE TBUF r_qtn_chat_reactive_add_list { buf = qtn_chat_reactive_add_list; }
+
+// adding to blocked contacts
+RESOURCE TBUF r_qtn_chat_reactive_block { buf = qtn_chat_reactive_block; }
+
+// user did not allow to show status
+RESOURCE TBUF r_qtn_chat_reactive_not_authorized { buf = qtn_chat_reactive_not_authorized; }
+
+RESOURCE TBUF r_qtn_chat_contact_may_not_receive_message { buf = qtn_chat_contact_may_not_receive_message; }
+
+// --------------------------------------------------------------------------
+//  Selector for VoIP fields
+// --------------------------------------------------------------------------
+//
+RESOURCE VPBK_FIELD_TYPE_SELECTOR r_phonebook2_voip_selector
+    {
+    versitProperties =
+        {
+        VBK_FIELD_VERSIT_PROPERTY
+            {
+            name = EVPbkVersitNameX;
+            parameters =
+                {
+                EVPbkVersitParamVOIP
+                };
+            extensionName = "X-SIP";
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_im_app_interest
+// AIW app interest for calling
+// ---------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST r_im_app_interest
+    {
+    items=
+        {
+        // This application is interested in calling from menu.
+        AIW_CRITERIA_ITEM      
+            {
+            id              = KAiwCmdCall; 
+            serviceCmd      = KAiwCmdCall;
+            serviceClass    = KAiwClassMenu;
+            contentType     = "*";
+            defaultProvider = 0x101F868E;
+            maxProviders    = 1;
+            }
+        };   
+    }
+// ---------------------------------------------------------------------------
+// r_aiwselect_interest
+// AIW app interest for calling
+// ---------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST r_aiwselect_interest
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM 
+            {
+            id = KAiwCmdSelect;
+            serviceCmd = KAiwCmdSelect;
+            contentType = EGenericParamContactLinkArrayStr;
+            // Here is a base class
+            serviceClass = KAiwClassBase;            
+            }
+        };
+    }
+
+
+// --------------------------------------------------------------------------
+// AIW_INTEREST
+// Contact assignment interest.
+// --------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST r_aiwassignment_interest
+    {
+    items=
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id = KAiwCmdAssign;  // serviceCmd used here also as ID
+            serviceCmd = KAiwCmdAssign;
+            contentType = EGenericParamContactLinkArrayStr;
+            serviceClass = KAiwClassMenu;
+            maxProviders    = 1;
+            }
+        };
+    }
+
+RESOURCE AVKON_BUTTON_STATE_EXTENSION r_im_app_toolbar_indi_tb_voip_extension
+    {
+    bmbSkinIdMajor= EAknsMajorGeneric; 
+    bmbSkinIdMinor= EAknsMinorGenericQgnIndiTbVoip;
+    }
+    
+RESOURCE AVKON_BUTTON_STATE_EXTENSION  r_im_app_toolbar_indi_tb_conversation_extension
+    {
+    bmbSkinIdMajor= EAknsMajorGeneric; 
+    bmbSkinIdMinor= EAknsMinorGenericQgnIndiTbConversation;    
+    }
+    
+RESOURCE AVKON_BUTTON_STATE_EXTENSION r_im_app_toolbar_indi_tb_business_card_extension
+    {
+    bmbSkinIdMajor= EAknsMajorGeneric; 
+    bmbSkinIdMinor= EAknsMinorGenericQgnIndiTbBusinessCard;
+    }   
+RESOURCE AVKON_BUTTON_STATE_EXTENSION r_im_app_toolbar_indi_tb_add_recipient_extension
+    {
+    bmbSkinIdMajor= EAknsMajorGeneric; 
+    bmbSkinIdMinor= EAknsMinorGenericQgnIndiTbAddRecipient;
+    }
+
+//----------------------------------------------------
+//
+//    r_im_app_toolbar
+//
+//
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_TOOLBAR r_im_app_toolbar
+    {
+    flags = KAknToolbarFixed;
+    items =
+        {        
+       /* TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdToolbarChat;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonSizeFitText; 
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        helptxt  = qtn_servtab_toolbar_im;
+                        bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                        bmpid = EMbmVimpstuiQgn_indi_tb_conversation;
+                        bmpmask = EMbmVimpstuiQgn_indi_tb_conversation_mask;
+                        extension = r_im_app_toolbar_indi_tb_conversation_extension;
+                        }  
+                    };            
+                };
+            },
+        
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdToolbarNewContact;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonSizeFitText; 
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        helptxt  = qtn_servtab_toolbar_newcontact;
+                        bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                        bmpid = EMbmVimpstuiQgn_indi_tb_add_recipient;
+                        bmpmask = EMbmVimpstuiQgn_indi_tb_add_recipient_mask;
+                        extension = r_im_app_toolbar_indi_tb_add_recipient_extension;
+                        }  
+                    };            
+                };
+            },
+    TBAR_CTRL
+                {
+                type = EAknCtButton;
+                id = ECmdToolbarDetails;
+                control = AVKON_BUTTON
+                    {
+                    flags = KAknButtonSizeFitText; 
+                    states =
+                        {
+                        AVKON_BUTTON_STATE
+                            {
+                            helptxt  = qtn_servtab_toolbar_details;
+                            bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                            bmpid = EMbmVimpstuiQgn_indi_tb_business_card;
+                            bmpmask = EMbmVimpstuiQgn_indi_tb_business_card_mask;
+                            extension = r_im_app_toolbar_indi_tb_business_card_extension;
+                            }  
+                        };            
+                    };
+                }*/
+        };
+    }
+//----------------------------------------------------
+//
+//    r_voip_app_toolbar
+//
+//
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_TOOLBAR r_voip_app_toolbar
+    {
+    flags = KAknToolbarFixed;
+    items =
+        {
+      /*  TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdToolbarVoipCall;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonSizeFitText; 
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        helptxt  = qtn_servtab_toolbar_voip;
+                        bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                        bmpid = EMbmVimpstuiQgn_indi_tb_voip;
+                        bmpmask = EMbmVimpstuiQgn_indi_tb_voip_mask;
+                        extension = r_im_app_toolbar_indi_tb_voip_extension;
+                        }  
+                    };            
+                };
+            }, //End of ECmdToolbarVoipCall
+        
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdToolbarNewContact;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonSizeFitText; 
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        helptxt  = qtn_servtab_toolbar_newcontact;
+                        bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                        bmpid = EMbmVimpstuiQgn_indi_tb_add_recipient;
+                        bmpmask = EMbmVimpstuiQgn_indi_tb_add_recipient_mask;
+                        extension = r_im_app_toolbar_indi_tb_add_recipient_extension;
+                        }  
+                    };            
+                };
+            }, //end of   ECmdToolbarNewContact
+            
+            TBAR_CTRL
+                        {
+                        type = EAknCtButton;
+                        id = ECmdToolbarDetails;
+                        control = AVKON_BUTTON
+                            {
+                            flags = KAknButtonSizeFitText; 
+                            states =
+                                {
+                                AVKON_BUTTON_STATE
+                                    {
+                                    helptxt  = qtn_servtab_toolbar_details;
+                                    bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                                    bmpid = EMbmVimpstuiQgn_indi_tb_business_card;
+                                    bmpmask = EMbmVimpstuiQgn_indi_tb_business_card_mask;
+                                    extension = r_im_app_toolbar_indi_tb_business_card_extension;
+                                    }  
+                                };            
+                            };
+                        } //end of ECmdToolbarDetails*/
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_im_voip_app_toolbar
+//
+//
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_TOOLBAR r_im_voip_app_toolbar
+    {
+    flags = KAknToolbarFixed;
+    items =
+        {
+       /* TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdToolbarVoipCall;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonSizeFitText; 
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        helptxt  = qtn_servtab_toolbar_voip;
+                        bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                        bmpid = EMbmVimpstuiQgn_indi_tb_voip;
+                        bmpmask = EMbmVimpstuiQgn_indi_tb_voip_mask;
+                        extension = r_im_app_toolbar_indi_tb_voip_extension;
+                        }  
+                    };            
+                };
+            },
+        TBAR_CTRL
+              {
+              type = EAknCtButton;
+              id = ECmdToolbarChat;
+              control = AVKON_BUTTON
+                  {
+                  flags = KAknButtonSizeFitText; 
+                  states =
+                      {
+                      AVKON_BUTTON_STATE
+                          {
+                          helptxt  = qtn_servtab_toolbar_im;
+                          bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                          bmpid = EMbmVimpstuiQgn_indi_tb_conversation;
+                          bmpmask = EMbmVimpstuiQgn_indi_tb_conversation_mask;
+                          extension = r_im_app_toolbar_indi_tb_conversation_extension;
+                          }  
+                      };            
+                  };
+              },
+      TBAR_CTRL
+           {
+           type = EAknCtButton;
+           id = ECmdToolbarDetails;
+           control = AVKON_BUTTON
+               {
+               flags = KAknButtonSizeFitText; 
+               states =
+                   {
+                   AVKON_BUTTON_STATE
+                       {
+                       helptxt  = qtn_servtab_toolbar_details;
+                       bmpfile = RESOURCE_FILES_DIR"\\vimpstui.mif";
+                       bmpid = EMbmVimpstuiQgn_indi_tb_business_card;
+                       bmpmask = EMbmVimpstuiQgn_indi_tb_business_card_mask;
+                       extension = r_im_app_toolbar_indi_tb_business_card_extension;
+                       }  
+                   };            
+               };
+           }  */
+        };
+    }
+
+//add request. 
+RESOURCE TBUF r_servtab_friend_request { buf = qtn_servtab_friend_request;}
+//confirmation message.
+RESOURCE TBUF r_servtab_friend_request_conf { buf = qtn_servtab_contact_request_conf;}
+
+
+// default status text mesassges
+
+RESOURCE TBUF r_qtn_servtab_default_statustext_online    { buf = qtn_servtab_default_statustext_online;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_offline    { buf = qtn_servtab_default_statustext_offline;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_invisible  { buf = qtn_servtab_default_statustext_invisible;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_dnd     { buf = qtn_servtab_default_statustext_dnd;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_away    { buf = qtn_servtab_default_statustext_away;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_blocked   { buf = qtn_servtab_default_statustext_blocked;}
+RESOURCE TBUF r_qtn_servtab_default_statustext_callforward { buf = qtn_servtab_default_statustext_callforward;}
+
+//blocking/unblocking failed notes.
+RESOURCE TBUF r_qtn_chat_blocking_failed   { buf = qtn_chat_blocking_failed;}
+RESOURCE TBUF r_qtn_chat_unblocking_failed   { buf = qtn_chat_unblocking_failed;}
+
+
+RESOURCE TBUF r_servdetail_statustext_offline { buf = qtn_servdetail_statustext_offline; }
+RESOURCE TBUF r_servdetail_statustext_online { buf = qtn_servdetail_statustext_online; }
+RESOURCE TBUF r_servdetail_statustext_dnd { buf = qtn_servdetail_statustext_dnd; }
+RESOURCE TBUF r_servdetail_statustext_away { buf = qtn_servdetail_statustext_away; }
+RESOURCE TBUF r_servdetail_statustext_busy { buf = qtn_servdetail_statustext_busy; }
+RESOURCE TBUF r_servdetail_statustext_Onthephone { buf = qtn_servdetail_statustext_onthephone; }
+RESOURCE TBUF r_servdetail_statustext_Unknown { buf = qtn_servdetail_statustext_unknown; }
+RESOURCE TBUF r_remotepending_statustext { buf = qtn_servtab_invitationsent; }
+
+RESOURCE TBUF r_servtab_blocklist_bkgd { buf = qtn_servtab_blocklist_bkgd; }
+
+RESOURCE TBUF r_servtab_blocklist_bkgdto { buf = qtn_servtab_blocklist_bkgdto; }
+
+//CBA buttions Accept,Decline,Accept.
+RESOURCE CBA r_servtab_softkeys_accept_decline__accept
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyYes; txt=qtn_servtab_sk_accept;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyNo; txt= qtn_servtab_sk_decline;}, // right
+        CBA_BUTTON {id=EAknSoftkeyYes; txt=qtn_servtab_sk_accept;} // MSK
+        };
+    }
+
+RESOURCE CBA r_servtab_softkeys_option_login__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=ECmdLogin; txt= qtn_msk_login;} // MSK
+        };
+    }
+    
+RESOURCE CBA r_servtab_softkeys_option_changeconn__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=ECmdChangeConnectioninWaitingState; txt= qtn_msk_change_conn;} // MSK
+        };
+    }
+    
+RESOURCE CBA r_servtab_softkeys_option_cancel__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=ECmdCancelLogin; txt= qtn_msk_cancel;} // MSK
+        };
+    }
+    
+RESOURCE CBA r_servtab_softkeys_option_add_to_contacts__back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyBack; txt=text_softkey_back; }, // right
+        CBA_BUTTON {id=ESearchAddFriends; txt= qtn_msk_add_contacts;} // MSK
+        };
+    }
+
+RESOURCE CBA r_servtab_softkeys_option_new_search__back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyBack; txt=text_softkey_back; }, // right
+        CBA_BUTTON {id=ESearchNew; txt= qtn_msk_new_search;} // MSK
+        };
+    }
+RESOURCE CBA r_servtab_softkeys_option_search_openconv__back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyBack; txt=text_softkey_back; }, // right
+        CBA_BUTTON {id=ESearchOpenConversation; txt= qtn_msk_chat;} // MSK
+        };
+    }    
+    
+RESOURCE CBA r_servtab_softkeys_option_openconv__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=ECmdOpenConversation; txt= qtn_msk_chat;} // MSK
+        };
+    } 
+
+RESOURCE CBA r_servtab_softkeys_option_openfrndreq__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=ECmdOpenFriendRequest; txt= qtn_msk_open;} // MSK
+        };
+    }
+//----------------------------------------------------------
+//
+//      r_servtab_softkeys_options_details__exit
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_servtab_softkeys_options_details__exit
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id= EAknSoftkeyOptions; txt=text_softkey_option; },
+        CBA_BUTTON { id= EAknSoftkeyExit; txt=qtn_options_exit; },
+        CBA_BUTTON { id = ECmdContactDetails; txt = qtn_msk_open; }
+        };
+    }
+//----------------------------------------------------------
+//
+//      r_servtab_softkeys_options_exit__empty
+//
+//----------------------------------------------------------
+//
+
+RESOURCE CBA r_servtab_softkeys_options_exit__empty
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id = EAknSoftkeyOptions; txt = text_softkey_option; },
+        CBA_BUTTON { id = EAknSoftkeyExit; txt = text_softkey_exit; },
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; }
+        };
+    }
+ 
+ //----------------------------------------------------------
+//
+//      r_servtab_softkeys_options_back__empty
+//
+//----------------------------------------------------------
+//
+
+RESOURCE CBA r_servtab_softkeys_options_back__empty
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id = EAknSoftkeyOptions; txt = text_softkey_option; },
+        CBA_BUTTON { id = EAknSoftkeyBack; 	 txt= text_softkey_back; }, // right
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; }
+        };
+    } 
+  
+//----------------------------------------------------------
+//
+//      r_servtab_softkeys_options_exit__changestatus
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_servtab_softkeys_options_exit__changestatus
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id = EAknSoftkeyOptions; txt = text_softkey_option; },
+        CBA_BUTTON { id = EAknSoftkeyExit; txt = text_softkey_exit; },
+        CBA_BUTTON { id = ECmdChangeStatus; txt = qtn_msk_change_status; }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//      r_servtab_softkeys_options_empty__back
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_servtab_softkeys_options_empty__back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id = ECmdUnBlock; txt = qtn_servtab_unblock_presence; },
+        CBA_BUTTON { id = EAknSoftkeyBack; txt=text_softkey_back; }, // right
+        CBA_BUTTON { id = ECmdUnBlock; txt = qgn_prop_msk_select; }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//      r_servtab_softkeys_empty_empty__back
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_servtab_softkeys_empty_empty__back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; },
+        CBA_BUTTON { id = EAknSoftkeyBack; txt=text_softkey_back; }, // right
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; }
+        };
+    }
+
+//confirmation querry dialog.
+RESOURCE DIALOG r_servtab_generic_accept_decline_confirmation_query
+    {
+    flags=EGeneralQueryFlags;
+    buttons=r_servtab_softkeys_accept_decline__accept;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY 
+                { 
+                    layout = EConfirmationQueryLayout;
+                };
+            }
+        };
+    }
+//no profile login dialog RESOURCES \|/
+RESOURCE DIALOG r_login_dialog
+    {
+    title   = qtn_chat_acc_creation_create_new;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    flags   = EEikDialogFlagWait;
+    items   =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtMultilineQuery;
+            id      = EMultilineFirstLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataFirstEdwin;
+                label = qtn_servtab_add_userid;
+                control = EDWIN
+                    {
+                    default_case = EAknEditorLowerCase;
+                    allowed_case_modes = EAknEditorAllCaseModes;
+                    flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                    width = 25;
+                    lines = 1;
+                    maxlength = 100;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type    = EAknCtMultilineQuery;
+            id      = EMultilineSecondLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataSecondSecEd;
+                label = qtn_servtab_add_password;
+                control = SECRETED
+                    {
+                    num_letters = 50;
+                    };
+                };
+            }
+        };
+    }
+
+//no profile login dialog RESOURCES /|\
+
+#include "vimpsterrornotes.rss"
+#include "vimpstuisearchdlg.rss"
+#include "vimpstuitoudlg.rss"
+#include "vimpstuiurldlg.rss"
+// End of File

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<title>CTC++ Coverage Report - Execution Profile - s_vimpstsettingsstoreimp.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="keyword" content="CTC++, Testwell, Test Coverage Analyzer">
+<meta name="date" content="Wed Sep 30 15:25:00 2009">
+<meta name="generator" content="Testwell CTC++ add-on utility ctc2html v2.5">
+<link rel="stylesheet" type="text/css" href="ctc.css">
+<link rel="contents" href="index.html">
+</head>
+<body text="#150040" bgcolor="#ffffff" link="#000088" vlink="#007788">
+<span class="head1">CTC++ Coverage Report - </span>
+<span class="head2">Execution Profile</span>
+<span class="head3">&nbsp;&nbsp;&nbsp;#8/8</span><br><br>
+<span class="black"><a href="indexF.html" target="_top">Directory Summary</a> | <a href="index.html" target="_top">Files Summary</a> | <a href="indexB1.html" target="_top">Functions Summary</a> | <a href="indexD1.html">Execution Profile</a><br>
+To files: <a href="indexD1.html">First</a> | <a href="indexD7.html">Previous</a> | Next | <a href="indexD8.html">Last</a> | <a href="indexA.html#a8">Index</a> | <a href="indexD8.html" target="_top">No Index</a></span><br><br>
+<span class="black"><strong>File: \meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp</strong></span><br>
+<span class="black"><strong>Instrumentation&nbsp;mode:&nbsp;</strong>function</span><br>
+<span class="black"><strong>TER: </strong></span><span class="red">57 % (  4/  7)</span><br><br>
+<table cellspacing="0">
+<tr><td align="right" class="black"><strong>Start/</strong>&nbsp;</td><td align="right" class="black"><strong>End/</strong>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td align="right" class="black"><strong>True</strong>&nbsp;</td><td align="right" class="black"><strong>False</strong>&nbsp;</td><td align="right" class="black"><strong>-</strong></td><td align="right" class="black">&nbsp;<a href="indexD8.html#ut1" title="First untested"><strong>Line</strong></a>&nbsp;</td><td class="black"><strong>Source</strong></td></tr>
+<tr><td colspan="5"><hr></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;1&nbsp;</td><td class="black_source">/*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;2&nbsp;</td><td class="black_source">*&nbsp;Copyright&nbsp;(c)&nbsp;2008&nbsp;Nokia&nbsp;Corporation&nbsp;and/or&nbsp;its&nbsp;subsidiary(-ies).</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;3&nbsp;</td><td class="black_source">*&nbsp;All&nbsp;rights&nbsp;reserved.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;4&nbsp;</td><td class="black_source">*&nbsp;This&nbsp;component&nbsp;and&nbsp;the&nbsp;accompanying&nbsp;materials&nbsp;are&nbsp;made&nbsp;available</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;5&nbsp;</td><td class="black_source">*&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;License&nbsp;"Eclipse&nbsp;Public&nbsp;License&nbsp;v1.0"</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;6&nbsp;</td><td class="black_source">*&nbsp;which&nbsp;accompanies&nbsp;this&nbsp;distribution,&nbsp;and&nbsp;is&nbsp;available</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;7&nbsp;</td><td class="black_source">*&nbsp;at&nbsp;the&nbsp;URL&nbsp;"http://www.eclipse.org/legal/epl-v10.html".</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;8&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;9&nbsp;</td><td class="black_source">*&nbsp;Initial&nbsp;Contributors:</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;10&nbsp;</td><td class="black_source">*&nbsp;Nokia&nbsp;Corporation&nbsp;-&nbsp;initial&nbsp;contribution.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;11&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;12&nbsp;</td><td class="black_source">*&nbsp;Contributors:</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;13&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;14&nbsp;</td><td class="black_source">*&nbsp;Description:&nbsp;&nbsp;vimpst&nbsp;settings&nbsp;store&nbsp;definitions&nbsp;and&nbsp;repository&nbsp;transactions.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;15&nbsp;</td><td class="black_source">*</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;16&nbsp;</td><td class="black_source">*/</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;17&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;18&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;19&nbsp;</td><td class="black_source">//&nbsp;&nbsp;INCLUDES</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;20&nbsp;</td><td class="black_source">#include&nbsp;&lt;e32std.h&gt;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;21&nbsp;</td><td class="black_source">#include&nbsp;"s_vimpstsettingsstoreimp.h"</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;22&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;23&nbsp;</td><td class="black_source">//dummy&nbsp;serviceId,&nbsp;assuming&nbsp;the&nbsp;service&nbsp;id&nbsp;not&nbsp;more&nbsp;than&nbsp;256.&nbsp;for&nbsp;the&nbsp;first&nbsp;time</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;24&nbsp;</td><td class="black_source">//and&nbsp;it&nbsp;is&nbsp;assumed&nbsp;that&nbsp;this&nbsp;service&nbsp;id&nbsp;is&nbsp;for&nbsp;initializing&nbsp;the&nbsp;cenrep&nbsp;keys&nbsp;only.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;25&nbsp;</td><td class="black_source">//not&nbsp;updated&nbsp;in&nbsp;the&nbsp;service&nbsp;table&nbsp;and&nbsp;hence&nbsp;will&nbsp;not&nbsp;get&nbsp;a&nbsp;TAB&nbsp;in&nbsp;phone&nbsp;book</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;26&nbsp;</td><td class="black_source">//const&nbsp;TInt&nbsp;KServiceIDOffset&nbsp;=&nbsp;16;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;27&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;28&nbsp;</td><td class="black_source">//&nbsp;opaque&nbsp;data&nbsp;length,&nbsp;see&nbsp;cvimpstuisapsettings.h&nbsp;SetOpaqueDesC16&nbsp;method&nbsp;description.</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;29&nbsp;</td><td class="black_source">//const&nbsp;TInt&nbsp;KSapSettingsDataBufferLength&nbsp;=&nbsp;5;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;30&nbsp;</td><td class="black_source">//&nbsp;Collation&nbsp;level&nbsp;1&nbsp;to&nbsp;ignore&nbsp;case</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;31&nbsp;</td><td class="black_source">//const&nbsp;TInt&nbsp;KCollationLevel&nbsp;=&nbsp;1;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;32&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;33&nbsp;</td><td class="black_source">/**&nbsp;&nbsp;Key&nbsp;to&nbsp;CIMPSSAPSettings&nbsp;opaque&nbsp;value&nbsp;*/</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;34&nbsp;</td><td class="black_source">//_LIT(&nbsp;KIMToUAccepted,&nbsp;"KIMToUAccepted"&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;35&nbsp;</td><td class="black_source">/**&nbsp;&nbsp;User&nbsp;id&nbsp;separator&nbsp;in&nbsp;KIMToUAccepted&nbsp;list&nbsp;*/</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;36&nbsp;</td><td class="black_source">//_LIT(&nbsp;KIMDot,&nbsp;","&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;37&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;38&nbsp;</td><td class="black_source">//=================&nbsp;MEMBER&nbsp;FUNCTIONS&nbsp;=======================</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;39&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;40&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::NewL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;41&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;42&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="red_profile"><a name="a70"></a>0&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut1" href="indexD8.html#ut2">43</a>&nbsp;</td><td class="red_source">MVIMPSTSettingsStore*&nbsp;CVIMPSTSettingsStoreImp::InitialiseLibraryL(&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;44&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;45&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;no&nbsp;existing&nbsp;instance,&nbsp;create&nbsp;a&nbsp;new&nbsp;one</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;46&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;MVIMPSTSettingsStore&nbsp;*settingsStoreImp&nbsp;=&nbsp;CVIMPSTSettingsStoreImp::NewL();</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;47&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(MVIMPSTSettingsStore*)settingsStoreImp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;48&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;49&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="red_profile"><a name="a71"></a>0&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut2" href="indexD8.html#ut3">50</a>&nbsp;</td><td class="red_source">void&nbsp;CVIMPSTSettingsStoreImp::Release(&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;51&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;52&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;53&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;54&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;55&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::NewLC</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;56&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;57&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a72"></a>34&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;58&nbsp;</td><td class="black_source">MVIMPSTSettingsStore*&nbsp;CVIMPSTSettingsStoreImp::NewL(&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;59&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;60&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CVIMPSTSettingsStoreImp*&nbsp;self&nbsp;=&nbsp;new&nbsp;(ELeave)&nbsp;CVIMPSTSettingsStoreImp(&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;61&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CleanupStack::PushL(&nbsp;self&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;62&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;self-&gt;ConstructL(&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;63&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;CleanupStack::Pop(&nbsp;self&nbsp;);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;64&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;self;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;65&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;66&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;67&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;68&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::ConstructL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;69&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;70&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;71&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a73"></a>34&nbsp;</td><td align="right" class="black_profile">34&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;72&nbsp;</td><td class="black_source">void&nbsp;CVIMPSTSettingsStoreImp::ConstructL(&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;73&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;74&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;75&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;76&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;77&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;78&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::Destructor</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;79&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;80&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a74"></a>34&nbsp;</td><td align="right" class="black_profile">34&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;81&nbsp;</td><td class="black_source">CVIMPSTSettingsStoreImp::~CVIMPSTSettingsStoreImp()</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;82&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;83&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;84&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;85&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="black_profile"><a name="a75"></a>2&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;86&nbsp;</td><td class="black_source">TInt&nbsp;CVIMPSTSettingsStoreImp::GetL(TUint32&nbsp;aServiceId,&nbsp;TSettingItemName&nbsp;aSettingItemNAme,&nbsp;RBuf&amp;&nbsp;aBuffer&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;87&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;88&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;if(aSettingItemNAme&nbsp;==&nbsp;EServiceToneFileName)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;89&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;90&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_LIT(filename,"testtonefile");</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;91&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aBuffer.Copy(filename);</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;92&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;93&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;KErrNone;&nbsp;&nbsp;//&nbsp;return&nbsp;the&nbsp;value&nbsp;:&nbsp;error&nbsp;code&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;94&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;95&nbsp;</td><td class="black_source">//&nbsp;--------------------------------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;96&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::SetL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;97&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;98&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;99&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="5" class="black"><a href="indexD8.html" title="\meco_domain\conversations\instantmessagesalert\tsrc\testinstantmsgalert\src\stubs\s_vimpstsettingsstoreimp.cpp">Top</a></td></tr>
+<tr><td align="right" class="red_profile"><a name="a76"></a>0&nbsp;</td><td align="right" class="black_profile">0&nbsp;</td><td align="right" class="red_profile">-</td><td align="right" class="red_profile">&nbsp;<a name="ut3" href="indexD8.html#ut4">100</a>&nbsp;</td><td class="red_source">TInt&nbsp;CVIMPSTSettingsStoreImp::SetL(TUint32&nbsp;/*aServiceId*/,&nbsp;TSettingItemName&nbsp;/*aSettingItemName*/,&nbsp;const&nbsp;TDesC8&amp;&nbsp;/*aBuffer*/&nbsp;&nbsp;)</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;101&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;102&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;KErrNone;&nbsp;&nbsp;//&nbsp;return&nbsp;the&nbsp;value&nbsp;:&nbsp;error&nbsp;code&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;103&nbsp;</td><td class="black_source">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;104&nbsp;</td><td class="black_source">//&nbsp;--------------------------------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;105&nbsp;</td><td class="black_source">//&nbsp;CVIMPSTSettingsStoreImp::GetL</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;106&nbsp;</td><td class="black_source">//&nbsp;</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;107&nbsp;</td><td class="black_source">//&nbsp;---------------------------------------------------------------------------------------------------</td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;108&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;109&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;110&nbsp;</td><td class="black_source"></td></tr>
+<tr><td colspan="3" class="black_profile">&nbsp;</td><td align="right" class="black_profile">&nbsp;111&nbsp;</td><td class="black_source">//End&nbsp;of&nbsp;file</td></tr>
+<tr><td colspan="5" class="red"><strong>***TER 57% (4/7) of SOURCE FILE <a name="ut4"></a>s_vimpstsettingsstoreimp.cpp</strong></td></tr>
+</table><br>
+<span class="black"><a href="indexF.html" target="_top">Directory Summary</a> | <a href="index.html" target="_top">Files Summary</a> | <a href="indexB1.html" target="_top">Functions Summary</a> | <a href="indexD1.html">Execution Profile</a><br>
+To files: <a href="indexD1.html">First</a> | <a href="indexD7.html">Previous</a> | Next | <a href="indexD8.html">Last</a> | <a href="indexD8.html">Top</a> | <a href="indexA.html#a8">Index</a> | <a href="indexD8.html" target="_top">No Index</a></span><br><br>
+</body></html>

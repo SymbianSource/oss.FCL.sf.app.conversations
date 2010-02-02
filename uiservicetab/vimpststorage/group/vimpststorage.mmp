@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  MMP
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+#include		"../../inc/vimpstbuilddefinitions.h"
+
+CAPABILITY CAP_GENERAL_DLL
+TARGET          vimpststorage.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x20012422 
+VENDORID	VID_DEFAULT
+
+VERSION      10.0
+
+SOURCEPATH      ../src
+
+SOURCE		cvimpststoragemanagerfactory.cpp
+SOURCE		cvimpststoragemanager.cpp
+SOURCE      cvimpststorageserviceview.cpp 
+SOURCE      cvimpststoragecontactlist.cpp
+SOURCE      cvimpststoragecontact.cpp
+SOURCE		cvimpststoragevpbklocalstore.cpp
+SOURCE		cvimpststoragevpbkserverstore.cpp
+SOURCE		cvimpststoragevpbkstorehandler.cpp
+SOURCE      cvimpststoragecontactsorter.cpp
+SOURCE		cvimpststorageactivehandler.cpp 
+SOURCE		vimpststorageutils.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../src
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../Group
+
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY		euser.lib
+LIBRARY		estor.lib
+LIBRARY		efsrv.lib 
+LIBRARY		edbms.lib 
+LIBRARY		bafl.lib
+LIBRARY		sysutil.lib
+LIBRARY		ecom.lib
+LIBRARY    avkon.lib 
+LIBRARY    eikcore.lib 
+
+
+// Virtual phonebook
+LIBRARY     VPbkEng.lib
+LIBRARY     VPbkEngUtils.lib
+LIBRARY     Pbk2Presentation.lib
+
+LIBRARY     cntmodel.lib cntview.lib 
+
+#ifdef CHAT_ENABLE_DEBUG_PRINT
+LIBRARY     flogger.lib
+#endif
+
+LANG			SC
+
+
+// EXPORTUNFROZEN
+

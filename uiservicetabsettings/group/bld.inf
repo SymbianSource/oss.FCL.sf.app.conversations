@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Build information file for uiservicetabsettings
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+
+DEFAULT
+
+
+PRJ_EXPORTS
+
+../inc/cvimpstsettingsstore.h    APP_LAYER_PLATFORM_EXPORT_PATH( cvimpstsettingsstore.h )
+
+2001B288.txt                	/epoc32/data/z/private/10202be9/2001B288.txt
+
+// component has to export its .iby files
+// exporting the vimpstsettings tab's iby files 
+../rom/vimpstsettings.iby       					CORE_APP_LAYER_IBY_EXPORT_PATH(vimpstsettings.iby)
+
+// ROM SIS stubs
+../sis/vimpstsettingsstub.sis	             /epoc32/data/Z/System/Install/vimpstsettingsstub.sis
+
+
+PRJ_MMPFILES
+
+vimpstsettings.mmp
+
+
+
+//  End of File
+
+

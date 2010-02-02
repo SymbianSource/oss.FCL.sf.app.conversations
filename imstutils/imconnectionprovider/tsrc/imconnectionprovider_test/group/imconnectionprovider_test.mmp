@@ -1,0 +1,125 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  imconnectionprovider_test.mmp
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          imconnectionprovider_test.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+EPOCALLOWDLLDATA
+
+CAPABILITY      ALL -TCB
+
+//DEFFILE         imconnectionprovider_test.def
+
+SOURCEPATH      ../src
+OS_LAYER_LIBC_SYSTEMINCLUDE
+SOURCE          imconnectionprovider_test.cpp
+SOURCE          imconnectionprovider_testBlocks.cpp
+SOURCE          ../../../src/cicpservicemanager.cpp
+SOURCE          ../../../src/cicpplugin.cpp
+SOURCE          ../../../src/cicpservicerequest.cpp
+
+SOURCE          stubs/s_rproperty.cpp
+SOURCE          stubs/s_spentry.cpp
+SOURCE          stubs/s_spproperty.cpp
+SOURCE          stubs/s_spsettings.cpp
+SOURCE          stubs/s_ximpcontext.cpp
+SOURCE          stubs/s_ximpobjectfactory.cpp
+SOURCE          stubs/s_xmppsettingsapi.cpp
+SOURCE          stubs/s_ximpclient.cpp
+SOURCE          stubs/s_ximpcontextstateevent.cpp
+SOURCE          stubs/s_ximpidentity.cpp
+SOURCE          stubs/s_ximppresensitygroupcontentevent.cpp
+SOURCE          stubs/s_ximppresensitypresenceevent.cpp
+SOURCE          stubs/s_ximprequestcompleteevent.cpp
+SOURCE          stubs/s_ximpsearchevent.cpp
+SOURCE          stubs/s_ximpsearchkeysevent.cpp
+
+//SOURCE          stubs/s_ecom.cpp
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../../inc 
+USERINCLUDE     ../src/stubs
+
+SYSTEMINCLUDE   /epoc32/include 
+//SYSTEMINCLUDE   /epoc32/include/internal
+SYSTEMINCLUDE 	/epoc32/include/ecom
+//SYSTEMINCLUDE   /epoc32/include/stdapis
+
+MACRO		SCP_LOGGING_0
+
+MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+
+//RESOURCE        resource_file
+//RESOURCE        resource_file2
+
+
+
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+
+LIBRARY     	euser.lib	
+LIBRARY     	ecom.lib
+//LIBRARY     	serviceprovidersettings.lib
+LIBRARY     	flogger.lib
+
+
+LIBRARY			apgrfx.lib 
+LIBRARY			ws32.lib 
+LIBRARY			efsrv.lib 
+
+//imcache client
+LIBRARY			imcacheclient.lib
+
+LIBRARY        	presencecacheclient2.lib
+LIBRARY        	presencecacheutils.lib
+
+// xmpp settings
+//LIBRARY         jabbersettings.lib
+
+//LIBRARY         imconnectionprovider.lib
+
+LANG            SC
+
+/*
+START WINS      
+?wins_specific_information
+END
+
+START MARM
+?marm_specific_information
+END
+*/
+// Other possible keywords:
+ 
+// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
+/*
+START BITMAP ?target
+TARGETPATH   ?emulated_path_on_target_machine
+HEADER
+SOURCE       ?color_depth ?source_bitmap
+END
+*/
+// DEFFILE ?filename
+// AIF ?filename
+
+// End of File

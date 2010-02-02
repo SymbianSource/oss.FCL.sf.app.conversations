@@ -1,0 +1,145 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: vimpstengine_ut.mmp
+*
+*/
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+
+#define KMyUniqueUid3 0x01070006
+#define KEUnitTestDllUid2 0x1000af5a
+
+TARGET          vimpstengine_ut.dll
+TARGETTYPE      dll 
+UID             KEUnitTestDllUid2 KMyUniqueUid3
+
+EPOCALLOWDLLDATA
+
+
+CAPABILITY          ALL -TCB
+VENDORID            VID_DEFAULT
+
+SOURCEPATH      ./../src
+SOURCE          dllmain.cpp
+SOURCE          t_vimpstenginevoipsubservice.cpp
+SOURCE          t_vimpstengineimsubservice.cpp
+SOURCE			t_vimpstenginecchhandler.cpp
+SOURCE			t_vimpstengine.cpp
+SOURCE			t_vimpstengineservicetablefetcher.cpp
+SOURCE          t_vimpstenginesessioncntxtobserver.cpp
+//SOURCE			t_vimpstenginesubservicestatelistener.cpp
+SOURCE			t_vimpstenginerequest.cpp
+SOURCE			t_vimpstenginerequestmapper.cpp
+SOURCE			t_vimpstenginecontactmgmtextention.cpp
+SOURCE          t_vimpstenginepresencesubservice.cpp
+//SOURCE			t_vimpstenginesearchmgrextention.cpp
+
+SOURCEPATH      ./../src/stubs
+SOURCE			s_cch.cpp
+SOURCE          s_spsettings.cpp
+SOURCE          s_spentry.cpp
+SOURCE          s_spproperty.cpp
+SOURCE			s_wssession.cpp
+SOURCE			s_rproperty.cpp
+SOURCE			s_user.cpp
+SOURCE			s_cactive.cpp
+SOURCE			s_imcache.cpp
+SOURCE			s_ximprequestcompleteevent.cpp
+SOURCE			s_ximpclient.cpp
+SOURCE			s_ximpcontext.cpp
+SOURCE			s_presentitygroups.cpp
+SOURCE			s_presencefeatures.cpp
+SOURCE			s_ximpidentity.cpp
+SOURCE			s_ximpobjectfactory.cpp
+SOURCE          s_ximppresensitypresenceevent.cpp
+SOURCE          s_ximpcontextstateevent.cpp
+SOURCE          s_ximppresensitygroupcontentevent.cpp
+SOURCE          s_ximppresencegrantrequestlistevent.cpp
+SOURCE          s_ximpsearchevent.cpp
+SOURCE          s_ximpsearchkeysevent.cpp
+SOURCE          s_ximppresenceauthorization.cpp
+
+SOURCE			s_presencewatching.cpp
+SOURCE			s_presenceobjectfactory.cpp
+SOURCE			s_presencebuddyinfo2.cpp
+SOURCE			s_presencecachereader2.cpp // new stub for presence cache
+SOURCE			s_presencebuddyinfolist.cpp
+SOURCE			s_presencegrantrequestinfo.cpp
+SOURCE			s_presenceinfo.cpp
+SOURCE			s_presenceinfofield.cpp
+SOURCE			s_presenceinfofieldcollection.cpp
+SOURCE			s_presenceinfofieldvalueenum.cpp
+SOURCE			s_presenceinfofieldvaluetext.cpp
+SOURCE			s_presencepersoninfo.cpp
+SOURCE			s_presencepublishing.cpp
+SOURCE			s_servicepresenceinfo.cpp
+SOURCE          s_presenceblockinfo.cpp
+// storage
+SOURCE			s_vimpststoragecontactlist.cpp
+SOURCE			s_vimpststoragecontact.cpp
+SOURCE          s_vimpstengineaimagehandler.cpp
+SOURCE			s_vimpstsettingsstore.cpp
+SOURCE          s_vimpstsettingsstoreimp.cpp 
+//SOURCE          s_CVIMPSTEngineSessionCntxtObserver.cpp
+SOURCE          s_vimpststorageserviceview.cpp
+
+SOURCEPATH      ./../../../../vimpstengine/src
+SOURCE          cvimpstengineimsubservice.cpp
+SOURCE			cvimpstenginevoipsubservice.cpp
+SOURCE          cvimpstenginesessioncntxtobserver.cpp
+SOURCE			cvimpstenginecchhandler.cpp
+SOURCE			cvimpstengine.cpp
+SOURCE			cvimpstengineservicetablefetcher.cpp
+//SOURCE			cvimpstenginesubservicestatelistener.cpp
+SOURCE			cvimpstenginerequest.cpp
+SOURCE			cvimpstenginerequestmapper.cpp
+SOURCE			cvimpstenginecontactmgmtextention.cpp
+SOURCE			cvimpstenginesearchmgrextention.cpp
+SOURCE          cvimpstenginepresencesubservice.cpp
+SOURCE			vimpstenginecasts.cpp
+SOURCE			cvimpstblockedlistmanager.cpp
+
+
+ 
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   /epoc32/include/Digia/EUnit
+SYSTEMINCLUDE   /epoc32/include/ecom
+
+USERINCLUDE      ./../src/stubs
+USERINCLUDE     ./../inc
+USERINCLUDE     ./../../../../vimpstengine/inc
+USERINCLUDE     ./../../../../vimpststorage/inc
+USERINCLUDE     ./../../../../vimpstutils/inc
+USERINCLUDE     ./../../../../inc
+USERINCLUDE     ./../../../../../inc
+
+USERINCLUDE		./../../../../../imstutils/imconnectionprovider/inc
+
+LIBRARY         euser.lib
+LIBRARY         ecom.lib 
+LIBRARY         EUnit.lib
+LIBRARY         flogger.lib
+LIBRARY         bafl.lib
+LIBRARY			cch.lib
+LIBRARY			cntmodel.lib
+
+//end of file
+
+
+
+
+
+SOURCEPATH ../src/stubs
+SOURCE s_vimpststoragemanagerfactory.cpp  
