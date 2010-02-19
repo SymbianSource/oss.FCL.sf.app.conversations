@@ -42,6 +42,9 @@
 // constants declaration
 const TInt KLabelLineCount = 3;
 
+// Size of thumbnail images stored to contacts
+#define KPbkPersonalImageSize TSize(80,96)
+
 // ---------------------------------------------------------------------------
 // NewL, two-phase construction
 // ---------------------------------------------------------------------------
@@ -89,6 +92,7 @@ void CVIMPSTDetailsHeaderControl::ConstructL()
         iLabels.AppendL(label);
         CleanupStack::Pop(label);
         }
+    iContactImageSize = KPbkPersonalImageSize;
    	}
 
 // ---------------------------------------------------------------------------
@@ -169,6 +173,29 @@ void CVIMPSTDetailsHeaderControl::SizeChanged()
     
     AknLayoutUtils::LayoutImage(
             iImage, Rect(), AknLayoutScalable_Apps::cl_header_pane_g1(isLandscape));
+   
+    TPoint position = iImage->Position();
+    TSize size = iImage->Size();
+    
+    const TPoint newImagePosition = TPoint( position.iX/2, position.iY/2 );
+    iImage->SetPosition( newImagePosition );
+    
+    const TSize newImageSize = TSize( size.iWidth + 2*( position.iX - newImagePosition.iX ) ,
+            size.iHeight + 2*( position.iY - newImagePosition.iY ) );
+    
+    iImage->SetSize( newImageSize );
+    
+    iContactImageSize = newImageSize;
+    
+    if ( iImageDecoder )
+        {
+        // if bitmap was set resize it
+        if (iImageDecoder->IsActive())
+            {
+            iImageDecoder->Cancel();
+            }
+        TRAP_IGNORE( iImageDecoder->StartL( iContactImageSize ) );
+        }
     
     TAknLayoutRect labelsRect;
     labelsRect.LayoutRect(Rect(), AknLayoutScalable_Apps::cl_header_name_pane(isLandscape));
@@ -344,7 +371,7 @@ void CVIMPSTDetailsHeaderControl::CreateHeaderPresentationL(MVPbkStoreContact& a
 	            iImageDecoder = NULL;
 	            }
 	        iImageDecoder = CVIMPSTDetailsImageDecoder::NewL(*this, data );
-	        iImageDecoder->Start();
+	        iImageDecoder->StartL(iContactImageSize);
 			}
 		}
 	

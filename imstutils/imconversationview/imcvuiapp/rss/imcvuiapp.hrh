@@ -34,7 +34,8 @@ enum TIMCVCommandIds
     EIMCVCmdExit,
     EIMCVCmdToolbarSend,
     EIMCVCmdToolbarInsertSmiley,
-    EIMCVCmdToolbarDetails
+    EIMCVCmdToolbarDetails,
+    EIMCVCmdInternetCall
     };
 
 // Size of Array used in launching context sensitive help

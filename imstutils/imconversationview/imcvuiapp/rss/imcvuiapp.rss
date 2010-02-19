@@ -34,6 +34,9 @@ NAME IMCV
 #include <aknsconstants.hrh>
 #include "imcvappsmileutility.hrh"
 #include "imcvappsmileutility.rh"
+#include <aiwcommon.rh>
+#include <aiwcommon.hrh>
+#include <aiwgenericparam.hrh>
 
 
 // ---------------------------------------------------------
@@ -202,7 +205,27 @@ RESOURCE MENU_PANE r_converationview_general_menu
               
     };
 }
-
+// ---------------------------------------------------------------------------
+// aiw_internetcall
+// AIW app interest for calling
+// ---------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST aiw_internetcall
+    {
+    items=
+        {
+        // This application is interested in calling from menu.
+        AIW_CRITERIA_ITEM      
+            {
+            id              = KAiwCmdCall; 
+            serviceCmd      = KAiwCmdCall;
+            serviceClass    = KAiwClassMenu;
+            contentType     = "*";
+            defaultProvider = 0x101F868E;
+            maxProviders    = 1;
+            }
+        };   
+    }
 
 //----------------------------------------------------
 //
@@ -218,8 +241,15 @@ RESOURCE MENU_PANE r_conversationview_view_menu
 		MENU_ITEM { command = EIMCVCmdSend; txt = qtn_im_ibox_om_send; },
 		MENU_ITEM { command = EIMCVCmdSmiley; txt = qtn_chat_conv_insert_smiley; } ,
 		MENU_ITEM { command = EIMCVCmdFindMenuPlaceHolder;txt = ""; },
-		MENU_ITEM { command = EIMCVCmdCloseConversation; txt = qtn_servtab_close_conversation; } 
- 
+		MENU_ITEM { command = EIMCVCmdCloseConversation; txt = qtn_servtab_close_conversation; },
+		MENU_ITEM
+		            { 
+		            command = KAiwCmdCall; // The same ID than in interest.
+		            txt = ""; // Will be replaced by AIW (plugin).
+		            cascade=AIW_CASCADE_ID;            
+		            cascade = AIW_INTELLIGENT_CASCADE_ID;            
+		            }
+		
      };
 
 }

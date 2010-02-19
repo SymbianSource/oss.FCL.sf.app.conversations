@@ -33,6 +33,7 @@
 //For KMaxPackedContactLinkLength
 #include "imcvuiparams.h"
 #include "mimcvngineservicechangeobserver.h"
+#include <AiwCommon.h>
 // FORWARD DECLARATIONS
 class CIMCVAppUi;
 class MIMCVEngineChatInterface;
@@ -45,6 +46,8 @@ class MCCAConnection;
 class MCCAParameter;
 class CIMCVMenuExtensionManager;
 class MIMCVEngineFactory;
+class CAiwServiceHandler;
+
 
 // CLASS DECLARATION
 
@@ -355,7 +358,9 @@ class CIMCVAppView : public CAknView,
         
         // not owned , chat interface
          MIMCVEngineChatInterface* iActiveChatInterface;
-         
+              //owns. object of aiwservicehandler.
+       CAiwServiceHandler *iAiwServiceHandler;
+    
          //Keep track if Detail view is opened.
          TBool iDetailViewOpen;
          

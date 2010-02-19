@@ -190,6 +190,8 @@ private:  // data member
      */  
 	CVIMPSTDetailsImageDecoder* iImageDecoder;
 	
+	TSize iContactImageSize;
+	
 
     };
 

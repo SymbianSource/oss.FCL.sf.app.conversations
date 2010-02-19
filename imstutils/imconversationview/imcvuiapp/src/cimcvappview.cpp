@@ -70,6 +70,16 @@
 #include <imconnectionproviderconsts.h>
 #include <e32property.h>
 
+// AIW Include Files 
+#include <aiwgenericparam.h>            
+#include <aiwcontactassigndatatypes.h>
+#include <aiwdialdataext.h>
+#include <aiwcommon.hrh>
+#include <aiwservicehandler.h>
+#include <aiwdialdata.h>
+#include <CommonPhoneParser.h>
+
+
 // Dll Uid of vimpstui, to maintain uniqueness of help uid
 const TUid KHelpUid = { 0x2001FDC2 } ;  
 // ============================ MEMBER FUNCTIONS ===============================
@@ -131,7 +141,10 @@ void CIMCVAppView::ConstructL( TInt aAvkonViewResourceId, TUid aViewId,
 
     //Creates manager for menu extension
     iMenuExtManager = CIMCVMenuExtensionManager::NewL();
-    
+        iAiwServiceHandler = CAiwServiceHandler::NewL();    
+    iAiwServiceHandler->AttachL( AIW_INTERNETCALL);
+    iAiwServiceHandler->AttachMenuL( R_CONVERSATIONVIEW_VIEW_MENU,AIW_INTERNETCALL );  
+
     iConvViewDel = EFalse;
     iDetailViewOpen = EFalse;
 	IM_CV_LOGS(TXT("CIMCVAppView::ConstructL() end") );	
@@ -192,6 +205,12 @@ CIMCVAppView::~CIMCVAppView()
         {
         delete iMenuExtManager;
         }
+    if (iAiwServiceHandler)
+        {
+        iAiwServiceHandler->Reset();
+        delete iAiwServiceHandler; 
+        iAiwServiceHandler = NULL;
+        }
     }
 
 
@@ -226,6 +245,24 @@ void CIMCVAppView::DynInitMenuPaneL(
 	    {
 	    case R_CONVERSATIONVIEW_VIEW_MENU:
 		    {
+		    if(iActiveEngine->IsVoipServiceL())// internet call
+		        {
+		        aMenuPane->SetItemDimmed(KAiwCmdCall, EFalse);
+		        CAiwDialDataExt* dialDataExt = CAiwDialDataExt::NewL();
+		        CleanupStack::PushL( dialDataExt );
+		        dialDataExt->SetServiceId( iServiceId );
+		        CAiwGenericParamList& paramList = iAiwServiceHandler->InParamListL();
+		        dialDataExt->FillInParamListL( paramList );                          
+		        TAiwGenericParam param (EGenericParamSIPAddress);
+		        paramList.AppendL( param );
+		        iAiwServiceHandler->InitializeMenuPaneL( *aMenuPane, 
+		                R_CONVERSATIONVIEW_VIEW_MENU,EIMCVCmdInternetCall,paramList );
+		        CleanupStack::PopAndDestroy( dialDataExt ); 
+		        }
+		    else
+		        {
+		        aMenuPane->SetItemDimmed(KAiwCmdCall, ETrue);
+		        }
 		    if( iContainer->Editor().Editor().TextLength() > 0 )
 			    {
 			    aMenuPane->SetItemDimmed(EIMCVCmdSend, EFalse);	
@@ -344,9 +381,36 @@ void CIMCVAppView::HandleCommandL( TInt aCommand )
         }
     
     switch ( aCommand )
-    	{
-    	
-    	case EIMCVCmdToolbarDetails:
+        {
+        case EIMCVCmdInternetCall:
+            {
+            // Truncating till ':' if exists - Extracting Userid from "ServiceName:Userid".
+            TInt indexposition = iRecipientUserId->Locate(':');
+            HBufC* phonenumber = NULL; // Phonenumber = Userid    
+            if ( KErrNotFound != indexposition )
+                {
+                phonenumber = iRecipientUserId->Right(iRecipientUserId->Length() - (indexposition+1)).AllocLC();
+                }
+            else
+                {
+                phonenumber = iRecipientUserId->AllocLC(); // does't contain ':'
+                }
+            TPtr phonenumberptr( phonenumber->Des ());
+            CommonPhoneParser::ParsePhoneNumber ( phonenumberptr,CommonPhoneParser::EPhoneClientNumber); 
+            CAiwDialDataExt* dialDataExt = CAiwDialDataExt::NewLC();
+            dialDataExt->SetPhoneNumberL ( phonenumber->Des ());
+            dialDataExt->SetServiceId(iServiceId);
+            dialDataExt->SetCallType( CAiwDialData::EAIWVoiP);
+            dialDataExt->SetWindowGroup ( CCoeEnv::Static()->RootWin().Identifier() );
+            CAiwGenericParamList& paramList = iAiwServiceHandler->InParamListL();
+            dialDataExt->FillInParamListL ( paramList);
+            iAiwServiceHandler->ExecuteServiceCmdL ( KAiwCmdCall,paramList,
+                    iAiwServiceHandler->OutParamListL(),0,NULL);
+            CleanupStack::PopAndDestroy(dialDataExt);
+            CleanupStack::PopAndDestroy(phonenumber);
+            break;
+            }
+        case EIMCVCmdToolbarDetails:
     	    //Launch the cca
     	    LaunchCcaL();
     	    break;
