@@ -18,4 +18,5 @@ EXPORTS
 	?IsLoggedIn@CIMCVEngine@@QBEHXZ @ 17 NONAME ; int CIMCVEngine::IsLoggedIn(void) const
 	?ReleaseConnectionL@CIMCVEngine@@QAEXXZ @ 18 NONAME ; void CIMCVEngine::ReleaseConnectionL(void)
 	?GetBrandId@CIMCVEngine@@QAEABVTDesC8@@XZ @ 19 NONAME ; class TDesC8 const & CIMCVEngine::GetBrandId(void)
+	?IsVoipServiceL@CIMCVEngine@@QAEHXZ @ 20 NONAME ; int CIMCVEngine::IsVoipServiceL(void)
 

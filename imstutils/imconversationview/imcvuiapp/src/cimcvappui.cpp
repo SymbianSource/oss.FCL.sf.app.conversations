@@ -63,7 +63,7 @@ void CIMCVAppUi::ConstructL()
     iDestructingFlag = EFalse;
     
     BaseConstructL( EAknEnableSkin | ENoAppResourceFile |
-                    EAppOrientationAutomatic | EAknEnableMSK );
+                    EAppOrientationAutomatic | EAknEnableMSK | EAknSingleClickCompatible );
     //Message extension handler. This must be created before views.
     
     iChatMbmFullPath = Application()->BitmapStoreName();

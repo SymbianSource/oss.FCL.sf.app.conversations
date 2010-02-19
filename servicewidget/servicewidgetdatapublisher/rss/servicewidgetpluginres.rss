@@ -20,7 +20,7 @@
 #include <avkon.rsg>
 #include <avkon.rh>
 #include <avkon.mbg>
-#include <eikcore.rsg>
+#include <EIKCORE.rsg>
 #include <eikon.rsg>
 
 #include <meco.loc>

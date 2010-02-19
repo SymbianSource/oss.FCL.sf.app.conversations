@@ -126,7 +126,8 @@ LIBRARY     centralrepository.lib
 LIBRARY		charconv.lib
 
 LANG SC
-
+LIBRARY         		aiwdialdata.lib
+LIBRARY     			ServiceHandler.lib
 LIBRARY         		serviceprovidersettings.lib
 //CCA
 LIBRARY ccaclient.lib
