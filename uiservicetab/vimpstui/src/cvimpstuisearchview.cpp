@@ -570,10 +570,11 @@ void CVIMPSTUiSearchView:: SearchContactsL()
 	
     CVIMPSTUiSearchQueryDialog* querydialog = CVIMPSTUiSearchQueryDialog::NewL( fieldArray );
    
-    querydialog->ExecuteLD();
+ 
    
     if (querydialog)
         {
+        querydialog->ExecuteLD();
         iEndKeyPressed = querydialog->IsEndKeyPressed();
         }
     
@@ -598,13 +599,15 @@ void CVIMPSTUiSearchView:: SearchContactsL()
 	
 		iExtensionService.SetSearchStringL( searchStrPtr );
 		UpdateNaviPaneTextL();
-		if ( iContainer->ListBox()->Model()->NumberOfItems() > 0 )
-	        {
-	        iContainer->ClearListBoxContents();  
-	        }
-	    // set the empty string blank    
-		iContainer->SetSearchingTextToListboxL();   
-		
+		if ( iContainer)
+			{
+			if ( iContainer->ListBox()->Model()->NumberOfItems() > 0 )
+		        {
+		        iContainer->ClearListBoxContents();  
+		        }
+		    // set the empty string blank    
+			iContainer->SetSearchingTextToListboxL();   
+		  }
 		HBufC* searchWaitNoteText = StringLoader::LoadLC( R_QTN_SERVTAB_SEARCHING , searchStrPtr, CCoeEnv::Static() );
 		iWaitNote = CVIMPSTUtilsWaitNote::ShowWaitNoteL( *searchWaitNoteText, EFalse , ETrue  );  
     	CleanupStack::PopAndDestroy(searchWaitNoteText); 

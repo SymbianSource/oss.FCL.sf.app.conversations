@@ -372,5 +372,11 @@ return ETrue;
      {
      
      }
+ 
+ TBool vimpstengine_stub::IsUnInstalled()
+     {
+     return EFalse;
+     }
+ 
      
 //end of file

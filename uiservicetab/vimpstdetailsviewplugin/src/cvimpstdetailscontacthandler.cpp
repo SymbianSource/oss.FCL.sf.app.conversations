@@ -151,9 +151,12 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
 		{
 		// launched from other than service tab	
 		// need to open service store
-	    TPtr serviceStoreNamePtr = iServiceStoreUri->Des(); 
-	    uriArray->AppendL( TVPbkContactStoreUriPtr( serviceStoreNamePtr ) );
-		TRACED( T_LIT("ServiceStoreUriL() - storename3: %S"), &serviceStoreNamePtr );
+		 if ( iServiceStoreUri )
+            {
+            TPtr serviceStoreNamePtr = iServiceStoreUri->Des(); 
+            uriArray->AppendL( TVPbkContactStoreUriPtr( serviceStoreNamePtr ) );
+            TRACED( T_LIT("ServiceStoreUriL() - storename3: %S"), &serviceStoreNamePtr );
+            }
 		}
 
 	HBufC& contactData = aParameter.ContactDataL();
@@ -526,14 +529,15 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationFailed(
 	if (iLinks && iCurrentLink)
 		{
 		index = iLinks->Find(*iCurrentLink) + 1;
-		}
-	if ( index >= iLinks->Count() )
-		{
-		TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL start") );
-		TRAP_IGNORE( iObserver.HandleContactUnavailableL() );
-		TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL end ") );
-		return;
-		}
+		
+		if ( index >= iLinks->Count() )
+			{
+			TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL start") );
+			TRAP_IGNORE( iObserver.HandleContactUnavailableL() );
+			TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL end ") );
+			return;
+			}
+	  }
 	IssueRequest();
 	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed end ") );
 	}

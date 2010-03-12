@@ -178,35 +178,37 @@ void CVIMPSTCmdAddFromPbk::GetServiceFieldsL( CDesCArray& aArrayForServiceFields
         const MVPbkFieldType* fieldType = field.BestMatchingFieldType();
         
         //find the relevant voip fields/email id fileds.
-        if ( fieldType &&  
-            ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_VOIPHOME ) || 
+        if ( fieldType )
+            {  
+            if ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_VOIPHOME ) || 
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_VOIPWORK ) || 
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_VOIPGEN ) ||
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_SIP )||
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_EMAILWORK ) ||
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_EMAILHOME ) ||
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_EMAILGEN ))
-            {
-            CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  GetServiceFieldsL - Found");
-            values[0] = MVPbkContactFieldTextData::Cast( 
-                    iStoreContact.Fields().FieldAt( index ).
-                    FieldData() ).Text().AllocLC();
-            if ( values[0] )
                 {
-                // Check for prefix and remove if found
-                TInt prefixLocation = values[0]->Locate( ':' );
-                if ( KErrNotFound != prefixLocation )
+                CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  GetServiceFieldsL - Found");
+                values[0] = MVPbkContactFieldTextData::Cast( 
+                iStoreContact.Fields().FieldAt( index ).
+                FieldData() ).Text().AllocLC();
+                if ( values[0] )
                     {
-                    CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  Prefix found -> remove");
-                    aArrayForServiceFields.AppendL( values[0]->Des().Mid(
+                    // Check for prefix and remove if found
+                    TInt prefixLocation = values[0]->Locate( ':' );
+                    if ( KErrNotFound != prefixLocation )
+                        {
+                        CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  Prefix found -> remove");
+                        aArrayForServiceFields.AppendL( values[0]->Des().Mid(
                         prefixLocation+1 ) );
+                        }
+                    else
+                        {
+                        CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  No Prefix found");
+                        aArrayForServiceFields.AppendL( values[0]->Des() );    
+                        }
+                    CleanupStack::PopAndDestroy( values[0] );
                     }
-                else
-                    {
-                    CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  No Prefix found");
-                    aArrayForServiceFields.AppendL( values[0]->Des() );    
-                    }
-                CleanupStack::PopAndDestroy( values[0] );
                 }
             }
         }   

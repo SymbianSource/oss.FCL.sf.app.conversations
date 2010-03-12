@@ -41,6 +41,8 @@
 "/EPOC32/DATA/Z/Resource/vimpstuires.rsc"				-"!:/Resource/vimpstuires.rsc"
 "/EPOC32/DATA/Z/Resource/Plugins/vimpstui.rsc"				-"!:/Resource/Plugins/vimpstui.rsc"
 "/EPOC32/DATA/Z/Resource/Plugins/vimpstdetailsviewplugin.rsc"				-"!:/Resource/Plugins/vimpstdetailsviewplugin.rsc"
+; Backup & restore
+"../group/backup_registration.xml"       -"!:/private/20012423/backup_registration.xml"
 
 "/EPOC32/DATA/Z/Resource/apps/vimpstui.mif"								-"!:/Resource/apps/vimpstui.mif"
 

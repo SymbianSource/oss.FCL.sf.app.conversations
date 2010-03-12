@@ -547,10 +547,16 @@ void CVIMPSTStorageServiceView::SetOwnUserIdL(const TDesC& aUserId )
 		}
 	else if( aUserId.Compare( iOwnContact->UserId() ) != 0 )
 		{
+	    _LIT (KNullWithSpace, " ");
 		TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL iOwnContact was existing") );
+	    if(KNullWithSpace ().Compare(iOwnContact->UserId())!=0)
+	        { 
+	        iVPbkContactStore->RemoveAllVPbkContactsL(); // if user id is changed remove all contacts 	
+	        RemoveAllCacheContactsL();
+	        }
 		iOwnContact->SetUserIdL( aUserId );
 		iOwnContact->SetAvatarContentL(KNullDesC8,*iVPbkContactStore );
-		iVPbkContactStore->RemoveAllVPbkContactsL(); // if user id is changed remove all contacts 	
+
 		NotifyAllObserversL( TVIMPSTEnums::EStorageEventOwnUserChanged,NULL,iOwnContact,0 );
 		TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL NotifyAllObserversL delivered") );
 		}

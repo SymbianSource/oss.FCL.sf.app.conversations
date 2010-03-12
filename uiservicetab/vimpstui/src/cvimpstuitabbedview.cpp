@@ -336,6 +336,12 @@ CVIMPSTUiTabbedView::~CVIMPSTUiTabbedView()
 //
 void CVIMPSTUiTabbedView::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane )
     {    
+    
+    if (iEngine.IsUnInstalled())
+        {
+        // if engine is uninstalled, do not initiate the menu pane.
+        return;
+        }
     // AIW knows its own submenu hooks, so we can return from 
     // here if AIW handled this.
     ReInitializeServiceHandlerL();
@@ -773,14 +779,16 @@ void CVIMPSTUiTabbedView::HandleCommandL(TInt aCommand)
         return;
         }
     ReInitializeServiceHandlerL();
-    TInt serviceCommandId =iServiceHandler->ServiceCmdByMenuCmd(aCommand);
-
-    if ( iContainer && serviceCommandId == KAiwCmdCall )
-        {
-       	MakeVoipCallL();
-        return;
-        }	
-    
+    if ( iServiceHandler )
+    		{
+    		TInt serviceCommandId =iServiceHandler->ServiceCmdByMenuCmd(aCommand);
+				
+		    if ( iContainer && serviceCommandId == KAiwCmdCall )
+		        {
+		       	MakeVoipCallL();
+		        return;
+		        }	
+    	  }
     if( iContainer )
         {
         iContainer->SetClrFindPaneFlag(ETrue);
@@ -1052,7 +1060,17 @@ void CVIMPSTUiTabbedView::DoActivateViewL( const TVwsViewId& aPrevViewId,
         NotifyViewActivationL( iView.Id() );
         }
     
-    iView.Cba()->SetCommandSetL( R_IM_CONTACTS_TABBED_VIEW_SOFTKEYS );
+    if (iEngine.IsUnInstalled())
+        {
+    // engine is uninstalled, disable left softkey i.e options and provide only exit.
+        iView.Cba()->SetCommandSetL(R_AVKON_SOFTKEYS_EXIT);
+        }
+    else
+        {
+    // engine is constructed completely, provide tabbed view softkeys.
+        iView.Cba()->SetCommandSetL(R_IM_CONTACTS_TABBED_VIEW_SOFTKEYS);
+        }
+    
 	
 	ReadAndSetOwnUserIdL();
 

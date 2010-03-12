@@ -15,7 +15,7 @@
 *
 */
 
-
+ 
 #include "cvimpstdetailsviewmenuhandler.h"
 
 #include "cvimpstdetailsviewlistboxmodel.h"
@@ -84,21 +84,27 @@ void CVIMPSTDetailsViewMenuHandler::ConstructL()
 void CVIMPSTDetailsViewMenuHandler::DynInitMenuPaneL(TInt aResourceId,
 												CEikMenuPane* aMenuPane )
 	{
-	if (iAiwServiceHandler && iAiwServiceHandler->HandleSubmenuL(*aMenuPane))
-	    {
-	    return;
-	    }
+	if (iAiwServiceHandler)
+		{
+		if ( iAiwServiceHandler->HandleSubmenuL(*aMenuPane))
+            {
+            return;
+            }
+	  }
 	switch (aResourceId)
 		{
 		case R_VIMPSTDETAILSVIEW_MENUPANE:
 			{
 			TInt pos = 0;			
-			if ( iAiwServiceHandler->IsAiwMenu(aResourceId))
-			    {
-			    iAiwServiceHandler->InitializeMenuPaneL( *aMenuPane,
-			            aResourceId, ECCAppDetailsViewAiwBaseCmd,
-			            iAiwServiceHandler->InParamListL() );			           
-			    } 
+ 			if ( iAiwServiceHandler )
+				{
+				if ( iAiwServiceHandler->IsAiwMenu(aResourceId))
+				    {
+				    iAiwServiceHandler->InitializeMenuPaneL( *aMenuPane,
+				            aResourceId, ECCAppDetailsViewAiwBaseCmd,
+				            iAiwServiceHandler->InParamListL() );			           
+				    }
+				} 
 			if ( aMenuPane->MenuItemExists(ECCAppDetailsViewSetTopContactCmd, pos)  )
 				{
 				aMenuPane->SetItemDimmed(ECCAppDetailsViewSetTopContactCmd, ETrue );	

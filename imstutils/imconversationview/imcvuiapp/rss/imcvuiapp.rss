@@ -454,7 +454,7 @@ RESOURCE AVKON_TOOLBAR r_im_cv_toolbar
                     AVKON_BUTTON_STATE
                         {                        
                         helptxt  = qtn_servtab_toolbar_send;                       
-                        bmpfile = BITMAP_DIR"//imcvuiapp.mif";
+                        bmpfile = BITMAP_DIR"\\imcvuiapp.mif";
                         bmpid = EMbmImcvuiappQgn_indi_tb_msg_send;
                         bmpmask = EMbmImcvuiappQgn_indi_tb_msg_send_mask;                                  
                         extension = r_im_cv_toolbar_indi_tb_msg_send_extension;
@@ -474,7 +474,7 @@ RESOURCE AVKON_TOOLBAR r_im_cv_toolbar
                     AVKON_BUTTON_STATE
                         {                        
                         helptxt  = qtn_servtab_toolbar_smiley;                       
-                        bmpfile = BITMAP_DIR"//imcvuiapp.mif";
+                        bmpfile = BITMAP_DIR"\\imcvuiapp.mif";
                         bmpid = EMbmImcvuiappQgn_indi_tb_smiley;
                         bmpmask = EMbmImcvuiappQgn_indi_tb_smiley_mask;
                         extension = r_im_cv_toolbar_indi_tb_smiley_extension;                        
@@ -494,7 +494,7 @@ RESOURCE AVKON_TOOLBAR r_im_cv_toolbar
                     AVKON_BUTTON_STATE
                         {                        
                         helptxt  = qtn_servtab_toolbar_details;                       
-                        bmpfile = BITMAP_DIR"//imcvuiapp.mif";
+                        bmpfile = BITMAP_DIR"\\imcvuiapp.mif";
                         bmpid = EMbmImcvuiappQgn_indi_tb_business_card;
                         bmpmask = EMbmImcvuiappQgn_indi_tb_business_card_mask;
                         extension = r_im_cv_toolbar_indi_tb_business_card_extension;

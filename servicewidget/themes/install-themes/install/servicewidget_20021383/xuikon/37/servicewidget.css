@@ -18,7 +18,7 @@ box#first_inner_box
 	block-progression: tb;
 	nav-index:auto;
 	background-size:90%;
-  	}
+  }
 
 	
 box#second_inner_box
@@ -98,7 +98,6 @@ image.second_image
 	
 text.first_text
 	{
-	display: block;
 	visibility: visible;
 	position: static;
 	text-align: right;

@@ -1597,4 +1597,9 @@
 //
 #define qtn_servtab_widget_servdesc          "My online service"
 
+// d: Text shown when service tab is not usable after uninstall
+// l: main_pane_empty_t1/opt2
+// r: MCL
+#define qtn_servtab_swupdate_restart								"Please restart phone to use %U service"
+
 //end of file

@@ -584,6 +584,8 @@ void CIMCVAppView::HandleForegroundEventL( TBool aForeground )
 		}
 	else
 		{
+		TPtrC activeRecipientId = iEngineFactory->GetActiveItemL ();
+		iActiveEngine->MessageHandler().StartNewConversationL (activeRecipientId);
 		SetStatusPaneIconsL();
 		if (iStatusPane)
 		    {

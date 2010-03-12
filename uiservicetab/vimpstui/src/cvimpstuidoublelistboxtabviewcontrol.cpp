@@ -106,23 +106,34 @@ void CVIMPSTUiDoubleListBoxTabViewControl::ConstructL()
         (CEikScrollBarFrame::EOff, CEikScrollBarFrame::EAuto);
 	// set marquee on
     iListBox->ItemDrawer()->FormattedCellData()->EnableMarqueeL( ETrue );
-    CVIMPSTUiDoubleListboxArray* friendsArray = CVIMPSTUiDoubleListboxArray::NewL( iArrayProcess,
-                                                          iListBox->ItemDrawer()->ColumnData(),
-                                                          *iListBox ,
-                                                          *this);
-    // now set the array
-    iListBox->Model()->SetItemTextArray(friendsArray );
-    
-    iListBox->Model()->SetOwnershipType(ELbmOwnsItemArray);
-    // if there is any contact other than owndata , show findpane
-    if( iListBox->Model()->NumberOfItems() > KMinContact) 													
-        { 											 	 
-        // Create find-pane
-        ActivateFindPaneL();
+    // If engine is uninstalled, do not construct the list view.
+    // Display empty message
+    if (iEngine.IsUnInstalled())
+        {
+        SetListEmptyTextL( R_QTN_SERVTAB_SWUPDATE_RESTART );
+        return;
         }
-    LoadBitmapsL();
-   
-    SetCbaLockL( EFalse );
+    else
+        {
+    // Construction of the listbox view. Engine is not uninstalled.
+        CVIMPSTUiDoubleListboxArray* friendsArray =
+                CVIMPSTUiDoubleListboxArray::NewL(iArrayProcess,
+                        iListBox->ItemDrawer()->ColumnData(), *iListBox,
+                        *this);
+        // now set the array
+        iListBox->Model()->SetItemTextArray(friendsArray);
+
+        iListBox->Model()->SetOwnershipType(ELbmOwnsItemArray);
+        // if there is any contact other than owndata , show findpane
+        if (iListBox->Model()->NumberOfItems() > KMinContact)
+            {
+            // Create find-pane
+            ActivateFindPaneL();
+            }
+        LoadBitmapsL();
+        SetCbaLockL(EFalse);
+        }
+
     }
 // --------------------------------------------------------------------------
 // CVIMPSTUiDoubleListBoxTabViewControl::NewL
@@ -596,9 +607,16 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SetCurrentItemIndexAndDraw(TInt aInde
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::SetListEmptyTextL(TInt aResourceId)
     {
-    HBufC* emptyText = iCoeEnv->AllocReadResourceLC(aResourceId);
-    iListBox->View()->SetListEmptyTextL(*emptyText);
-    CleanupStack::PopAndDestroy(emptyText);
+    HBufC* msgText;
+    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl:SetListEmptyTextL:Start"));  
+    // Get Service Name from Engine , load string from resource and display.
+    // This text is shown to tell the user to restart phone to get the service again.
+    TPtrC serviceNamePtr(iEngine.ServiceName());
+    msgText = StringLoader::LoadLC(aResourceId, serviceNamePtr, iCoeEnv);
+    iListBox->View()->SetListEmptyTextL(*msgText);
+    TRACE( T_LIT("Display Text %S"), msgText );
+    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl:SetListEmptyTextL:End"));
+    CleanupStack::PopAndDestroy(msgText);
     }
 
 // ---------------------------------------------------------

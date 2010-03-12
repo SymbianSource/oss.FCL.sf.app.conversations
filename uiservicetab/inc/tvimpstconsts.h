@@ -195,6 +195,7 @@ _LIT( KContactTable, "Contacts" );
 // Name for database.
 _LIT( KStorageExtn, ".db");
 //hardcoded path for the local service db file. 
-_LIT(KDbPath, "c:\\");
+_LIT(KDbPath, "c:\\MeCo\\");
+
 #endif      // TVIMPSTCONSTS_H
 

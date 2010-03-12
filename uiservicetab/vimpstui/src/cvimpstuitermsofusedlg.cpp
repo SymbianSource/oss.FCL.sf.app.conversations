@@ -428,14 +428,18 @@ void CVIMPSTUiTermsOfUseDlg::SizeChanged()
         charFormatMask.SetAttrib( EAttFontHeight );
         
         //can't leave here
-        TRAPD(err, iParaFormatLayer->SetL( &paraFormat, paraFormatMask );
-                   iCharFormatLayer->SetL( charFormat, charFormatMask );
-                   iEditor->HandleTextChangedL(); );
-        if( err != KErrNone )
-            {
-            CActiveScheduler::Current()->Error( err );
-            }       
-
+        if( iEditor )
+        	 {
+	         TRAPD(err, iParaFormatLayer->SetL( &paraFormat, paraFormatMask );
+	                   iCharFormatLayer->SetL( charFormat, charFormatMask );
+	                   iEditor->HandleTextChangedL(); );
+					 
+        
+		        if( err != KErrNone )
+		            {
+		            CActiveScheduler::Current()->Error( err );
+		            }       
+		     }
         TRAP_IGNORE(iEditor->MoveDisplayL(TCursorPosition::EFPageDown) );
         TRAP_IGNORE(iEditor->MoveDisplayL(TCursorPosition::EFPageDown) );
         

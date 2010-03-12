@@ -133,6 +133,11 @@ NONSHARABLE_CLASS( CVIMPSTEngine ) : public CBase,
 		*/
 		void ContactStoreIdL( 
 					TDes& aContactStoreId ) const ;
+		
+		/*
+		 * See MVIMPSTEngine
+		 */
+		TBool IsUnInstalled( );
 
 		/**
 		* See MVIMPSTEngine
@@ -410,6 +415,10 @@ NONSHARABLE_CLASS( CVIMPSTEngine ) : public CBase,
 	
 		//block list observer to notify the blocked list has been fetched.
 		MVIMPSTEngineBlockedListFetchEventObserver* iBlockListObs;
+		
+		// UnInstall Flag; Set to true during engine construction
+		// if engine fails to find ximp object implementation
+		TBool iUnInstall;
    
 	};
 

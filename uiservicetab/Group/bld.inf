@@ -34,6 +34,7 @@ PRJ_EXPORTS
 ../inc/servicetabmenucommandinfo.hrh   APP_LAYER_PLATFORM_EXPORT_PATH( servicetabmenucommandinfo.hrh)
 // ROM SIS stubs
 ../sis/uiservicetabstub.sis	             /epoc32/data/Z/System/Install/uiservicetabstub.sis
+backup_registration.xml               z:/private/20012423/backup_registration.xml
 // MMP files for project components
 PRJ_MMPFILES
 

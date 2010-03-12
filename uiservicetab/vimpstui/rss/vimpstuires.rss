@@ -257,6 +257,8 @@ RESOURCE XSP_VIEW_INFO_ARRAY r_im_contacts_view_info
 		};
 	}
 
+// Empty Tabbed View Message
+RESOURCE TBUF r_qtn_servtab_swupdate_restart { buf = qtn_servtab_swupdate_restart; }
 // these are used with  double line listbox
 RESOURCE TBUF r_qtn_servtab_login_list_item       { buf = qtn_servtab_login_list_item; }
 RESOURCE TBUF r_qtn_servtab_logging_list_item        { buf = qtn_servtab_logging_list_item; }

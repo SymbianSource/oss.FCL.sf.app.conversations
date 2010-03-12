@@ -150,18 +150,26 @@ void CVIMPSTEngine::ConstructL( TUint32 aServiceId )
 	TBool imSupported = IsSubServiceSupportedInternal(TVIMPSTEnums::EIM);
 	
 	requireXimp |= presenceSupported;
-	requireXimp |= imSupported;
-	
+    requireXimp |= imSupported;
+
+    TPtr serviceIdPtr(iServiceName->Des());
+    iTableFetcher.GetServiceNameL(aServiceId, serviceIdPtr);
+
 	//if either of Presence/IM Subservice supported then we need
 	//to bind to XIMP context. 
 	if ( KErrNotFound != ximpAdapterUid && requireXimp )
 	    {
-	    iSessionCntxtObserver = CVIMPSTEngineSessionCntxtObserver::NewL(aServiceId);
+        TRAPD( err, (iSessionCntxtObserver = CVIMPSTEngineSessionCntxtObserver::NewL(aServiceId)));
+        TRACE( T_LIT("ConstructL() -1st Creating session context observer: %d"), err );	
+        if (KErrNotFound == err)
+            {
+						TRACE( T_LIT("Ximp impl not found. Calling Logout") );            	
+            iUnInstall = ETrue;
+            LogoutL();
+            TRACE( T_LIT("Logout Called on account of uninstall") );
+            return;
+            }
 	    }
-	
-	TPtr serviceIdPtr( iServiceName->Des() );    	
-	iTableFetcher.GetServiceNameL(aServiceId, serviceIdPtr);
-	
 	
 	// iterate the service array
     for ( TInt index = TVIMPSTEnums::EVoip; index < TVIMPSTEnums::ELast ; index++ )        
@@ -234,7 +242,7 @@ CVIMPSTEngine::CVIMPSTEngine( TUint32 aServiceId,
 iServiceId(aServiceId),
 iTableFetcher(aTableFetcher)								
 	{
-		
+    iUnInstall = EFalse;
 	}
 
 // ---------------------------------------------------------
@@ -1394,6 +1402,15 @@ void CVIMPSTEngine::HandleChangeConnectionEventL()
         {        
         iSessionCntxtObserver->ServerUnBindL(ETrue); 
         }
+    }
 
+// -------------------------------------------------------
+// CVIMPSTEngine :: IsUnInstalled
+// For Description see MVIMPSTEngine
+// -------------------------------------------------------
+//
+TBool CVIMPSTEngine::IsUnInstalled( )
+    {
+    return iUnInstall;
     }
 //  End of File

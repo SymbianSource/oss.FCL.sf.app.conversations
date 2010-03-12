@@ -255,6 +255,11 @@ class MVIMPSTEngine
 		   */
 		   virtual void RegisterBlockedListObserver(
 		   			MVIMPSTEngineBlockedListFetchEventObserver* aOb) = 0;  
+		   
+		   /*
+		    * Returns whether ximp implementation was uninstalled
+		    */
+		   virtual TBool IsUnInstalled()=0;
 			/**
 			* Destructor
 			*/		

@@ -359,7 +359,10 @@ TKeyResponse CVIMPSTUiBlockViewControl::OfferKeyEventL( const TKeyEvent& aKeyEve
 	        return EKeyWasConsumed;         
 	        }
 	TKeyResponse result = EKeyWasNotConsumed;
-	iCurrentItemIndex = iListBox->CurrentItemIndex();
+	if (iListBox)
+		{
+		iCurrentItemIndex = iListBox->CurrentItemIndex();
+		}
     // Offer key event first to the key event handler
     if ( (&iKeyEventHandler ) && iKeyEventHandler.Pbk2ProcessKeyEventL
             ( aKeyEvent, aType ) )

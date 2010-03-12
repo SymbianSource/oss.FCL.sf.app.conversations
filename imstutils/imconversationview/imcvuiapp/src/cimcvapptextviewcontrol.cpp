@@ -187,24 +187,25 @@ void CIMCVAppTextViewControl::UpdateScrollBarsL( TBool aScrollDraw /*ETrue*/ )
     vSbarModel.iThumbSpan = span; // bar length
 
     // Double span
-    if( iScrollBar && 
-        iScrollBar->TypeOfVScrollBar() == CEikScrollBarFrame::EDoubleSpan )
+    if( iScrollBar )
         {
-        TAknDoubleSpanScrollBarModel vDsModel( vSbarModel );
-        iScrollBar->Tile( &vDsModel );
-        iScrollBar->SetVFocusPosToThumbPos( vDsModel.FocusPosition());
+        if ( iScrollBar->TypeOfVScrollBar() == CEikScrollBarFrame::EDoubleSpan )
+            {
+            TAknDoubleSpanScrollBarModel vDsModel( vSbarModel );
+            iScrollBar->Tile( &vDsModel );
+            iScrollBar->SetVFocusPosToThumbPos( vDsModel.FocusPosition());
+            }
+        // ArrowHead
+        else
+            {
+            iScrollBar->Tile( &vSbarModel );
+            iScrollBar->SetVFocusPosToThumbPos( vSbarModel.iThumbPosition );
+            }
+       if( aScrollDraw )
+            {
+            iScrollBar->DrawScrollBarsNow();
+            }
         }
-    // ArrowHead
-    else
-        {
-        iScrollBar->Tile( &vSbarModel );
-        iScrollBar->SetVFocusPosToThumbPos( vSbarModel.iThumbPosition );
-        }
-
-   if( aScrollDraw )
-		{
-	    iScrollBar->DrawScrollBarsNow();
-	   	}
     IM_CV_LOGS(TXT("CIMCVAppTextViewControl::UpdateScrollBarsL()	end") ); 
     }
     

@@ -75,7 +75,10 @@ public:
             */
             const TDesC& ServiceName() const ;
             
-        
+            /*
+             * See MVIMPSTEngine
+             */
+            TBool IsUnInstalled();
             /**
             * See MVIMPSTEngine
             * 

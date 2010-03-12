@@ -42,8 +42,8 @@ PRJ_EXPORTS
 // Support for S60 localization
 //*****************************
 // export localizable loc files (engineering versions)
-//../loc/servicewidget.loc         MW_LAYER_LOC_EXPORT_PATH(servicewidget.loc)
-../loc/servicewidget.loc           /epoc32/include/platform/app/loc/servicewidget.loc
+../loc/servicewidget.loc         APP_LAYER_LOC_EXPORT_PATH(servicewidget.loc)
+
 
 
 // Support for S60 builds
