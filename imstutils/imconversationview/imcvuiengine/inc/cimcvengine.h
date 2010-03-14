@@ -210,6 +210,14 @@ class CIMCVEngine : public CActive,
 		 */
 		void CloseAllOpenChatsL();
 		
+	    /**
+	         * Check whether the service is VOIP Enabled Service
+	         *
+	         * @since S60 5.0
+	         * @return ETrue/EFalse
+	         */
+		IMPORT_C TBool IsVoipServiceL();
+		
 	private:
 
         /**

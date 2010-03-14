@@ -547,7 +547,23 @@ void CIMCVEngine::GetServiceNameL(
     
     CleanupStack::PopAndDestroy( 2 );    
     }
-    
+// ---------------------------------------------------------------------------
+// CIMCVEngine::IsVoipServiceL()
+// ---------------------------------------------------------------------------
+//
+EXPORT_C TBool CIMCVEngine::IsVoipServiceL()
+    {
+    TBool isvoipservice = EFalse;
+    CSPSettings* settings = CSPSettings::NewLC();
+    CSPProperty* property = CSPProperty::NewLC();
+    settings->FindPropertyL(iServiceId, ESubPropertyVoIPEnabled, *property);
+    if (property)
+        {
+        isvoipservice = ETrue; 
+        }
+    CleanupStack::PopAndDestroy(2); //property,settings 
+    return isvoipservice;
+    }    
     
 
 

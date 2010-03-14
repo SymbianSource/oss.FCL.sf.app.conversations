@@ -280,8 +280,19 @@ void CIMCVEngineCchHandler::DoHandleServiceStatusChangedL(
 	{
 	
     IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL ") );   
-	
-	if (aType == ECCHIMSub)
+
+	if (aType == ECCHPresenceSub)
+		{
+		/* SIP Adaptation -- sends error in Network Lost. This is added so that once we get it, we will unbindL and delete the context
+		 * This happens only in case of SIP as it does not send the event in IM Subservice.
+		 */
+		if (aServiceStatus.Error() && ECCHDisabled != aServiceStatus.State())
+			{
+				iEngine.ReleaseConnectionL ();
+				iEngine.DeleteContextL ();
+			}
+		} 
+	else if (aType == ECCHIMSub)
 		{
 		MIMCVEngineCCHObserver::TServiceState notifyEvent = 
 									MIMCVEngineCCHObserver::ENotLoggedIn;

@@ -27,7 +27,7 @@ NAME XADA // 4 letter ID , im service details
 #include <eikon.rh>
 #include <avkon.rh>
 
-#include <eikcore.rsg>
+#include <EIKCORE.rsg>
 #include <eikon.rsg>
 #include <avkon.hrh>
 #include <avkon.rsg>

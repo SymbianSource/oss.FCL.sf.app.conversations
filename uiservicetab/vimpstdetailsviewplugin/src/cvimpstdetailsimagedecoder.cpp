@@ -22,6 +22,7 @@
 
 #include <cbsbitmap.h>
 #include <imageconversion.h> 
+#include <bitmaptransforms.h>
 
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsImageDecoder::NewL
@@ -56,11 +57,7 @@ CVIMPSTDetailsImageDecoder::CVIMPSTDetailsImageDecoder(CVIMPSTDetailsHeaderContr
 void CVIMPSTDetailsImageDecoder::ConstructL(const TDesC8& aBitmapData)
     {
     iBitmapData = aBitmapData.AllocL();
-    User::LeaveIfError( iFs.Connect() );
-    iImgDecoder = CImageDecoder::DataNewL( iFs, *iBitmapData );
-    TFrameInfo info = iImgDecoder->FrameInfo();
-    iBitmap = new ( ELeave ) CFbsBitmap;
-    User::LeaveIfError( iBitmap->Create( info.iOverallSizeInPixels, info.iFrameDisplayMode ));
+    User::LeaveIfError( iFs.Connect() );   
     }
 
 // ---------------------------------------------------------------------------
@@ -85,6 +82,12 @@ CVIMPSTDetailsImageDecoder::~CVIMPSTDetailsImageDecoder()
         delete iBitmapData;
         iBitmapData = NULL;
         }
+    if (iBitmapScaler)
+        {
+        delete iBitmapScaler;
+        iBitmapScaler = NULL;
+        }
+
     iFs.Close();
     }
 
@@ -93,11 +96,11 @@ CVIMPSTDetailsImageDecoder::~CVIMPSTDetailsImageDecoder()
 // Starts the decoding process
 // ---------------------------------------------------------------------------
 //
-void CVIMPSTDetailsImageDecoder::Start()
+void CVIMPSTDetailsImageDecoder::StartL(TSize aBitmapSize)
     {
-    iStatus = KRequestPending;
-    iImgDecoder->Convert( &iStatus, *iBitmap );
-    SetActive();
+    iDecoderState = ECcaConvertThumbnailImage;
+    iBitmapSize = aBitmapSize;
+    CreateBitmapL();
     }
 
 // ---------------------------------------------------------------------------
@@ -109,9 +112,25 @@ void CVIMPSTDetailsImageDecoder::Start()
 void CVIMPSTDetailsImageDecoder::RunL() 
 	{
 	User::LeaveIfError( iStatus.Int() );
-	// Ownership of the bitmap is transferred
-	iHeader.SetBitmap(iBitmap, NULL );
-	iBitmap = NULL;
+	switch ( iDecoderState )
+	    {
+	    case ECcaConvertThumbnailImage:
+	        {
+	        iDecoderState = ECcaScaleThumbnail;
+	        ScaleBitmapL();
+	        break;
+	        }
+	    case ECcaScaleThumbnail:
+	        {
+	        // don't delete
+	        // Ownership of the bitmap is transferred   
+	        iHeader.SetBitmap(iBitmap, NULL );
+	        iBitmap = NULL;
+	        }
+	    default:
+	        break;
+	    }	
+	
    }
 
 // ---------------------------------------------------------------------------
@@ -124,4 +143,38 @@ void CVIMPSTDetailsImageDecoder::DoCancel()
     iImgDecoder->Cancel(); 
     }
 
+// ---------------------------------------------------------------------------
+// CVIMPSTDetailsImageDecoder::ScaleBitmapL
+// scaling it to fit to the screen
+// ---------------------------------------------------------------------------
+//
+void CVIMPSTDetailsImageDecoder::ScaleBitmapL()
+    {   
+    iBitmapScaler = CBitmapScaler::NewL();
+    iBitmapScaler->Scale( &iStatus, *iBitmap, iBitmapSize );
+    SetActive();
+    }
+
+// ---------------------------------------------------------------------------
+// CVIMPSTDetailsImageDecoder::CreateBitmapL
+// creates the bitmap
+// ---------------------------------------------------------------------------
+//
+
+void CVIMPSTDetailsImageDecoder::CreateBitmapL()
+    {
+    if ( iDecoderState == ECcaConvertThumbnailImage )
+        {
+        iImgDecoder = CImageDecoder::DataNewL( iFs, *iBitmapData, CImageDecoder::EOptionAlwaysThread );
+        }   
+   if ( !iBitmap )
+       {
+       TFrameInfo info = iImgDecoder->FrameInfo();
+       iBitmap = new ( ELeave ) CFbsBitmap;
+       User::LeaveIfError( iBitmap->Create( info.iOverallSizeInPixels, info.iFrameDisplayMode ));
+       } 
+    iStatus = KRequestPending;
+    iImgDecoder->Convert( &iStatus, *iBitmap );
+    SetActive();
+    }
 // end of file

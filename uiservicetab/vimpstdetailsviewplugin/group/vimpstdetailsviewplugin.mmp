@@ -111,6 +111,7 @@ LIBRARY         presencecacheutils.lib
 LIBRARY         vimpstutils.lib
 //help library
 LIBRARY			hlplch.lib
+LIBRARY         bitmaptransforms.lib 
 
 LIBRARY                 flogger.lib
 LIBRARY			edbms.lib
