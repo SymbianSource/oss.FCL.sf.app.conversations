@@ -92,9 +92,11 @@ void CVIMPSTEngineCVListener::RunL()
     // resubscribe before processing new value to prevent missing updates
     //TBuf <KMaxSerIdXspIdLen> serId_usrId;
     HBufC16* serId_usrId = HBufC16::NewLC(KMaxSerIdXspIdLen);
-    TPtr serId_usrIdPtr(serId_usrId->Des());
-    
-    iProperty.Get(KConvViewUID,KXspIdServiceIDKey,serId_usrIdPtr);
+    if ( serId_usrId )
+        {
+        TPtr serId_usrIdPtr(serId_usrId->Des());
+        iProperty.Get(KConvViewUID,KXspIdServiceIDKey,serId_usrIdPtr);
+        }
     // parse the service id and userid form the buf and get the 
     // contactlink and first name and publish it.
     TInt posOfDelimiter  = serId_usrId->Find(KDelimiter);
@@ -170,7 +172,11 @@ void CVIMPSTEngineCVListener::RunL()
             }
         CleanupStack::PopAndDestroy( &supportedServices );
         }
-    CleanupStack::PopAndDestroy( serId_usrId );
+        
+    if(serId_usrId)
+    		{
+    		CleanupStack::PopAndDestroy( serId_usrId );
+    		}  
     iProperty.Subscribe( iStatus );
     SetActive();
     TRACE( T_LIT("CVIMPSTEngineCVListener::RunL() end"));

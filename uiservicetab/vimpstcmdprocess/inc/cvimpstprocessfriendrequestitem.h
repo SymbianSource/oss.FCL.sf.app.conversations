@@ -21,7 +21,7 @@
 #define CVIMPSTPROCESSFRIENDREQUESTITEM_H_
 
 #include <e32base.h>
-#include "TVIMPSTEnums.h"
+#include "tvimpstenums.h"
 #include "cvimpstprocessarrayitem.h"
 
 //  CLASS DECLARATION

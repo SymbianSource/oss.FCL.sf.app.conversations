@@ -23,7 +23,7 @@
 #define CVIMPSTPROCESSARRAYITEM_H
 #include <e32base.h>
 
-#include "TVIMPSTEnums.h"
+#include "tvimpstenums.h"
 #include "cvimpstprocessarray.h"
 //  FORWARD DECLARATION
 class MVPbkContactLink;

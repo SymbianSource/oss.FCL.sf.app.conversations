@@ -22,13 +22,13 @@
 #include <bautils.h>
 #include <f32file.h>
 #include <e32base.h>
-#include <BARSREAD.H>
+#include <barsread.h>
 #include <coemain.h>
 #include <eikenv.h>
 #include <apgcli.h>
 #include <avkon.hrh>
 
-#include <xspviewservices.h>
+#include <xSPViewServices.h>
 // imlauncher
 #include <imcvlauncher.h>
 

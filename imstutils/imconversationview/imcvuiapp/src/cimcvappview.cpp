@@ -71,13 +71,13 @@
 #include <e32property.h>
 
 // AIW Include Files 
-#include <aiwgenericparam.h>            
-#include <aiwcontactassigndatatypes.h>
+#include <AiwGenericParam.h>            
+#include <AiwContactAssignDataTypes.h>
 #include <aiwdialdataext.h>
-#include <aiwcommon.hrh>
-#include <aiwservicehandler.h>
+#include <AiwCommon.hrh>
+#include <AiwServiceHandler.h>
 #include <aiwdialdata.h>
-#include <CommonPhoneParser.h>
+#include <commonphoneparser.h>
 
 
 // Dll Uid of vimpstui, to maintain uniqueness of help uid
@@ -585,21 +585,17 @@ void CIMCVAppView::HandleForegroundEventL( TBool aForeground )
 	else
 		{
 		TPtrC activeRecipientId = iEngineFactory->GetActiveItemL ();
-		iActiveEngine->MessageHandler().StartNewConversationL (activeRecipientId);
-		SetStatusPaneIconsL();
-		if (iStatusPane)
+		if(activeRecipientId.Length())
 		    {
-		    iStatusPane->BringToForegroundL();
-		    }		
-		iViewDeactivated = EFalse;	
+            iActiveEngine->MessageHandler().StartNewConversationL (activeRecipientId);
+            SetStatusPaneIconsL();
+            if (iStatusPane)
+                {
+                iStatusPane->BringToForegroundL();
+                }       
+            iViewDeactivated = EFalse;
+		    }
 		}			    	
-
-    if( iContainer )
-        {
-        //don't read messages if we're not in foreground
-     //   iContainer->FetchMessages( aForeground );
-        }
-        
     IM_CV_LOGS(TXT("CIMCVAppView::HandleForegroundEventL() end") );
     }
 
@@ -1422,8 +1418,24 @@ void CIMCVAppView::HandleConnectionEventL( TInt aServiceId, TIMCVConnectionState
                 if (KErrNone != aReason)
                     IMCVUiAppNoteMapper::ShowNoteL( aReason , KNullDesC );
                 }
-			// This will be deleted by Engine factory later.
-			//iActiveEngine = NULL;
+            // if application is in the background, then on logout
+            // clean up the container, and if the cca was open then close.
+            // only for the logged out service.
+            if( aServiceId == iServiceId )
+                {
+                if(iConnection)
+                       {
+                       iConnection->Close();
+                       iConnection = NULL;
+                       }
+                if(iViewDeactivated)
+                       {
+                       ViewRefreshL();
+                       // set this to KNullDesC since conversation is getting closed.
+                       iRecipientUserId->Des().Copy( KNullDesC());
+                       }
+                }
+           
 			break;
             }
         }

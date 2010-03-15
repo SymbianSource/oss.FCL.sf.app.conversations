@@ -18,7 +18,7 @@
 #include "cvimpstprocessfriendrequestitem.h"
 #include "vimpstutils.h"
 #include <vimpstuires.rsg>
-#include <stringloader.h>
+#include <StringLoader.h>
 #include "tvimpstconsts.h"
 
 

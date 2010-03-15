@@ -25,11 +25,11 @@
 #include "imcvappsmileutility.hrh"
 #include <AknDef.h>
 #include <aknappui.h>
-#include <aknutils.h>
+#include <AknUtils.h>
 #include <aknconsts.h>
 #include <aknborders.h>
 #include <AknsDrawUtils.h>
-#include <AknLayoutScalable_Avkon.cdl.h>
+#include <aknlayoutscalable_avkon.cdl.h>
 #include <aknlists.h> 
 #include <AknUtils.h> 
 #include "imcvlogger.h"

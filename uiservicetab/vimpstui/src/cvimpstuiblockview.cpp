@@ -36,7 +36,7 @@
 #include <MPbk2ViewExplorer.h>
 #include <MPbk2StartupMonitor.h>
 #include <eikmenup.h>
-#include <aiwcommon.hrh>
+#include <AiwCommon.hrh>
 //resource
 #include <vimpstuires.rsg>
 #include <ExtensionManagerRes.rsg>

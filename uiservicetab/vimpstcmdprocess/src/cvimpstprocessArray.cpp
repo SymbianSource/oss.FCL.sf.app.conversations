@@ -22,10 +22,10 @@
 
 #include "cvimpstprocessarray.h"
 
-#include "mvimpstprocessarrayobserver.h"
+#include "mvimpstprocessArrayobserver.h"
 #include "cvimpststoragemanagerfactory.h"
 #include "mvimpststorageserviceview.h"
-#include "TVIMPSTEnums.h"
+#include "tvimpstenums.h"
 #include "cvimpstprocessarrayitem.h"
 #include "mvimpststorageitemmodel.h"
 #include "tvimpstconsts.h"
@@ -34,18 +34,18 @@
 #include "mvimpstengine.h"
 #include "cvimpstprocessfriendrequestitem.h"
 #include "mvimpstenginesubservice.h"
-#include <mvpbkfieldtype.h>
-#include <mvpbkcontactfielduridata.h>
+#include <MVPbkFieldType.h>
+#include <MVPbkContactFieldUriData.h>
 #include <MVPbkContactFieldTextData.h>
 //rsg file for resource id
 #include <vimpstuires.rsg>
 #include "vimpstutils.h"
-#include <mvpbkcontactlink.h>
-#include <vpbkeng.rsg>
+#include <MVPbkContactLink.h>
+#include <VPbkEng.rsg>
 #include "mvimpstengineimsubservice.h"
 #include "mvimpstenginepresencesubservice.h"
 #include "vimpstdebugtrace.h"
-#include <APGTASK.H> 
+#include <apgtask.h> 
 #include "imcvuiparams.h"
 
 // --------------------------------------------------------------------------
@@ -136,14 +136,14 @@ void CVIMPSTProcessArray::ConstructL()
     if(iContactInterface)
         {        
         iContactInterface->AddObserverL( this );// listen these events..        
+        HBufC* unnamed = VIMPSTUtils::LoadResourceL( R_SERVTAB_UNNAMED );
+        if( unnamed )
+            {
+            CleanupStack::PushL( unnamed );
+            iContactInterface->SetUnnamedTextL(unnamed); // takes ownership
+            CleanupStack::Pop( unnamed );	
+            }
         }
-    HBufC* unnamed = VIMPSTUtils::LoadResourceL( R_SERVTAB_UNNAMED );
-    if( unnamed )
-	    {
-	    CleanupStack::PushL( unnamed );
-	    iContactInterface->SetUnnamedTextL(unnamed); // takes ownership
-	    CleanupStack::Pop( unnamed );	
-	    }
     iContactListModel = CVIMPSTStorageManagerFactory::ItemModelInterfaceL(iServiceId);
     iLoginState = iEngine.ServiceState();
     
@@ -494,57 +494,61 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
             TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
             if( aContactIndex < iItemArray.Count() )
                 {
-                CVIMPSTProcessContactItem* newItem = CVIMPSTProcessContactItem::NewL(*this, const_cast<TDesC&>(aContact->Name() ),
-                        const_cast<TDesC&>(aContact->UserId() ),
-                        aContact->ContactLink(),
-                        const_cast<TDesC&>(aContact->StatusText()),
-                        aContact->OnlineStatus() );
-                
-                
-                MVIMPSTProcessArrayItem* oldItem = iItemArray[ aContactIndex ];
-                newItem->SetAvatarIndex(aContact->AvatarIndex()); // copy the avatar index too.
-                TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
-                // set the conversation open flag from old contact, as only the display name would have changed.
-                newItem->SetConversationOpen(oldItem->IsConversationOpen());
-                newItem->SetMsgPending( oldItem->IsMsgPending() );
-                iItemArray.Remove(aContactIndex );
-                delete oldItem;
-                iItemArray.Compress();
-                TRACE( T_LIT("Insert at index = %d"), aContactIndex);
-                TInt newIndex = iContactListModel->IndexOfContact( aContact );
-                 // Add it in the new index
-                newIndex = newIndex + 1 + iUnKnownContactArray.Count() + iAddRequestArray.Count();
-                if (newIndex >= iItemArray.Count())
-                    {
-                    TRACE( T_LIT("append contact item = %d"), newIndex);
-                    iItemArray.Append (newItem);
-                    }
-                else
-                    {
-                    TRACE( T_LIT("Insert at index = %d"), newItem);
-                    iItemArray.Insert(newItem, newIndex);
-                    } 
-                // inform the cv about the display name changes
-                if(aContact && aContact->UserId().Length() && newItem->IsConversationOpen())
-                    {
-                    TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange "));
-                    TApaTaskList taskList( CCoeEnv::Static()->WsSession() );
-                    TApaTask task( taskList.FindApp( KConversationViewAppUid ) );
-
-                    if ( task.Exists() )
+                if ( aContact )
+                     {
+                    CVIMPSTProcessContactItem* newItem = CVIMPSTProcessContactItem::NewL(*this, const_cast<TDesC&>(aContact->Name() ),
+                            const_cast<TDesC&>(aContact->UserId() ),
+                            aContact->ContactLink(),
+                            const_cast<TDesC&>(aContact->StatusText()),
+                            aContact->OnlineStatus() );
+                    
+                    
+                    MVIMPSTProcessArrayItem* oldItem = iItemArray[ aContactIndex ];
+                    newItem->SetAvatarIndex(aContact->AvatarIndex()); // copy the avatar index too.
+                    TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
+                    // set the conversation open flag from old contact, as only the display name would have changed.
+                    newItem->SetConversationOpen(oldItem->IsConversationOpen());
+                    newItem->SetMsgPending( oldItem->IsMsgPending() );
+                    iItemArray.Remove(aContactIndex );
+                    delete oldItem;
+                    iItemArray.Compress();
+                    TRACE( T_LIT("Insert at index = %d"), aContactIndex);
+                    TInt newIndex = iContactListModel->IndexOfContact( aContact );
+                     // Add it in the new index
+                    newIndex = newIndex + 1 + iUnKnownContactArray.Count() + iAddRequestArray.Count();
+                    if (newIndex >= iItemArray.Count())
                         {
-                        TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange:task exists"));
-                        // packing of data ,passed to conversation view
-                        TPckgBuf< TIMCVUiParams > params;
-                        params().iBuddyId = aContact->UserId();
-                        params().iBuddyName = aContact->Name();
-                        params().iServiceId = iServiceId;
-                        params().iUpdate = ETrue;
-                        task.SendMessage( 
-                                TUid::Uid( KUidApaMessageSwitchOpenFileValue ), params );
+                        TRACE( T_LIT("append contact item = %d"), newIndex);
+                        iItemArray.Append (newItem);
                         }
-                    }
-                }
+                    else
+                        {
+                        TRACE( T_LIT("Insert at index = %d"), newItem);
+                        iItemArray.Insert(newItem, newIndex);
+                        } 
+                    // inform the cv about the display name changes
+                    if(aContact && aContact->UserId().Length() && newItem->IsConversationOpen())
+                        {
+                        TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange "));
+                        TApaTaskList taskList( CCoeEnv::Static()->WsSession() );
+                        TApaTask task( taskList.FindApp( KConversationViewAppUid ) );
+                    
+                        if ( task.Exists() )
+                            {
+                            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange:task exists"));
+                            // packing of data ,passed to conversation view
+                            TPckgBuf< TIMCVUiParams > params;
+                            params().iBuddyId = aContact->UserId();
+                            params().iBuddyName = aContact->Name();
+                            params().iServiceId = iServiceId;
+                            params().iUpdate = ETrue;
+                            task.SendMessage( 
+                                    TUid::Uid( KUidApaMessageSwitchOpenFileValue ), params );
+                            }
+                        }
+                    } 
+                
+              }
             if(iProcessObservers )
                 {
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, aContactIndex );

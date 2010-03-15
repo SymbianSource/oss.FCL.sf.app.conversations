@@ -34,9 +34,9 @@ NAME IMCV
 #include <aknsconstants.hrh>
 #include "imcvappsmileutility.hrh"
 #include "imcvappsmileutility.rh"
-#include <aiwcommon.rh>
-#include <aiwcommon.hrh>
-#include <aiwgenericparam.hrh>
+#include <AiwCommon.rh>
+#include <AiwCommon.hrh>
+#include <AiwGenericParam.hrh>
 
 
 // ---------------------------------------------------------

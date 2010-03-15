@@ -136,6 +136,14 @@ class vimpstprocessarrayitem_stub: public MVIMPSTProcessArrayItem
         {
         
         }
+        
+   /**
+     * return formatted string needed for listbox for this item
+     */
+    void  DoFormatStringL()
+        {
+        
+        }
     
     private:
     

@@ -21,8 +21,8 @@
 #define CSERVICEWIDGETCONTENTPUBLISHER_H
 
 #include <liwservicehandler.h>
-#include <LiwVariant.h>
-#include <LiwGenericParam.h>
+#include <liwvariant.h>
+#include <liwgenericparam.h>
 #include "servicewidgetcpglobals.h"
 #include "mservicewidgetobservers.h"
 

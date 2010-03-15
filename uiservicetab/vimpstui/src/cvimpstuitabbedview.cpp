@@ -102,7 +102,7 @@
 #include <MVPbkStoreContact.h>
 
 //browser launch
-#include <BrowserLauncher.h>
+#include <browserlauncher.h>
 #include "cvimpstuitermsofusedialoghandler.h"
 #include <cvimpstsettingsstore.h>
 #include <aknmessagequerydialog.h>

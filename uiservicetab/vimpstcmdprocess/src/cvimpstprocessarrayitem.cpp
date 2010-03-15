@@ -21,7 +21,7 @@
 #include "tvimpstconsts.h"
 #include "vimpstutils.h"
 #include <vimpstuires.rsg>
-#include <stringloader.h>
+#include <StringLoader.h>
 
 
 const TInt KAvtarLength = 3;

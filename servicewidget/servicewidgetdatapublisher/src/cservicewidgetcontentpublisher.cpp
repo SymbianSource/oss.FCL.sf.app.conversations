@@ -18,17 +18,17 @@
 
 #include "cservicewidgetcontentpublisher.h"
 
-#include <LiwServiceHandler.h>
-#include <LiwVariant.h>
-#include <LiwGenericParam.h>
+#include <liwservicehandler.h>
+#include <liwvariant.h>
+#include <liwgenericparam.h>
 #include <avkon.hrh>
 #include <aknnotewrappers.h> 
 #include "swpdebugtrace.h"
 
-#include <LiwCommon.h>
+#include <liwcommon.h>
 #include "servicewidgetcpglobals.h"
 #include <servicewidgetpluginres.rsg>
-#include <stringloader.h>
+#include <StringLoader.h>
 
 // ---------------------------------------------------------------------------
 // CServiceWidgetContentPublisher::CServiceWidgetContentPublisher

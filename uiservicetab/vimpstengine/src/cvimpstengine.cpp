@@ -725,7 +725,23 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 		//the context gets binded
 		//Get Presence SubService   
 		CVIMPSTEnginePresenceSubService* presSubService = 
-									dynamic_cast<CVIMPSTEnginePresenceSubService*>(SubService(TVIMPSTEnums::EPresence));               
+									dynamic_cast<CVIMPSTEnginePresenceSubService*>(SubService(TVIMPSTEnums::EPresence));     
+		// in case of roaming(moving from one network to another)
+		// servicetab goes from registered to connecting state, hence the unbind is done here.
+    if (  presSubService && TVIMPSTEnums::ESVCERegistered == previousState &&
+          TVIMPSTEnums::ESVCENetworkConnecting == iState )
+          {
+          TRACE( T_LIT( "HandleServceConnectionEventL()-UnsubscribeLists" ) );
+          
+          TRAPD( err, presSubService->UnsubscribeListsL() );
+	  
+          TRACE( T_LIT( "HandleServceConnectionEventL()-UnsubscribeLists -err: %d" ), err );
+	  
+          if ( iSessionCntxtObserver )
+              {
+              iSessionCntxtObserver->ServerUnBindL( ETrue );
+              }
+          }          
 		TInt count = iObserverArray.Count();
 		for (TInt index=0; index<count; index++)		
 			{

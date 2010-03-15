@@ -17,7 +17,7 @@
 #include "imstatuspaneindicatorpluginimplementation.h"
 #include "imstatuspaneindicatorpluginuids.h"
 
-#include <ImplementationProxy.h>
+#include <implementationproxy.h>
 
 // Define the interface UIDs
 const TImplementationProxy ImplementationTable[] =
