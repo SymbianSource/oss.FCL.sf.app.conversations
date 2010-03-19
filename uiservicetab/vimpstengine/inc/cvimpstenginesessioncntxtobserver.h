@@ -68,7 +68,7 @@ NONSHARABLE_CLASS( CVIMPSTEngineSessionCntxtObserver ) : public CBase,
 		 * @return CVIMPSTEngineSessionCntxtObserver new instance of this class
 	 	 */
 		static CVIMPSTEngineSessionCntxtObserver* 
-							CVIMPSTEngineSessionCntxtObserver::NewL(TUint32 aServiceId);
+							NewL(TUint32 aServiceId);
         /**
 	     * Two-phased constructor.
 	     * @param aSettingsId: settings id.
@@ -76,7 +76,7 @@ NONSHARABLE_CLASS( CVIMPSTEngineSessionCntxtObserver ) : public CBase,
 		 * @return CVIMPSTEngineSessionCntxtObserver new instance of this class
 	 	 */							
 	    static CVIMPSTEngineSessionCntxtObserver* 
-	    					CVIMPSTEngineSessionCntxtObserver::NewLC(TUint32 aServiceId);
+	    				NewLC(TUint32 aServiceId);
 	    
 	    
 	   /**

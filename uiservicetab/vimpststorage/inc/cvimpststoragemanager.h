@@ -91,7 +91,7 @@ class CVIMPSTStorageManager : public CBase
         static CVIMPSTStorageManager* NewL();
         
         // ConstructL
-        void CVIMPSTStorageManager::ConstructL();
+        void ConstructL();
   
        
     private:
