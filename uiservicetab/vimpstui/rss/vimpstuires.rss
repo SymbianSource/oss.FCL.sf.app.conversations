@@ -141,6 +141,7 @@ RESOURCE MENU_PANE r_servtab_tabbed_view_menu
            {
            command = ECmdContactAddAsFriend;
            txt = qtn_servtab_add_as_friend;
+           flags = EEikMenuItemSpecific;
            },        
 
         MENU_ITEM
@@ -1100,7 +1101,7 @@ RESOURCE CBA r_servtab_softkeys_option_login__exit
     buttons = 
         {
         CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
-        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=text_softkey_exit; }, // right
         CBA_BUTTON {id=ECmdLogin; txt= qtn_msk_login;} // MSK
         };
     }
@@ -1111,7 +1112,7 @@ RESOURCE CBA r_servtab_softkeys_option_changeconn__exit
     buttons = 
         {
         CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
-        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=text_softkey_exit; }, // right
         CBA_BUTTON {id=ECmdChangeConnectioninWaitingState; txt= qtn_msk_change_conn;} // MSK
         };
     }
@@ -1122,8 +1123,8 @@ RESOURCE CBA r_servtab_softkeys_option_cancel__exit
     buttons = 
         {
         CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
-        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
-        CBA_BUTTON {id=ECmdCancelLogin; txt= qtn_msk_cancel;} // MSK
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=text_softkey_exit; }, // right
+        CBA_BUTTON {id=ECmdCancelLogin; txt= text_softkey_cancel;} // MSK
         };
     }
     
@@ -1165,7 +1166,7 @@ RESOURCE CBA r_servtab_softkeys_option_openconv__exit
     buttons = 
         {
         CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
-        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=text_softkey_exit; }, // right
         CBA_BUTTON {id=ECmdOpenConversation; txt= qtn_msk_chat;} // MSK
         };
     } 
@@ -1176,8 +1177,8 @@ RESOURCE CBA r_servtab_softkeys_option_openfrndreq__exit
     buttons = 
         {
         CBA_BUTTON {id= EAknSoftkeyOptions; txt=text_softkey_option;}, // left softkey
-        CBA_BUTTON {id=EAknSoftkeyExit; txt=qtn_options_exit; }, // right
-        CBA_BUTTON {id=ECmdOpenFriendRequest; txt= qtn_msk_open;} // MSK
+        CBA_BUTTON {id=EAknSoftkeyExit; txt=text_softkey_exit; }, // right
+        CBA_BUTTON {id=ECmdOpenFriendRequest; txt= text_softkey_open;} // MSK
         };
     }
 //----------------------------------------------------------
@@ -1192,8 +1193,8 @@ RESOURCE CBA r_servtab_softkeys_options_details__exit
     buttons = 
         {
         CBA_BUTTON { id= EAknSoftkeyOptions; txt=text_softkey_option; },
-        CBA_BUTTON { id= EAknSoftkeyExit; txt=qtn_options_exit; },
-        CBA_BUTTON { id = ECmdContactDetails; txt = qtn_msk_open; }
+        CBA_BUTTON { id= EAknSoftkeyExit; txt=text_softkey_exit; },
+        CBA_BUTTON { id = ECmdContactDetails; txt = text_softkey_open; }
         };
     }
 //----------------------------------------------------------

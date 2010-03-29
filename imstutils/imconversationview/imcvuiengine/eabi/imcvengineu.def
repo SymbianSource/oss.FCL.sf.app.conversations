@@ -40,4 +40,5 @@ EXPORTS
 	_ZTV26CIMCVEngineContextObserver @ 39 NONAME
 	_ZTV26CIMCVEngineStorageListener @ 40 NONAME
 	_ZTV27CIMCVEngineMessageContainer @ 41 NONAME
+	_ZN11CIMCVEngine14IsVoipServiceLEv @ 42 NONAME
 

@@ -25,6 +25,7 @@
 class CVIMPSTDetailsHeaderControl;
 class CImageDecoder;
 class CFbsBitmap;
+class CBitmapScaler;
 
 /**
  * Utility class for asynchronously decoding the header thumbnail image
@@ -56,7 +57,7 @@ public:
      * @since S60 v5.0 
      *
      */
-    void Start();
+    void StartL(TSize aBitmapSize);
     
     /**
      * From CActive
@@ -85,7 +86,23 @@ private:
      * @param aBitmapData Descriptor containing the bitmap data stream
      */
     void ConstructL(const TDesC8& aBitmapData);
-  
+    /**
+     * Scales bitmap
+     *
+     */
+    void ScaleBitmapL();
+
+    enum TCcaImageDecoderState
+        {
+        ECcaConvertThumbnailImage = 1,
+        ECcaScaleThumbnail,       
+        };
+    
+    /**
+     * Create bitmap
+     *
+     */
+    void CreateBitmapL();
  private : // data  
     
   
@@ -115,6 +132,19 @@ private:
      * Owns : Copy of the bitmap data stream
      */
     HBufC8* iBitmapData;
+    
+    /**
+     * The image scaler whose service is called to scale the image
+     * Own.
+     */
+    CBitmapScaler* iBitmapScaler;
+
+    TSize iBitmapSize;
+
+    /** 
+     * Decoder internal state
+     */ 
+    TInt iDecoderState;
     };
 
 #endif /*CVIMPSTDETAILSIMAGEDECODER_H_*/
