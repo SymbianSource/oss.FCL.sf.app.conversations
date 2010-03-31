@@ -584,17 +584,13 @@ void CIMCVAppView::HandleForegroundEventL( TBool aForeground )
 		}
 	else
 		{
-		TPtrC activeRecipientId = iEngineFactory->GetActiveItemL ();
-		if(activeRecipientId.Length())
-		    {
-            iActiveEngine->MessageHandler().StartNewConversationL (activeRecipientId);
+            iActiveEngine->MessageHandler().StartNewConversationL (*iRecipientUserId);
             SetStatusPaneIconsL();
             if (iStatusPane)
                 {
                 iStatusPane->BringToForegroundL();
                 }       
             iViewDeactivated = EFalse;
-		    }
 		}			    	
     IM_CV_LOGS(TXT("CIMCVAppView::HandleForegroundEventL() end") );
     }
