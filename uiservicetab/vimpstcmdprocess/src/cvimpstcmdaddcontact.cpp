@@ -21,7 +21,7 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -40,6 +40,8 @@
 #include "mvimpstenginesubservice.h"
 #include "mvimpstenginepresencesubservice.h"
 
+#include "uiservicetabtracer.h"
+
 // Constants
 _LIT( KListNameAllBuddy ,"buddylist" );
 
@@ -54,6 +56,7 @@ CVIMPSTCmdAddContact::CVIMPSTCmdAddContact(
             iContactId( aContactId ),
             iEngine(aEngine)
     {
+    TRACER_AUTO;
     }
 
 // --------------------------------------------------------------------------
@@ -62,7 +65,7 @@ CVIMPSTCmdAddContact::CVIMPSTCmdAddContact(
 //
 CVIMPSTCmdAddContact::~CVIMPSTCmdAddContact()
     {    
-    
+    TRACER_AUTO;
     }
 
 // --------------------------------------------------------------------------
@@ -73,6 +76,7 @@ CVIMPSTCmdAddContact* CVIMPSTCmdAddContact::NewL(
         const TInt aCommandId,const TDesC& aContactId,
         MVIMPSTEngine& aEngine)
     {
+    TRACER_AUTO;
     CVIMPSTCmdAddContact* self = new (ELeave ) CVIMPSTCmdAddContact( aCommandId ,aContactId, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -82,7 +86,8 @@ CVIMPSTCmdAddContact* CVIMPSTCmdAddContact::NewL(
 // --------------------------------------------------------------------------
 //
 void CVIMPSTCmdAddContact::ConstructL()
-    {    
+    {
+    TRACER_AUTO;
     iError = KErrNone;
     }
 
@@ -92,7 +97,8 @@ void CVIMPSTCmdAddContact::ConstructL()
 //
 void CVIMPSTCmdAddContact::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iEngine.ServiceId()) ;
@@ -135,15 +141,15 @@ void CVIMPSTCmdAddContact::ExecuteLD()
 	        }
         }//End  if(storage)
    			
-    CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd:: CommandFinished");
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTEnableServiceCmd::ExecuteLD");	
+	
     }
 
 // --------------------------------------------------------------------------
@@ -151,6 +157,8 @@ void CVIMPSTCmdAddContact::ExecuteLD()
 // --------------------------------------------------------------------------
 TBool CVIMPSTCmdAddContact::IsContactBlocked(const TDesC& aUserId)
 	{
+	TRACER_AUTO;
+	TRACE("userId: %S", &aUserId);
    	MVIMPSTEngineSubService* subService =    	   
    	   					(iEngine.SubService(TVIMPSTEnums::EPresence));
     if(subService)

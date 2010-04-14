@@ -78,6 +78,7 @@
 #include <avkon.hrh>
 #include <eikspane.h>
 #include <StringLoader.h>
+#include "uiservicetabtracer.h"
 
 // help launch
 #include <hlplch.h>
@@ -118,6 +119,7 @@ CVIMPSTUiSearchView::CVIMPSTUiSearchView(
 //
 void CVIMPSTUiSearchView::ConstructL()
     {
+	TRACER_AUTO;
     ViewBaseConstructL( KIMCONTACTSEXTNIMPLEMENTATIONUID, iSearchViewId ); 
     
     //Get SearchMgr
@@ -201,7 +203,7 @@ CVIMPSTUiSearchView::~CVIMPSTUiSearchView()
 //
 void CVIMPSTUiSearchView::HandleCommandL( TInt aCommand )
     {
-	
+	TRACER_AUTO;
    	switch ( aCommand ) 
 		{
 		//Next two commands have same function
@@ -298,6 +300,7 @@ void CVIMPSTUiSearchView::HandleCommandL( TInt aCommand )
 void CVIMPSTUiSearchView::DynInitMenuPaneL( TInt aResourceId,
 									 CEikMenuPane* aMenuPane )
 	{
+	TRACER_AUTO;
     if( aResourceId == R_EXTENSION_MANAGER_MENU)
 	    {
 	    //add search view menu items 
@@ -362,6 +365,7 @@ void CVIMPSTUiSearchView::DoActivateViewL( const TVwsViewId& aPrevViewId,
         									TUid /*aCustomMessageId*/, 
         									const TDesC8&  /*aCustomMessage*/ )
     {
+	TRACER_AUTO;
     // the title pane is set to " Basic Search" 
     // which is same as Search Form s  title pane text 
  
@@ -422,6 +426,7 @@ void CVIMPSTUiSearchView::DoActivateViewL( const TVwsViewId& aPrevViewId,
 //
 void CVIMPSTUiSearchView::DoDeactivate()
 	{
+	TRACER_AUTO;
 	// set this flag to Efalse because  user cant initiate a search from search view
 	iSearchInitiated = EFalse;
  	if (iContainer)
@@ -471,7 +476,7 @@ void CVIMPSTUiSearchView::HandleStatusPaneSizeChange()
 void CVIMPSTUiSearchView::CommandFinishedL(
                 const MVIMPSTCmd& aCommand )
 {
-
+	TRACER_AUTO;
 	//handle the observer for commands issues through HandleCommandL()
 	
 	switch (aCommand.CommandId())
@@ -535,6 +540,7 @@ void CVIMPSTUiSearchView::HandleCommandEventL(TVIMPSTEnums::TVIMPSTRegistrationS
 //
 TBool CVIMPSTUiSearchView::HideAddToContactsL() const
 	{
+	TRACER_AUTO;
 	TBool hide(ETrue);
 	TInt curIndex = iContainer->ListBox()->CurrentItemIndex();
 	if( curIndex >=0)
@@ -556,6 +562,7 @@ TBool CVIMPSTUiSearchView::HideAddToContactsL() const
 //
 void CVIMPSTUiSearchView:: SearchContactsL()
 	{
+	TRACER_AUTO;
 	if( iContainer )
 		{
 		iContainer->UpdateCbaL( ETrue );	
@@ -645,6 +652,7 @@ void CVIMPSTUiSearchView:: SearchContactsL()
 //
 void CVIMPSTUiSearchView::UpdateNaviPaneTextL( )
 	{
+	TRACER_AUTO;
 	// Change the navigation pane from tabs to text label    
     CEikStatusPane* sp = CEikonEnv::Static()->AppUiFactory()->StatusPane();
     CAknNavigationControlContainer* np =
@@ -703,6 +711,7 @@ void CVIMPSTUiSearchView::HandleSearchKeysEventL( RArray<TInt>& /*aEnumKeysArray
 //
 void CVIMPSTUiSearchView::LaunchHelpL( const TDesC& aContext )
     {
+	TRACER_AUTO;
     CArrayFix< TCoeHelpContext >* cntx = new( ELeave ) CArrayFixFlat< TCoeHelpContext >( KHelpContextSize );
     CleanupStack::PushL( cntx );
 
@@ -720,6 +729,7 @@ void CVIMPSTUiSearchView::LaunchHelpL( const TDesC& aContext )
 //
 TInt CVIMPSTUiSearchView::SearchCallbackL(TAny* aInstance)
     {
+	TRACER_AUTO;
     static_cast<CVIMPSTUiSearchView*> (aInstance)->SearchContactsL();
     return 0; // ignored by CAsychCallBack
     }

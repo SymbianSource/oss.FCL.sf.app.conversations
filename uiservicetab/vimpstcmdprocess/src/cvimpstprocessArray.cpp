@@ -18,7 +18,8 @@
 
 // INCLUDE FILES
 #include <coemain.h>
-#include    "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include "cvimpstprocessarray.h"
 
@@ -44,7 +45,7 @@
 #include <VPbkEng.rsg>
 #include "mvimpstengineimsubservice.h"
 #include "mvimpstenginepresencesubservice.h"
-#include "vimpstdebugtrace.h"
+
 #include <apgtask.h> 
 #include "imcvuiparams.h"
 
@@ -66,7 +67,8 @@ iEngine(aEngine)
 //
 CVIMPSTProcessArray::~CVIMPSTProcessArray()
     {
-    TRACE( T_LIT("CVIMPSTProcessArray::~CVIMPSTProcessArray Start") );
+   
+    TRACER_AUTO;
     if(iContactInterface)
         {
         iContactInterface->RemoveObserver( this );	
@@ -105,7 +107,7 @@ CVIMPSTProcessArray::~CVIMPSTProcessArray()
         presence.UnRegisterPresenceEventObserver(this);
         } 
 
-    TRACE( T_LIT("CVIMPSTProcessArray::~CVIMPSTProcessArray End") );
+    
     }
 
 // --------------------------------------------------------------------------
@@ -115,12 +117,11 @@ CVIMPSTProcessArray::~CVIMPSTProcessArray()
 CVIMPSTProcessArray* CVIMPSTProcessArray::NewL(
         MVIMPSTEngine& aEngine)
     {
-    TRACE( T_LIT("CVIMPSTProcessArray::NewL Start") );
+    TRACER_AUTO;
     CVIMPSTProcessArray* self = new(ELeave) CVIMPSTProcessArray(aEngine);
     CleanupStack::PushL(self);
     self->ConstructL();
-    CleanupStack::Pop(self);
-    TRACE( T_LIT("CVIMPSTProcessArray::NewL End") );
+    CleanupStack::Pop(self);   
     return self;
     
     }
@@ -131,7 +132,8 @@ CVIMPSTProcessArray* CVIMPSTProcessArray::NewL(
 //
 void CVIMPSTProcessArray::ConstructL()
     {
-    TRACE( T_LIT("CVIMPSTProcessArray::ConstructL Start") );
+   
+    TRACER_AUTO;
     iContactInterface = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
     if(iContactInterface)
         {        
@@ -172,7 +174,7 @@ void CVIMPSTProcessArray::ConstructL()
         iPresenceSupported = ETrue;
         }
 	ResetArray();
-	TRACE( T_LIT("CVIMPSTProcessArray::ConstructL end") );
+	
     }
 // --------------------------------------------------------------------------
 // CVIMPSTProcessArray::HandleStorageChangeL
@@ -183,27 +185,27 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
 				        						MVIMPSTStorageContact* aContact,
 				        						TInt aContactIndex )
     {
-    TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL Function Start") );
+   
+    TRACER_AUTO;
     // 0th index OwnItem + unknow contacts + add request
     aContactIndex = aContactIndex + 1 + iUnKnownContactArray.Count() + iAddRequestArray.Count();
     
     switch( aEventType )
         {
         case TVIMPSTEnums::EStorageContactReadComplete:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactReadComplete Start") );
+            {           
+            TRACE("EStorageContactReadComplete");
             if(iProcessObservers)
                 {
                 /* passing 0 so that the focus is on owndata item */
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EOwnStatusItem, 0 ); // focus own item
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactReadComplete End") );
+                }           
             break;
             }
         case TVIMPSTEnums::EStorageContactFetchComplete:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactFetchComplete Start") );
-            TRACE( T_LIT("HandleStorageChangeL EStorageContactFetchComplete iItemArray Count: %d"), iItemArray.Count() );
+            {            
+            TRACE("EStorageContactFetchComplete");
+            TRACE( " iItemArray Count: %d", iItemArray.Count() );
 
             if(iProcessObservers)
                 {
@@ -214,20 +216,20 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
             ResetArray();
             iFetchCompleted = ETrue;
             GetAndCreateOpenChatListL();
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactFetchComplete End") );
+            TRACE( "EStorageContactFetchComplete End" );
             break; 	
             }
         case TVIMPSTEnums::EStorageContactReading:
         case TVIMPSTEnums::EStorageContactFetching:
         case TVIMPSTEnums::EStorageContactSynchronizing:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactFetching/EStorageContactFetching Start") );
+            TRACE( "EStorageContactFetching/EStorageContactFetching" );
             /*
              *	This event occurs whenever we have contacts added to contactlist. This happens in the following scenarios
              *	1. At the time of login, when we fetch contacts, contact-by-contact is added to the storage. so we get this event.
              * 	2. When we add a contact manually (either from phonebook, or manu adding etc.. ) we get this callback.
              */
-            TRACE( T_LIT("contactindex = %d"),aContactIndex );
+            TRACE( "contactindex = %d",aContactIndex );
             CVIMPSTProcessContactItem* contactItem = CVIMPSTProcessContactItem::NewL (*this, const_cast<TDesC&>(aContact->Name() ),
                     const_cast<TDesC&>(aContact->UserId() ),
                     aContact->ContactLink(),
@@ -241,15 +243,15 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
              * appending the items to the array for display, once we get the entire list, its sorted anyway while insertion, and when presence occurs
              * the contacts are re-sorted. 
              */
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if (aContactIndex >= iItemArray.Count() )
-                {
-                TRACE( T_LIT("append contact item %d"), contactItem);
+                {                
+                TRACE( "append contact item %d", contactItem);
                 iItemArray.Append(contactItem);
                 }
             else
-                {
-                TRACE( T_LIT("Insert at index = %d"), aContactIndex);
+                {              
+                TRACE( "Insert at index = %d", aContactIndex);
                 iItemArray.Insert(contactItem, aContactIndex );
                 }               
             if(iProcessObservers)
@@ -261,12 +263,12 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                 {
                 iProcessObservers->HandleAvatarChangeL( aContact->UserId() );
                 }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageContactFetching/EStorageContactFetching End") );
+           
             break;
             }
         case TVIMPSTEnums::EStorageEventContactAddition:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactAddition Start") );
+            {            
+            TRACE("EStorageEventContactAddition");
 
             TBool removed = RemoveFromUnknonOrInvitationListL( aContact->UserId(), EFalse );
             if( removed )
@@ -279,7 +281,7 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
              * 	2. When we add a contact manually (either from phonebook, or manu adding etc.. ) we get this callback.
                  */
             TPtrC userId = aContact->UserId();
-                TRACE( T_LIT("contactindex = %d"),aContactIndex );
+                TRACE( "contactindex = %d",aContactIndex );
                 CVIMPSTProcessContactItem* contactItem = CVIMPSTProcessContactItem::NewL ( *this, aContact->Name() ,
                                                                                             userId,
                                                                                             aContact->ContactLink(),
@@ -292,15 +294,15 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
              * appending the items to the array for display, once we get the entire list, its sorted anyway while insertion, and when presence occurs
              * the contacts are re-sorted. 
              */
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if (aContactIndex >= iItemArray.Count() )
-                {
-                TRACE( T_LIT("append contact item = %d"), contactItem);
+                {                
+                TRACE( "append contact item = %d", contactItem);
                 iItemArray.Append(contactItem);
                 }                
             else
-                {
-                TRACE( T_LIT("Insert at index = %d"), aContactIndex);
+                {                
+                TRACE( "Insert at index = %d", aContactIndex);
                 iItemArray.Insert(contactItem, aContactIndex );
                 }                
              // check if  pending message exist
@@ -321,79 +323,75 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                 /* passing aContactIndex so that the focus is on owndata item */
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, aContactIndex );
                 }   
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactAddition End") );
+           
             break;
             }
         case TVIMPSTEnums::EStorageEventContactDelete:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactDelete Start") );
-            TRACE( T_LIT("contactindex = %d"),aContactIndex );
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE( " EStorageEventContactDelete" );
+            TRACE( "contactindex = %d",aContactIndex );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if( aContactIndex < iItemArray.Count() )
                 {
-                MVIMPSTProcessArrayItem* deletedItem = iItemArray[ aContactIndex ]; 
-                TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
+                MVIMPSTProcessArrayItem* deletedItem = iItemArray[ aContactIndex ];               
+                TRACE( "contact removed in item array of index = %d",aContactIndex );
                 iItemArray.Remove (aContactIndex);
                 delete deletedItem;
                 iItemArray.Compress();
-                TRACE( T_LIT("contactindex = %d"),aContactIndex );
+                TRACE( "contactindex = %d",aContactIndex );
                 }
             if(iProcessObservers)
                 {
                 iProcessObservers->HandleDeletionL(TVIMPSTEnums::EContactItem, aContactIndex);
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactDelete End") );
+                }            
             break;
             }
         case TVIMPSTEnums::EStorageAvatarChange:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange Start") );
+            {           
+            TRACE("EStorageAvatarChange");
             if(iProcessObservers  && aContact )
-                {
-                TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange inside if") );
-                TPtrC aUserId = aContact->UserId();
-                TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange aUserId = %S"), &aUserId );
+                {               
+                TRACE( "EStorageAvatarChange inside if" );
+                TPtrC aUserId = aContact->UserId();                
+                TRACE( "EStorageAvatarChange aUserId = %S", &aUserId );
                 iProcessObservers->HandleAvatarChangeL( aContact->UserId() );
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange End") );
+                }           
             break;            
             }
         case TVIMPSTEnums::EStorageOwnPresenceChange:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange Start") );
+            TRACE( "EStorageOwnPresenceChange" );
             if(iProcessObservers)
                 {
                 /* passing index as 0, so thta focus remains at the owndata item */
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EOwnStatusItem, KErrNotFound );
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange End") );
+                }           
             break;
             }
         case TVIMPSTEnums::EStorageMultiplePresenceChange:
-	        {
-	        TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange Start") );
+	        {	        
+	        TRACE("EStorageMultiplePresenceChange " );
 	        // mostly this will get called after just login and fetch time
 	        ResetArray();
             if(iProcessObservers )
                 {
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, KErrNotFound );
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAvatarChange End") );
+                }            
 	        break;	
 	        }
         case TVIMPSTEnums::EStoragePresenceChange:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStoragePresenceChange Start") );
+            {           
+            TRACE( " EStoragePresenceChange" );
             /* 
              *	After Sort we get the new index... So first we need to remove the contact from the old position, 
              *	and then re-insert it at the correct obtained position (newIndex in this case)
              */
-            TRACE( T_LIT("contactindex = %d"),aContactIndex );
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE("contactindex = %d",aContactIndex );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if( aContactIndex < iItemArray.Count() )
                 {                
-                TInt newIndex = iContactListModel->IndexOfContact( aContact );
-                TRACE( T_LIT("new index = %d"),newIndex );
+                TInt newIndex = iContactListModel->IndexOfContact( aContact );               
+                TRACE( "new index = %d",newIndex );
                 CVIMPSTProcessContactItem* newItem = CVIMPSTProcessContactItem::NewL(*this, const_cast<TDesC&>(aContact->Name() ),
                         const_cast<TDesC&>(aContact->UserId() ),
                         aContact->ContactLink(),
@@ -419,7 +417,7 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                         isOldMsgPending = ETrue;
                         }
                    }
-                TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
+                TRACE( "contact removed in item array of index = %d",aContactIndex );
                 iItemArray.Remove(aContactIndex );
                 delete oldItem;
                 iItemArray.Compress();
@@ -439,13 +437,13 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                 // Add it in the new index
                 newIndex = newIndex + 1 + iUnKnownContactArray.Count()+ iAddRequestArray.Count();
                 if (newIndex >= iItemArray.Count())
-                    {
-                    TRACE( T_LIT("append contact item = %d"), newIndex);
+                    {                   
+                    TRACE( "append contact item = %d", newIndex);
                     iItemArray.Append (newItem);
                     }
                 else
-                    {
-                    TRACE( T_LIT("Insert at index = %d"), newItem);
+                    {                    
+                    TRACE( "Insert at index = %d", newItem);
                     iItemArray.Insert (newItem, newIndex);
                     }   
                 }
@@ -453,13 +451,13 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                 {
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, KErrNotFound );
                 }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStoragePresenceChange End") );
+            
             break;
             }
         case TVIMPSTEnums::EStorageEventOwnUserChanged:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventOwnUserChanged Start") );
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL start Event = %d"),aEventType );
+            TRACE( "EStorageEventOwnUserChanged " );
+            TRACE( " start Event = %d",aEventType );
             ResetArray();
             if(iProcessObservers )
                 {
@@ -470,28 +468,28 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                     iProcessObservers->HandleAvatarChangeL( aContact->UserId() );
                     }
                 }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventOwnUserChanged End") );
+            
 
             break;
             }
         case TVIMPSTEnums::EStorageAllContactRemoved:
-            {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAllContactRemoved Start") );
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAllContactRemoved count = %d"), iItemArray.Count() );
+            {           
+            TRACE("EStorageAllContactRemoved");
+            TRACE( "EStorageAllContactRemoved count = %d", iItemArray.Count() );
             ResetArray();
             if(iProcessObservers )
                 {
                 iProcessObservers->HandleDeletionL(TVIMPSTEnums::EOwnStatusItem, 0 ); // focus own item
                 }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageAllContactRemoved End") );
+          
             break;
             }
         case TVIMPSTEnums::EStorageEventContactChange: 
 	        {
-	        TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange Start") );
+	        TRACE("EStorageEventContactChange");	        
 	        // display name is changed ,might be contact is re-arranged
-            TRACE( T_LIT("contactindex = %d"),aContactIndex );
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE( "contactindex = %d",aContactIndex );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if( aContactIndex < iItemArray.Count() )
                 {
                 if ( aContact )
@@ -505,37 +503,37 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                     
                     MVIMPSTProcessArrayItem* oldItem = iItemArray[ aContactIndex ];
                     newItem->SetAvatarIndex(aContact->AvatarIndex()); // copy the avatar index too.
-                    TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
+                TRACE("contact removed in item array of index = %d",aContactIndex );
                     // set the conversation open flag from old contact, as only the display name would have changed.
                     newItem->SetConversationOpen(oldItem->IsConversationOpen());
                     newItem->SetMsgPending( oldItem->IsMsgPending() );
                     iItemArray.Remove(aContactIndex );
                     delete oldItem;
                     iItemArray.Compress();
-                    TRACE( T_LIT("Insert at index = %d"), aContactIndex);
+                TRACE( "Insert at index = %d", aContactIndex);
                     TInt newIndex = iContactListModel->IndexOfContact( aContact );
                      // Add it in the new index
                     newIndex = newIndex + 1 + iUnKnownContactArray.Count() + iAddRequestArray.Count();
                     if (newIndex >= iItemArray.Count())
                         {
-                        TRACE( T_LIT("append contact item = %d"), newIndex);
+                    TRACE("append contact item = %d", newIndex);
                         iItemArray.Append (newItem);
                         }
                     else
                         {
-                        TRACE( T_LIT("Insert at index = %d"), newItem);
+                    TRACE( "Insert at index = %d", newItem);
                         iItemArray.Insert(newItem, newIndex);
                         } 
                     // inform the cv about the display name changes
                     if(aContact && aContact->UserId().Length() && newItem->IsConversationOpen())
                         {
-                        TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange "));
+                    TRACE("EStorageEventContactChange ");
                         TApaTaskList taskList( CCoeEnv::Static()->WsSession() );
                         TApaTask task( taskList.FindApp( KConversationViewAppUid ) );
                     
                         if ( task.Exists() )
                             {
-                            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange:task exists"));
+                        TRACE("EStorageEventContactChange - task exists");                       
                             // packing of data ,passed to conversation view
                             TPckgBuf< TIMCVUiParams > params;
                             params().iBuddyId = aContact->UserId();
@@ -552,15 +550,14 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
             if(iProcessObservers )
                 {
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, aContactIndex );
-                }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventContactChange End") );
+                }           
 	        break;	
 	        }          
         case TVIMPSTEnums::EStorageEventUserIdPostChange:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventUserIdPostChange Start") );
-            TRACE( T_LIT("contactindex = %d"),aContactIndex );
-            TRACE( T_LIT("itemarraycount = %d"),iItemArray.Count() );
+            TRACE( "EStorageEventUserIdPostChange" );
+            TRACE( "contactindex = %d",aContactIndex );
+            TRACE( "itemarraycount = %d",iItemArray.Count() );
             if( aContactIndex < iItemArray.Count() )
                 {
                 CVIMPSTProcessContactItem* newItem = CVIMPSTProcessContactItem::NewL(*this, const_cast<TDesC&>(aContact->Name() ),
@@ -572,27 +569,27 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
                 
                 MVIMPSTProcessArrayItem* oldItem = iItemArray[ aContactIndex ];
                 newItem->SetAvatarIndex(aContact->AvatarIndex()); // copy the avatar index too.
-                TRACE( T_LIT("contact removed in item array of index = %d"),aContactIndex );
+                TRACE( "contact removed in item array of index = %d",aContactIndex );
                 iItemArray.Remove(aContactIndex );
                 delete oldItem;
                 iItemArray.Compress();
-                TRACE( T_LIT("Insert at index = %d"), aContactIndex);
+                TRACE( "Insert at index = %d", aContactIndex);
                 iItemArray.InsertL (newItem, aContactIndex);
                 }
             if(iProcessObservers )
                 {
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, aContactIndex );
                 }
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL EStorageEventUserIdPostChange End") );
+            TRACE( "EStorageEventUserIdPostChange" );
             break;
             }
         default:
             {
-            TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL Event default") );
+            TRACE("default");          
             break;
             }
         }
-    TRACE( T_LIT("CVIMPSTProcessArray::HandleStorageChangeL Function End") );
+    
     }
 
 // --------------------------------------------------------------------------
@@ -783,6 +780,7 @@ TVIMPSTEnums::TItem CVIMPSTProcessArray::GetType(TInt aIndex) const
 
 void CVIMPSTProcessArray::FillItemL()
     {
+    TRACER_AUTO;
     TInt count = 0;
     if(iContactListModel)
         {
@@ -848,6 +846,7 @@ void CVIMPSTProcessArray::FillItemL()
 // fill the owndata at the begining of array.....
 TBool CVIMPSTProcessArray::FillOwnDataL()
     {
+    TRACER_AUTO;
     TBool ownDataAdded = EFalse;
     TPtr dataPtr = iData->Des();    
     // Check whether the user has logged in before, if has
@@ -1016,6 +1015,7 @@ void CVIMPSTProcessArray::ResetArray()
 
 void CVIMPSTProcessArray::SetLoginStateL(TVIMPSTEnums::TVIMPSTRegistrationState aLoginState)
     {
+    TRACER_AUTO;
     iLoginState = aLoginState;
     if(aLoginState != TVIMPSTEnums::ESVCERegistered )
         {
@@ -1026,6 +1026,14 @@ void CVIMPSTProcessArray::SetLoginStateL(TVIMPSTEnums::TVIMPSTRegistrationState 
         iUnKnownContactArray.Reset();
         iAddRequestArray.ResetAndDestroy();// delete all items
         iAddRequestArray.Reset();
+        // reset the status of all the contacts.
+        // no need to check the item type here. by the time its here all the other 
+        // type except contact item are removed.
+        TInt count = iItemArray.Count();
+        for(TInt i = 0; i < count ; i++)
+            {
+             iItemArray[i]->DoFormatStringL();
+            }
         }
     FillOwnDataL(); // this will change the own item based on connection status
     }
@@ -1044,6 +1052,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTProcessArray::GetLoginState()
 
 TVIMPSTEnums::TOnlineStatus CVIMPSTProcessArray::GetOnlineStatusL(TInt aIndex)
     {
+    TRACER_AUTO;
     TVIMPSTEnums::TItem itemtype = GetType( aIndex );
     TVIMPSTEnums::TOnlineStatus status = TVIMPSTEnums::EUnknown;
     switch(itemtype)
@@ -1076,6 +1085,7 @@ TVIMPSTEnums::TOnlineStatus CVIMPSTProcessArray::GetOnlineStatusL(TInt aIndex)
 // 
 const TDesC&  CVIMPSTProcessArray::StatusTextL(TInt aIndex ) 
     {
+    TRACER_AUTO;
     TVIMPSTEnums::TItem itemtype = GetType( aIndex );
     switch(itemtype)
         {
@@ -1105,6 +1115,7 @@ const TDesC&  CVIMPSTProcessArray::StatusTextL(TInt aIndex )
 //
 TBool CVIMPSTProcessArray::RemoveFromUnknonOrInvitationListL( const TDesC& aAddedUserId ,TBool aBlocked )
     {
+    TRACER_AUTO;
     TBool found = RemoveFromUnknonListL( aAddedUserId );
     if( !found )
         {
@@ -1131,7 +1142,8 @@ TBool CVIMPSTProcessArray::RemoveFromUnknonOrInvitationListL( const TDesC& aAdde
 //
 TBool CVIMPSTProcessArray::RemoveFromUnknonListL( const TDesC& aAddedUserId )
     {
-    TRACE( T_LIT("CVIMPSTProcessArray::RemoveFromUnknonListL start ") );
+   
+    TRACER_AUTO;
     TPtrC addedUserId = VIMPSTUtils::DisplayId( aAddedUserId );
     TBool found = EFalse;
     TInt count = iUnKnownContactArray.Count();
@@ -1152,7 +1164,7 @@ TBool CVIMPSTProcessArray::RemoveFromUnknonListL( const TDesC& aAddedUserId )
                 }
             break;
             }
-        TRACE( T_LIT("CVIMPSTProcessArray::RemoveFromUnknonListL  for ends") );
+       
         }
     if( found )
         {
@@ -1169,7 +1181,7 @@ TBool CVIMPSTProcessArray::RemoveFromUnknonListL( const TDesC& aAddedUserId )
             iProcessObservers->HandleDeletionL(TVIMPSTEnums::EUnknonContactItem, KErrNotFound );
             }
         }
-    TRACE( T_LIT("CVIMPSTProcessArray::RemoveFromUnknonListL end ") );
+  
     return found;
     }
 //-----------------------------------------------------------
@@ -1178,6 +1190,7 @@ TBool CVIMPSTProcessArray::RemoveFromUnknonListL( const TDesC& aAddedUserId )
 //
 TBool CVIMPSTProcessArray::RemoveFromInvitationListL( const TDesC& aAddedUserId )
     {
+    TRACER_AUTO;
     TPtrC addedUserId = VIMPSTUtils::DisplayId( aAddedUserId );
     TBool found = EFalse;
     TInt index = KErrNotFound;
@@ -1247,6 +1260,7 @@ void CVIMPSTProcessArray::MapContactListPositions(RArray<TInt>& aPos )
 // -----------------------------------------------------------------------------
 void CVIMPSTProcessArray::GetAndCreateOpenChatListL() 
     {
+    TRACER_AUTO;
     //Get IM SubService     
     MVIMPSTEngineSubService* subService =         
                 (iEngine.SubService(TVIMPSTEnums::EIM));
@@ -1315,6 +1329,7 @@ MVIMPSTProcessArrayItem* CVIMPSTProcessArray::FindArrayItem( const TDesC& aSende
 void CVIMPSTProcessArray::HandleChatMessageEventL( TVIMPSTEnums::TIMEventType aEventType ,
                                                     const TDesC& aSender )
     {
+    TRACER_AUTO;
     if( !iFetchCompleted )
         {
         // contact matching will not be correct until fetching completed
@@ -1411,6 +1426,7 @@ void CVIMPSTProcessArray::HandleChatMessageEventL( TVIMPSTEnums::TIMEventType aE
 void  CVIMPSTProcessArray::HandleAddRequestEventL(TVIMPSTEnums::TOperationType aType, const TDesC& aRequesterId,
                                                     const TDesC& aRequestorDisplayName )
     {
+    TRACER_AUTO;
   	//add new add request item at top of list(i.e at index 1, as 0 is own id).
     //when request is entertained remove item from list.
     switch( aType )
@@ -1473,6 +1489,7 @@ void  CVIMPSTProcessArray::HandleAddRequestEventL(TVIMPSTEnums::TOperationType a
 // 
 void CVIMPSTProcessArray::DoHandleUnKnownContactMessageL( const TDesC& aSenderId ,TBool aIsMsgPending )
     {
+    TRACER_AUTO;
     TBool contactExist = EFalse ;
     TInt count = iUnKnownContactArray.Count();
     CVIMPSTProcessUnknownContactItem* unknownItem = NULL;

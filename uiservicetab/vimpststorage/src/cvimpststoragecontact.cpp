@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include "cvimpststoragecontact.h"
 #include "tvimpstenums.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "cvimpststoragedefs.h"
 
 #include <MVPbkStoreContact.h>
@@ -52,6 +52,7 @@ void CVIMPSTStorageContact::ConstructL(const TDesC& aUserId,
     								  const MVPbkContactLink& aContactLink,
     								  const TDesC8& aAvatarContent )
     {
+	TRACER_AUTO;
     iUserId = aUserId.AllocL();
     iDisplayName = aDisplayName.AllocL();
     MVPbkContactLink* link = aContactLink.CloneLC();
@@ -68,6 +69,7 @@ void CVIMPSTStorageContact::ConstructL(const TDesC& aUserId,
 void CVIMPSTStorageContact::ConstructL(const TDesC& aUserId,
     								  const TDesC& aDisplayName )
     {
+	TRACER_AUTO;
     iUserId = aUserId.AllocL();
     iDisplayName = aDisplayName.AllocL();
     }
@@ -81,6 +83,7 @@ CVIMPSTStorageContact* CVIMPSTStorageContact::NewL(const TDesC& aUserId,
 		        								  const MVPbkContactLink& aContactLink,
 		        								  const TDesC8& aAvatarContent)
     {
+	TRACER_AUTO;
     CVIMPSTStorageContact* self = CVIMPSTStorageContact::NewLC( aUserId,aDisplayName,aContactLink,aAvatarContent );
     CleanupStack::Pop( self );
 	return self;
@@ -94,6 +97,7 @@ CVIMPSTStorageContact* CVIMPSTStorageContact::NewL(const TDesC& aUserId,
 CVIMPSTStorageContact* CVIMPSTStorageContact::NewL(const TDesC& aUserId,
 		        								  const TDesC& aDisplayName )
     {
+	TRACER_AUTO;
     CVIMPSTStorageContact* self = new (ELeave) CVIMPSTStorageContact();
     CleanupStack::PushL( self );
     self->ConstructL( aUserId,aDisplayName );
@@ -110,6 +114,7 @@ CVIMPSTStorageContact* CVIMPSTStorageContact::NewLC(const TDesC& aUserId,
 		        								  const MVPbkContactLink& aContactLink,
 		        								  const TDesC8& aAvatarContent)
     {
+	TRACER_AUTO;
     CVIMPSTStorageContact* self = new( ELeave ) CVIMPSTStorageContact();
     CleanupStack::PushL( self );
     self->ConstructL( aUserId,aDisplayName,aContactLink ,aAvatarContent);
@@ -140,6 +145,7 @@ CVIMPSTStorageContact::~CVIMPSTStorageContact()
 //
 const TDesC& CVIMPSTStorageContact::UserId() const
     {
+	TRACER_AUTO;
     if( iUserId )
         {
         return *iUserId;
@@ -154,6 +160,7 @@ const TDesC& CVIMPSTStorageContact::UserId() const
 //
 const TDesC& CVIMPSTStorageContact::Name() const
     {
+	TRACER_AUTO;
     if( iDisplayName )
         {
         return *iDisplayName;
@@ -190,6 +197,7 @@ void CVIMPSTStorageContact::SetOnlineStatus(
 //
 const TDesC& CVIMPSTStorageContact::StatusText() const
     {
+	TRACER_AUTO;
     if( iStatusText )
         {
         return *iStatusText;
@@ -219,6 +227,7 @@ void CVIMPSTStorageContact::SetStatusTextL( const TDesC& aStatusText )
 //
 void CVIMPSTStorageContact::SetAvatarContentL( const TDesC8& aAvatarContent ,MVIMPSTStorageVPbkContactStore& aVPPkStoreHandler )
     {
+	TRACER_AUTO;
     if( iAvatarContent )
         {
         if( iAvatarContent->Compare( aAvatarContent ) == 0 )
@@ -259,6 +268,7 @@ void CVIMPSTStorageContact::SetUserIdL( const TDesC& aUserId )
 //
 void CVIMPSTStorageContact::SetNameL( const TDesC& aName )
     {
+	TRACER_AUTO;
     if( iDisplayName )
 	    {
 	    delete iDisplayName;

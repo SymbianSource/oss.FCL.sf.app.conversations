@@ -20,7 +20,8 @@
 #include "cvimpstcmdaddfrompbk.h"
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include <mvpbkstorecontact.h>
@@ -66,6 +67,7 @@ CVIMPSTCmdAddFromPbk* CVIMPSTCmdAddFromPbk::NewL( const TInt aCommandId,
                                                   const MVPbkStoreContact& aStoreContact,
                                                   MVIMPSTEngine& aEngine )
     {
+    TRACER_AUTO;
     CVIMPSTCmdAddFromPbk* self = new (ELeave ) CVIMPSTCmdAddFromPbk( aCommandId ,aStoreContact, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -85,7 +87,8 @@ void CVIMPSTCmdAddFromPbk::ConstructL()
 //
 void CVIMPSTCmdAddFromPbk::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdAddFromPbk::ExecuteLD");
+    
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL( iEngine.ServiceId() ) ;
@@ -125,9 +128,9 @@ void CVIMPSTCmdAddFromPbk::ExecuteLD()
         {
         iObserver->CommandFinishedL(*this);
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdAddFromPbk:: CommandFinished");    
+       
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdAddFromPbk::ExecuteLD");    
+   
     }
 
 
@@ -166,7 +169,8 @@ TInt CVIMPSTCmdAddFromPbk::Result() const
 //  
 void CVIMPSTCmdAddFromPbk::GetServiceFieldsL( CDesCArray& aArrayForServiceFields )
     {
-    CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  GetServiceFieldsL");
+   
+    TRACER_AUTO;
     HBufC* values[40];
     for( TInt index = 0 ; 
         index < iStoreContact.Fields().FieldCount() ; 
@@ -188,7 +192,7 @@ void CVIMPSTCmdAddFromPbk::GetServiceFieldsL( CDesCArray& aArrayForServiceFields
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_EMAILHOME ) ||
             ( fieldType->FieldTypeResId() == R_VPBK_FIELD_TYPE_EMAILGEN ))
                 {
-                CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  GetServiceFieldsL - Found");
+                TRACE("GetServiceFieldsL - Found");
                 values[0] = MVPbkContactFieldTextData::Cast( 
                 iStoreContact.Fields().FieldAt( index ).
                 FieldData() ).Text().AllocLC();
@@ -198,13 +202,13 @@ void CVIMPSTCmdAddFromPbk::GetServiceFieldsL( CDesCArray& aArrayForServiceFields
                     TInt prefixLocation = values[0]->Locate( ':' );
                     if ( KErrNotFound != prefixLocation )
                         {
-                        CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  Prefix found -> remove");
+                        TRACE("Prefix found -> remove");                    
                         aArrayForServiceFields.AppendL( values[0]->Des().Mid(
                         prefixLocation+1 ) );
                         }
                     else
                         {
-                        CHAT_DP_FUNC_ENTER("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  No Prefix found");
+                    TRACE("No prefix");                    
                         aArrayForServiceFields.AppendL( values[0]->Des() );    
                         }
                     CleanupStack::PopAndDestroy( values[0] );

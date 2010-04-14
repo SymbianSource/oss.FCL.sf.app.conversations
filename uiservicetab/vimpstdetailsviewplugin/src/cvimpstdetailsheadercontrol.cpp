@@ -39,6 +39,7 @@
 #include <VPbkEng.rsg>
 #include <MVPbkStoreContact.h>
 
+#include "uiservicetabtracer.h"
 // constants declaration
 const TInt KLabelLineCount = 3;
 
@@ -77,6 +78,7 @@ CVIMPSTDetailsHeaderControl::CVIMPSTDetailsHeaderControl(CVIMPSTDetailsViewBrand
 //
 void CVIMPSTDetailsHeaderControl::ConstructL()
 	{ 
+	TRACER_AUTO;
 	// Create the header image
 	iImage = new (ELeave) CEikImage();
 	iImage->SetPictureOwnedExternally(ETrue); //EHLeftVCenter
@@ -87,8 +89,7 @@ void CVIMPSTDetailsHeaderControl::ConstructL()
         CEikLabel* label = new(ELeave) CEikLabel;
         CleanupStack::PushL(label);
         label->SetTextL(KNullDesC());
-        label->SetAlignment(EHLeftVCenter);// EHCenterVCenter, EHLeftVCenter
-        label->CropText();
+        label->SetAlignment(EHLeftVCenter);// EHCenterVCenter, EHLeftVCenter        
         iLabels.AppendL(label);
         CleanupStack::Pop(label);
         }
@@ -204,6 +205,8 @@ void CVIMPSTDetailsHeaderControl::SizeChanged()
     AknLayoutUtils::LayoutLabel(iLabels[1], labelsRect.Rect(), AknLayoutScalable_Apps::cl_header_name_pane_t2(2));
     
     AknLayoutUtils::LayoutLabel(iLabels[2], labelsRect.Rect(), AknLayoutScalable_Apps::cl_header_name_pane_t3(2));
+    
+    TRAP_IGNORE(LabelsSizeChangedL());
     }
 
 // ---------------------------------------------------------------------------
@@ -221,6 +224,7 @@ void CVIMPSTDetailsHeaderControl::LabelsSizeChangedL()
          for (TInt i=0; i < iLabels.Count(); i++)
             {
             iLabels[i]->SetTextL( iPresenceHandler.GetHeaderLabelDataL(i) );
+            iLabels[i]->CropText();
             iLabels[i]->OverrideColorL( EColorLabelText, color );
             iLabels[i]->DrawDeferred();
             }
@@ -333,6 +337,7 @@ void CVIMPSTDetailsHeaderControl::ClearL()
 //
 void CVIMPSTDetailsHeaderControl::CreateHeaderPresentationL(MVPbkStoreContact& aContact )
 	{
+	TRACER_AUTO;
 	if( iHeaderField )
 		{
 		delete iHeaderField;

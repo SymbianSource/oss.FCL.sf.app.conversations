@@ -18,7 +18,7 @@
 // INCLUDE FILES
 #include "cvimpstengineimagehandler.h"
 
-#include "vimpstdebugprint.h"
+#include "uiservicetabtracer.h"
 #include "tvimpstenums.h"
 
 
@@ -37,11 +37,11 @@ const TInt KQUALITYFACTOR = 55;
 // ---------------------------------------------------------
 EXPORT_C CVIMPSTEngineImageHandler* CVIMPSTEngineImageHandler::NewL()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::NewL");
+	TRACER_AUTO;
     CVIMPSTEngineImageHandler* self = 
     CVIMPSTEngineImageHandler::NewLC( );
     CleanupStack::Pop( self );
-    CHAT_DP_FUNC_DONE("CVIMPSTEngineImageHandler::NewL");
+    
     return self;
     }
 
@@ -51,12 +51,12 @@ EXPORT_C CVIMPSTEngineImageHandler* CVIMPSTEngineImageHandler::NewL()
 // ---------------------------------------------------------
 EXPORT_C CVIMPSTEngineImageHandler* CVIMPSTEngineImageHandler::NewLC( )
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::NewLC");
+	TRACER_AUTO;
     CVIMPSTEngineImageHandler* self = new (ELeave) 
     CVIMPSTEngineImageHandler();
     CleanupStack::PushL( self );
     self->ConstructL();
-    CHAT_DP_FUNC_DONE("CVIMPSTEngineImageHandler::NewLC");
+    
     return self;
     }
 
@@ -73,24 +73,24 @@ CVIMPSTEngineImageHandler::CVIMPSTEngineImageHandler():iError(0)
 // ---------------------------------------------------------
 void CVIMPSTEngineImageHandler::ConstructL()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ConstructL start");
+	TRACER_AUTO;
     iProcessor = CVimpstImageProcessor::NewL(this);
     iFormat.iSettings.iQualityFactor = KQUALITYFACTOR;
     iFormat.iSettings.iSampleScheme = TMdaJpgSettings::TColorSampling(TMdaJpgSettings::EColor420);
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ConstructL end");
+    
     }
 // ---------------------------------------------------------
 // CVIMPSTEngineImageHandler::~CVIMPSTEngineImageHandler
 // ---------------------------------------------------------
 CVIMPSTEngineImageHandler::~CVIMPSTEngineImageHandler()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::~CVIMPSTEngineAvatarExtention");
+	TRACER_AUTO;
     delete iProcessor;
     if(iToDesc)
         {
         delete iToDesc;
         }
-    CHAT_DP_FUNC_DONE("CVIMPSTEngineImageHandler::~CVIMPSTEngineAvatarExtention");
+   
     }
 
 // ------------------------------------------------------------------------
@@ -99,7 +99,7 @@ CVIMPSTEngineImageHandler::~CVIMPSTEngineImageHandler()
 // ------------------------------------------------------------------------
 void CVIMPSTEngineImageHandler::HandleProcessingCompleteL( TInt aStatus )  
     {
-	CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::HandleProcessingCompleteL start");
+	TRACER_AUTO;
     if (!aStatus)
         {
         iContent = iProcessor->GetContentData();
@@ -109,7 +109,7 @@ void CVIMPSTEngineImageHandler::HandleProcessingCompleteL( TInt aStatus )
         {
         iWait.AsyncStop();  
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::HandleProcessingCompleteL end");
+    
     }
 // ------------------------------------------------------------------------
 // CVIMPSTEngineImageHandler::ProcessImageFromFileL
@@ -118,10 +118,10 @@ void CVIMPSTEngineImageHandler::HandleProcessingCompleteL( TInt aStatus )
 EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromFileL(const TDesC& aFilename ,
         const  TDesC8& aMimetype)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromFileL start");
+	TRACER_AUTO;
     if(aFilename.Length())
         {
-        CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessFromFileL called");
+        TRACE(" called");
         iProcessor->ProcessFromFileL( aFilename , aMimetype);
         if( ! iWait.IsStarted() )
             {
@@ -130,7 +130,7 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromFileL(const TDesC& a
             iWait.Start();
             }
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromFileL end");
+    
     return iContent;
     }
 // ------------------------------------------------------------------------
@@ -139,10 +139,10 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromFileL(const TDesC& a
 // ------------------------------------------------------------------------
 EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromDataL( const TDesC8& aImageData , const TDesC8& aMimeType)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromDataL start");
+	TRACER_AUTO;
     if(aImageData.Length())
         {
-        CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromDataL called");
+        TRACE("ProcessImageFromDataL called");
         TInt err =  iProcessor->ProcessFromDataL( aImageData , aMimeType);
         if(KErrNone != err)
            {
@@ -156,7 +156,7 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromDataL( const TDesC8&
             iWait.Start();
             }
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromDataL end");
+    
     return iContent;
     }
 // ------------------------------------------------------------------------
@@ -166,7 +166,7 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessImageFromDataL( const TDesC8&
 EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessFromBitmapL( CFbsBitmap& aBitMap )
     {
 
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessFromBitmapL start");
+	TRACER_AUTO;
 
     //bitmap to desc
     const TSize size = aBitMap.SizeInPixels();
@@ -196,7 +196,7 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessFromBitmapL( CFbsBitmap& aBit
         }
     User::LeaveIfError(iError);//CreateL is a asynch call.leave if error in creating 
 
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::ProcessImageFromDataL end");
+    
     return iBuf;
     }
 // ------------------------------------------------------------------------
@@ -205,13 +205,13 @@ EXPORT_C HBufC8* CVIMPSTEngineImageHandler::ProcessFromBitmapL( CFbsBitmap& aBit
 // ------------------------------------------------------------------------
 void CVIMPSTEngineImageHandler::MiuoCreateComplete(TInt aError)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoCreateComplete start");
+	TRACER_AUTO;
     iError = aError;
     if(iWait.IsStarted() )   
         {
         iWait.AsyncStop();  
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoCreateComplete end");
+    
 
     }
 // ------------------------------------------------------------------------
@@ -220,13 +220,13 @@ void CVIMPSTEngineImageHandler::MiuoCreateComplete(TInt aError)
 // ------------------------------------------------------------------------
 void CVIMPSTEngineImageHandler::MiuoOpenComplete(TInt aError)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoOpenComplete start");
+	TRACER_AUTO;
     iError = aError;
     if(iWait.IsStarted() )   
         {
         iWait.AsyncStop();  
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoOpenComplete end");
+    
 
     }
 // ------------------------------------------------------------------------
@@ -235,13 +235,13 @@ void CVIMPSTEngineImageHandler::MiuoOpenComplete(TInt aError)
 // ------------------------------------------------------------------------
 void CVIMPSTEngineImageHandler::MiuoConvertComplete(TInt aError)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoConvertComplete start");
+	TRACER_AUTO;
     iError = aError;
     if(iWait.IsStarted() )   
         {
         iWait.AsyncStop();  
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTEngineImageHandler::MiuoConvertComplete end");
+    
 
     }
 // CVIMPSTEngineImageHandler::Bitmap
@@ -249,6 +249,7 @@ void CVIMPSTEngineImageHandler::MiuoConvertComplete(TInt aError)
 // ------------------------------------------------------------------------    
 EXPORT_C CFbsBitmap& CVIMPSTEngineImageHandler::Bitmap()
     {
+	TRACER_AUTO;
     return iProcessor->Bitmap();
     }    
 

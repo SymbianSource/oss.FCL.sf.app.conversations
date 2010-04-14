@@ -30,7 +30,7 @@
 #include <spnotifychange.h>
 #include <spsettings.h>
 
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "cvimpstenginecvlistener.h"
 
 // ================= MEMBER FUNCTIONS =======================
@@ -43,6 +43,7 @@
 //
 EXPORT_C MVIMPSTEngineFactory* CVIMPSTEngineFactory::InstanceL()
     {
+	TRACER_AUTO;
     CVIMPSTEngineFactory* singleton;
     singleton = static_cast<CVIMPSTEngineFactory*> (Dll::Tls());
     if( !singleton )
@@ -63,6 +64,7 @@ EXPORT_C MVIMPSTEngineFactory* CVIMPSTEngineFactory::InstanceL()
 //
 EXPORT_C void CVIMPSTEngineFactory::Release()
     {
+	TRACER_AUTO;
     CVIMPSTEngineFactory* singleton;
     singleton = static_cast<CVIMPSTEngineFactory*>(Dll::Tls());
     if( singleton && !singleton->DecreamentRefereneCount())
@@ -92,7 +94,7 @@ CVIMPSTEngineFactory* CVIMPSTEngineFactory::NewLC()
 //
 void CVIMPSTEngineFactory::ConstructL()
     {
-    
+	TRACER_AUTO;
     CVIMPSTStorageManagerFactory::InitialiseLibraryL();
     
     //only 1 instance of iServiceTableFetcher shared between services
@@ -179,7 +181,7 @@ CVIMPSTEngineFactory::~CVIMPSTEngineFactory()
 void CVIMPSTEngineFactory::GetServiceEnginePtr
 					(RPointerArray<MVIMPSTEngine>& serviceIdArray) const
 	{
-	
+	TRACER_AUTO;
 	TInt count = iServiceItems.Count() ;
 	
     // iterate the service array
@@ -198,6 +200,7 @@ void CVIMPSTEngineFactory::GetServiceEnginePtr
 TInt CVIMPSTEngineFactory::FindService(
 				TUint aServiceId ) const
 	{
+	TRACER_AUTO;
 	TInt count = iServiceItems.Count() ;
 	TInt ret = KErrNotFound;
     // iterate the service array
@@ -222,8 +225,8 @@ TInt CVIMPSTEngineFactory::FindService(
 void CVIMPSTEngineFactory::HandleNotifyChange(
     TServiceId aServiceId )
     {
-    TRACE( T_LIT("CVIMPSTEngineFactory::HandleNotifyChange start"));        
-    TRACE( T_LIT("HandleNotifyChange() serviceid: %d"), aServiceId );	
+	TRACER_AUTO;
+	TRACE( "serviceid: %d", aServiceId );	
 	
 	TBool newService = EFalse;
 	          
@@ -234,7 +237,6 @@ void CVIMPSTEngineFactory::HandleNotifyChange(
 	        
     TRAP_IGNORE( iServiceTableFetcher->DoHandleNotifyChangeL( aServiceId, newService, GetEngine(aServiceId) ) );
     
-    TRACE( T_LIT("CVIMPSTEngineFactory::HandleNotifyChange end"));        
     }
 
 // ---------------------------------------------------------------------------
@@ -243,9 +245,7 @@ void CVIMPSTEngineFactory::HandleNotifyChange(
 //
 void CVIMPSTEngineFactory::HandleError( TInt /*aError*/ )
     {
-    TRACE( T_LIT("CVIMPSTEngineFactory::HandleError() start"));
-
-    TRACE( T_LIT("CVIMPSTEngineFactory::HandleError() end"));
+	TRACER_AUTO;
         
     }			
     
@@ -255,6 +255,7 @@ void CVIMPSTEngineFactory::HandleError( TInt /*aError*/ )
 //
 MVIMPSTEngine* CVIMPSTEngineFactory::GetEngine( TServiceId aServiceId )
     {
+	TRACER_AUTO;
     TInt count = iServiceItems.Count();
     MVIMPSTEngine* engine = NULL;
     for(int i=0 ; i<count ; i++)

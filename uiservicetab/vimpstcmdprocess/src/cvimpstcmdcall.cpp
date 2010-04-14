@@ -24,6 +24,7 @@
 #include "cvimpstcmdcall.h"
 #include "mvimpstprocessarray.h"
 
+#include "uiservicetabtracer.h"
 
 #include <aiwdialdataext.h>
 #include <aknpopup.h>
@@ -92,7 +93,8 @@ void CVIMPSTCmdCall::ConstructL()
 //
 void CVIMPSTCmdCall::ExecuteLD()
     {
-   	// CHAT_DP_FUNC_ENTER("CVIMPSTCallCmd::ExecuteLD");
+    TRACER_AUTO;
+   	
     //push to the cleanupstack
     CleanupStack::PushL( this );
 
@@ -142,6 +144,7 @@ void CVIMPSTCmdCall::ExecuteLD()
 //
 void CVIMPSTCmdCall::AddObserver( MVIMPSTCmdObserver& aObserver )
     {
+	TRACER_AUTO;
     // store the observer to notify the command completion
     iObserver = &aObserver;
     }

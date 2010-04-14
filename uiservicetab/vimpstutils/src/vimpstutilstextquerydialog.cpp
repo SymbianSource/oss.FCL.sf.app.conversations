@@ -19,6 +19,7 @@
 
 // INCLUDE FILES
 #include "vimpstutilstextquerydialog.h"
+#include "uiservicetabtracer.h"
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -49,6 +50,7 @@ EXPORT_C CVIMPSTUtilsTextQueryDialog* CVIMPSTUtilsTextQueryDialog::NewL( TDes& a
                                               TBool aLeftSoftkeyAlwaysVisible /*= ETrue*/,
                                               TBool aDomainSelectionQuery /*= EFalse*/ )
     {
+	TRACER_AUTO;
     CVIMPSTUtilsTextQueryDialog* self = new( ELeave ) CVIMPSTUtilsTextQueryDialog( 
                                                             aDataText, aTone,
                                                             aLeftSoftkeyAlwaysVisible,
@@ -72,6 +74,7 @@ EXPORT_C CVIMPSTUtilsTextQueryDialog::~CVIMPSTUtilsTextQueryDialog()
 //
 EXPORT_C void CVIMPSTUtilsTextQueryDialog::UpdateLeftSoftKeyL()
     {
+	TRACER_AUTO;
     if ( iLeftSoftkeyAlwaysVisible )
         {
         // do nothing so the left softkey is always visible
@@ -91,6 +94,7 @@ EXPORT_C void CVIMPSTUtilsTextQueryDialog::UpdateLeftSoftKeyL()
 EXPORT_C TKeyResponse CVIMPSTUtilsTextQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
                                          TEventCode aType )
     {
+	TRACER_AUTO;
     TInt oldLen = 0;
     CEikEdwin* edwin = NULL;
     // If this is launched after domain selection query
@@ -135,6 +139,7 @@ EXPORT_C TKeyResponse CVIMPSTUtilsTextQueryDialog::OfferKeyEventL( const TKeyEve
 //
 EXPORT_C TBool CVIMPSTUtilsTextQueryDialog::OkToExitL( TInt aButtonId )
     {
+	TRACER_AUTO;
     if ( aButtonId == EAknSoftkeyExit && iDomainSelectionQuery )
         {
         return ETrue;

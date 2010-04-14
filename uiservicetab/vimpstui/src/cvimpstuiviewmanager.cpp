@@ -26,6 +26,7 @@
 #include "cvimpstuiextensionviewinfo.h"
 #include "cvimpstuiextensionfactory.h"
 #include "cvimpstuimenuextension.h"
+#include "uiservicetabtracer.h"
 
 
 
@@ -108,7 +109,7 @@ void CVIMPSTUIViewManager::AddNewClientL( TUint aServiceId, MVIMPSTEngine& aEngi
     TInt aTabbedViewId,TInt aSearchViewId,TInt aBlockedViewId ,CVIMPSTUIMenuExtension& aMenuExtension )
     {    
     
-    
+	TRACER_AUTO;
     CVIMPSTUIExtensionService* service =
         CVIMPSTUIExtensionService::NewL( 
             aServiceId,

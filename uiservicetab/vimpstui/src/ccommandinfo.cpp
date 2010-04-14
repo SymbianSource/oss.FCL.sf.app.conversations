@@ -18,6 +18,7 @@
 // INCLUDE FILES
 #include <barsread.h>
 #include "ccommandinfo.h"
+#include "uiservicetabtracer.h"
 
 
 // CONSTANTS
@@ -45,6 +46,7 @@ CCommandInfo* CCommandInfo::NewLC( TResourceReader& aReader,
                                     TInt32 aPluginId,
         							TInt& aNewCommandIds )
     {
+	TRACER_AUTO;
     CCommandInfo* self = new (ELeave) CCommandInfo( aPluginId );
     CleanupStack::PushL(self);
     self->ConstructL( aReader, aNewCommandIds );
@@ -74,6 +76,7 @@ TInt32 CCommandInfo::PliginId() const
 //	
 TInt32 CCommandInfo::NewCommandId() const
 	{
+	TRACER_AUTO;
 	return iNewCommandId;	
 	}
 // ----------------------------------------------------------------------------
@@ -82,6 +85,7 @@ TInt32 CCommandInfo::NewCommandId() const
 //
 TInt32 CCommandInfo::OldCommandId() const
 	{
+	TRACER_AUTO;
 	return iOldCommandId;	
 	}
     

@@ -36,7 +36,7 @@
 #include "cimcachefactory.h"
 #include "mimcacheaccessor.h"
 
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 //system includes
 #include <e32property.h>
@@ -53,8 +53,8 @@ CVIMPSTEngineIMSubService* CVIMPSTEngineIMSubService::NewL(
 								MVIMPSTEngineServiceConnectionEventObserver& aObserver
 								 )
     {
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::NewL start"));
-    TRACE( T_LIT("NewL() ServiceId: %d"), aServiceId );
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", aServiceId );
     
     CVIMPSTEngineIMSubService* self = CVIMPSTEngineIMSubService::NewLC(
     												aServiceId,
@@ -63,7 +63,6 @@ CVIMPSTEngineIMSubService* CVIMPSTEngineIMSubService::NewL(
     												aObserver );
     CleanupStack::Pop( self );
     
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::NewL end"));
     return self;
     }
 
@@ -80,9 +79,8 @@ CVIMPSTEngineIMSubService* CVIMPSTEngineIMSubService::NewLC(
 								MVIMPSTEngineServiceConnectionEventObserver& aObserver
 								 )
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::NewLC start"));
-	TRACE( T_LIT("NewLC() ServiceId: %d"), aServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", aServiceId );
 	
     CVIMPSTEngineIMSubService* self = new (ELeave) CVIMPSTEngineIMSubService(aServiceId, 
     												aCchHandler, aTableFetcher,
@@ -90,7 +88,6 @@ CVIMPSTEngineIMSubService* CVIMPSTEngineIMSubService::NewLC(
     CleanupStack::PushL( self );
     self->ConstructL();
     
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::NewLC end"));
     return self;
 	}
 
@@ -101,7 +98,7 @@ CVIMPSTEngineIMSubService* CVIMPSTEngineIMSubService::NewLC(
 
 CVIMPSTEngineIMSubService::~CVIMPSTEngineIMSubService()
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::~CVIMPSTEngineIMSubService start"));
+	TRACER_AUTO;
 	
 	iChatObserver.Reset();
     iChatObserver.Close();
@@ -110,7 +107,6 @@ CVIMPSTEngineIMSubService::~CVIMPSTEngineIMSubService()
 		
 	ReleaseIMCacheAccessor();	
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::~CVIMPSTEngineIMSubService end"));
  	}
 
 
@@ -122,7 +118,7 @@ CVIMPSTEngineIMSubService::~CVIMPSTEngineIMSubService()
 void CVIMPSTEngineIMSubService::ConstructL()
 	{			
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::ConstructL start"));
+	TRACER_AUTO;
 	TCCHSubserviceState serviceState = ECCHUninitialized;    
     TInt error = iCchHandler.GetServiceState( 
         			iServiceId, ECCHIMSub, serviceState );
@@ -131,10 +127,8 @@ void CVIMPSTEngineIMSubService::ConstructL()
 	
 	iCchHandler.RegisterCchObserverL(this,ECCHIMSub);       
 	
-    TRACE( T_LIT("ConstructL() ResolveServiceStateL returned ServiceState: %d"), 
-							iServiceState );
+    TRACE( "ResolveServiceStateL returned ServiceState: %d", iServiceState );
  
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::ConstructL end"));
     
     }
 
@@ -167,7 +161,7 @@ CVIMPSTEngineIMSubService::CVIMPSTEngineIMSubService( TUint aServiceId,
 
 void CVIMPSTEngineIMSubService::RegisterChatObserver(MVIMPSTEngineIMSubServiceEventObserver* aObserver)
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::RegisterChatObserver start"));	
+	TRACER_AUTO;
 	if (aObserver)
 		{
 		TInt index = iChatObserver.Find(aObserver);
@@ -176,7 +170,6 @@ void CVIMPSTEngineIMSubService::RegisterChatObserver(MVIMPSTEngineIMSubServiceEv
 		            iChatObserver.Append( aObserver );   
 		            }
 		}    	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::RegisterChatObserver end"));
 	
 	}
 
@@ -187,7 +180,7 @@ void CVIMPSTEngineIMSubService::RegisterChatObserver(MVIMPSTEngineIMSubServiceEv
 
 void CVIMPSTEngineIMSubService::UnRegisterChatObserver(MVIMPSTEngineIMSubServiceEventObserver* aObserver)
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::UnRegisterChatObserver start"));
+	TRACER_AUTO;
 	
 	if (aObserver)
 		{
@@ -202,7 +195,6 @@ void CVIMPSTEngineIMSubService::UnRegisterChatObserver(MVIMPSTEngineIMSubService
 		        
 	    
 		}
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::UnRegisterChatObserver end"));
 			
 	}
 //-----------------------------------------------------------------------------
@@ -213,8 +205,8 @@ void CVIMPSTEngineIMSubService::UnRegisterChatObserver(MVIMPSTEngineIMSubService
 
 void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType, TAny* aChatMessage  )
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::HandleIMCacheEventL start"));
-	TRACE( T_LIT("HandleIMCacheEventL() TIMCacheEventType: %d"), aEventType );
+	TRACER_AUTO;
+	TRACE( "TIMCacheEventType: %d", aEventType );
 							
 	switch( aEventType )
 	    {
@@ -229,16 +221,14 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 	        if ( chatData->iBuddyId )
 	            {
 	            TPtrC buddyId = chatData->iBuddyId->Des();
-	            TRACE( T_LIT("HandleIMCacheEventL() EIMCacheUnreadMessage for %S"), 
-	                    &buddyId );
-
+	            TRACE( "EIMCacheUnreadMessage for %S",  &buddyId );
 	            NotifyObserversL(TVIMPSTEnums::EIMUnreadMessage,buddyId);               
 	            }
 	        break;	
 	        }
 	    case EIMCacheUnreadChange :
 	        {
-	        TRACE( T_LIT("HandleIMCacheEventL() EIMCacheUnreadChange") );
+	        TRACE( "EIMCacheUnreadChange");
 	        if (!aChatMessage)
 	            {
 	            return; 
@@ -249,8 +239,7 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 	            return;
 	            }
 	        TPtrC buddyId = chatItem->iBuddyId->Des();
-	        TRACE( T_LIT("HandleIMCacheEventL() EIMCacheChatClosed for %S"), 
-	                &buddyId );
+	        TRACE( "EIMCacheChatClosed for %S",  &buddyId );  
 	        NotifyObserversL(TVIMPSTEnums::EIMUnreadChange, buddyId );  // ETrue for Closed conversation
 	        break;
 	        }
@@ -266,8 +255,7 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 	            return;
 	            }
 	        TPtrC buddyId = chatItem->iBuddyId->Des();
-	        TRACE( T_LIT("HandleIMCacheEventL() EIMCacheChatClosed for %S"), 
-	                &buddyId );
+	        TRACE("EIMCacheChatClosed for %S", &buddyId );
 	        NotifyObserversL(TVIMPSTEnums::EIMChatStarted, buddyId );  // ETrue for Closed conversation 
 	        break;  
 	        }
@@ -283,8 +271,7 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 	            return;
 	            }
 	        TPtrC buddyId = chatItem->iBuddyId->Des();
-	        TRACE( T_LIT("HandleIMCacheEventL() EIMCacheChatClosed for %S"), 
-	                &buddyId );
+	        TRACE( "EIMCacheChatClosed for %S", &buddyId );
 	        NotifyObserversL(TVIMPSTEnums::EIMChatClosed, buddyId );                     
 	        break;  
 	        }
@@ -304,7 +291,6 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 	        }
 	    }
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::HandleIMCacheEventL end"));
 	
 	}
 
@@ -314,18 +300,16 @@ void CVIMPSTEngineIMSubService::HandleIMCacheEventL(TIMCacheEventType aEventType
 //-----------------------------------------------------------------------------    
 TInt CVIMPSTEngineIMSubService::GetUnreadCountL(const TDesC& aBuddyId ) 
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::GetUnreadCountL start"));
-	TRACE( T_LIT("GetUnreadCountL() ServiceId: %d BuddyId: %S"), 
-							iServiceId, &aBuddyId );
+	TRACER_AUTO;
+	TRACE( " ServiceId: %d BuddyId: %S", iServiceId, &aBuddyId );
 							
 	TInt count = 0;
 	if( iIMCacheAccessor )
 		{
 		count = iIMCacheAccessor->GetUnreadMessageCountL(aBuddyId);
-		TRACE( T_LIT("GetUnreadCountL() iIMCacheAccessor returns with %d"), count );
+		TRACE( "iIMCacheAccessor returns with %d", count );
 		}
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::GetUnreadCountL end"));
 	return count;
 	}
 
@@ -336,8 +320,8 @@ TInt CVIMPSTEngineIMSubService::GetUnreadCountL(const TDesC& aBuddyId )
 // 
 TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::SubServiceState() const
 	{
-	TRACE( T_LIT("SubServiceState() ServiceId: %d ServiceState: %d"), 
-							iServiceId, iServiceState );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d ServiceState: %d",iServiceId, iServiceState );
 	return iServiceState;
 	}
 
@@ -349,20 +333,18 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::SubServiceStat
 //-----------------------------------------------------------------------------    
 TBool CVIMPSTEngineIMSubService::IsConversationExistL(const TDesC& aBuddyId) const
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::IsConversationExistL start"));
-	TRACE( T_LIT("IsConversationExistL() Buddy Id : %S"), &aBuddyId );
+	TRACER_AUTO;
+	TRACE( "Buddy Id : %S", &aBuddyId );
 	
 	TInt exist = EFalse;
 	
 	if( iIMCacheAccessor )
 		{
 		exist = iIMCacheAccessor->IsConversationExistL( aBuddyId );	
-		TRACE( T_LIT("IsConversationExistL() iIMCacheAccessor returns with %d"), exist );
+		TRACE( "iIMCacheAccessor returns with %d", exist );
 		}
 	
-	TRACE( T_LIT("IsConversationExistL() Exist: %d"), exist );	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::IsConversationExistL end"));		
+	TRACE( "Exist: %d", exist );	
 	return exist; 
   	}
 
@@ -372,17 +354,16 @@ TBool CVIMPSTEngineIMSubService::IsConversationExistL(const TDesC& aBuddyId) con
 //-----------------------------------------------------------------------------
 void CVIMPSTEngineIMSubService::CloseConversationL( const TDesC& aContactId )
     {
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::CloseConversationL start"));
-    TRACE( T_LIT("CloseConversationL() Buddy Id : %S"), &aContactId  );
+	TRACER_AUTO;
+    TRACE( "Buddy Id : %S", &aContactId  );
     
     if( IsConversationExistL(aContactId) )
         {
-        TRACE( T_LIT("CloseConversationL() iIMCacheAccessor CloseConversationL to be called") );
+    TRACE( "iIMCacheAccessor CloseConversationL to be called" );
         iIMCacheAccessor->CloseConversationL( aContactId );
-       	TRACE( T_LIT("CloseConversationL() iIMCacheAccessor CloseConversationL Done") );
+    	TRACE( "iIMCacheAccessor CloseConversationL Done" );
         }
     
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::CloseConversationL end"));
     }
 //-----------------------------------------------------------------------------
 // CVIMPSTEngineIMSubService::GetOpenChatListL
@@ -390,7 +371,7 @@ void CVIMPSTEngineIMSubService::CloseConversationL( const TDesC& aContactId )
 //-----------------------------------------------------------------------------
 RArray<SIMCacheChatItem> CVIMPSTEngineIMSubService::GetOpenChatListL()
     {
-    TRACE( T_LIT("CloseConversationL() iIMCacheAccessor GetOpenChatListL called") );
+	TRACER_AUTO;
     RArray<SIMCacheChatItem> item;
     if(iIMCacheAccessor)
         {
@@ -407,13 +388,12 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
 										TCCHSubserviceState aState, 
             							TInt aServiceError )
     {
-    
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::ResolveServiceStateL start"));    
+	TRACER_AUTO;
         
     TVIMPSTEnums::TVIMPSTRegistrationState state = TVIMPSTEnums::ESVCENotRegistered;       
     
-    TRACE( T_LIT("ResolveServiceStateL() iServiceId: %d, ServiceState: %d"), 
-    							iServiceId, aState );    	
+    
+    TRACE( "iServiceId: %d, ServiceState: %d", iServiceId, aState );  
 
     TBool handleServiceStates = ETrue;
     if ( aServiceError && ECCHDisabled != aState )
@@ -422,7 +402,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
 		//Still API from CCH is required to know whether ALR is supported or not
         if ( (KCCHErrorInvalidSettings != aServiceError) && (ECCHConnecting == aState) )        
             {   
-            TRACE( T_LIT("ResolveServiceStateL() ESVCEWaitingForNetwork") );
+        TRACE("ESVCEWaitingForNetwork" );
             handleServiceStates = EFalse;  
             state = TVIMPSTEnums::ESVCEWaitingForNetwork;	           
             }
@@ -434,7 +414,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
             {
             case ECCHEnabled:
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCERegistered") );
+                TRACE( "ESVCERegistered" );
                 CreateIMCacheAccessorL();
                 state = TVIMPSTEnums::ESVCERegistered;
                 }
@@ -442,7 +422,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
 
             case ECCHDisconnecting:      
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCENetworkDisConnecting") );                
+                TRACE( "ESVCENetworkDisConnecting" );          
                 state = TVIMPSTEnums::ESVCENetworkDisConnecting;
                 }
                 break;
@@ -450,7 +430,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
             case ECCHUninitialized:
             case ECCHDisabled:  
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCENotRegistered") );
+                TRACE( "ESVCENotRegistered" );
                 ReleaseIMCacheAccessor();
                 state = TVIMPSTEnums::ESVCENotRegistered;
                 }
@@ -458,7 +438,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
                 
             case ECCHConnecting:               
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCENetworkConnecting") );               
+                TRACE( "ESVCENetworkConnecting" );   
                 state = TVIMPSTEnums::ESVCENetworkConnecting;
                 }
                 break;
@@ -468,7 +448,6 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
             }
         }        
         
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::ResolveServiceStateL end"));
 	        
     return state;  
 	
@@ -481,8 +460,9 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineIMSubService::ResolveService
 //
 TVIMPSTEnums::SubServiceType CVIMPSTEngineIMSubService::Type() const	
 	{
-	TRACE( T_LIT("SubServiceType() Type : %d"), iType );
-	TRACE( T_LIT("CVIMPSTEngineIMSubService: [0x%x]"), this );		    	
+	TRACER_AUTO;
+	TRACE("SubServiceType() Type : %d", iType );
+	TRACE("CVIMPSTEngineIMSubService: [0x%x]", this );
 	return iType;	
 	}
 
@@ -497,10 +477,8 @@ void CVIMPSTEngineIMSubService::CchEventOccuredL(
             TCCHSubserviceState aState, 
             TInt aServiceError )
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::CchEventOccuredL start"));
-	TRACE( T_LIT("CchEventOccuredL() TCCHSubserviceState : %d, ServiceErr: %d"), 
-									aState, aServiceError );
+	TRACER_AUTO;
+	TRACE( "TCCHSubserviceState : %d, ServiceErr: %d", aState, aServiceError );
 	
     if ( aServiceError && ECCHDisabled != aState )
         {
@@ -517,7 +495,6 @@ void CVIMPSTEngineIMSubService::CchEventOccuredL(
         iObserver.HandleServceConnectionEventL();
         }	
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::CchEventOccuredL end"));
 	
 	}
 
@@ -529,10 +506,8 @@ void CVIMPSTEngineIMSubService::CchEventOccuredL(
 void CVIMPSTEngineIMSubService::DoHandleCchErrorL( 
     TInt aServiceError )
     {
-    
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::DoHandleCchErrorL start"));
-    TRACE( T_LIT("DoHandleCchErrorL() ServiceErr: %d"), 
-									aServiceError );
+	TRACER_AUTO;
+	TRACE( "ServiceErr: %d", aServiceError );
 									
     switch ( aServiceError )
         {
@@ -582,7 +557,6 @@ void CVIMPSTEngineIMSubService::DoHandleCchErrorL(
             break;
         }
     
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::DoHandleCchErrorL end"));
     
     }
 
@@ -593,15 +567,13 @@ void CVIMPSTEngineIMSubService::DoHandleCchErrorL(
 //     
 void CVIMPSTEngineIMSubService::CreateIMCacheAccessorL()
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::CreateIMCacheAccessorL start"));
-	
+	TRACER_AUTO;
 	if (!iIMCacheFactory)
 	    {
 	    HBufC* ownData = iCchHandler.GetConParametersL(ECchUsername);//
 	    CleanupStack::PushL(ownData);
 	    TPtr ownDataPtr = ownData->Des();
-	    TRACE( T_LIT("DoHandleCchErrorL() ServiceErr: %S"), 
-	            &ownDataPtr );
+	    TRACE( "ServiceErr: %S",&ownDataPtr );
 	    // im cache factory
 	    iIMCacheFactory = CIMCacheFactory::InstanceL(); 
 
@@ -615,7 +587,6 @@ void CVIMPSTEngineIMSubService::CreateIMCacheAccessorL()
 
 	    CleanupStack::PopAndDestroy(ownData);
 	    }
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::CreateIMCacheAccessorL end"));
 	}
 
 // ---------------------------------------------------------------------------
@@ -624,7 +595,7 @@ void CVIMPSTEngineIMSubService::CreateIMCacheAccessorL()
 //	
 void CVIMPSTEngineIMSubService::ReleaseIMCacheAccessor()	
 	{
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::ReleaseIMCacheAccessor start"));
+	TRACER_AUTO;
 	
 	if( iIMCacheAccessor )
 	  	{
@@ -638,7 +609,6 @@ void CVIMPSTEngineIMSubService::ReleaseIMCacheAccessor()
 		iIMCacheFactory = NULL;
 		}
 	
-	TRACE( T_LIT("CVIMPSTEngineIMSubService::ReleaseIMCacheAccessor end"));
 	}
 
 
@@ -648,13 +618,12 @@ void CVIMPSTEngineIMSubService::ReleaseIMCacheAccessor()
 //
 void CVIMPSTEngineIMSubService::NotifyObserversL( TVIMPSTEnums::TIMEventType aEventType ,const TDesC& aBuddyId )
     {
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::NotifyObserversL start"));
+	TRACER_AUTO;
     TInt count = iChatObserver.Count();
     for (TInt index=0; index<count; index++)		
         {
         iChatObserver[index]->HandleChatMessageEventL(aEventType ,aBuddyId );
         }	
-    TRACE( T_LIT("CVIMPSTEngineIMSubService::NotifyObserversL end"));
     }
 
 //  End of File

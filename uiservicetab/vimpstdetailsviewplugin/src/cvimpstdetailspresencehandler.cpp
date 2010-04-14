@@ -29,6 +29,7 @@
 #include <ximpcontext.h>
 #include <StringLoader.h>
 #include <vimpstdetailsviewpluginrsc.rsg>
+#include "uiservicetabtracer.h"
 
 // ---------------------------------------------------------------------------
 // NewL, two-phase construction
@@ -64,6 +65,7 @@ CVIMPSTDetailsPresenceHandler::CVIMPSTDetailsPresenceHandler(MVIMPSTDetailsPrese
 //
 void CVIMPSTDetailsPresenceHandler::ConstructL(const TDesC& aServiceName )
 	{
+	TRACER_AUTO;
  	iServiceName = aServiceName.AllocL();
  	
  		
@@ -99,6 +101,7 @@ CVIMPSTDetailsPresenceHandler::~CVIMPSTDetailsPresenceHandler()
 //  
 void CVIMPSTDetailsPresenceHandler::SubscribePresenceL(const TDesC& aUserId )
 	{
+	TRACER_AUTO;
 	if( iUserId )
 		{
 		delete iUserId;
@@ -161,6 +164,7 @@ void CVIMPSTDetailsPresenceHandler::HandlePresenceReadL(TInt /*aErrorCode*/,
 void CVIMPSTDetailsPresenceHandler::HandlePresenceNotificationL(TInt /*aErrorCode*/,
         MPresenceBuddyInfo2* aPresenceBuddyInfo)
     {
+	TRACER_AUTO;
     if ( aPresenceBuddyInfo )
         {
         CleanupDeletePushL( aPresenceBuddyInfo );  
@@ -249,6 +253,7 @@ void CVIMPSTDetailsPresenceHandler::ConvertPresenceCacheEnums(MPresenceBuddyInfo
 //  
 void CVIMPSTDetailsPresenceHandler::ProcessStatusMesssageL(const TDesC& aStatusMessage  )
 	{
+	TRACER_AUTO;
 	if( iStatusMessage )
 		{
 		delete iStatusMessage ;
@@ -282,6 +287,7 @@ TVIMPSTEnums::TOnlineStatus CVIMPSTDetailsPresenceHandler::GetPresenceStatus()
 //
 const TDesC& CVIMPSTDetailsPresenceHandler::GetHeaderLabelDataL( TInt aIndex )
 	{
+	TRACER_AUTO;
 	if( aIndex == 0 && iServiceName ) // first label data
 		{
 		return *iServiceName;
@@ -299,6 +305,7 @@ const TDesC& CVIMPSTDetailsPresenceHandler::GetHeaderLabelDataL( TInt aIndex )
 //
 const TDesC& CVIMPSTDetailsPresenceHandler::GetStatusMessageL()
 	{
+	TRACER_AUTO;
 	if( iStatusMessage && iStatusMessage->Length() )
 		{
 		return *iStatusMessage;	
@@ -321,6 +328,7 @@ TBool CVIMPSTDetailsPresenceHandler::IsSupported() const
 //
 const TDesC& CVIMPSTDetailsPresenceHandler::GetStatusTextL()
 	{
+	TRACER_AUTO;
 	TInt resourceId =  R_SERVDETAIL_STATUSTEXT_OFFLINE;
   
 	switch( iStatus )
@@ -406,6 +414,7 @@ const TDesC& CVIMPSTDetailsPresenceHandler::GetStatusTextL()
 //
 void CVIMPSTDetailsPresenceHandler::GetKeyFieldsAndValuesL(MPresenceBuddyInfo2& aPresenceBuddyInfo)
     {
+	TRACER_AUTO;
     // At any point of time fro remote and blocked contact only one of the keys
     // KPendingRequestExtensionValue/KBlockedExtensionValue will be assigned, and not both the keys.
     TPtrC8 value = aPresenceBuddyInfo.GetAnyField( KExtensionKey() ) ;

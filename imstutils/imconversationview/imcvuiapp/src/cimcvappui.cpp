@@ -37,7 +37,7 @@
 #include 	<layoutmetadata.cdl.h>
 #include 	<aknlayoutscalable_avkon.cdl.h>
 #include 	<AknStatuspaneUtils.h>
-#include 	<AknLayoutScalable_Avkon.cdl.common.h>
+#include 	<aknlayoutscalable_avkon.cdl.common.h>
 #include 	"imcvuicommonuids.h"
 #include    "cimcvuiappskinvariant.h"
 #include 	"imcvuiparams.h"

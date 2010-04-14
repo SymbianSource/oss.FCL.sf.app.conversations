@@ -38,7 +38,7 @@
 #include "cvimpstenginefactory.h"
 #include "mvimpststorageserviceview.h"
 #include "cvimpststoragemanagerfactory.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 
 
@@ -58,10 +58,9 @@ CVIMPSTEngineServiceTableFetcher::CVIMPSTEngineServiceTableFetcher()
 //
 void CVIMPSTEngineServiceTableFetcher::ConstructL()
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::ConstructL start"));
+	TRACER_AUTO;
     iSettings = CSPSettings::NewL();
     CompressViewIdsL();
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::ConstructL end"));
     }
 
 // ---------------------------------------------------------------------------
@@ -71,12 +70,11 @@ void CVIMPSTEngineServiceTableFetcher::ConstructL()
 CVIMPSTEngineServiceTableFetcher* 
     CVIMPSTEngineServiceTableFetcher::NewL( )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::NewL start"));
+	TRACER_AUTO;
     
     CVIMPSTEngineServiceTableFetcher* self = NewLC();
     CleanupStack::Pop(self);
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::NewL end"));
     return self;
     }
 
@@ -87,14 +85,13 @@ CVIMPSTEngineServiceTableFetcher*
 CVIMPSTEngineServiceTableFetcher* 
     CVIMPSTEngineServiceTableFetcher::NewLC()
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::NewLC start"));
+	TRACER_AUTO;
     
     CVIMPSTEngineServiceTableFetcher* self =
         new (ELeave) CVIMPSTEngineServiceTableFetcher( );
     CleanupStack::PushL(self);
     self->ConstructL();
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::NewLC end"));
     return self;
     }
 
@@ -105,13 +102,12 @@ CVIMPSTEngineServiceTableFetcher*
 //
 CVIMPSTEngineServiceTableFetcher::~CVIMPSTEngineServiceTableFetcher()
     {
+	TRACER_AUTO;
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::~CVIMPSTEngineServiceTableFetcher start"));   
     
     delete iSettings;	
     iSettings = NULL;
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::~CVIMPSTEngineServiceTableFetcher end"));    
     }
 
 // ---------------------------------------------------------------------------
@@ -121,7 +117,7 @@ CVIMPSTEngineServiceTableFetcher::~CVIMPSTEngineServiceTableFetcher()
 void CVIMPSTEngineServiceTableFetcher::GetMasterServiceIdsL( 
     RArray<TUint32>& aServiceIds )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetMasterServiceIdsL start"));
+	TRACER_AUTO;
     
     RArray<TServiceId> services;
     CleanupClosePushL( services );
@@ -137,17 +133,16 @@ void CVIMPSTEngineServiceTableFetcher::GetMasterServiceIdsL(
              || TUid::Uid( refContactUid ) == 
              TUid::Uid( 0x20007B6D ) )
             {
-            TRACE( T_LIT("GetMasterServiceIdsL() found serviceid: (%d)"), services[ i ] );
+            TRACE( " found serviceid: (%d)", services[ i ] );
 
             aServiceIds.Append( services[ i ] );                
 
-            TRACE( T_LIT("GetMasterServiceIdsL() - service append ok") );                
+            TRACE("service append ok" ); 
 
             }
         }
     CleanupStack::PopAndDestroy( &services );
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetMasterServiceIdsL end"));  
     }
 
 // ---------------------------------------------------------------------------
@@ -157,10 +152,9 @@ void CVIMPSTEngineServiceTableFetcher::GetMasterServiceIdsL(
 void CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL( 
     TUint32 aServiceId, TDes& aContactStoreId )
     {
-    TRACE( T_LIT( 
-       "CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL start")); 
+	TRACER_AUTO;
     
-    TRACE( T_LIT("GetContactStoreIdL() ServiceId: %d"), aServiceId );
+    TRACE( "ServiceId: %d", aServiceId );
         
     CSPProperty* property = CSPProperty::NewLC();
     TInt err = iSettings->FindPropertyL( aServiceId,
@@ -174,9 +168,8 @@ void CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL(
 
     CleanupStack::PopAndDestroy( property );
     
-    TRACE( T_LIT("GetContactStoreIdL() - StoreId: %S"), &aContactStoreId );                
+    TRACE( "StoreId: %S", &aContactStoreId );     
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL end"));  
  	
     }   
 
@@ -189,9 +182,9 @@ void CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL(
 void CVIMPSTEngineServiceTableFetcher::GetBrandIdL( 
     TUint32 aServiceId, TDes8& aBrandId )
     {
-    TRACE( T_LIT( "CVIMPSTEngineServiceTableFetcher::GetBrandIdL start"));
+	TRACER_AUTO;
     
-    TRACE( T_LIT("GetBrandIdL() ServiceId: %d"), aServiceId );
+    TRACE( "ServiceId: %d", aServiceId );
        
     HBufC* ret = HBufC::NewLC( KVIMPSTUISPSMaxPropertyLength );    
     TPtr retPtr( ret->Des() );
@@ -211,9 +204,8 @@ void CVIMPSTEngineServiceTableFetcher::GetBrandIdL(
     CleanupStack::PopAndDestroy( property );        
     CleanupStack::PopAndDestroy( ret );        
     
-    TRACE( T_LIT("GetBrandIdL() - BrandId: %S"), &aBrandId ); 
+    TRACE( "BrandId: %S", &aBrandId ); 
     
-    TRACE( T_LIT( "CVIMPSTEngineServiceTableFetcher::GetBrandIdL end"));
     }    
 
 
@@ -224,10 +216,9 @@ void CVIMPSTEngineServiceTableFetcher::GetBrandIdL(
 TInt CVIMPSTEngineServiceTableFetcher::FindPropertyL( TUint32 aServiceId,
 	                                TServicePropertyName aPropertyName )
 	{
-	TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::FindPropertyL start"));
+	TRACER_AUTO;
     
-    TRACE( T_LIT("FindPropertyL- ServiceId: %d Property: %d"), 
-    								aServiceId, aPropertyName ); 
+	 TRACE( "ServiceId: %d Property: %d", aServiceId, aPropertyName );
        
 	CSPProperty* property = CSPProperty::NewLC();
     TInt result = iSettings->FindPropertyL( aServiceId,
@@ -235,9 +226,8 @@ TInt CVIMPSTEngineServiceTableFetcher::FindPropertyL( TUint32 aServiceId,
                                 *property );		
 	CleanupStack::PopAndDestroy( property );
 	
-	TRACE( T_LIT("FindPropertyL- Result: %d"), result );
+	TRACE(" Result: %d", result );
     								
-	TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::FindPropertyL end"));
        
 	return result;
 	}
@@ -252,9 +242,9 @@ TInt CVIMPSTEngineServiceTableFetcher::FindPropertyL( TUint32 aServiceId,
 TInt CVIMPSTEngineServiceTableFetcher::PropertyBrandVersionL( 
     TUint32 aServiceId ) 
     {
-    TRACE( T_LIT( "CVIMPSTEngineServiceTableFetcher::PropertyBrandVersionL start"));
+	TRACER_AUTO;
     
-    TRACE( T_LIT("PropertyBrandVersionL() ServiceId: %d"), aServiceId );
+	TRACE( "ServiceId: %d", aServiceId );
        
     TInt brandVersion = KErrNotFound; // default value
     CSPProperty* property = CSPProperty::NewLC();
@@ -268,9 +258,8 @@ TInt CVIMPSTEngineServiceTableFetcher::PropertyBrandVersionL(
         
     CleanupStack::PopAndDestroy( property );
     
-    TRACE( T_LIT("PropertyBrandVersionL - version: %d"), brandVersion );  
+    TRACE( "version: %d", brandVersion );
     
-    TRACE( T_LIT( "CVIMPSTEngineServiceTableFetcher::PropertyBrandVersionL end"));
     return brandVersion;
     }
 
@@ -281,9 +270,9 @@ TInt CVIMPSTEngineServiceTableFetcher::PropertyBrandVersionL(
 TLanguage CVIMPSTEngineServiceTableFetcher::PropertyBrandLanguageL( 
     TUint32 aServiceId ) 
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::PropertyBrandLanguageL start"));
+	TRACER_AUTO;
     
-    TRACE( T_LIT("PropertyBrandLanguageL() ServiceId: %d"), aServiceId );
+	 TRACE( " ServiceId: %d", aServiceId );
     
     // ELangInternationalEnglish is selected as Default Brand Language Id.
     TInt brandLanguage = ELangInternationalEnglish;    
@@ -297,9 +286,8 @@ TLanguage CVIMPSTEngineServiceTableFetcher::PropertyBrandLanguageL(
         }
     CleanupStack::PopAndDestroy( property );
 
-    TRACE( T_LIT("PropertyBrandVersionL - brandLanguage: (%d) "), brandLanguage );  
+    TRACE( "brandLanguage: (%d) ", brandLanguage );
 	
-	TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::PropertyBrandLanguageL end"));
        
     return ((TLanguage) (brandLanguage) );
     }
@@ -312,9 +300,9 @@ TLanguage CVIMPSTEngineServiceTableFetcher::PropertyBrandLanguageL(
 TUint32 CVIMPSTEngineServiceTableFetcher::ContactViewUidL( 
     TUint32 aServiceId )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::ContactViewUidL start"));
+	TRACER_AUTO;
     
-    TRACE( T_LIT("ContactViewUidL() ServiceId: %d"), aServiceId );
+	TRACE( "ServiceId: %d", aServiceId );
         
     TInt contactViewUid = KErrNotFound;
     CSPProperty* property = CSPProperty::NewLC();
@@ -327,9 +315,8 @@ TUint32 CVIMPSTEngineServiceTableFetcher::ContactViewUidL(
         }
     CleanupStack::PopAndDestroy( property );      
           
-    TRACE( T_LIT("ContactViewUid: %d"), contactViewUid );    
+    TRACE( "ContactViewUid: %d", contactViewUid ); 
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetContactStoreIdL end"));
        
     return contactViewUid;
     }    
@@ -341,9 +328,9 @@ TUint32 CVIMPSTEngineServiceTableFetcher::ContactViewUidL(
 void CVIMPSTEngineServiceTableFetcher::GetServiceNameL( 
     TUint32 aServiceId, TDes& aServiceName )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetServiceNameL start"));    
+	TRACER_AUTO;
     
-    TRACE( T_LIT("GetServiceNameL() ServiceId: %d"), aServiceId );
+	TRACE( "ServiceId: %d", aServiceId );
     
     CSPEntry* entry = CSPEntry::NewLC();
     TInt err = iSettings->FindEntryL( aServiceId, *entry ) ;
@@ -354,9 +341,8 @@ void CVIMPSTEngineServiceTableFetcher::GetServiceNameL(
     
     CleanupStack::PopAndDestroy( entry );    
     
-    TRACE( T_LIT("GetServiceNameL() ServiceName: %S"), &aServiceName );
+    TRACE("ServiceName: %S", &aServiceName );
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::GetServiceNameL end"));
     }
 
 // ---------------------------------------------------------------------------
@@ -366,8 +352,8 @@ void CVIMPSTEngineServiceTableFetcher::GetServiceNameL(
 void CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL(
     		TServiceId aServiceId, TBool aNewService, MVIMPSTEngine* aEngine )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL start"));  
-    TRACE( T_LIT("DoHandleNotifyChange() ServiceId:%d"), aServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId:%d", aServiceId );
     TBool serviceFound( EFalse ); 
     if(!aNewService)
         {
@@ -382,7 +368,7 @@ void CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL(
             {
             if ( services[index] == aServiceId )
                 {
-                TRACE( T_LIT("DoHandleNotifyChange() - Service (%d) found"), aServiceId );
+            TRACE( "Service (%d) found", aServiceId );
                 serviceFound = ETrue;
                 }
             }
@@ -400,7 +386,7 @@ void CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL(
         //once phonebook gives a permanant fix ,remove the below code
         if(( TUid::Uid(ContactViewUidL( aServiceId )) == TUid::Uid( KIMCONTACTSEXTNIMPLEMENTATIONUID )) || aEngine ) 
             {                                                               // only MecoServicetabs shutdown phonebook.
-            TRACE( T_LIT("DoHandleNotifyChange() - removing service") );    //or while deleting service from settings
+            TRACE( "removing service" );    //or while deleting service from settings
             CompressViewIdsL();                                             //check whether engine exists,which is true for only MecoServicetabs.
             if(aEngine)
                 {
@@ -408,9 +394,8 @@ void CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL(
                 }
             ShutDownPhonebookL();
             }
-        TRACE( T_LIT("DoHandleNotifyChange() - service removed") );
+        TRACE( "service removed" );
         }
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL end"));    
 
     }
 // ---------------------------------------------------------------------------
@@ -420,8 +405,8 @@ void CVIMPSTEngineServiceTableFetcher::DoHandleNotifyChangeL(
 TBool CVIMPSTEngineServiceTableFetcher::CompressViewIdsL( 
     TServiceId aServiceId )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::CompressViewIdsL start"));       
-    TRACE( T_LIT("CompressViewIdsL() ServiceId: %d"), aServiceId );
+	TRACER_AUTO;
+	TRACE(" ServiceId: %d", aServiceId );
     
     TBool ret = EFalse;
     // Compress view id's in service table
@@ -438,8 +423,8 @@ TBool CVIMPSTEngineServiceTableFetcher::CompressViewIdsL(
         TUid::Uid( KIMCONTACTSEXTNIMPLEMENTATIONUID ) )
             {
 
-            TRACE( T_LIT("  -> compressing view ids, service: %d"), serviceId );
-            TRACE( T_LIT("  -> compressing view ids, view id: (%d)"), ( KVIMPSTTabbedViewIdBase+ serviceId ) );
+        TRACE( "  -> compressing view ids, service: %d", serviceId );
+        TRACE( "  -> compressing view ids, view id: (%d)", ( KVIMPSTTabbedViewIdBase+ serviceId ) );
 
             WriteTabViewIdToServiceTableL( services[ i ], ( KVIMPSTTabbedViewIdBase + serviceId ) );
         
@@ -448,8 +433,7 @@ TBool CVIMPSTEngineServiceTableFetcher::CompressViewIdsL(
         }
     CleanupStack::PopAndDestroy( &services );
     
-    TRACE( T_LIT("CompressViewIdsL returns: (%d)"), ret );     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::CompressViewIdsL end"));    
+    TRACE( "CompressViewIdsL returns: (%d)", ret );
     
     return ret;
     }
@@ -462,9 +446,9 @@ TBool CVIMPSTEngineServiceTableFetcher::CompressViewIdsL(
 void CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL( 
     TUint32 aServiceId, TUint aViewId ) 
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL start"));   
-    TRACE( T_LIT("WriteTabViewIdToServiceTableL() aServiceId: %d, aViewId: %d "), 
-    										aServiceId, aViewId );
+	TRACER_AUTO;
+    
+    TRACE( "aServiceId: %d, aViewId: %d ",aServiceId, aViewId );
     
     // Write specific view id to service table
     // No need to check for error beacuse 
@@ -476,13 +460,11 @@ void CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL(
                                 EPropertyContactViewId,
                                 *property );    
     
-    TRACE( T_LIT( 
-       "WriteTabViewIdToServiceTableL() - OK"));
+    TRACE( " OK");
     
     TInt err = property->SetName( EPropertyContactViewId );
     
-     TRACE( T_LIT( 
-       "WriteTabViewIdToServiceTableL ERR1=%d"), err );
+    TRACE( " ERR1=%d", err );
     
     TInt err2 = property->SetValue( aViewId );
     
@@ -491,13 +473,11 @@ void CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL(
         iSettings->AddOrUpdatePropertyL( aServiceId, *property );
         }
     
-    TRACE( T_LIT( 
-       "WriteTabViewIdToServiceTableL ERR2=%d"), err2 );
+    TRACE(" ERR2=%d", err2 );
         
     
     CleanupStack::PopAndDestroy( property );  
                    
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL end") );
     }
 
 // ---------------------------------------------------------------------------
@@ -506,7 +486,7 @@ void CVIMPSTEngineServiceTableFetcher::WriteTabViewIdToServiceTableL(
 //
 void CVIMPSTEngineServiceTableFetcher::ShutDownPhonebookL()
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::ShutDownPhonebookL start"));   
+	TRACER_AUTO;
     
     // Kills phonebook if running
     RWsSession ws;
@@ -521,7 +501,6 @@ void CVIMPSTEngineServiceTableFetcher::ShutDownPhonebookL()
         }
     CleanupStack::PopAndDestroy( &ws ); // ws
     
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::ShutDownPhonebookL end"));
     }
     
 // ---------------------------------------------------------------------------
@@ -531,9 +510,9 @@ void CVIMPSTEngineServiceTableFetcher::ShutDownPhonebookL()
 TInt CVIMPSTEngineServiceTableFetcher::XimpAdapterUidL( 
     TUint32 aServiceId )
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::XimpAdapterUidL start"));   
+	TRACER_AUTO;
     
-    TRACE( T_LIT("XimpAdapterUidL() ServiceId: %d"), aServiceId );
+	TRACE( "ServiceId: %d", aServiceId );
     										
     TInt ret = KErrNotFound;
     CSPProperty* property = CSPProperty::NewLC();
@@ -548,10 +527,9 @@ TInt CVIMPSTEngineServiceTableFetcher::XimpAdapterUidL(
     
     CleanupStack::PopAndDestroy( property );
     
-    TRACE( T_LIT("XimpAdapterUidL() XimpAdapterUid: %d "), 
-    										ret );
+    
+    TRACE( "XimpAdapterUid: %d ",ret );
     										
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::XimpAdapterUidL end"));   
     return ret;
     }        
     
@@ -563,9 +541,9 @@ TVIMPSTEnums::TVIMPSTPresenceRequestStatus
 CVIMPSTEngineServiceTableFetcher::PresenceRequestStatusL( 
         TUint32 aServiceId )    
     {
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::PresenceRequestStatusL  start")); 
+	TRACER_AUTO;
     
-    TRACE( T_LIT("PresenceRequestStatusL() ServiceId: %d"), aServiceId );
+	 TRACE( " ServiceId: %d", aServiceId );
     
     TVIMPSTEnums::TVIMPSTPresenceRequestStatus ret = 
     			TVIMPSTEnums::ESVCEPresenceRequestStatusUnKnown;
@@ -594,10 +572,8 @@ CVIMPSTEngineServiceTableFetcher::PresenceRequestStatusL(
     
     CleanupStack::PopAndDestroy( property );
     
-    TRACE( T_LIT("PresenceRequestStatusL() PresenceRequestStatus: %d "), 
-    										ret );
+    TRACE("PresenceRequestStatus: %d ", ret );
     										
-    TRACE( T_LIT("CVIMPSTEngineServiceTableFetcher::PresenceRequestStatusL end"));   
     return ret;        
     }
   
@@ -608,10 +584,10 @@ CVIMPSTEngineServiceTableFetcher::PresenceRequestStatusL(
 void CVIMPSTEngineServiceTableFetcher::GetDefaultDomainNameL( 
     TUint32 aServiceId, TDes& aDefaultDomainName )
     {
-    TRACE( T_LIT( 
-       "CVIMPSTEngineServiceTableFetcher::GetDefaultDomainNameL start")); 
+	TRACER_AUTO;
     
-    TRACE( T_LIT("GetContactStoreIdL() ServiceId: %d"), aServiceId );
+	
+	 TRACE( "ServiceId: %d", aServiceId );
         
     CSPProperty* property = CSPProperty::NewLC();
     TInt err = iSettings->FindPropertyL( aServiceId,
@@ -624,10 +600,8 @@ void CVIMPSTEngineServiceTableFetcher::GetDefaultDomainNameL(
 
     CleanupStack::PopAndDestroy( property );
     
-    TRACE( T_LIT("GetContactStoreIdL() - StoreId: %S"), &aDefaultDomainName );                
+    TRACE( " StoreId: %S", &aDefaultDomainName );
     
-    TRACE( T_LIT( 
-       "CVIMPSTEngineServiceTableFetcher::GetDefaultDomainNameL end"));  
  	
     } 
 

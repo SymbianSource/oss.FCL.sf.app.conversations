@@ -24,7 +24,7 @@
 #include 	<mbsaccess.h>
 #include 	<mbselement.h>
 #include 	<cbsbitmap.h>
-#include    "vimpstdebugprint.h" 
+#include "uiservicetabtracer.h"
 
 #include    <AknIconUtils.h>
 #include    <AknIconArray.h>
@@ -55,6 +55,7 @@ _LIT(KUnderScore,"_");
 // Two-phased constructor.
 CVIMPSTUiBrandData* CVIMPSTUiBrandData::NewL(MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTUiBrandData* self = new (ELeave) CVIMPSTUiBrandData;
     CleanupStack::PushL( self );
     self->ConstructL(aEngine);
@@ -88,7 +89,7 @@ iAppId(KAppIdForBrand)
 // Symbian OS default constructor can leave.
 void CVIMPSTUiBrandData::ConstructL(MVIMPSTEngine& aEngine)
 	{
-	CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::ConstructL") );	    
+	TRACER_AUTO;
 	
 	iBrandId = HBufC8::NewL( 100 );
     TPtr8 brandIdPtr( iBrandId->Des() );    
@@ -117,13 +118,12 @@ void CVIMPSTUiBrandData::ConstructL(MVIMPSTEngine& aEngine)
 
 	CleanupStack::PopAndDestroy();
 	
-	CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::ConstructL, prepare branding access") );	    
+	TRACE(" prepare branding access" );
 	// Leaves if no brand for service, therefore trap
     PrepareBrandingAccess();
 
     
     LoadIconsL();// load the existing icons
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::ConstructL out") );	    
     }
 
 // ---------------------------------------------------------------------------
@@ -132,7 +132,7 @@ void CVIMPSTUiBrandData::ConstructL(MVIMPSTEngine& aEngine)
 // 
 TInt CVIMPSTUiBrandData::PrepareBrandingAccess()
     {
-    
+	TRACER_AUTO;
     TRAPD(err, iBrandingAccess = iBrandingFactory->CreateAccessL( *iBrandId, iLanguageId ));
     
     return err;
@@ -147,7 +147,7 @@ TInt CVIMPSTUiBrandData::PrepareBrandingAccess()
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadIconsLC( )
     {
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadIconsLC start") );	    
+	TRACER_AUTO;  
     CAknIconArray* copyArray =  new( ELeave )CAknIconArray( 4); 
     CleanupStack::PushL( copyArray );
     
@@ -164,7 +164,7 @@ CAknIconArray* CVIMPSTUiBrandData::LoadIconsLC( )
         newIcon->SetBitmapsOwnedExternally( ETrue );
         copyArray->AppendL( newIcon ); // takes the ownership of newIcon
         }
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadIconsLC end") );  
+  
     return copyArray;	 // on cleanup stack	    
     }
 
@@ -176,9 +176,9 @@ CAknIconArray* CVIMPSTUiBrandData::LoadIconsLC( )
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadIconsL()
     {
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadIconsLC") );       
+	TRACER_AUTO;     
     //brand data is available
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadIconsLC - do load") );     
+    TRACE("do load" );     
     return LoadBrandIconsL();          
     }
 
@@ -190,59 +190,59 @@ CAknIconArray* CVIMPSTUiBrandData::LoadIconsL()
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadBrandIconsL( )
     {
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandIconsLC - IN") );	    
+	TRACER_AUTO;    
     delete iIconsArray;
     iIconsArray = NULL;
     
     iIconsArray  = new( ELeave )CAknIconArray( 4);
     // array granularity is 3, because 3 icons are added to array
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendoff") );	    	
+    TRACE(" KEMbmConversationsQgnpropimfriendoff" );	    	
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendoff) );//0
     		
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendon") );	    			
+    TRACE("KEMbmConversationsQgnpropimfriendon" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendon) );//1
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendaway") );	    			
+    TRACE(" KEMbmConversationsQgnpropimfriendaway" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendaway ) );//2
 	
-	CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendbusy") );	    			
+    TRACE("KEMbmConversationsQgnpropimfriendbusy" );	    			
 	iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendbusy ) );//3
 
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendinvisible") );	    			
+	TRACE(" KEMbmConversationsQgnpropimfriendinvisible" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendinvisible ) );//4
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimimsg") );	    			
+    TRACE(" KEMbmConversationsQgnpropimimsg" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimimsg ) );//5
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimimsgnew") );	    			
+    TRACE("  KEMbmConversationsQgnpropimimsgnew" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimimsgnew ) );//6
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropservicedefaultavatar") );	    			
+    TRACE("  KEMbmConversationsQgnpropservicedefaultavatar" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropservicedefaultavatar ) );//7
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropservicefriendrequestreceived") );	    			
+    TRACE("  KEMbmConversationsQgnpropservicefriendrequestreceived" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropservicefriendrequestreceived ) );//8
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropservicefriendrequestsent") );	    			
+    TRACE("  KEMbmConversationsQgnpropservicefriendrequestsent" );	    			
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropservicefriendrequestsent ) );//9
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropserviceofffriendrequestreceived") );                  
+    TRACE(" KEMbmConversationsQgnpropserviceofffriendrequestreceived" );                  
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropserviceofffriendrequestreceived ) );//10
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropserviceofffriendrequestsent") );                  
+    TRACE("  KEMbmConversationsQgnpropserviceofffriendrequestsent" );                  
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropserviceofffriendrequestsent ) );//11
 
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnpropimfriendonmobile") );                  
+    TRACE("  KEMbmConversationsQgnpropimfriendonmobile" );                  
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimfriendonmobile ) );//12
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnservtabavatarblocked") );                  
+    TRACE(" KEMbmConversationsQgnservtabavatarblocked" );                  
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimuserblocked ) );//13
     
-    CHAT_DP( D_CHAT_LIT(" -> KEMbmConversationsQgnservtabavatarblocked") );                  
+    TRACE("  KEMbmConversationsQgnservtabavatarblocked" );                  
     iIconsArray->AppendL( LoadBrandBitmapL(KEMbmConversationsQgnpropimusercallforward ) );//14
 
-	CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandIconsLC - OUT") );	    
+        
     return iIconsArray;
     }
 
@@ -253,7 +253,7 @@ CAknIconArray* CVIMPSTUiBrandData::LoadBrandIconsL( )
 //
 CGulIcon* CVIMPSTUiBrandData::LoadBrandBitmapL( const TDesC8& aId )
 	{
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandBitmapL - IN") );	    
+	TRACER_AUTO;    	    
     
     CFbsBitmap* bitmap = NULL;
     CFbsBitmap* mask = NULL;
@@ -262,19 +262,19 @@ CGulIcon* CVIMPSTUiBrandData::LoadBrandBitmapL( const TDesC8& aId )
     //Fetching bitmaps from the server.
     if(!iBrandingAccess)
 	    {
-	    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandBitmapL - create access") );	    
+    TRACE("create access" );	    
 	    PrepareBrandingAccess();	
 	    }
     TRAPD(err_bitmap, iBrandingAccess->GetBitmapL( aId, bitmap, mask ));
     if(KErrNone != err_bitmap)
     	{
-    	CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandBitmapL - err") );	    
+    TRACE(" err" );	    
         User::Leave( err_bitmap );
     	}
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandBitmapL - create icon") );	    	
+    TRACE("create icon" );	    	
     CGulIcon* icon = CGulIcon::NewL(bitmap, mask);
     icon->SetBitmapsOwnedExternally( EFalse );
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadBrandBitmapL - return icon") );	    	
+    TRACE(" return icon" );	    	
     return icon;
     }
 
@@ -286,7 +286,7 @@ CGulIcon* CVIMPSTUiBrandData::LoadBrandBitmapL( const TDesC8& aId )
 CGulIcon* CVIMPSTUiBrandData::LoadDefaultBitmapL( TInt aBitmapId, TInt aMaskId, 
                                       const TDesC& aFullPath )
 	{
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::LoadDefaultBitmapL IN") );	    
+	TRACER_AUTO;       
     
     CFbsBitmap* bitmap = NULL;
     CFbsBitmap* mask = NULL;
@@ -304,6 +304,7 @@ CGulIcon* CVIMPSTUiBrandData::LoadDefaultBitmapL( TInt aBitmapId, TInt aMaskId,
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadOwnStatusIconsLC( )
     {
+	TRACER_AUTO;   
     //EASY WAY TO DO THINGS.. :) 
     //Fetching bitmaps from the server.
     if(!iBrandingAccess)
@@ -325,6 +326,7 @@ CAknIconArray* CVIMPSTUiBrandData::LoadOwnStatusIconsLC( )
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadBrandOwnStatusIconsLC( )
     {
+	TRACER_AUTO;   
     // array granularity is 3, because 3 icons are added to array
     CAknIconArray* icons = new( ELeave )CAknIconArray( 5);
     CleanupStack::PushL( icons );
@@ -355,6 +357,7 @@ CAknIconArray* CVIMPSTUiBrandData::LoadBrandOwnStatusIconsLC( )
 //
 CAknIconArray* CVIMPSTUiBrandData::LoadDefaultOwnStatusIconsLC( const TDesC& aMbmFile)
     {
+	TRACER_AUTO;   
     // array granularity is 4, because 4 icons are added to array
     CAknIconArray* icons = new( ELeave )CAknIconArray( 5);
     CleanupStack::PushL( icons );
@@ -390,7 +393,8 @@ CAknIconArray* CVIMPSTUiBrandData::LoadDefaultOwnStatusIconsLC( const TDesC& aMb
    
 TInt CVIMPSTUiBrandData::GetBrandBitmapsL( CFbsBitmap **aBitmap, CFbsBitmap **aMask)
     {
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::GetBrandBitmapsL") );	    
+	TRACER_AUTO;   
+    	    
     TInt error =KErrNone;
     if ( !iBrandingAccess && KErrNone != PrepareBrandingAccess())
         {
@@ -404,7 +408,7 @@ TInt CVIMPSTUiBrandData::GetBrandBitmapsL( CFbsBitmap **aBitmap, CFbsBitmap **aM
           {
           TRAP(error, iBrandingAccess->GetBitmapL( KEMbmConversationsQgnpropimfriendon, *aBitmap, *aMask ));
           }
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiBrandData::GetBrandBitmapsL returns: %d"), error );	          
+    TRACE("returns: %d", error );	          
     return error;
     }
     
@@ -416,6 +420,7 @@ TInt CVIMPSTUiBrandData::GetBrandBitmapsL( CFbsBitmap **aBitmap, CFbsBitmap **aM
 //
 HBufC* CVIMPSTUiBrandData::GetToUBrandedStringL()
 	{
+	TRACER_AUTO;   
 	HBufC* prompt= NULL;
 	if(iBrandingAccess || KErrNone == PrepareBrandingAccess())
 		{
@@ -445,6 +450,7 @@ TBool CVIMPSTUiBrandData::IsBrandingSupported()
 //
 HBufC* CVIMPSTUiBrandData::GetToUStringL()
     {
+	TRACER_AUTO;   
     HBufC* TouDes = NULL; 
     const TInt KLangBufLength = 2;
     const TInt KLeadingZero = 0;
@@ -536,6 +542,7 @@ HBufC* CVIMPSTUiBrandData::GetToUStringL()
 //
 HBufC* CVIMPSTUiBrandData::ConcatLC( TDesC& aDesc1, TDesC& aDesc2 )
    {
+	TRACER_AUTO;   
    HBufC* resultDesc = HBufC::NewLC( aDesc1.Length() + aDesc2.Length() );
    resultDesc->Des().Append( aDesc1 );
    resultDesc->Des().Append( aDesc2 );

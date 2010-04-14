@@ -22,7 +22,7 @@
 #include <bitmaptransforms.h>
 #include <s32file.h>
 #include <e32cmn.h>
-#include "vimpstdebugprint.h"
+#include "uiservicetabtracer.h"
 // CONSTANTS
 const TInt KChatCustomBitmapWidth =  65;
 const TInt KChatCustomBitmapHeight = 65;
@@ -64,6 +64,7 @@ CVimpstImageProcessor::~CVimpstImageProcessor()
 //-----------------------------------------------------------------------------
 CVimpstImageProcessor* CVimpstImageProcessor::NewL( MCAImageProcessObserver* aObserver)
     {
+	TRACER_AUTO;
     CVimpstImageProcessor* self =
     new ( ELeave ) CVimpstImageProcessor(aObserver);
     CleanupStack::PushL( self );
@@ -88,6 +89,7 @@ void CVimpstImageProcessor::ConstructL()
 //-----------------------------------------------------------------------------
 void CVimpstImageProcessor::RunL()
     {
+	TRACER_AUTO;
     TInt status = iStatus.Int();    
 
     if(!status)
@@ -124,7 +126,7 @@ void CVimpstImageProcessor::RunL()
                     }
                 else
                     {
-                    CHAT_DP_FUNC_ENTER("CVimpstImageProcessor::RunL completed ");
+                    TRACE("RunL completed ");
                     CompleteRequestL();
                     }
                 break;
@@ -138,7 +140,7 @@ void CVimpstImageProcessor::RunL()
         }
     else
         {
-        CHAT_DP_FUNC_ENTER("CVimpstImageProcessor::RunL completed ");
+        TRACE("RunL completed ");
         CompleteRequestL();
         }
 
@@ -149,6 +151,7 @@ void CVimpstImageProcessor::RunL()
 //-----------------------------------------------------------------------------
 void CVimpstImageProcessor::ConvertImageToBitmapL()
     {
+	TRACER_AUTO;
     TSize origSize( iImageDecoder->FrameInfo().iOverallSizeInPixels );
     ScaleSize( origSize, iTargetSize );
     TBool fullyScaleable( iImageDecoder->FrameInfo().iFlags & TFrameInfo::EFullyScaleable );
@@ -170,6 +173,7 @@ void CVimpstImageProcessor::ConvertImageToBitmapL()
 //-----------------------------------------------------------------------------
 void CVimpstImageProcessor::ScaleBitmapL()
     {
+	TRACER_AUTO;
     TSize currentSize( iBitmap ? iBitmap->SizeInPixels() : iTargetSize );
 
     if( currentSize != iTargetSize )
@@ -246,6 +250,7 @@ TInt CVimpstImageProcessor::RunError( TInt aError )
 //-----------------------------------------------------------------------------
 TInt CVimpstImageProcessor::ProcessFromDataL( const TDesC8& aImageData , const TDesC8& aMimeType)
     {
+	TRACER_AUTO;
     TInt err = KErrNone;
     if ( aMimeType.Length())
         {
@@ -278,13 +283,13 @@ TInt CVimpstImageProcessor::ProcessFromDataL( const TDesC8& aImageData , const T
 //-----------------------------------------------------------------------------
 void CVimpstImageProcessor::ProcessFromFileL( const TDesC& aFileName , const TDesC8& aMimeType)
     {
-    CHAT_DP_FUNC_ENTER("CVimpstImageProcessor::ProcessFromFileL start");
+	TRACER_AUTO;
     iMimeType = aMimeType.AllocL();
     iImageDecoder = NULL;
     iImageDecoder = CImageDecoder::FileNewL(iFs, aFileName, *iMimeType );
     iProcessingState = EConvertImageDatatoBitmap;
     RunL();
-    CHAT_DP_FUNC_ENTER("CVimpstImageProcessor::ProcessFromFileL end ");
+    
     }
 
 //-----------------------------------------------------------------------------
@@ -332,6 +337,7 @@ CFbsBitmap& CVimpstImageProcessor::Bitmap()
 TSize CVimpstImageProcessor::DecodeSize( const TSize& aSize, const TSize& aTargetSize,
         TBool aAnyRatio )
     {
+	TRACER_AUTO;
     if( aAnyRatio || aSize == aTargetSize )
         {
         // decoder can scale to any ratio or the size is already correct

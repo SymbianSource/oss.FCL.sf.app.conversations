@@ -23,7 +23,8 @@
 #include "cvimpstcmdfetchblockedlist.h"
 #include "mvimpstcmdobserver.h"
 
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 
@@ -78,22 +79,23 @@ void CVIMPSTCmdFetchBlockedContactList::ConstructL()
 //
 void CVIMPSTCmdFetchBlockedContactList::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTCmdFetchBlockedContactList::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );    
     
     //call logout
    	iEngine.FetchBlockedListL();
    	
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdFetchBlockedContactList:: CommandFinished");
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdFetchBlockedContactList:: CommandFinished");	
+	
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdFetchBlockedContactList::ExecuteLD");	
+		
     }
 
 

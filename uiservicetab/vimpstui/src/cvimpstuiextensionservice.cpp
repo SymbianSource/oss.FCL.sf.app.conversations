@@ -46,6 +46,7 @@
 #include <vimpstuires.rsg>
 #include <eikenv.h>
 #include "cvimpstuimenuextension.h"
+#include "uiservicetabtracer.h"
 
 const TInt KDefaultIconId = EMbmVimpstuiExample_msn_tab;
 const TInt KDefaultMaskId = EMbmVimpstuiExample_msn_tab_mask;
@@ -87,7 +88,8 @@ CVIMPSTUIExtensionService::CVIMPSTUIExtensionService(
 // ---------------------------------------------------------------------------
 // 
 void CVIMPSTUIExtensionService::ConstructL(const TDesC& aServiceName)
-    {       
+    {      
+	TRACER_AUTO;
     TFileName path;    
     Dll::FileName(path); //get the location of the dll
     
@@ -236,6 +238,7 @@ CVIMPSTUiTabbedView*
         TUid aId,
         MVIMPSTEngine& aEngine ) 
     {
+	TRACER_AUTO;
     if ( !iTabbedView )
         {
         iTabbedView = CVIMPSTUiTabbedView::NewL( 
@@ -265,6 +268,7 @@ CVIMPSTUiBlockView*
         TInt aBlockedViewId,
         MVIMPSTEngine& aEngine ) 
     {
+	TRACER_AUTO;
     if ( !iBlockedView )
         {
         iBlockedView = CVIMPSTUiBlockView::NewL( 
@@ -292,6 +296,7 @@ CVIMPSTUiSearchView*
         TUid aId,
         MVIMPSTEngine& aEngine )
     {
+	TRACER_AUTO;
     if ( !iSearchView )
         {
         iSearchView = CVIMPSTUiSearchView::NewL( 
@@ -433,6 +438,7 @@ MVIMPSTEngine& CVIMPSTUIExtensionService::ServiceEngine ()
 // 
 void CVIMPSTUIExtensionService::SetSearchFieldsDataL( RArray<TInt>& aEnumKeysArray, RPointerArray<HBufC>& aLebelKeysArray )
     {
+	TRACER_AUTO;
     // reset all old fields and create new fields
     if( iUiFieldsArray )
 	    {
@@ -509,7 +515,7 @@ CVIMPSTUiSearchFieldArray& CVIMPSTUIExtensionService::GetSearchFieldArray()
 // 
 HBufC* CVIMPSTUIExtensionService::GetSearchKeyLabelL(TVIMPSTEnums::TVIMPSTSearchKey aSearchKey ,TBool& aBasicField )  
     {
-
+	TRACER_AUTO;
     HBufC* keyText = NULL;
     aBasicField = EFalse;
     
@@ -598,6 +604,7 @@ HBufC* CVIMPSTUIExtensionService::GetSearchKeyLabelL(TVIMPSTEnums::TVIMPSTSearch
 // 
 void CVIMPSTUIExtensionService::SortBasicFields()  
 	{
+	TRACER_AUTO;
 	TInt count = iUiFieldsArray->Count();
 	TInt index = 0;
 	if( count >2 ) // atleast there has to be 3 item for sort , first name is already on top

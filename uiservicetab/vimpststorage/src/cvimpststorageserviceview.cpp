@@ -32,7 +32,7 @@
 #include <MVPbkStoreContact.h>
 #include <VPbkContactStoreUris.h>
 #include <TVPbkContactStoreUriPtr.h>
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "tvimpstconsts.h"
 #include "mvimpststoragecontact.h"
 
@@ -57,7 +57,7 @@ CVIMPSTStorageServiceView::CVIMPSTStorageServiceView(TUint32 aServiceId) :
     iOwnContact( NULL ),
     iUnNamedText( NULL )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CVIMPSTStorageServiceView()") );
+	TRACER_AUTO;
     }
 
 // -----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ CVIMPSTStorageServiceView::CVIMPSTStorageServiceView(TUint32 aServiceId) :
 //
 void CVIMPSTStorageServiceView::ConstructL(const TDesC& aStoreName, const TDesC& aServiceName)
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ConstructL() begin") );
+	TRACER_AUTO;
     
     iActiveHandler =  CVIMPSTStorageActiveHandler::NewL(this);
 					 
@@ -79,25 +79,24 @@ void CVIMPSTStorageServiceView::ConstructL(const TDesC& aStoreName, const TDesC&
     //set the sorting algorithem to order by presence.
     iContactSorter->SetSortAlgorithm( MVIMPSTStorageContact::ECompareByPresence);
     
-    TRACE( T_LIT("SubServiceType() Type : %S"), &aStoreName );
+    TRACE( "SubServiceType() Type : %S", &aStoreName );
     //find whether its a local store or xsp store
 	if ( VPbkContactStoreUris::DefaultCntDbUri().CompareC( aStoreName, 1, NULL )
 	                        != 0 )
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::ConstructL() service store created") ); 
+	TRACE( " service store created" );
 		//Create XSP Store 
     	iVPbkContactStore = 
     			CVIMPSTStorageVPbkServerStore::NewL(aStoreName,aServiceName ,*this );
 		}
 	else
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::ConstructL() local store created ") ); 
+	TRACE( "local store created " ); 
 		//Create Local Contacts.cdb store 
 		iVPbkContactStore = CVIMPSTStorageVPbkLocalStore::NewL(VPbkContactStoreUris::DefaultCntDbUri(), 
 															   aServiceName,
 															   *this );	
 		}
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ConstructL() end") );;
     }
 
 
@@ -110,13 +109,12 @@ CVIMPSTStorageServiceView* CVIMPSTStorageServiceView::NewL(TUint32 aServiceId,
 										const TDesC& aStoreName,
 										const TDesC& aServiceName)
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NewL() begin") );
+	TRACER_AUTO;
     
     CVIMPSTStorageServiceView* self = new( ELeave ) CVIMPSTStorageServiceView(aServiceId);
     CleanupStack::PushL( self );
     self->ConstructL(aStoreName, aServiceName);
     CleanupStack::Pop( self );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NewL() end") );
     return self;
     }
 // -----------------------------------------------------------------------------
@@ -126,7 +124,7 @@ CVIMPSTStorageServiceView* CVIMPSTStorageServiceView::NewL(TUint32 aServiceId,
 // Destructor
 CVIMPSTStorageServiceView::~CVIMPSTStorageServiceView()
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::~CVIMPSTStorageServiceView() begin") );
+	TRACER_AUTO;
     if( iActiveHandler )
 	    {
 	    iActiveHandler->Cancel();
@@ -147,7 +145,6 @@ CVIMPSTStorageServiceView::~CVIMPSTStorageServiceView()
         iUnNamedText = NULL;
         }        
         
-    TRACE( T_LIT("CVIMPSTStorageServiceView::~CVIMPSTStorageServiceView() end") );
     }
 // -----------------------------------------------------------------------------
 // CVIMPSTStorageServiceView::AddObserverL
@@ -157,15 +154,14 @@ CVIMPSTStorageServiceView::~CVIMPSTStorageServiceView()
 void CVIMPSTStorageServiceView::AddObserverL( MVIMPSTStorageContactsObserver*
         aObserver )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::AddObserverL() begin") );
+	TRACER_AUTO;
     User::LeaveIfError( aObserver ? KErrNone : KErrArgument );
     TInt index = iContactObservers.Find( aObserver );
     if( index == KErrNotFound )
 	    {
-	    TRACE( T_LIT("CVIMPSTStorageServiceView::AddObserverL() aObserver added ") );
+		TRACE( "aObserver added ");
 	    User::LeaveIfError( iContactObservers.Append( aObserver ) );	
 	    }
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddObserverL() end") );
     }
 
 // -----------------------------------------------------------------------------
@@ -175,16 +171,15 @@ void CVIMPSTStorageServiceView::AddObserverL( MVIMPSTStorageContactsObserver*
 void CVIMPSTStorageServiceView::RemoveObserver( MVIMPSTStorageContactsObserver*
         aObserver )
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveObserver() begin") );
+	TRACER_AUTO;
 	__ASSERT_ALWAYS( aObserver, Panic( EObserverIsNull ));
 	const TInt index( iContactObservers.Find( aObserver ) );
 	if ( index >=0)
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveObserver() aObserver found") );
+		TRACE( "aObserver found" );
 		iContactObservers.Remove( index );
 		iContactObservers.Compress();
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveObserver() begin") );
 	}
 
 // -----------------------------------------------------------------------------
@@ -204,7 +199,7 @@ MVIMPSTStorageContactList* CVIMPSTStorageServiceView::CreateContactListL(
 										   const TDesC& aContactListId, 
                                            const TDesC& aDisplayName )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateContactListL() begin") );
+	TRACER_AUTO;
     CVIMPSTStorageContactList* contactList = 
     						CVIMPSTStorageContactList::NewLC(*iContactSorter,
                                                          	  aContactListId, 
@@ -215,20 +210,19 @@ MVIMPSTStorageContactList* CVIMPSTStorageServiceView::CreateContactListL(
     TInt indexOfList( iContactListArray.Find( contactList, findBy ) );
     if( indexOfList == KErrNotFound )
         {
-        TRACE( T_LIT("CVIMPSTStorageServiceView::CreateContactListL() list not exist in list") );
+		TRACE( "list not exist in list");
         TLinearOrder< CVIMPSTStorageContactList > order( 
                              CVIMPSTStorageServiceView::ContactListOrderByDisplayName );
         iContactListArray.InsertInOrderAllowRepeats( contactList, order );
         CleanupStack::Pop( contactList ); 
-        TRACE( T_LIT("CVIMPSTStorageServiceView::CreateContactListL() new list created") );       
+        TRACE( " new list created");
         }
     else
         {
-        TRACE( T_LIT("CVIMPSTStorageServiceView::CreateContactListL() list  already exist in list") );
+		TRACE( " list  already exist in list" );
         CleanupStack::PopAndDestroy( contactList );
         contactList = iContactListArray[ indexOfList ];
         }
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateContactListL() end") );
     return contactList; 
     }
 
@@ -238,16 +232,15 @@ MVIMPSTStorageContactList* CVIMPSTStorageServiceView::CreateContactListL(
 //
 void CVIMPSTStorageServiceView::RemoveContactList( const TDesC& aContactListId )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactList() begin") );
+	TRACER_AUTO;
     TInt pos( FindContactListById( aContactListId ) );
     if( pos >= 0 )
         {
-        TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactList() aContactListId found") );
+		TRACE( "aContactListId found" );
         delete iContactListArray[ pos ];
         iContactListArray.Remove( pos );  
         iContactListArray.Compress();      
         }
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactList() end") );
     }
 
 // -----------------------------------------------------------------------------
@@ -257,7 +250,7 @@ void CVIMPSTStorageServiceView::RemoveContactList( const TDesC& aContactListId )
 //
 TInt CVIMPSTStorageServiceView::ListCount() const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListCount()") );
+	TRACER_AUTO;
     return iContactListArray.Count();
     }
 
@@ -267,11 +260,10 @@ TInt CVIMPSTStorageServiceView::ListCount() const
 // -----------------------------------------------------------------------------
 //
 MVIMPSTStorageContactList& CVIMPSTStorageServiceView::ListAt( TInt aIndex ) const
-    {   
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListAt() begin") );
+    {  
+	TRACER_AUTO;
     // User::LeaveIfError( aIndex < iContactListArray.Count() ? KErrNone : KErrArgument ); 
     __ASSERT_ALWAYS( (aIndex < iContactListArray.Count() && aIndex >=0 ), Panic( EContactsArrayOutOfSync ));  
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListAt() end") );
     return *iContactListArray[ aIndex ];
     }
 // -----------------------------------------------------------------------------
@@ -281,7 +273,7 @@ MVIMPSTStorageContactList& CVIMPSTStorageServiceView::ListAt( TInt aIndex ) cons
 //
 TInt CVIMPSTStorageServiceView::ContactCount( TBool aSkipOfflineContacts ) const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListAt() begin") );
+	TRACER_AUTO;
     TInt contactCount( 0 );
     TInt count( iContactListArray.Count() );
     for( TInt a( 0 ); a < count; ++a )
@@ -289,8 +281,7 @@ TInt CVIMPSTStorageServiceView::ContactCount( TBool aSkipOfflineContacts ) const
         contactCount += iContactListArray[ a ]->ContactCount( aSkipOfflineContacts, 
                                                          EFalse );
         }
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListAt() contactCount = %d") ,contactCount );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ListAt() end") );
+		TRACE(" contactCount = %d" ,contactCount );
     return contactCount;
     }
     
@@ -305,16 +296,16 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
 					                             const TDesC8& aAvatarData,
 					                             TBool aIsClearingAvatar /*= EFalse*/)
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() begin") );
+	TRACER_AUTO;
 	MVIMPSTStorageContact* contact = NULL;
 	if( iOwnContact && ( aContactId.Compare( iOwnContact->UserId() ) == 0  ) )
 	    {
-	    TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() own Item presence") );
+		TRACE("own Item presence");
 	    if( aAvatarData.Compare(iOwnContact->AvatarContent() ) != 0 )
 	        {
 	        if((aIsClearingAvatar)||(aAvatarData.Length() > 0))
 	            {
-	            TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() own avatar change NotifyAllObserversL") );
+				TRACE( "own avatar change NotifyAllObserversL");
 	            iOwnContact->SetAvatarContentL( aAvatarData ,*iVPbkContactStore );  
 	            NotifyAllObserversL(TVIMPSTEnums::EStorageAvatarChange,NULL,iOwnContact,0);
 	            }
@@ -325,26 +316,27 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
 		    // update to own presence
 		    iOwnContact->SetOnlineStatus( aStatus );
 		    iOwnContact->SetStatusTextL(aStatusText);
-		    TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() own presene NotifyAllObserversL") );
+		    TRACE( " own presene NotifyAllObserversL");
 		    NotifyAllObserversL(TVIMPSTEnums::EStorageOwnPresenceChange,NULL, iOwnContact,0);
 		    }
 	    contact = iOwnContact;
 		}
 	else
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact item ") );
+		TRACE( "contact item ");
 		contact = FindContactByUserId( aContactId );
 		if(contact)
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact exist ") );
+			TRACE( "contact exist " );
 			TInt index = KErrNotFound;
 			TVIMPSTEnums::TOnlineStatus oldOnlineStatus = contact->OnlineStatus();
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact oldOnlineStatus = %d"), oldOnlineStatus );
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact new presence = %d"), aStatus );
+			TRACE( "contact oldOnlineStatus = %d", oldOnlineStatus );
+			TRACE( "contact new presence = %d", aStatus );
 			//status text can be different for the sam status hence not inside the if condition.
 			if(  oldOnlineStatus != aStatus )
 			    {
-			    TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact presence change ") );
+				TRACE( "contact presence change ");
+
 			    contact->SetOnlineStatus( aStatus );
 			    TInt count = iContactListArray.Count();
 			    for(TInt i = 0; i < count; i++)
@@ -353,7 +345,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
 			        if(KErrNotFound != index )
 			            {
 			            iContactListArray[i]->ResortContact(contact);
-			            TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() contact ResortContact ") );
+			            TRACE( "contact ResortContact " );
 			            // get the index of the sorted contact, as after sorting the 
 			            // index would have changed based on presence.
 			            // break after the contact list is found and the contact is found
@@ -383,12 +375,11 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
 			    contact->SetAvatarContentL( aAvatarData ,*iVPbkContactStore);  
 			    NotifyAllObserversL(TVIMPSTEnums::EStorageAvatarChange,NULL, contact, oldIndex );
 			    }
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() aStatusText = %S "), &aStatusText );
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() NotifyAllObserversL called") );
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() NotifyAllObserversL finish") );	
+			TRACE("aStatusText = %S ", &aStatusText );
+			TRACE( "NotifyAllObserversL called" );
+			TRACE( "NotifyAllObserversL finish" );	
 			}
-	 	}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::UpdatePresenceL() end") );
+	 	}	
     return contact;
     }
  
@@ -399,29 +390,28 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
  MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdateAvatarL(const TDesC& aContactId,
 							                  const TDesC8& aAvatarData ) 
  {
- TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() begin") );
+ TRACER_AUTO;
  MVIMPSTStorageContact* contact = NULL;
  if( iOwnContact && ( aContactId.Compare( iOwnContact->UserId() ) == 0  ) )
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() own avatar") );
+		TRACE( "own avatar" );
 		iOwnContact->SetAvatarContentL( aAvatarData ,*iVPbkContactStore);	
 		NotifyAllObserversL(TVIMPSTEnums::EStorageOwnPresenceChange,NULL, iOwnContact,0);
 	    contact = iOwnContact;
 		}
 	else
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() buddy avatar") );
+		TRACE( "buddy avatar" );
 	    contact = FindContactByUserId( aContactId );
 		if(contact)
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() contact exit") );
+			TRACE( "contact exit");
 			contact->SetAvatarContentL( aAvatarData ,*iVPbkContactStore);	
 			TInt index = IndexOfContact(contact);
 		    NotifyAllObserversL(TVIMPSTEnums::EStorageAvatarChange,NULL, contact,index);
-		    TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() NotifyAllObserversL called") );		
+		    TRACE( " NotifyAllObserversL called" );		
 			}
 	   	}
-   TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateAvatarL() end") );
    return contact;
    }
            
@@ -432,9 +422,8 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdatePresenceL(
 CVIMPSTStorageContactList* CVIMPSTStorageServiceView::FindContactListInternal( 
                                                 const TDesC& aListId )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactListInternal begin") );    
+	TRACER_AUTO;
 	TInt contactListIndex( FindContactListById( aListId ) );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactListInternal end ") );
     return ( contactListIndex >= 0 ? iContactListArray[ contactListIndex ] : NULL );
     }
 
@@ -444,7 +433,7 @@ CVIMPSTStorageContactList* CVIMPSTStorageServiceView::FindContactListInternal(
 //
 MVIMPSTStorageContactList* CVIMPSTStorageServiceView::FindContactList( const TDesC& aListId )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactList") ); 
+	TRACER_AUTO;     
     return FindContactListInternal( aListId );
     }
 
@@ -454,22 +443,21 @@ MVIMPSTStorageContactList* CVIMPSTStorageServiceView::FindContactList( const TDe
 //
 TInt CVIMPSTStorageServiceView::FindContactListById(const TDesC& aListId )
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactList begin") );
+	TRACER_AUTO;
 	TInt index = KErrNotFound;
 	TInt count( iContactListArray.Count() );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactList count = %d"), count );
+	TRACE( " count = %d", count );
 	for( TInt i= 0  ; i < count ; i++ )
 		{
 		if( KErrNone == VIMPSTStorageUtils::NeutralCompare( 
 							 aListId, 
                              iContactListArray[ i ]->ListId(), EFalse )   )
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactList contact list found") );
+			TRACE( " contact list found" );
 			index = i;
 			break;
 			}
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactList end") );
 	return index;
 	}
 	
@@ -479,7 +467,7 @@ TInt CVIMPSTStorageServiceView::FindContactListById(const TDesC& aListId )
 //
 MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByLink(const MVPbkContactLink& aContactLink )
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByLink begin") );
+	TRACER_AUTO;
 	MVIMPSTStorageContact* contact = NULL;
 	TInt count( iContactListArray.Count() );
     for( TInt i= 0  ; i < count ; i++ )
@@ -488,11 +476,10 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByLink(const MVPbkC
         contact = contactList->FindContactByContactLink( aContactLink );
         if( contact )
             { 
-            TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByLink contact found = %d "), i );           
+            TRACE( " contact found = %d ", i );           
             break;
             }
         }
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByLink end") );
     return contact;
   	}
 
@@ -502,7 +489,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByLink(const MVPbkC
 //
 TUint32 CVIMPSTStorageServiceView::GetServiceId()
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::GetServiceId") );
+	TRACER_AUTO;
     return iServiceId;
     }
     
@@ -512,7 +499,7 @@ TUint32 CVIMPSTStorageServiceView::GetServiceId()
 //
 TBool CVIMPSTStorageServiceView::IsLocalStore() const
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IsLocalStore") );
+	TRACER_AUTO;
 	return iVPbkContactStore->LocalStore();	
 	}  
 // -----------------------------------------------------------------------------
@@ -521,13 +508,12 @@ TBool CVIMPSTStorageServiceView::IsLocalStore() const
 //
 MVIMPSTStorageContact& CVIMPSTStorageServiceView::OwnContactL()
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::OwnContact begin") );
+	TRACER_AUTO;
 	if( !iOwnContact )
 		{
 		iOwnContact = CVIMPSTStorageContact::NewL(KNullDesC,
 		        								  KNullDesC )	;	
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::OwnContact end") );
 	return *iOwnContact;	
 	} 
 
@@ -537,18 +523,18 @@ MVIMPSTStorageContact& CVIMPSTStorageServiceView::OwnContactL()
 //
 void CVIMPSTStorageServiceView::SetOwnUserIdL(const TDesC& aUserId ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL begin") );
+	TRACER_AUTO;
 	if( !iOwnContact )
 		{
 		iOwnContact = CVIMPSTStorageContact::NewL(aUserId,
 		        								  KNullDesC
 		        								  )	;
-		TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL iOwnContact created") );
+		TRACE( "iOwnContact created" );
 		}
 	else if( aUserId.Compare( iOwnContact->UserId() ) != 0 )
 		{
 	    _LIT (KNullWithSpace, " ");
-		TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL iOwnContact was existing") );
+		TRACE( "SetOwnUserIdL iOwnContact was existing" );
 	    if(KNullWithSpace ().Compare(iOwnContact->UserId())!=0)
 	        { 
 	        iVPbkContactStore->RemoveAllVPbkContactsL(); // if user id is changed remove all contacts 	
@@ -558,9 +544,8 @@ void CVIMPSTStorageServiceView::SetOwnUserIdL(const TDesC& aUserId )
 		iOwnContact->SetAvatarContentL(KNullDesC8,*iVPbkContactStore );
 
 		NotifyAllObserversL( TVIMPSTEnums::EStorageEventOwnUserChanged,NULL,iOwnContact,0 );
-		TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL NotifyAllObserversL delivered") );
+		TRACE( "NotifyAllObserversL delivered" );
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::SetOwnUserIdL end") );
 	}    
 // -----------------------------------------------------------------------------
 // CVIMPSTStorageServiceView::FindContactByUserId
@@ -569,7 +554,7 @@ void CVIMPSTStorageServiceView::SetOwnUserIdL(const TDesC& aUserId )
 // -----------------------------------------------------------------------------
 MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByUserId( const TDesC& aUserId )
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByUserId begin") );
+	TRACER_AUTO;
 	MVIMPSTStorageContact* contact = NULL;
 	CVIMPSTStorageContactList* contactList = NULL;
 	TInt count( iContactListArray.Count() );
@@ -579,11 +564,10 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByUserId( const TDe
         contact = contactList->FindContact( aUserId );
         if( contact )
             {  
-            TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByUserId contact found ") );          
+            TRACE(" contact found " );          
             break;
             }
         }
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindContactByUserId end") );
     return contact;
   	}
 // -----------------------------------------------------------------------------
@@ -593,7 +577,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByUserId( const TDe
 // -----------------------------------------------------------------------------
 MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindCacheContactByUserId( const TDesC& aUserId )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindCacheContactByUserId") );
+	TRACER_AUTO;
     return FindContactByUserId( aUserId );
     }
 
@@ -604,7 +588,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindCacheContactByUserId( cons
 // -----------------------------------------------------------------------------
 MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindCacheContactByLink(const MVPbkContactLink& aContactLink )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::FindCacheContactByLink ") );
+	TRACER_AUTO;
     return FindContactByLink( aContactLink );
     }
 // -----------------------------------------------------------------------------
@@ -616,17 +600,16 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::CreateNewContactL(const TDesC&
         										   	   	         	TBool aIsInvitationItem /*=EFalse*/,
         										   	   	         	TBool aInvitationAutoAccept /*= EFalse */)
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewContactL begin") );
+	TRACER_AUTO;
     // This will create a contact in the CDB file.  It returns MVPbkContactLink link to the CDB file.
     MVIMPSTStorageContact* contact = FindCacheContactByUserId( aUserId );
     if( !contact )
 	    {
 	    iIsInvitationItem = aIsInvitationItem;
-	    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewContactL contact does not exist in list") );
+	    TRACE( "contact does not exist in list" );
 	    iVPbkContactStore->CreateVPbkContactL( aUserId ,aDisplayName, aInvitationAutoAccept );	
-	    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewContactL new contact created") );
+	    TRACE( "new contact created");
 	    }
-	TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewContactL end") );
     return contact;
     }
 
@@ -637,13 +620,12 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::CreateNewContactL(const TDesC&
  void CVIMPSTStorageServiceView::CreateNewFetchContactsL( RArray <TPtrC> &aFirstNameList, 
                                                          RArray <TPtrC> &aServiceField ) 
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewFetchContactsL begin") );
+	 TRACER_AUTO;
     if( !iVPbkContactStore->LocalStore() )
         {
         RemoveAllCacheContactsL();
         }
     iVPbkContactStore->AddVPbkFetchContactsL( aFirstNameList, aServiceField );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewFetchContactsL end") );
     }
  
 // -----------------------------------------------------------------------------
@@ -654,14 +636,13 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::CreateNewContactL(const TDesC&
 
 TInt CVIMPSTStorageServiceView::RemoveContactL( MVIMPSTStorageContact* aContact ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactL begin") );
+	TRACER_AUTO;
 	TInt error = KErrArgument;
 	if( aContact )
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactL contact found") );
+		TRACE( "contact found" );
 		error = iVPbkContactStore->RemoveVPbkContactL( *aContact->ContactLink() );
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactL end") );
 	return error;	
 	}
 
@@ -672,7 +653,7 @@ TInt CVIMPSTStorageServiceView::RemoveContactL( MVIMPSTStorageContact* aContact 
 //
 TInt CVIMPSTStorageServiceView::RetriveLinkXSPIdsL(const TDesC8& aContactPackLink )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RetriveLinkXSPIdsL") );
+	TRACER_AUTO;
     // return the no of retrived xsp of contacts 
     return iVPbkContactStore->RetrieveVPbkXSPIdL( aContactPackLink );
     }
@@ -683,7 +664,8 @@ TInt CVIMPSTStorageServiceView::RetriveLinkXSPIdsL(const TDesC8& aContactPackLin
 //  
 const TDesC& CVIMPSTStorageServiceView::GetRetrieveXSPIdL(TInt aIndex ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::GetRetrieveXSPIdL aIndex = %d"),aIndex  );
+	TRACER_AUTO;
+	TRACE( " aIndex = %d",aIndex  );
 	return iVPbkContactStore->GetRetrieveVPbkXSPIdL( aIndex );
     }
 
@@ -693,7 +675,8 @@ const TDesC& CVIMPSTStorageServiceView::GetRetrieveXSPIdL(TInt aIndex )
 //
 TInt CVIMPSTStorageServiceView::CreateNewContactFromRetrivedIdL( TInt aIndexToUse )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::CreateNewContactFromRetrivedIdL aIndexToUse = %d"),aIndexToUse  );
+	TRACER_AUTO;
+    TRACE( "aIndexToUse = %d",aIndexToUse  );
     // This will create a contact in the CDB file.  It returns MVPbkContactLink link to the CDB file.
     return iVPbkContactStore->CreateRetriveVPbkContactL( aIndexToUse );    
     }
@@ -703,7 +686,8 @@ TInt CVIMPSTStorageServiceView::CreateNewContactFromRetrivedIdL( TInt aIndexToUs
 //
 TInt CVIMPSTStorageServiceView::DeleteNewContactFromRetrivedIdL( TInt aIndexToUse )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::DeleteNewContactFromRetrivedIdL aIndexToUse = %d"),aIndexToUse  );
+	TRACER_AUTO;
+    TRACE( "aIndexToUse = %d",aIndexToUse  );
     // This will create a contact in the CDB file.  It returns MVPbkContactLink link to the CDB file.
     return iVPbkContactStore->deleteRetriveVPbkContactL( aIndexToUse );    
     }
@@ -713,7 +697,7 @@ TInt CVIMPSTStorageServiceView::DeleteNewContactFromRetrivedIdL( TInt aIndexToUs
 // ----------------------------------------------------------
 void CVIMPSTStorageServiceView::DeleteDatabaseL()
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::DeleteDatabaseL") );
+	TRACER_AUTO;
    	iVPbkContactStore->DeleteDatabaseL();
     }
  
@@ -727,7 +711,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdateCacheContactL(const MVPb
         										   	   	         const TDesC& aDisplayName,
         										   	   	         const TDesC8& aAvatarContent)
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL begin") );
+	TRACER_AUTO;
     MVIMPSTStorageContact* contact = FindContactByLink(aContactLink);
     if( contact )
 	    {
@@ -735,7 +719,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdateCacheContactL(const MVPb
 	    TBool sortNeeded = EFalse;
 	    if( contact->UserId().Compare( aUserId) != 0 )
 	        {
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL user id changed") );	        
+	        TRACE( "user id changed" );	        
 	        NotifyAllObserversL( TVIMPSTEnums::EStorageEventUserIdPreChange,NULL, contact,oldIndex);
 	        contact->SetUserIdL( aUserId );
 	        if(aUserId.Length()== 0)
@@ -744,12 +728,12 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdateCacheContactL(const MVPb
                contact->SetOnlineStatus(TVIMPSTEnums::EUnknown);
                }
 	        NotifyAllObserversL( TVIMPSTEnums::EStorageEventUserIdPostChange,NULL, contact,oldIndex);
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL NotifyAllObserversL delivered") );
+	        TRACE( "NotifyAllObserversL delivered" );
 	        }
 	    if(contact->Name().Compare(aDisplayName) != 0 )
 	        {
             sortNeeded = ETrue;
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL display name changed") );
+	        TRACE( "display name changed" );
 	        if( aDisplayName.Length() <= 0 && iUnNamedText )
 				{
 				contact->SetNameL( *iUnNamedText );	
@@ -779,13 +763,12 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::UpdateCacheContactL(const MVPb
 	        }
 	   if( contact->AvatarContent().Compare( aAvatarContent ) != 0 )
 	        {
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL user id changed") );           
+	        TRACE( "User id changed" );           
 	        contact->SetAvatarContentL( aAvatarContent,*iVPbkContactStore  );
 	        NotifyAllObserversL( TVIMPSTEnums::EStorageAvatarChange,NULL, contact, KErrNotFound);
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL NotifyAllObserversL delivered") );
+	        TRACE( " NotifyAllObserversL delivered" );
 	        }
 	    }
-	TRACE( T_LIT("CVIMPSTStorageServiceView::UpdateCacheContactL end") );
     return contact;
     }
 // -----------------------------------------------------------------------------
@@ -797,30 +780,30 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
         										   	   	         const TDesC8& aAvatarContent,
         										   	   	         TVIMPSTEnums::TVIMPSTStorgaeEventType aType )
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL begin") );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL user id: %S"), &aUserId);
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL storageeventtype: %d"), aType );
+	TRACER_AUTO;
+	TRACE(" user id: %S", &aUserId);
+	TRACE( " storageeventtype: %d", aType );
 	MVIMPSTStorageContactList* contactList = FindContactListInternal( KFriendList );
 	if( !contactList )
 		{
 		contactList = CreateContactListL(KFriendList,KNullDesC); 
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL before findcontactlink") ); 
+	TRACE(" Before findcontactlink" ); 
 	MVIMPSTStorageContact* contact = FindContactByLink(aContactLink);
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL after findcontactlink ") ); 
+	TRACE( " After findcontactlink " ); 
 	if( !contact )
 		{
-		TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL contact not exist ") ); 
+		TRACE( " contact not exist "); 
 		TInt error = KErrGeneral;
 		TInt index = KErrNotFound;
 		if( aDisplayName.Length() <= 0 && iUnNamedText )
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL no display name ") ); 
+			TRACE(" no display name " ); 
 			contact = CVIMPSTStorageContact::NewLC( aUserId, *iUnNamedText , aContactLink ,aAvatarContent );	
 			}
 		else
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL has display name ") ); 
+			TRACE( " has display name " ); 
 			contact = CVIMPSTStorageContact::NewLC( aUserId, aDisplayName , aContactLink, aAvatarContent);		
 			}
 		// if the xsp id is numm, then the presence state should be EUnknown;
@@ -836,10 +819,10 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
 	        contact->SetOnlineStatus(TVIMPSTEnums::EPending);
 	        }
 		error = contactList->AddStorageContactToCacheL( contact, index );
-		TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL AddStorageContactToCacheL error= %d "),error ); 
+		TRACE( "AddStorageContactToCacheL error= %d ",error ); 
 		if( error == KErrNone )
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL success ") );
+			TRACE( "success " );
 			CleanupStack::Pop(); // contact
 			TInt count = iContactListArray.Count();
 			for(TInt i = 0; i < count; i++)
@@ -848,7 +831,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
 				if(KErrNotFound != index )
 				    {
 				    iContactListArray[i]->ResortContact(contact);
-				    TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL() contact ResortContact ") );
+				    TRACE( " contact ResortContact " );
 				    // get the index of the sorted contact, as after sorting the 
 				    // index would have changed based on presence.
 				    // break after the contact list is found and the contact is found
@@ -860,13 +843,12 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
 			}
 		else
 			{
-			TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL not success ") );
+			TRACE( " not success " );
 			CleanupStack::PopAndDestroy(); // contact	
 			contact = NULL;
 			}
 		}
 	iIsInvitationItem = EFalse; // reset the flag 
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL end") );
 	return contact;
 	}
 // -----------------------------------------------------------------------------
@@ -875,7 +857,7 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
 //
 TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact* aContactToAdd ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddStorageContactToCacheL begin") );
+	TRACER_AUTO;
 	TInt error = KErrGeneral;
     MVIMPSTStorageContactList* contactList = FindContactListInternal( KFriendList );
     if( !contactList )
@@ -889,7 +871,7 @@ TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact*
 			aContactToAdd->SetNameL( *iUnNamedText );	
 			}
 		TInt index = KErrNotFound;
-        TRACE( T_LIT("CVIMPSTStorageServiceView::AddStorageContactToCacheL online status = %d "), TVIMPSTEnums::EPending);
+        TRACE( " online status = %d ", TVIMPSTEnums::EPending);
         // if the userid(xsp field is null then the presence is unknown.)
         if(aContactToAdd->UserId().Length() == 0)
             {
@@ -900,7 +882,7 @@ TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact*
             aContactToAdd->SetOnlineStatus(TVIMPSTEnums::EPending);    
             }
 		error = contactList->AddStorageContactToCacheL( aContactToAdd, index ); // aContactToAdd ownership is transfered
-		TRACE( T_LIT("CVIMPSTStorageServiceView::AddStorageContactToCacheL index = %d "),index );
+		TRACE( "index = %d ",index );
 		if( error == KErrNone )
 			{
 			TInt count = iContactListArray.Count();
@@ -910,7 +892,7 @@ TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact*
 				if(KErrNotFound != index )
 					{
 					iContactListArray[i]->ResortContact(aContactToAdd);
-					TRACE( T_LIT("CVIMPSTStorageServiceView::AddContactToCacheL() contact ResortContact ") );
+					TRACE( "contact ResortContact " );
 					// get the index of the sorted contact, as after sorting the 
 					// index would have changed based on presence.
 					// break after the contact list is found and the contact is found
@@ -921,8 +903,7 @@ TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact*
 			NotifyAllObserversL( TVIMPSTEnums::EStorageEventContactAddition,NULL, aContactToAdd, index );	
 			}
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddStorageContactToCacheL error = %d "),error );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::AddStorageContactToCacheL end") );
+	TRACE( " error = %d ",error );
 	return error;
     }
 // -----------------------------------------------------------------------------
@@ -934,7 +915,7 @@ TInt CVIMPSTStorageServiceView::AddStorageContactToCacheL(MVIMPSTStorageContact*
 TInt CVIMPSTStorageServiceView::RemoveContactFromCacheL(const MVPbkContactLink& aContactLink,
 														 TVIMPSTEnums::TVIMPSTStorgaeEventType aType) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL begin") );
+	TRACER_AUTO;
 	TInt error = KErrNotFound;
 	MVIMPSTStorageContactList* contactList = FindContactListInternal( KFriendList );
     if( !contactList )
@@ -956,8 +937,7 @@ TInt CVIMPSTStorageServiceView::RemoveContactFromCacheL(const MVPbkContactLink& 
 	    error = contactList->RemoveContactFromCacheL( aContactLink, index );
 	    NotifyAllObserversL( TVIMPSTEnums::EStorageEventContactDelete ,NULL,NULL,index); //contact is not valid ,deleted
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL error = %d "),error );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL begin") );
+	TRACE("error = %d ",error );
     return error;
 	}
 // -----------------------------------------------------------------------------
@@ -966,12 +946,11 @@ TInt CVIMPSTStorageServiceView::RemoveContactFromCacheL(const MVPbkContactLink& 
 //
 void CVIMPSTStorageServiceView::RemoveAllCacheContactsL()
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL begin") );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL  count = %d"), iContactListArray.Count());
+	TRACER_AUTO;
+    TRACE( "  count = %d", iContactListArray.Count());
     iContactListArray.ResetAndDestroy();
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL remove sucess") );
+    TRACE( " remove sucess" );
     NotifyAllObserversL(TVIMPSTEnums::EStorageAllContactRemoved,NULL,NULL,0 );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::RemoveContactFromCacheL begin") );
     }
  
 // -----------------------------------------------------------------------------
@@ -980,9 +959,8 @@ void CVIMPSTStorageServiceView::RemoveAllCacheContactsL()
 //
 MVIMPSTStorageContactList* CVIMPSTStorageServiceView::GetDefaultContactListL()
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::GetDefaultContactListL begin") );
+	TRACER_AUTO;
     MVIMPSTStorageContactList* contactList = FindContactListInternal( KFriendList );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::GetDefaultContactListL end") );
     return contactList;
     }
 // -----------------------------------------------------------------------------
@@ -992,9 +970,8 @@ MVIMPSTStorageContactList* CVIMPSTStorageServiceView::GetDefaultContactListL()
 void CVIMPSTStorageServiceView::NotifyServiceViewL( TVIMPSTEnums::TVIMPSTStorgaeEventType aEventType,
 													MVIMPSTStorageContact* aContact /*= NULL */ )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyServiceViewL begin") );
+	TRACER_AUTO;
     NotifyAllObserversL(aEventType,NULL, aContact,0 ); 
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyServiceViewL end") );
     }
  
  //================================================== from writer interface end ===========================
@@ -1007,7 +984,7 @@ TInt CVIMPSTStorageServiceView::ContactListOrderByDisplayName(
                                        const CVIMPSTStorageContactList& aContactListA, 
                                        const CVIMPSTStorageContactList& aContactListB )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ContactListOrderByDisplayName") );
+	TRACER_AUTO;
     return aContactListA.DisplayName().CompareC( aContactListB.DisplayName() );
     }
 
@@ -1020,10 +997,10 @@ TBool CVIMPSTStorageServiceView::ContactListFindByContactListId(
                                        const CVIMPSTStorageContactList& aContactListA, 
                                        const CVIMPSTStorageContactList& aContactListB )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ContactListFindByContactListId start") );
+	TRACER_AUTO;
     const MVIMPSTStorageContactList& listA = aContactListA;
     const MVIMPSTStorageContactList& listB = aContactListB;
-    TRACE( T_LIT("CVIMPSTStorageServiceView::ContactListFindByContactListId return") );
+   TRACE(" return" );
     return ( VIMPSTStorageUtils::NeutralCompare( listA.ListId(), 
                                       listB.ListId(), EFalse ) == 0 );
     }
@@ -1035,7 +1012,7 @@ TBool CVIMPSTStorageServiceView::ContactListFindByContactListId(
 //
 TInt CVIMPSTStorageServiceView::Count() const
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::Count start") );
+	TRACER_AUTO;
 	// fetch contact list count from storage
 	// and add contact counts from expanded contact lists
 	TInt listCount( ListCount() );
@@ -1054,8 +1031,7 @@ TInt CVIMPSTStorageServiceView::Count() const
 		   //check for this
 			}
 	    }
-	TRACE( T_LIT("CVIMPSTStorageServiceView::itemCount =%d"),itemCount );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::Count end") );
+	TRACE( "itemCount =%d",itemCount );
    	return itemCount;
 	}
 
@@ -1067,7 +1043,7 @@ TInt CVIMPSTStorageServiceView::Count() const
 //
 MVIMPSTStorageItemModel::SItem CVIMPSTStorageServiceView::Item( TInt aIndex  ) const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::Item start") );
+	TRACER_AUTO;
     MVIMPSTStorageItemModel::SItem item;
     item.iType = MVIMPSTStorageItemModel::EInvalid;
     item.iContactList = NULL;
@@ -1085,7 +1061,7 @@ MVIMPSTStorageItemModel::SItem CVIMPSTStorageServiceView::Item( TInt aIndex  ) c
 	        {
 	        // there's a list in given index
 	        item.iType = MVIMPSTStorageItemModel::EContactList;
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::Item end") );
+	        TRACE( "Item end" );
 	        return item;
 	        }
 	    contactCount = list.Count() ;
@@ -1098,7 +1074,7 @@ MVIMPSTStorageItemModel::SItem CVIMPSTStorageServiceView::Item( TInt aIndex  ) c
 			    TInt contactIndex( aIndex - count );
 			    item.iType = MVIMPSTStorageItemModel::EContactItem;
 			    item.iContact = &list[contactIndex];
-			    TRACE( T_LIT("CVIMPSTStorageServiceView::Item end") );
+			    TRACE( "Item end" );
 			    return item;
 			    }
 			// add expanded list's contact count
@@ -1106,7 +1082,6 @@ MVIMPSTStorageItemModel::SItem CVIMPSTStorageServiceView::Item( TInt aIndex  ) c
 			}
 	    }
     // not found
-    TRACE( T_LIT("CVIMPSTStorageServiceView::Item end") );
     return item;
 	}
 
@@ -1118,7 +1093,7 @@ MVIMPSTStorageItemModel::SItem CVIMPSTStorageServiceView::Item( TInt aIndex  ) c
 //
 TInt CVIMPSTStorageServiceView::IndexOfContact( MVIMPSTStorageContact* aContact ) const
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfContact begin") );
+	TRACER_AUTO;
 	TInt listCount( ListCount() );
 	TInt itemCount( 0 );
 	TInt contactCount = 0;
@@ -1144,8 +1119,7 @@ TInt CVIMPSTStorageServiceView::IndexOfContact( MVIMPSTStorageContact* aContact 
 			}
 		//add the code for if contact not found in first list
 		}
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfContact indexOfContact = %d"), indexOfContact );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfContact end") );
+	TRACE( " indexOfContact = %d", indexOfContact );
 	return indexOfContact;
 	}
 
@@ -1159,7 +1133,7 @@ TInt CVIMPSTStorageServiceView::IndexOfList( MVIMPSTStorageContactList* aList,
                                        TBool /*aIgnoreOwnItem = EFalse*/,
                                        TBool /*aIgnoreEmptyLists = ETrue*/ ) const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfList begin") );
+	TRACER_AUTO;
 	TInt listCount( ListCount() );
    	TInt itemCount( 0 );
 	for( TInt i(0); i<listCount; ++i )
@@ -1167,7 +1141,7 @@ TInt CVIMPSTStorageServiceView::IndexOfList( MVIMPSTStorageContactList* aList,
 	    MVIMPSTStorageContactList& list = ListAt(i);
 	    if( &list == aList )
 	        {
-	        TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfList list matched"));
+	        TRACE( "list matched");
 	        break;
 	        }
 	    else
@@ -1178,8 +1152,7 @@ TInt CVIMPSTStorageServiceView::IndexOfList( MVIMPSTStorageContactList* aList,
 	    	itemCount = itemCount+ list.Count() + 1;	
 		    }
 	    }
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfList itemCount = %d"),itemCount );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::IndexOfList end") );
+	TRACE( "itemCount = %d",itemCount );
 	return itemCount;
     }
 // -----------------------------------------------------------------------------
@@ -1189,7 +1162,7 @@ TInt CVIMPSTStorageServiceView::IndexOfList( MVIMPSTStorageContactList* aList,
 //
 TInt CVIMPSTStorageServiceView::MdcaCount() const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::MdcaCount") );
+	TRACER_AUTO;
     return Count();
     }
 
@@ -1200,7 +1173,7 @@ TInt CVIMPSTStorageServiceView::MdcaCount() const
 //
 TPtrC CVIMPSTStorageServiceView::MdcaPoint( TInt /*aIndex */) const
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::MdcaPoint") );
+	TRACER_AUTO;
     // These will be filtered out
     return KNullDesC();
     } 
@@ -1211,13 +1184,13 @@ TPtrC CVIMPSTStorageServiceView::MdcaPoint( TInt /*aIndex */) const
 //
 void CVIMPSTStorageServiceView::Sort( const TDesC& aContactListId /* = KNullDesC */ )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::Sort() begin") );
+	TRACER_AUTO;
     if( aContactListId.Length() != 0 )
         {
         MVIMPSTStorageContactList* list = FindContactList( aContactListId );
         if( list )
             {
-            TRACE( T_LIT("CVIMPSTStorageServiceView::Sort() list sort") );
+            TRACE( " list sort" );
             list->Sort();
             }
         }
@@ -1227,11 +1200,10 @@ void CVIMPSTStorageServiceView::Sort( const TDesC& aContactListId /* = KNullDesC
         for( TInt a( 0 ); a < count; ++a )
             {
             MVIMPSTStorageContactList& list = *iContactListArray[ a ];
-            TRACE( T_LIT("CVIMPSTStorageServiceView::Sort() all list sort") );
+            TRACE( " all list sort" );
             list.Sort();
             }
         } 
-    TRACE( T_LIT("CVIMPSTStorageServiceView::Sort() end") );   
     }
 
 
@@ -1244,13 +1216,12 @@ void CVIMPSTStorageServiceView::NotifyAllObserversL( TVIMPSTEnums::TVIMPSTStorga
 					                                  MVIMPSTStorageContact* aContact,
 					                                  TInt aContactIndex )
     {
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyAllObserversL() begin") );
+	TRACER_AUTO;
 	TInt count = iContactObservers.Count();
 	for( TInt i=0; i<count; i++ )
 		{
 		iContactObservers[i]->HandleStorageChangeL(  aType, aList, aContact, aContactIndex );	
 		}
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyAllObserversL() end") );
     }
 
 // -----------------------------------------------------------------------------
@@ -1262,13 +1233,12 @@ void CVIMPSTStorageServiceView::NotifyAllObserversWithDelay( TVIMPSTEnums::TVIMP
 							                                 MVIMPSTStorageContact* aContact,
 							                                 TInt aContactIndex )
 	{
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyAllObserversWithDelay() begin") );
+	TRACER_AUTO;
     if(iActiveHandler->IsActive() )
         {
         iActiveHandler->Cancel();
         }
     iActiveHandler->IssueRequest( aType, aList, aContact, aContactIndex );
-    TRACE( T_LIT("CVIMPSTStorageServiceView::NotifyAllObserversWithDelay() end") );
     }
 
 // -----------------------------------------------------------------------------
@@ -1280,8 +1250,7 @@ void CVIMPSTStorageServiceView::HandleDelayedNotificationL(TVIMPSTEnums::TVIMPST
 								                           MVIMPSTStorageContact* aContact,
 								                           TInt aContactIndex) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageServiceView::HandleDelayedNotificationL() begin") );
+	TRACER_AUTO;
 	NotifyAllObserversL( aType, aList, aContact, aContactIndex );
-	TRACE( T_LIT("CVIMPSTStorageServiceView::HandleDelayedNotificationL() end") );	
 	}
 //  End of File

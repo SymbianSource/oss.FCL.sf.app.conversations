@@ -176,11 +176,17 @@ void CInstantMsgIndicatorPluginImplementation::PlayMsgToneL(TInt aNewMessages,TI
 //
  void CInstantMsgIndicatorPluginImplementation::MessageInfoL(TInt aNewMessages, TInt aSeriveId,
                                                          const TDesC& aSenderId ,
-                                                         TInt aMultipleSender)
+                                                         TInt aMultipleSender,
+                                                         TBool aCloseConversation /*= EFalse*/)
     {
     
     ShowIMIndicatorL(aNewMessages, aSeriveId,aSenderId, aMultipleSender);
-    PlayMsgToneL(aNewMessages,aSeriveId);
+    // this event is not from close conversation hence play the tone, 
+    // else do not play the tone.
+    if(!aCloseConversation)
+        {
+        PlayMsgToneL(aNewMessages,aSeriveId);
+        }
   	}
 
 //end of file

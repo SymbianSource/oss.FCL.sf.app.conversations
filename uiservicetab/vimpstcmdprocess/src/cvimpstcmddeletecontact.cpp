@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -72,6 +73,7 @@ CVIMPSTCmdDeleteContact* CVIMPSTCmdDeleteContact::NewL(
         const TInt aCommandId, MVPbkContactLink* aContactLink,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTCmdDeleteContact* self = new (ELeave ) CVIMPSTCmdDeleteContact( aCommandId ,aContactLink, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -91,7 +93,8 @@ void CVIMPSTCmdDeleteContact::ConstructL()
 //
 void CVIMPSTCmdDeleteContact::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTCmdDeleteContact::ExecuteLD");
+  
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );       
     iError = KErrNone;
@@ -140,15 +143,15 @@ void CVIMPSTCmdDeleteContact::ExecuteLD()
        			}
 			} // contact
 		} // storage
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdDeleteContact:: CommandFinished");
+	
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdDeleteContact:: CommandFinished");	
+
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdDeleteContact::ExecuteLD");	
+	
     }
 
 

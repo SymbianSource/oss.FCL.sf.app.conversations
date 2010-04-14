@@ -20,7 +20,7 @@
 #include "cvimpststoragemanagerfactory.h"
 #include "mvimpststorageserviceview.h"
 
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "vimpstbuilddefinitions.h"
 
 #include <escapeutils.h>
@@ -47,6 +47,7 @@ const TInt KMaxLengthSearchProtPart = 4;
 TInt VIMPSTStorageUtils::NeutralCompare( const TDesC& aId1,
         const TDesC& aId2, TBool aDomainNeutral )
     {
+	TRACER_AUTO;
     // points to user part of id
     TPtrC ptrId1( aId1 );
     TPtrC ptrId2( aId2 );
@@ -135,6 +136,7 @@ TInt VIMPSTStorageUtils::NeutralCompare( const TDesC& aId1,
 //
 TPtrC VIMPSTStorageUtils::DisplayId( const TDesC& aId, TBool /*aListHiding*/ )
     {
+	TRACER_AUTO;
     TPtrC ret( aId );
 
     return ret;

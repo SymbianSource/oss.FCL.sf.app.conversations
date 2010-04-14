@@ -22,6 +22,7 @@
 #include "cvimpstuitabbedview.h"
 #include "imcvuiliterals.h"
 #include "vimpstui.hrh"
+#include "uiservicetabtracer.h"
 
 //system includes
 #include <avkon.hrh>
@@ -45,6 +46,7 @@ CVIMPSTUICvEventListener::CVIMPSTUICvEventListener( CVIMPSTUiTabbedView& aTabbed
 //
 void CVIMPSTUICvEventListener::ConstructL()
     {
+	TRACER_AUTO;
     RProperty::Define(KIMCVPropertyUid, KIMCVConnectedKey, RProperty::EInt );
     RProperty::Set(KIMCVPropertyUid, KIMCVConnectedKey, EIMCVUiEventNone ); //0 reset property
     User::LeaveIfError( iProperty.Attach(KIMCVPropertyUid, KIMCVConnectedKey) );
@@ -59,6 +61,7 @@ void CVIMPSTUICvEventListener::ConstructL()
 //
 CVIMPSTUICvEventListener* CVIMPSTUICvEventListener::NewL(CVIMPSTUiTabbedView& aTabbedView )
     {
+	TRACER_AUTO;
     CVIMPSTUICvEventListener* self = new(ELeave) CVIMPSTUICvEventListener( aTabbedView );
     CleanupStack::PushL(self);
     self->ConstructL();
@@ -81,7 +84,7 @@ CVIMPSTUICvEventListener::~CVIMPSTUICvEventListener()
 //
 void CVIMPSTUICvEventListener::RunL()
     {
-        
+	TRACER_AUTO;
     TInt eventValue = KErrNone;
     
     TInt error = RProperty::Get(KIMCVPropertyUid,KIMCVConnectedKey, eventValue  );

@@ -37,7 +37,9 @@
 #include 	<spproperty.h>
 
 #include    <cch.h>
-#include "vimpstdebugtrace.h"
+
+
+#include "uiservicetabtracer.h"
 
 _LIT8(KAppIdForBrand,"xsp");
 _LIT8(KDefaultBrandIdForBrand,"xsp");
@@ -92,7 +94,7 @@ CVIMPSTDetailsViewBrandHandler::CVIMPSTDetailsViewBrandHandler(TInt aServiceId) 
 //  Symbian OS default constructor can leave.
 void CVIMPSTDetailsViewBrandHandler::ConstructL()
 	{
-	
+	TRACER_AUTO;
 	iBrandId = HBufC8::NewL( KVIMPSTUISPSMaxPropertyLength );
     TPtr8 brandIdPtr( iBrandId->Des() );    
     
@@ -365,6 +367,7 @@ CGulIcon* CVIMPSTDetailsViewBrandHandler::LoadDefaultBitmapL( TInt aBitmapId, TI
 //
 void CVIMPSTDetailsViewBrandHandler::PropertyReadBrandL( TUint32 aServiceId ,TInt &aBrand, TServicePropertyName aPropertyName ) 
     {
+	TRACER_AUTO;
     CSPProperty* property = CSPProperty::NewLC();
     iSettings->FindPropertyL( aServiceId,
                                 aPropertyName,
@@ -415,6 +418,7 @@ TInt CVIMPSTDetailsViewBrandHandler::GetBrandInfoL(TLanguage& aBrandLanguage,
 //
 void CVIMPSTDetailsViewBrandHandler::GetServiceNameL( TDes& aServiceName )
     {
+	TRACER_AUTO;
     CSPEntry* entry = CSPEntry::NewLC();
     TRAPD( err, iSettings->FindEntryL( iServiceId, *entry ) );
     if ( !err )
@@ -430,6 +434,7 @@ void CVIMPSTDetailsViewBrandHandler::GetServiceNameL( TDes& aServiceName )
 //
 const TDesC& CVIMPSTDetailsViewBrandHandler::ServiceStoreUriL()
     {
+	TRACER_AUTO;
     if( !iServiceStoreUri )
         {       
         iServiceStoreUri = HBufC::NewL( KVIMPST_MAX_LENGTH );       
@@ -451,6 +456,7 @@ const TDesC& CVIMPSTDetailsViewBrandHandler::ServiceStoreUriL()
 //
 TBool CVIMPSTDetailsViewBrandHandler::ServiceSupportedL( )
     {
+	TRACER_AUTO;
     TBool ret = EFalse;
     CCch* cchClient = CCch::NewLC();
     if (cchClient)

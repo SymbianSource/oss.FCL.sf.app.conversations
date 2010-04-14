@@ -34,7 +34,8 @@
 
 #include "vimpstallerrors.h"
 #include "tvimpstconsts.h"
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 
 // Constants
 _LIT( KListNameAllBuddy ,"buddylist" );
@@ -50,14 +51,13 @@ CVIMPSTEngineContactMgmtExtention* CVIMPSTEngineContactMgmtExtention::NewL(
 							MPresentityGroups& aPresGroup,
 							CVIMPSTEngineRequestMapper& aRequestMapper)
     {
-    TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::NewL start"));
+	TRACER_AUTO;
     CVIMPSTEngineContactMgmtExtention* self = 
     			CVIMPSTEngineContactMgmtExtention::NewLC( aPresenceCtx,
     											aPresGroup,
     											aRequestMapper
     										    );
     CleanupStack::Pop( self );
-   	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::NewL end"));
     return self;
     }
 
@@ -70,12 +70,11 @@ CVIMPSTEngineContactMgmtExtention* CVIMPSTEngineContactMgmtExtention::NewLC(
 							MPresentityGroups& aPresGroup,
 							CVIMPSTEngineRequestMapper& aRequestMapper)
 	{
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::NewLC start"));
+	TRACER_AUTO;
 	CVIMPSTEngineContactMgmtExtention* self = new (ELeave) 
 					CVIMPSTEngineContactMgmtExtention(aPresenceCtx, aPresGroup,aRequestMapper);
 	CleanupStack::PushL( self );
 	
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::NewLC end") );
 	return self;
 	}
     
@@ -101,8 +100,7 @@ CVIMPSTEngineContactMgmtExtention::CVIMPSTEngineContactMgmtExtention(
 // ---------------------------------------------------------
 CVIMPSTEngineContactMgmtExtention::~CVIMPSTEngineContactMgmtExtention()
     {
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::~CVIMPSTEngineContactMgmtExtention start"));
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::~CVIMPSTEngineContactMgmtExtention end"));
+	TRACER_AUTO;
     }
 
 
@@ -132,9 +130,8 @@ TVIMPSTEnums::ExtentionType CVIMPSTEngineContactMgmtExtention::Type() const
 TInt CVIMPSTEngineContactMgmtExtention::DeleteServerContactL( const TDesC& aContactListId,
 										   		   const TDesC& aUserId )
 	{
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::DeleteServerContactL start"));
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::DeleteServerContactL aContactListId = %s"),&aContactListId );
-	
+	TRACER_AUTO;
+	TRACE( "DeleteServerContactL aContactListId = %s",&aContactListId );
 	// err is initialized to KErrNone, b'coz if adaptation or presence is not supported then,
 	// the request should not be sent to the server, this is a hack as the voip
 	// writes the adaptation uid into settings even if presence is not supported.
@@ -176,7 +173,6 @@ TInt CVIMPSTEngineContactMgmtExtention::DeleteServerContactL( const TDesC& aCont
 	    
 	    err = iReqResult;
 		}
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::DeleteServerContactL end"));
 	return err;
 	}
 	
@@ -190,7 +186,7 @@ TInt CVIMPSTEngineContactMgmtExtention::AddServerContactL(const TDesC& aContactL
         									   TBool aWaitToComplete /*= ETrue*/ )
 	{
 	
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::AddServerContactL start"));
+	TRACER_AUTO;
 	
 	// err is initialized to KErrNone, b'coz if adaptation or presence is not supported then,
 	// the request should not be sent to the server, this is a hack as the voip
@@ -241,7 +237,6 @@ TInt CVIMPSTEngineContactMgmtExtention::AddServerContactL(const TDesC& aContactL
 		CleanupStack::PopAndDestroy(); //userId
 		CleanupStack::PopAndDestroy(); // listId
 		
-		TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::AddServerContactL end"));
 		err = iReqResult;
 		}
 
@@ -254,14 +249,13 @@ TInt CVIMPSTEngineContactMgmtExtention::AddServerContactL(const TDesC& aContactL
 // ---------------------------------------------------------	 	
 MXIMPIdentity* CVIMPSTEngineContactMgmtExtention::CreateIdentityLC(const TDesC& aListId) 
 	{
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::CreateIdentityLC start"));
+	TRACER_AUTO;
 	
 	MXIMPObjectFactory& objFactory = iPresenceCtx.ObjectFactory();
 	MXIMPIdentity* newIdentity = objFactory.NewIdentityLC();
 	//no need to check for null as NewIdentityLC does not return null,
 	// if failed ot allocate memory it will leave with KErrNoMemory
 	newIdentity->SetIdentityL( aListId) ;
-	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::CreateIdentityLC end"));
 	return newIdentity;
 	}	         	
 
@@ -274,13 +268,13 @@ void CVIMPSTEngineContactMgmtExtention::HandleSessionContextEventL(const MXIMPCo
                                              TXimpOperation aXimpOperation /*= EVIMPSTXimpOperationNoOperation*/ )
     {    
     
-    TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::HandleSessionContextEventL start"));
+	TRACER_AUTO;
     
     switch( aEvent.GetInterfaceId() )
         {
         case MXIMPRequestCompleteEvent::KInterfaceId:
         	{
-            TRACE( T_LIT("InsideCallbackswitch::MXIMPRequestCompleteEvent"));
+        	TRACE( "InsideCallbackswitch::MXIMPRequestCompleteEvent");
             if ( (EVIMPSTXimpOperationAddContact == aXimpOperation) 
              		|| (EVIMPSTXimpOperationDeleteContact == aXimpOperation) )
 	            {            
@@ -308,7 +302,6 @@ void CVIMPSTEngineContactMgmtExtention::HandleSessionContextEventL(const MXIMPCo
             break;
             }
         }
-   	TRACE( T_LIT("CVIMPSTEngineContactMgmtExtention::HandleSessionContextEventL end"));	
     }    
 
 //----------------------------------------------------------------------------

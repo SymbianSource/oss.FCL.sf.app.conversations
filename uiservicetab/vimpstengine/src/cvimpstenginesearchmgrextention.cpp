@@ -29,7 +29,6 @@
 
 #include "cvimpstenginerequestmapper.h"
 #include "cvimpstenginerequest.h"
-#include "vimpstdebugprint.h"
 
 #include "vimpstallerrors.h"
 #include "tvimpstconsts.h"
@@ -44,7 +43,7 @@
 #include <searchevent.h>
 
 #include "mvimpstenginesearchextentioneventobserver.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 
 
@@ -57,14 +56,13 @@ CVIMPSTEngineSearchMgrExtention* CVIMPSTEngineSearchMgrExtention::NewL(
 							MXIMPContext& aPresenceCtx,						
 							CVIMPSTEngineRequestMapper& aRequestMapper)
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::NewL start"));
+	TRACER_AUTO;
     CVIMPSTEngineSearchMgrExtention* self = 
     			CVIMPSTEngineSearchMgrExtention::NewLC(
     											aPresenceCtx, 
     											aRequestMapper
     										    );
     CleanupStack::Pop( self );
-   	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::NewL end"));
     return self;
     }
 
@@ -76,12 +74,11 @@ CVIMPSTEngineSearchMgrExtention* CVIMPSTEngineSearchMgrExtention::NewLC(
 							MXIMPContext& aPresenceCtx,
 							CVIMPSTEngineRequestMapper& aRequestMapper)
 	{
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::NewLC start"));
+	TRACER_AUTO;
 	CVIMPSTEngineSearchMgrExtention* self = new (ELeave) 
 					CVIMPSTEngineSearchMgrExtention(aPresenceCtx, aRequestMapper);
 	CleanupStack::PushL( self );
 	self->ConstructL();
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::NewLC end"));
 	return self;
 	}
     
@@ -90,7 +87,7 @@ CVIMPSTEngineSearchMgrExtention* CVIMPSTEngineSearchMgrExtention::NewLC(
 // ---------------------------------------------------------
 void CVIMPSTEngineSearchMgrExtention::ConstructL()
 	{
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConstructL start"));
+	TRACER_AUTO;
 
 	// ximp search plugin
     iSearchFeature = MSearchFeature::NewL(&iPresenceCtx); 
@@ -99,7 +96,6 @@ void CVIMPSTEngineSearchMgrExtention::ConstructL()
 	
 	iAlreadySubscibed = EFalse;
 	
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConstructL end") );    	
 		
     }
 	
@@ -120,13 +116,12 @@ CVIMPSTEngineSearchMgrExtention::CVIMPSTEngineSearchMgrExtention( MXIMPContext& 
 // ---------------------------------------------------------
 CVIMPSTEngineSearchMgrExtention::~CVIMPSTEngineSearchMgrExtention()
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::~CVIMPSTEngineSearchMgrExtention start"));    
+	TRACER_AUTO;
     
 	iSearchObservers.Reset();
 	delete iSearchFeature;	
 	iSearchFeature = NULL;
     
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::~CVIMPSTEngineSearchMgrExtention end"));
     }
 
 
@@ -135,7 +130,7 @@ CVIMPSTEngineSearchMgrExtention::~CVIMPSTEngineSearchMgrExtention()
 // ---------------------------------------------------------
 TInt CVIMPSTEngineSearchMgrExtention::SearchContactsL( RArray<TVIMPSTSearchKeyData>& aKeyDataArray )
 	{
-	TRACE( T_LIT( "CVIMPSTEngineSearchMgrExtention::SearchContactsL Start" ) );
+	TRACER_AUTO;
 	
 	TInt err = KErrNotSupported;
 	if (iSearchSupported == TVIMPSTEnums::ESupported)
@@ -186,7 +181,6 @@ TInt CVIMPSTEngineSearchMgrExtention::SearchContactsL( RArray<TVIMPSTSearchKeyDa
 		searchList.ResetAndDestroy();//	searchList
 		CleanupStack::PopAndDestroy ();//searchId 
 		
-		TRACE( T_LIT( "CVIMPSTEngineSearchMgrExtention::SearchContactsL End " ) );
 		err = iReqResult;
 		}
 
@@ -200,24 +194,24 @@ TInt CVIMPSTEngineSearchMgrExtention::SearchContactsL( RArray<TVIMPSTSearchKeyDa
 //
 TInt CVIMPSTEngineSearchMgrExtention::SubscribeForSearchKeysL()
 	{
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::SubscribeForSearchKeysL Start"));
-    TRACE( T_LIT( "--> SubscribeForSearchKeysL:iSearchSupported: %d" ), iSearchSupported );
-    TRACE( T_LIT( "--> SubscribeForSearchKeysL: iAlreadySubscibed: %d" ), iAlreadySubscibed );    
+	TRACER_AUTO;
+	TRACE( "iSearchSupported: %d" , iSearchSupported );
+	TRACE( "iAlreadySubscibed: %d" , iAlreadySubscibed );
 		
 	if ( (iSearchSupported == TVIMPSTEnums::ENotSupported) || iAlreadySubscibed )
 		{
-		TRACE( T_LIT( "--> SubscribeForSearchKeysL: inside if " ));    
+	   TRACE("inside if " );    
 		return KErrNone;	
 		}
 
 	if( iSearch )
 		{
-	    TRACE( T_LIT( "--> SubscribeForSearchKeysL: inside if(iSearch) " ));    
+	TRACE("inside if(iSearch) " ); 
 
 		iAlreadySubscibed = ETrue;
 		
 		TXIMPRequestId reqId = iSearch->GetSearchKeysL();			
-		TRACE( T_LIT( "--> SubscribeForSearchKeysL: iSearch->GetSearchKeysL() " ));    
+		TRACE( "iSearch->GetSearchKeysL() " );
 
 		iRequestMapper.CreateRequestL(reqId, ETrue ,EVIMPSTXimpOperationSubscribeSearchKeys);// waite here
 		}
@@ -231,7 +225,6 @@ TInt CVIMPSTEngineSearchMgrExtention::SubscribeForSearchKeysL()
 	    iSearchSupported = TVIMPSTEnums::ESupported;
 	    }
 
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::SubscribeForSearchKeysL end "));
 	return iReqResult;;
 	}	
 
@@ -250,7 +243,7 @@ TVIMPSTEnums::FeatureSupport CVIMPSTEngineSearchMgrExtention::IsSupported() cons
 // ------------------------------------------------------------------------
 TSearchKey CVIMPSTEngineSearchMgrExtention::ConverttoTSearchKey(TVIMPSTEnums::TVIMPSTSearchKey aKey)
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConverttoTSearchKey start"));
+	TRACER_AUTO;
     
     TSearchKey ret = EUserFirstName;
      switch( aKey )
@@ -329,7 +322,6 @@ TSearchKey CVIMPSTEngineSearchMgrExtention::ConverttoTSearchKey(TVIMPSTEnums::TV
 
 		} 
 	
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConverttoTSearchKey end"));
 	return ret; 
     }       	
 
@@ -350,7 +342,7 @@ TVIMPSTEnums::ExtentionType CVIMPSTEngineSearchMgrExtention::Type() const
 // ---------------------------------------------------------
 void CVIMPSTEngineSearchMgrExtention::RegisterObserver(MVIMPSTEngineSearchExtentionEventObserver* aObserver) 
 	{
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::RegisterObserver start"));
+	TRACER_AUTO;
 	
 	TInt index = iSearchObservers.Find(aObserver);
 	if( index == KErrNotFound )
@@ -358,7 +350,6 @@ void CVIMPSTEngineSearchMgrExtention::RegisterObserver(MVIMPSTEngineSearchExtent
 		iSearchObservers.Append( aObserver );	
 		}
 
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::RegisterObserver end"));
     }
 	
 // ---------------------------------------------------------
@@ -367,7 +358,7 @@ void CVIMPSTEngineSearchMgrExtention::RegisterObserver(MVIMPSTEngineSearchExtent
 // ---------------------------------------------------------
 void  CVIMPSTEngineSearchMgrExtention::UnRegisterObserver(MVIMPSTEngineSearchExtentionEventObserver* aObserver) 
 	{
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::UnRegisterObserver start"));
+	TRACER_AUTO;
 	
 	TInt index = iSearchObservers.Find(aObserver);
 	
@@ -377,7 +368,6 @@ void  CVIMPSTEngineSearchMgrExtention::UnRegisterObserver(MVIMPSTEngineSearchExt
 		iSearchObservers.Compress();
 		}
 		
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::UnRegisterObserver end"));
     }
     
 
@@ -389,14 +379,14 @@ void CVIMPSTEngineSearchMgrExtention::HandleSessionContextEventL(const MXIMPCont
                                                              const MXIMPBase& aEvent,
                                                              TXimpOperation aXimpOperation/* = EVIMPSTXimpOperationNoOperation*/ )
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::HandleSessionContextEventL start"));
+	TRACER_AUTO;
     
     switch( aEvent.GetInterfaceId() )
         {
         
         case MXIMPRequestCompleteEvent::KInterfaceId:
         	{
-            TRACE( T_LIT("InsideCallbackswitch::MXIMPRequestCompleteEvent"));
+        	TRACE("InsideCallbackswitch::MXIMPRequestCompleteEvent");
             if ( (EVIMPSTXimpOperationSearchContact == aXimpOperation) 
              		|| (EVIMPSTXimpOperationSubscribeSearchKeys == aXimpOperation) )
 	            {            
@@ -466,7 +456,6 @@ void CVIMPSTEngineSearchMgrExtention::HandleSessionContextEventL(const MXIMPCont
             break;
             }
         }
-   	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::HandleSessionContextEventL end"));	
     }    
 
 
@@ -476,7 +465,7 @@ void CVIMPSTEngineSearchMgrExtention::HandleSessionContextEventL(const MXIMPCont
 // ---------------------------------------------------------
 void CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL(const MSearchKeysEvent* aSearchKeysEvent)
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL start"));
+	TRACER_AUTO;
     
     TInt searchKeysCount = aSearchKeysEvent->InfoCount();
     
@@ -518,7 +507,6 @@ void CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL(const MSearchKeysE
 	
 	CleanupStack::PopAndDestroy(2); //enumKeyArray, labelKeyArray
     
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL end"));
     }
         
 // ------------------------------------------------------------------------
@@ -527,7 +515,7 @@ void CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL(const MSearchKeysE
 // ------------------------------------------------------------------------
 TVIMPSTEnums::TVIMPSTSearchKey CVIMPSTEngineSearchMgrExtention::ConverttoTVIMPSTSearchKey( TSearchKey aKey)
     {
-    TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConverttoTVIMPSTSearchKey start"));
+	TRACER_AUTO;
     
      TVIMPSTEnums::TVIMPSTSearchKey retKey = TVIMPSTEnums::EVIMPSTFirstName ;
      switch( aKey )
@@ -606,7 +594,6 @@ TVIMPSTEnums::TVIMPSTSearchKey CVIMPSTEngineSearchMgrExtention::ConverttoTVIMPST
 
 		}
 	
-	TRACE( T_LIT("CVIMPSTEngineSearchMgrExtention::ConverttoTVIMPSTSearchKey end"));
 	return retKey;  
     }       	
 //----------------------------------------------------------------------------
@@ -615,6 +602,7 @@ TVIMPSTEnums::TVIMPSTSearchKey CVIMPSTEngineSearchMgrExtention::ConverttoTVIMPST
 //
 void  CVIMPSTEngineSearchMgrExtention::SetSupported(TVIMPSTEnums::FeatureSupport aSupported)
     { 
+	TRACER_AUTO;
     if ( aSupported == TVIMPSTEnums::ESupportUnKnown)
         {
         // at the logout time this flag  has to be set to EFalse

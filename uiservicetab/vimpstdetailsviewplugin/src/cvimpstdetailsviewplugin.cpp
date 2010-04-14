@@ -51,7 +51,8 @@
 
 // Virtual Phonebook
 #include <CVPbkContactLinkArray.h>
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 // meco service uid
 #define KMECOIMPLEMENTATIONUID 0x20012423
 _LIT(KVIMPSTDetailsViewDllResFileName, "\\resource\\vimpstdetailsviewpluginrsc.rsc");
@@ -75,15 +76,15 @@ CVIMPSTDetailsViewPlugin* CVIMPSTDetailsViewPlugin::NewL(TInt aServiceId)
 //
 CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin()
 	{
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin start") );
+	TRACER_AUTO;
 	delete iMenuHandler;
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin iMenuHandler deleted") );
+	TRACE("iMenuHandler deleted");
 	delete iBrandHandler;
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin iBrandHandler deleted") );
-	delete iPresenceHandler;	
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin iPresenceHandler deleted") );
+	TRACE("iBrandHandler deleted");
+	delete iPresenceHandler;
+	TRACE("iPresenceHandler deleted");
 	delete iContactHandler;
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::~CVIMPSTDetailsViewPlugin end") );
+
 	}
 
 // ---------------------------------------------------------------------------
@@ -111,7 +112,7 @@ void CVIMPSTDetailsViewPlugin::PreparePluginViewL(
 			MCCAppPluginParameter& aPluginParameter)
 	{
 	// check parameter version
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::PreparePluginViewL start") );
+	TRACER_AUTO;
 	if (aPluginParameter.Version() != 1)
 		{
 		User::Leave(KErrNotSupported);
@@ -137,9 +138,10 @@ void CVIMPSTDetailsViewPlugin::PreparePluginViewL(
 														  iBrandHandler->ServiceStoreUriL(),														  
 														  serviceNamePtr,
 														  iServiceId);
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::PreparePluginViewL iContactHandler created") );
+
+	TRACE("iContactHandler created");
 	CleanupStack::PopAndDestroy(); // serviceName
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::PreparePluginViewL end") );
+
 	}
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsViewPlugin::ImplementationUid
@@ -182,6 +184,7 @@ void CVIMPSTDetailsViewPlugin::ProvideBitmapL(
 		TCCAppIconType aIconType, CAknIcon& aIcon)
 
     {
+	TRACER_AUTO;
     if (ECCAppTabIcon == aIconType)
         {
         CFbsBitmap* bmp = NULL;
@@ -260,12 +263,12 @@ TUid CVIMPSTDetailsViewPlugin::Id() const
 void CVIMPSTDetailsViewPlugin::PrepareViewResourcesL()
 	{
 	// Ignore codescanner warning generated here : " Leaving function called before BaseConstructL "
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::PrepareViewResourcesL start") );
+    TRACER_AUTO;
 	TFileName fileName(KVIMPSTDetailsViewDllResFileName);
     BaflUtils::NearestLanguageFile(iCoeEnv->FsSession(), fileName);
    	iResourceLoader.OpenL(fileName);
     BaseConstructL(R_VIMPSTDETAILSVIEW_MAINVIEW);
-    TRACED( T_LIT("CVIMPSTDetailsViewPlugin::PrepareViewResourcesL end") );
+ 
     }
 
 // ---------------------------------------------------------------------------
@@ -277,12 +280,12 @@ void CVIMPSTDetailsViewPlugin::DoActivateL(
 	TUid aCustomMessageId,
 	const TDesC8& aCustomMessage)
 	{
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoActivateL start") );
+	TRACER_AUTO;
 	CCCAppViewPluginAknView::DoActivateL(aPrevViewId, aCustomMessageId,
 	aCustomMessage);
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoActivateL calling GetContactData") );
+	TRACE("calling GetContactData");
 	GetContactDataL();
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoActivateL end") );
+
 	}
 
 // ---------------------------------------------------------------------------
@@ -291,23 +294,22 @@ void CVIMPSTDetailsViewPlugin::DoActivateL(
 //
 void CVIMPSTDetailsViewPlugin::DoDeactivate()
 	{
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoDeactivate satrt") );
+	TRACER_AUTO;
 	if( iContactHandler )
 		{
 		iContactHandler->CancelOngoingRequest();	
 		}
-
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoDeactivate ongoing request canceled") );
+	TRACE("ongoing request canceled");
 	if (iContainer)
 		{
 		iFocusedListIndex = static_cast<CVIMPSTDetailsViewContainer*>
 							(iContainer)->ListBoxModel().FocusedFieldIndex();
 		}
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoDeactivate calling base class Deactivate") );
+	TRACE("calling base class Deactivate");
 	CCCAppViewPluginAknView::DoDeactivate();
 	// not woned by this class
 	iContainer = NULL;
-    TRACED( T_LIT("CVIMPSTDetailsViewPlugin::DoDeactivate end") );
+
 	}
 
 // --------------------------------------------------------------------------
@@ -316,7 +318,8 @@ void CVIMPSTDetailsViewPlugin::DoDeactivate()
 //
 void CVIMPSTDetailsViewPlugin::GetContactDataL()
 	{
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL start") );
+
+	TRACER_AUTO;
 	if (iLaunchParameter && iContactHandler )
 		{
 		// todo: pass launchparameter to listbox model?
@@ -328,13 +331,13 @@ void CVIMPSTDetailsViewPlugin::GetContactDataL()
 	
 		CVPbkContactLinkArray* links = CVPbkContactLinkArray::NewLC( bufDes, iContactHandler->ContactStoresL() );
 		CleanupStack::Pop(links);
-		TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL links created") );
+		TRACE("links created");
 		CleanupStack::PopAndDestroy(buf);
-		TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL buffer destroyed") );    
+		TRACE("buffer destroyed");
 		TUid launchUid = iLaunchParameter->LaunchedViewUid();
 		if(  launchUid.iUid != (KVIMPSTDetailsViewPluginImplmentationUid+iServiceId) && iContactHandler->StoreType() == EStoreServer )
 			{
-			TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL service store set link called from pbk") );
+				TRACE("service store set link called from pbk");
 			// launch from other than service tab
 			// ETrue, read xsp id from pbk store and search in service store and show 
 			// incase of xsp store , need to find the details from xsp store
@@ -342,7 +345,7 @@ void CVIMPSTDetailsViewPlugin::GetContactDataL()
 			}
 		else
 			{
-			TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL set linkcalled from service tab/CV") );
+			TRACE("set linkcalled from service tab/CV");
 			iContactHandler->SetLinks( links , EFalse );
 			 //make sure this is set to null after view is changed
 			// cannot be set it to null in dodeactivate call. as ilaunchparameter is not
@@ -350,7 +353,7 @@ void CVIMPSTDetailsViewPlugin::GetContactDataL()
 			iLaunchParameter->SetLaunchedViewUid(TUid::Null()); 
 			}
 		}
-	TRACED( T_LIT("CVIMPSTDetailsViewPlugin::GetContactDataL end") );
+
 	}
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsViewPlugin::SetTitleL
@@ -358,6 +361,7 @@ void CVIMPSTDetailsViewPlugin::GetContactDataL()
 //
 void CVIMPSTDetailsViewPlugin::SetTitleL()
 	{
+	TRACER_AUTO;
 	HBufC* title = NULL;
 	
 	if( iContainer && iContactHandler )
@@ -399,6 +403,7 @@ void CVIMPSTDetailsViewPlugin::HandlePresenceChangedL()
 //
 void CVIMPSTDetailsViewPlugin::HandleContactReadyL( MVPbkStoreContact& aContact )
 	{
+	TRACER_AUTO;
 	if( iContainer )
 		{
 		// read the service name for servic eid - iServiceId

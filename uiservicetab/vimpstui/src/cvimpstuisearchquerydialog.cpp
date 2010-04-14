@@ -33,6 +33,7 @@
 #include <barsread.h>
 #include <aknnotewrappers.h>
 #include <hlplch.h>
+#include "uiservicetabtracer.h"
 
 
 
@@ -88,6 +89,7 @@ CVIMPSTUiSearchQueryDialog* CVIMPSTUiSearchQueryDialog::NewL(CVIMPSTUiSearchFiel
 //
 void CVIMPSTUiSearchQueryDialog::ConstructL()
     {
+	TRACER_AUTO;
     CAknDialog::ConstructL(R_SEARCH_EDITOR_MENUBAR);
     
     StoreTitlePaneTextL();
@@ -109,6 +111,7 @@ void CVIMPSTUiSearchQueryDialog::ConstructL()
 //
 void CVIMPSTUiSearchQueryDialog::ExecuteLD()
     {
+	TRACER_AUTO;
     CleanupStack::PushL( this );
 
     // Set status pane layout to the Phonebook 2 one
@@ -129,6 +132,7 @@ void CVIMPSTUiSearchQueryDialog::ExecuteLD()
 TKeyResponse CVIMPSTUiSearchQueryDialog::OfferKeyEventL
         ( const TKeyEvent& aKeyEvent, TEventCode aType )
     {
+	TRACER_AUTO;
     TKeyResponse ret(EKeyWasNotConsumed);
  
     ret = CAknForm::OfferKeyEventL( aKeyEvent, aType );
@@ -184,6 +188,7 @@ void CVIMPSTUiSearchQueryDialog::SetInitialCurrentLineL()
 //
 TBool CVIMPSTUiSearchQueryDialog::OkToExitL( TInt aKeycode )
     {
+	TRACER_AUTO;
    TBool ret = EFalse;
    switch( aKeycode )
 	   {
@@ -279,6 +284,7 @@ TBool CVIMPSTUiSearchQueryDialog::AreAllControlsEmptyL() const
 //
 inline void CVIMPSTUiSearchQueryDialog::ConstructContextMenuL()
     {
+	TRACER_AUTO;
     CEikMenuBar* newMenuBar = new ( ELeave ) CEikMenuBar();
     CleanupStack::PushL( newMenuBar );
     newMenuBar->ConstructL
@@ -295,6 +301,7 @@ inline void CVIMPSTUiSearchQueryDialog::ConstructContextMenuL()
 //
 inline void CVIMPSTUiSearchQueryDialog::ConstructNaviPaneL()
     {
+	TRACER_AUTO;
     CEikStatusPane* statusPane = iEikonEnv->AppUiFactory()->StatusPane();
     if (statusPane && statusPane->PaneCapabilities
             ( TUid::Uid( EEikStatusPaneUidNavi ) ).IsPresent() )
@@ -405,6 +412,7 @@ inline void CVIMPSTUiSearchQueryDialog::StoreTitlePaneTextL()
 //    
 void CVIMPSTUiSearchQueryDialog::UpdateCbasL()
     {
+	TRACER_AUTO;
     if ( !AreAllControlsEmptyL() )
         {
         if ( iCbaCommandSet != R_AVKON_SOFTKEYS_OK_CANCEL__OK )
@@ -432,6 +440,7 @@ void CVIMPSTUiSearchQueryDialog::UpdateCbasL()
 //    
 void CVIMPSTUiSearchQueryDialog::SetCbaCommandSetL( TInt aResourceId )
     {
+	TRACER_AUTO;
     CEikButtonGroupContainer& cba = ButtonGroupContainer();
     cba.SetCommandSetL( aResourceId );
     iCbaCommandSet = aResourceId;
@@ -452,6 +461,7 @@ void CVIMPSTUiSearchQueryDialog::SetLineDimmed(
 //
 void CVIMPSTUiSearchQueryDialog::ShowSearchUiFieldsL()
     {
+	TRACER_AUTO;
     TInt count = iUiFieldArray.Count();
     for( TInt i = 0; i< count; i++ )
 	    {
@@ -478,6 +488,7 @@ void CVIMPSTUiSearchQueryDialog::ShowSearchUiFieldsL()
 //
 TBool CVIMPSTUiSearchQueryDialog::IsBasicFieldAvailableL()
     {
+	TRACER_AUTO;
     TInt count = iUiFieldArray.Count();
     for( TInt i = 0; i< count; i++ )
 	    {

@@ -26,7 +26,7 @@
 #include "tvimpstconsts.h"
 
 #include "f32file.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 // CONSTANTS
 
@@ -47,58 +47,81 @@ CVIMPSTEngineCchHandler::CVIMPSTEngineCchHandler(TUint aServiceId, MVIMPSTEngine
 // 
 void CVIMPSTEngineCchHandler::ConstructL(  )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ConstructL"));
+	TRACER_AUTO;
     
      // Create service selection here
 	 iCchClient = CCch::NewL();
-	
+	 TRACE("CCch::NewL");
 	 iSettingsStore = CVIMPSTSettingsStore::NewL();
+	 TRACE("CVIMPSTSettingsStore::NewL");
 	
 	if (iCchClient)
 		{		
-		CCchService* service = iCchClient->GetService( iServiceId );	
+		CCchService* service = iCchClient->GetService( iServiceId );
+		TRACE("CCch::GetService");
 		
 		if( service )
 			{
-			service->SetObserver( *this );		
+			service->SetObserver( *this );
+			TRACE("CCchService::SetObserver");
 			}
 		}
 		
 	//Configure CCHUI notes
 	MCchUi& cchUiApi = iCchClient->CchUiApi();
+	TRACE("CCch::CchUiApi");
 	
 	// Set observer to listen cchui events for change connection.
     cchUiApi.AddObserverL( *this );  // parameter is MCchUiObserver
+    TRACE("MCchUi::CchUiApi");
 
 	// Configure CCHUI API to show all notes/dialogs except connecting note.
 	// Also configure that only VoIP and IM subservices are allowed (notes are
 	// shown only for those).
 	RArray<MCchUiObserver::TCchUiDialogType> allowedNotes;
+	TRACE("MCchUiObserver::TCchUiDialogType");
 	RArray<TCCHSubserviceType> allowedSubServices;
+	TRACE("TCCHSubserviceType");
 	CleanupClosePushL( allowedNotes );
+	TRACE("allowedNotes");
 	CleanupClosePushL( allowedSubServices );
+	TRACE("allowedSubServices");
 
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeUsernamePasswordFailed );
+	TRACE("ECchUiDialogTypeUsernamePasswordFailed");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeAuthenticationFailed );
+	TRACE("ECchUiDialogTypeAuthenticationFailed");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeNoConnectionDefined );
+	TRACE("ECchUiDialogTypeNoConnectionDefined");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeNoConnectionAvailable );
+	TRACE("ECchUiDialogTypeNoConnectionAvailable");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeConfirmChangeConnection );
+	TRACE("ECchUiDialogTypeConfirmChangeConnection");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeChangeConnection );
+	TRACE("ECchUiDialogTypeChangeConnection");
 	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeDefectiveSettings );
-	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeErrorInConnection );  
+	TRACE("ECchUiDialogTypeDefectiveSettings");
+	allowedNotes.AppendL( MCchUiObserver::ECchUiDialogTypeErrorInConnection );
+	TRACE("ECchUiDialogTypeErrorInConnection");
 
 	allowedSubServices.AppendL( ECCHUnknown );
+	TRACE("ECCHUnknown");
 	allowedSubServices.AppendL( ECCHVoIPSub );
+	TRACE("ECCHVoIPSub");
 	allowedSubServices.AppendL( ECCHIMSub );
+	TRACE("ECCHIMSub");
 	allowedSubServices.AppendL( ECCHPresenceSub );
+	TRACE("ECCHPresenceSub");
 
 	cchUiApi.ConfigureVisualizationL( 
 				allowedNotes, allowedSubServices );
+	TRACE("ConfigureVisualizationL");
 
 	CleanupStack::PopAndDestroy( &allowedSubServices );
+	TRACE("allowedSubServices::pop");
 	CleanupStack::PopAndDestroy( &allowedNotes );
+	TRACE("allowedNotes::pop");
 	
-	TRACE( T_LIT("CVIMPSTEngineCchHandler::ConstructL"));
     }
 
 // ---------------------------------------------------------------------------
@@ -108,12 +131,11 @@ void CVIMPSTEngineCchHandler::ConstructL(  )
 CVIMPSTEngineCchHandler* CVIMPSTEngineCchHandler::NewL(TUint aServiceId,
         MVIMPSTEngineCchUiEventObserver& aCchUiEventObserver )
         {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::NewL start"));    
-    TRACE( T_LIT("ServiceId: %d"), aServiceId );
+	TRACER_AUTO;
+	TRACE("ServiceId: %d", aServiceId );
     								 
     CVIMPSTEngineCchHandler* self = NewLC(aServiceId, aCchUiEventObserver );
     CleanupStack::Pop(self);
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::NewL end"));
     return self;
     }
 
@@ -123,15 +145,13 @@ CVIMPSTEngineCchHandler* CVIMPSTEngineCchHandler::NewL(TUint aServiceId,
 // 
 CVIMPSTEngineCchHandler* CVIMPSTEngineCchHandler::NewLC(TUint aServiceId ,MVIMPSTEngineCchUiEventObserver& aCchUiEventObserver)
     {
+	TRACER_AUTO;
     CVIMPSTEngineCchHandler* self =
         new (ELeave) CVIMPSTEngineCchHandler(aServiceId, aCchUiEventObserver);
     
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::NewLC start"));
-    TRACE( T_LIT("ServiceId: %d"), aServiceId );
-    
+    TRACE("ServiceId: %d", aServiceId );
     CleanupStack::PushL(self);
     self->ConstructL( );
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::NewLC end"));
     return self;
     }
 
@@ -141,9 +161,8 @@ CVIMPSTEngineCchHandler* CVIMPSTEngineCchHandler::NewLC(TUint aServiceId ,MVIMPS
 // 
 CVIMPSTEngineCchHandler::~CVIMPSTEngineCchHandler()
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::~CVIMPSTEngineCchHandler start") );
-    
-    TRACE( T_LIT("ServiceId: %d"), iServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
     if(iCchClient)
     	{
     	CCchService* service = iCchClient->GetService( iServiceId );
@@ -156,7 +175,6 @@ CVIMPSTEngineCchHandler::~CVIMPSTEngineCchHandler()
     delete iSettingsStore;
     iObserverStructure.Reset();
     iObserverStructure.Close();
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::~CVIMPSTEngineCchHandler end"));
     }
 
 // ---------------------------------------------------------------------------
@@ -166,16 +184,14 @@ CVIMPSTEngineCchHandler::~CVIMPSTEngineCchHandler()
 //TODO: not used any where.. need to be removed.
 void CVIMPSTEngineCchHandler::ShutdownCch()
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ShutdownCch start"));
-	TRACE( T_LIT("ServiceId: %d"), iServiceId );
-	
+	TRACER_AUTO;
+	TRACE("ServiceId: %d", iServiceId );
     if ( iCchClient )
         {        
         delete iCchClient;
         iCchClient = NULL;
         }
     
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ShutdownCch end"));        
     }    
 
 
@@ -188,11 +204,9 @@ TInt CVIMPSTEngineCchHandler::GetServiceState(TUint aServiceId,
 									TCCHSubserviceState& aCCHState
 									)
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::GetServiceState"));   
+	TRACER_AUTO;
     
-    TRACE( T_LIT("GetServiceState ServiceId: %d, SubServiceType:%d"),
-            aServiceId, aSubServiceType );
-        
+	TRACE( "ServiceId: %d, SubServiceType:%d", aServiceId, aSubServiceType );    
    	TInt err = KErrNotFound;
    	if ( iCchClient )
 	   	{
@@ -210,9 +224,7 @@ TInt CVIMPSTEngineCchHandler::GetServiceState(TUint aServiceId,
 				}
 			}		
 	   	}
-    TRACE( T_LIT("GetServiceState - aCCHState: (%d)"), aCCHState );
-    
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::GetServiceState"));    
+   	TRACE( "aCCHState: (%d)", aCCHState );
 
     return err;   	
     }
@@ -224,9 +236,8 @@ TInt CVIMPSTEngineCchHandler::GetServiceState(TUint aServiceId,
 // 
 TInt CVIMPSTEngineCchHandler::EnableService()
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::EnableService start"));    
-    TRACE( T_LIT("ServiceId: %d"), iServiceId );
-    
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
     TInt error = KErrNotFound;
     if ( iCchClient )
 	    {
@@ -235,14 +246,13 @@ TInt CVIMPSTEngineCchHandler::EnableService()
 		CCchService* service = iCchClient->GetService( iServiceId );
 		if( service )
 			{
-			TRACE( T_LIT("EnableService - CCHClient->Enable") );			
+		TRACE( "CCHClient->Enable" );
 			error = service->Enable( ECCHUnknown );		
 			}
 	    }
 	
-    TRACE( T_LIT("EnableService - stat: (%d)"), error );
+    TRACE( " stat: (%d)", error );
     
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::EnableService"));    
 
 	return error;
     
@@ -254,10 +264,8 @@ TInt CVIMPSTEngineCchHandler::EnableService()
 // 
 TInt CVIMPSTEngineCchHandler::DisableService()
     {
-    TRACE( T_LIT( 
-       "CVIMPSTEngineCchHandler::DisableService start"));		
-	TRACE( T_LIT("ServiceId: %d"), iServiceId );
-	
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	TInt error = KErrNotFound;
 	
 	if(iCchClient)
@@ -265,14 +273,13 @@ TInt CVIMPSTEngineCchHandler::DisableService()
 		CCchService* service = iCchClient->GetService( iServiceId );
 	    if( service )
 			{
-			TRACE( T_LIT("DisableService - CCHClient->Disable") );	
+	    TRACE( "CCHClient->Disable" );	
 			error = service->Disable( ECCHUnknown );
 			}		
 		}
 	
-	TRACE( T_LIT("DisableService - stat: (%d)"), error );
+	TRACE( "stat: (%d)", error );
 			
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::DisableService end"));
     
     return error;
     
@@ -288,8 +295,8 @@ void CVIMPSTEngineCchHandler::ServiceStatusChanged(
 				const TCCHSubserviceType aType,
 				const TCchServiceStatus& aServiceStatus )
     {
+	TRACER_AUTO;
 
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ServiceStatusChanged start"));
     // Disable the service only if the login to one of the subservices fails
     // 1.ECCHVoIPSub
     // 2.ECCHPresenceSub
@@ -319,7 +326,6 @@ void CVIMPSTEngineCchHandler::ServiceStatusChanged(
             }
         }
 
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ServiceStatusChanged end"));        
     }
 	    
 // ---------------------------------------------------------------------------
@@ -329,7 +335,7 @@ void CVIMPSTEngineCchHandler::ServiceStatusChanged(
 void CVIMPSTEngineCchHandler::RegisterCchObserverL(MVIMPSTEngineCchHandlerObserver* aObserver,
                                                    TCCHSubserviceType aSubServiceType )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::RegisterCchObserverL start" ));   
+	TRACER_AUTO;
     if(aObserver)
     	{
     	 TObserverStructure obsstruct;
@@ -338,7 +344,6 @@ void CVIMPSTEngineCchHandler::RegisterCchObserverL(MVIMPSTEngineCchHandlerObserv
 	     iObserverStructure.Append(obsstruct);
     	}
    
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::RegisterCchObserverL end"));        
     }    
 // ---------------------------------------------------------------------------
 // CVIMPSTEngineCchHandler::UnRegisterCchObserver
@@ -346,7 +351,7 @@ void CVIMPSTEngineCchHandler::RegisterCchObserverL(MVIMPSTEngineCchHandlerObserv
 // 
 void CVIMPSTEngineCchHandler::UnRegisterCchObserver(TCCHSubserviceType aSubServiceType )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::UnRegisterCchObserver start" ));
+	TRACER_AUTO;
     TInt count  = iObserverStructure.Count();
     for(TInt i = 0; i < count; i++)
     	{
@@ -358,7 +363,6 @@ void CVIMPSTEngineCchHandler::UnRegisterCchObserver(TCCHSubserviceType aSubServi
     		break;
     		}
     	}
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::UnRegisterCchObserver end"));        
     }    
 
 // ---------------------------------------------------------------------------
@@ -368,10 +372,9 @@ void CVIMPSTEngineCchHandler::UnRegisterCchObserver(TCCHSubserviceType aSubServi
 HBufC* CVIMPSTEngineCchHandler::GetConParametersL(			
 		    TCchConnectionParameter aConnParam )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::GetConParametersL start"));
-    TRACE( T_LIT("ServiceId: %d"), iServiceId );
-    TRACE( T_LIT("GetConParametersL - TCchConnectionParameter aConnParam: (%d)"), aConnParam );
-    
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
+	TRACE( "TCchConnectionParameter aConnParam: (%d)", aConnParam );
     HBufC* temp = NULL;
     TInt error = KErrNotFound;
     if(iCchClient)  
@@ -383,7 +386,7 @@ HBufC* CVIMPSTEngineCchHandler::GetConParametersL(
 	       CleanupClosePushL( buffer );
 		   buffer.CreateL(KVIMPSTUISPSMaxPropertyLength);
 		   
-		   TRACE( T_LIT("GetConParametersL - CCHClient->GetConnectionParameter") );
+		   TRACE( "CCHClient->GetConnectionParameter" );
 		   error = service->GetConnectionParameter(ECCHUnknown,aConnParam,buffer);
 		   User::LeaveIfError( error);
 
@@ -392,19 +395,18 @@ HBufC* CVIMPSTEngineCchHandler::GetConParametersL(
 		   TInt prefixLocation = buffer.Locate( ':' );
 		   if ( KErrNotFound != prefixLocation  && ECchUsername == aConnParam )
 		       {
-		       TRACE( T_LIT("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  Prefix found -> remove"));
+		   TRACE( "Prefix found -> remove");
 		       temp = buffer.Mid(prefixLocation+1 ).AllocL(); // ownership transferred  
 		       }
 		   else
 		       {
-		       TRACE( T_LIT("[CVIMPSTStorageContact::GetServiceFieldsL]  ->  No Prefix found"));
+		   TRACE("No Prefix found");
 		       temp = buffer.AllocL(); // ownership transferred  
 		       }
-		   TRACE( T_LIT("GetConParametersL - Return Value: Error: %d "), error );
+		   TRACE( "Return Value: Error: %d ", error );
 		   CleanupStack::PopAndDestroy( &buffer );
 		   }
 	    }
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::GetConParametersL"));  
     return temp;
     }
 
@@ -417,24 +419,21 @@ TInt CVIMPSTEngineCchHandler::SetConnectionParameter(
     TCchConnectionParameter aConnParam,
     const TDesC& aConnParamValue )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::SetConnectionParameter start"));
-    TRACE( T_LIT("ServiceId: %d"), iServiceId );
-    TRACE( T_LIT("SetConnectionParameter - TCchConnectionParameter aConnParam: (%d)"), aConnParam );
-    
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", iServiceId );
+    TRACE( "TCchConnectionParameter aConnParam: (%d)", aConnParam );
     TInt error = KErrNotFound;
     if(iCchClient)
         {
         CCchService* service = iCchClient->GetService( iServiceId );
-        TRACE( T_LIT("SetConnectionParameter - CCHClient->SetConnectionParameter") );
-
+        TRACE( "CCHClient->SetConnectionParameter");
         if (service)
 	        {
 	        error =  service->SetConnectionParameter( 
 	                  ECCHUnknown, aConnParam, aConnParamValue );
 	        }
         }    
-    TRACE( T_LIT("SetConnectionParameter - error: %d"), error );
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::SetConnectionParameter end"));   
+    TRACE( "error: %d", error );
     return error;
     }
     
@@ -447,8 +446,8 @@ TInt CVIMPSTEngineCchHandler::SetConnectionParameter(
 //
 TInt CVIMPSTEngineCchHandler::ChangeConnectionL()
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::ChangeConnection start") );
-    TRACE( T_LIT("ServiceId: %d"), iServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
    
     TInt err = KErrNone;
     if (iCchClient)
@@ -457,7 +456,6 @@ TInt CVIMPSTEngineCchHandler::ChangeConnectionL()
 		TRAP(err, cchUiApi.ShowDialogL(iServiceId, 
 						MCchUiObserver::ECchUiDialogTypeChangeConnection););
 	    }
-	TRACE( T_LIT("CVIMPSTEngineCchHandler::ChangeConnection end ")); 
     
     return err;    
     } 
@@ -480,19 +478,18 @@ MCchUi& CVIMPSTEngineCchHandler::CchUiApi() const
 //
 TBool CVIMPSTEngineCchHandler::IsPasswordAvailable(TCchConnectionParameter aConnParam )
     {
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::IsPasswordAvailableL start"));
-    TRACE( T_LIT("IsPasswordAvailableL - TCchConnectionParameter aConnParam: (%d)"), aConnParam );
+	TRACER_AUTO;
+	TRACE( "TCchConnectionParameter aConnParam: (%d)", aConnParam );
     TInt passwordSet = EFalse;
     if(iCchClient)  
         {
         CCchService* service = iCchClient->GetService( iServiceId );    
         if( service )
             {              
-            TRACE( T_LIT("GetConParametersL - CCHClient->GetConnectionParameter") );
+        TRACE( "CCHClient->GetConnectionParameter");
             service->GetConnectionParameter( ECCHUnknown,aConnParam,passwordSet );
             }
         }
-    TRACE( T_LIT("CVIMPSTEngineCchHandler::IsPasswordAvailableL end"));
     return passwordSet;
     }
 
@@ -504,6 +501,7 @@ TBool CVIMPSTEngineCchHandler::IsPasswordAvailable(TCchConnectionParameter aConn
 void CVIMPSTEngineCchHandler::ConnectivityDialogsCompletedL(
         TInt aServiceId, MCchUiObserver::TCchUiOperationResult aOperationResult )
     { 
+	TRACER_AUTO;
     if((iServiceId == aServiceId)&&(aOperationResult == ECchUiClientOperationResultConnectionChanged))
         {
         iCchUiEventObserver.HandleChangeConnectionEventL();

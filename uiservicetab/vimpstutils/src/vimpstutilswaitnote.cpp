@@ -21,6 +21,7 @@
 #include    "vimpstutilswaitnote.h"
 
 #include    <vimpstuires.rsg>
+#include "uiservicetabtracer.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -44,6 +45,7 @@ EXPORT_C void CVIMPSTUtilsWaitNote::ConstructL( const TDesC& aText,
         					  TBool aCanBeCanceledByUser,
         					  MVIMPSTUtilsWaitNoteObserver* aObserver )
     {
+	TRACER_AUTO;
 	// don't give dialog pointer as a parameter because
 	// it gets invalid after deletion of this instance
 	iWaitDialog = new( ELeave )CAknWaitDialog( NULL, aShowImmediately );
@@ -73,6 +75,7 @@ EXPORT_C CVIMPSTUtilsWaitNote* CVIMPSTUtilsWaitNote::ShowWaitNoteL( const TDesC&
         								  TBool aCanBeCanceledByUser /*= EFalse*/,
         								  MVIMPSTUtilsWaitNoteObserver* aObserver /*= NULL*/ )
     {
+	TRACER_AUTO;
     CVIMPSTUtilsWaitNote* self = ShowWaitNoteLC(aText,aShowImmediately,aCanBeCanceledByUser,aObserver);
     CleanupStack::Pop( self );
     return self;
@@ -88,6 +91,7 @@ EXPORT_C CVIMPSTUtilsWaitNote* CVIMPSTUtilsWaitNote::ShowWaitNoteLC( const TDesC
         								  TBool aCanBeCanceledByUser /*= EFalse*/,
         								  MVIMPSTUtilsWaitNoteObserver* aObserver /*= NULL*/ )
     {
+	TRACER_AUTO;
     CVIMPSTUtilsWaitNote* self = new( ELeave ) CVIMPSTUtilsWaitNote();
     CleanupStack::PushL( self );
     self->ConstructL( aText, aShowImmediately, aCanBeCanceledByUser, aObserver );
@@ -104,6 +108,7 @@ EXPORT_C CVIMPSTUtilsWaitNote* CVIMPSTUtilsWaitNote::ShowWaitNoteLC( TInt aTextR
         								  TBool aCanBeCanceledByUser /*= EFalse*/,
         								  MVIMPSTUtilsWaitNoteObserver* aObserver /*= NULL*/ )
     {
+	TRACER_AUTO;
 	CVIMPSTUtilsWaitNote* self = new( ELeave ) CVIMPSTUtilsWaitNote();
     CleanupStack::PushL( self );
 
@@ -124,6 +129,7 @@ EXPORT_C CVIMPSTUtilsWaitNote* CVIMPSTUtilsWaitNote::ShowWaitNoteL( TInt aTextRe
         								 TBool aCanBeCanceledByUser /*= EFalse*/,
         								 MVIMPSTUtilsWaitNoteObserver* aObserver /*= NULL*/ )
     {
+	TRACER_AUTO;
 	CVIMPSTUtilsWaitNote* self = ShowWaitNoteLC( aTextResource,
 	                                    aShowImmediately,
 	                                    aCanBeCanceledByUser,
@@ -151,6 +157,7 @@ CVIMPSTUtilsWaitNote::~CVIMPSTUtilsWaitNote()
 //
 EXPORT_C void CVIMPSTUtilsWaitNote::DialogDismissedL( TInt aButtonId )
     {
+	TRACER_AUTO;
     iWaitDialog = NULL;
     if( iObserver )
         {
@@ -166,6 +173,7 @@ EXPORT_C void CVIMPSTUtilsWaitNote::DialogDismissedL( TInt aButtonId )
 //
 EXPORT_C void CVIMPSTUtilsWaitNote::DismissDialog()
 	{
+	TRACER_AUTO;
 	if( iWaitDialog )
         {
         iWaitDialog->SetCallback( NULL );

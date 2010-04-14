@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -63,6 +64,7 @@ CVIMPSTCmdEditContact* CVIMPSTCmdEditContact::NewL(
         const TInt aCommandId,MVPbkContactLink* aContactLink,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTCmdEditContact* self = new (ELeave ) CVIMPSTCmdEditContact( aCommandId ,aContactLink, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -82,7 +84,8 @@ void CVIMPSTCmdEditContact::ConstructL()
 //
 void CVIMPSTCmdEditContact::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd::ExecuteLD");
+   	
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );   
 /*	
@@ -108,7 +111,7 @@ void CVIMPSTCmdEditContact::ExecuteLD()
 	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd:: CommandFinished");
 	*/	
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTEnableServiceCmd::ExecuteLD");	
+	
     }
 
 

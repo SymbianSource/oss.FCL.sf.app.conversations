@@ -17,7 +17,8 @@
 
 // INCLUDE FILES
 #include "cvimpstenginerequest.h"
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 
 #include <e32base.h>
 
@@ -28,6 +29,7 @@
 CVIMPSTEngineRequest* CVIMPSTEngineRequest::NewL(TXIMPRequestId& aRequestId,
         TXimpOperation aType)
 	{
+	TRACER_AUTO;
 	CVIMPSTEngineRequest* self = CVIMPSTEngineRequest::NewLC(aRequestId,aType);
 	CleanupStack::Pop( self );
 	return self;
@@ -39,6 +41,7 @@ CVIMPSTEngineRequest* CVIMPSTEngineRequest::NewL(TXIMPRequestId& aRequestId,
 CVIMPSTEngineRequest* CVIMPSTEngineRequest::NewLC(TXIMPRequestId& aRequestId,
         TXimpOperation aType )
 	{
+	TRACER_AUTO;
 	CVIMPSTEngineRequest* self = new (ELeave) CVIMPSTEngineRequest(aRequestId,aType);
 	CleanupStack::PushL( self );
 	return self;	

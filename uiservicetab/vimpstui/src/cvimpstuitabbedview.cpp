@@ -91,7 +91,7 @@
 #include <ccafactory.h>
 #include <mccaconnection.h>
 
-#include "vimpstdebugprint.h"
+#include "uiservicetabtracer.h"
 
 //AIW - VOIP
 #include <aiwdialdataext.h>
@@ -1478,6 +1478,7 @@ void CVIMPSTUiTabbedView::CommandFinishedL(
 // --------------------------------------------------------------------------
 void CVIMPSTUiTabbedView::ShowErrorNoteL(TInt aError )
 	{
+	TRACER_AUTO;
 	HBufC* textResource = NULL;
 	switch( aError)
 		{
@@ -1633,6 +1634,7 @@ void CVIMPSTUiTabbedView::ReadAndSetOwnUserIdL()
 //
 void CVIMPSTUiTabbedView::AddContactL( const TInt aResouceId, const TDesC& aUserId )
     {
+	TRACER_AUTO;
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);    
     if (storage)
         {
@@ -1741,6 +1743,7 @@ void CVIMPSTUiTabbedView::AddContactL( const TInt aResouceId, const TDesC& aUser
 //
 void CVIMPSTUiTabbedView::CreateOrLinkToPhoneBookL(TInt aCommand )
 	{
+	TRACER_AUTO;
 	TInt index = CurrentItemIndex();
 	if( index <= 0 )
 		{
@@ -1787,6 +1790,7 @@ void CVIMPSTUiTabbedView::CreateOrLinkToPhoneBookL(TInt aCommand )
 //
 void CVIMPSTUiTabbedView::EditContactL()
     {
+	TRACER_AUTO;
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);    
     if (storage)
         {        
@@ -1834,6 +1838,7 @@ void CVIMPSTUiTabbedView::EditContactL()
 // --------------------------------------------------------------------------
 void CVIMPSTUiTabbedView::AddContactL(RPointerArray<HBufC> aContacts)
     {
+	TRACER_AUTO;
     TInt count = aContacts.Count();
 
     switch( count )
@@ -1892,6 +1897,7 @@ void CVIMPSTUiTabbedView::AddContactL(RPointerArray<HBufC> aContacts)
 //
 void CVIMPSTUiTabbedView::CopyToPhoneBookL()
     {
+	TRACER_AUTO;
     TInt index = CurrentItemIndex();
 
     TPtrC name( KNullDesC );
@@ -1922,6 +1928,7 @@ void CVIMPSTUiTabbedView::CopyToPhoneBookL()
 //
 void CVIMPSTUiTabbedView:: DeleteContactL()
     {
+	TRACER_AUTO;
     TInt index = CurrentItemIndex();
     HBufC* deletePrompt = NULL;
     TPtrC name( KNullDesC );
@@ -1966,6 +1973,7 @@ void CVIMPSTUiTabbedView:: DeleteContactL()
 //
 void CVIMPSTUiTabbedView::ChangeStatusProcessL()
     {
+	TRACER_AUTO;
     if( iEngine.ServiceState() )
         {
         // Check variation
@@ -2191,7 +2199,7 @@ void CVIMPSTUiTabbedView::ChangeStatusProcessL()
 //
 CAknIconArray* CVIMPSTUiTabbedView::LoadOwnStatusIconsL()
     {
-
+	TRACER_AUTO;
     CAknIconArray* icons = iBrandHandler->LoadOwnStatusIconsLC();
     CleanupStack::Pop( icons );
     return icons;
@@ -2205,6 +2213,7 @@ CAknIconArray* CVIMPSTUiTabbedView::LoadOwnStatusIconsL()
 TInt CVIMPSTUiTabbedView::AskStatusMessageL( TVIMPSTEnums::TOnlineStatus aStatus,
         TBool aUpdateToNetwork )
     {
+	TRACER_AUTO;
     CDesCArray* statusMessages = new( ELeave )CDesCArrayFlat(4);
     CleanupStack::PushL( statusMessages );
 
@@ -2287,6 +2296,7 @@ TInt CVIMPSTUiTabbedView::AskStatusMessageL( TVIMPSTEnums::TOnlineStatus aStatus
 //
 void CVIMPSTUiTabbedView::ReadStatusMessagesL( CDesCArray& aArray, TVIMPSTEnums::TOnlineStatus aStatus)
     {
+	TRACER_AUTO;
     RBuf buffer;
     buffer.CreateL( RProperty::KMaxPropertySize );
     CleanupClosePushL( buffer );
@@ -2368,7 +2378,7 @@ void CVIMPSTUiTabbedView::ReadStatusMessagesL( CDesCArray& aArray, TVIMPSTEnums:
 
 void CVIMPSTUiTabbedView::WriteStatusMessagesL( MDesCArray& aArray, TVIMPSTEnums::TOnlineStatus aStatus )
     {
-
+	TRACER_AUTO;
     TPtrC firstLine = aArray.MdcaPoint( 0 );
     TInt countOfMessages( 0 );
     TInt arrayCount( aArray.MdcaCount() );
@@ -2442,6 +2452,7 @@ void CVIMPSTUiTabbedView::ChangeOwnStatusMessageL()
 //
 void CVIMPSTUiTabbedView::ChangeOwnAvatarL(const TDesC& aFileName, const TDesC8& aMimeType )
 	{
+	TRACER_AUTO;
 	MVIMPSTProcessArray& arrayprocess = iCommandHandler.GetProcessInterface();
 	TAvatarData avatarData;
 	avatarData.iStatus = arrayprocess.GetOnlineStatusL(0);
@@ -2467,6 +2478,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTUiTabbedView::GetServiceState()
 //
 void CVIMPSTUiTabbedView:: SearchContactsL()
 	{
+	TRACER_AUTO;
 	CVIMPSTUiSearchFieldArray& fieldArray = iExtensionService.GetSearchFieldArray(); 
 
 	if( !fieldArray.Count() )
@@ -2497,6 +2509,7 @@ void CVIMPSTUiTabbedView:: SearchContactsL()
 // 
 void CVIMPSTUiTabbedView::LaunchViewL( TInt aViewId )
     {
+	TRACER_AUTO;
 
     CPbk2ViewState* state = CPbk2ViewState::NewLC( );
 
@@ -2518,6 +2531,7 @@ void CVIMPSTUiTabbedView::LaunchViewL( TInt aViewId )
 //
 void CVIMPSTUiTabbedView::CreateToolBarL()
     {
+	TRACER_AUTO;
     if ( AknLayoutUtils::PenEnabled() )
         {
         TInt resourceId = 0;
@@ -2564,6 +2578,7 @@ void CVIMPSTUiTabbedView::CreateToolBarL()
 //
 void CVIMPSTUiTabbedView::UpdateToolbarL()
     {
+	TRACER_AUTO;
     if ( AknLayoutUtils::PenEnabled() && iFixedToolbar && iContainer )    
         {
         TInt currentItemIndex = iContainer->CurrentItemIndex();        
@@ -2699,6 +2714,7 @@ void CVIMPSTUiTabbedView::DynInitToolbarL( TInt /*aResourceId*/, CAknToolbar* /*
 //        
 void CVIMPSTUiTabbedView::OfferToolbarEventL( TInt aCommand )
     {
+	TRACER_AUTO;
     if ( AknLayoutUtils::PenEnabled() )
         {
         switch( aCommand )
@@ -2754,6 +2770,7 @@ void CVIMPSTUiTabbedView::ShowHideFixedToolbarL(TBool aShow)
 // 
 void CVIMPSTUiTabbedView::ProcessFriendRequestL()
     {
+	TRACER_AUTO;
     TInt index = CurrentItemIndex();    
     if( index <= 0 )
         {
@@ -2893,7 +2910,8 @@ void CVIMPSTUiTabbedView::HandleSearchKeysEventL( RArray<TInt>& aEnumKeysArray, 
 // ---------------------------------------------------------
 //
 void CVIMPSTUiTabbedView::ShowURLQueryL( )
-    {    
+    {   
+	TRACER_AUTO;
     // Open browser with the specified URL
     RBuf buffer;
     buffer.CreateL( RProperty::KMaxPropertySize );
@@ -2926,6 +2944,7 @@ void CVIMPSTUiTabbedView::OpenWebBrowserL( const TDesC& aUrl )
 //
 void CVIMPSTUiTabbedView::LoginL()
     {
+	TRACER_AUTO;
     TBool IsPasswordSet = iEngine.IsPasswordAvailableL();
 
     if(iUserId)
@@ -2985,6 +3004,7 @@ void CVIMPSTUiTabbedView::LoginL()
 //
 TBool CVIMPSTUiTabbedView::IsURLQueryToBeShownL()
     {
+	TRACER_AUTO;
     TBool urlQueryShown = EFalse;
     
     RBuf buffer;
@@ -3013,6 +3033,7 @@ TBool CVIMPSTUiTabbedView::IsURLQueryToBeShownL()
 //
 void CVIMPSTUiTabbedView::ShowUseExistingOrCreateNewMenuL( TInt& aMenuChoise )
     {
+	TRACER_AUTO;
     TInt rvalue( KErrGeneral );
 
     CAknSinglePopupMenuStyleListBox* accountList =
@@ -3074,6 +3095,7 @@ void CVIMPSTUiTabbedView::ShowUseExistingOrCreateNewMenuL( TInt& aMenuChoise )
 //
 TInt CVIMPSTUiTabbedView::ShowNewUpdateQueryL()
     {
+	TRACER_AUTO;
     TInt retValue( KErrCancel );
 
     CAknSinglePopupMenuStyleListBox* selectionList =
@@ -3126,6 +3148,7 @@ TInt CVIMPSTUiTabbedView::ShowNewUpdateQueryL()
 //
 void CVIMPSTUiTabbedView::ShowLoginDialogL( TDes& aUserName, TDes& aPassword )
     {
+	TRACER_AUTO;
     HBufC* userName = HBufC::NewLC( KUsernameMaxLength );
     HBufC* passWord = HBufC::NewLC( KPasswordMaxLength );
 
@@ -3196,6 +3219,7 @@ TAny* CVIMPSTUiTabbedView::DownloadedContentHandlerReserved1( TAny* /*aAnyParam*
 //
 void CVIMPSTUiTabbedView::CloseConversationL()
     {
+	TRACER_AUTO;
     TInt index = CurrentItemIndex();    
     if( index <= 0 )
         {
@@ -3230,6 +3254,7 @@ void CVIMPSTUiTabbedView::CloseConversationL()
 //
 void CVIMPSTUiTabbedView::HandleServerAppExit( TInt /*aReason*/ )
     {
+	TRACER_AUTO;
     TInt error = KErrNone;
     TRAPD(leaveErr,error = ShowTermsofuseL());
     if(KErrNone == error && KErrNone == leaveErr)
@@ -3245,6 +3270,7 @@ void CVIMPSTUiTabbedView::HandleServerAppExit( TInt /*aReason*/ )
 //
 TInt CVIMPSTUiTabbedView::ShowTermsofuseL()
     {
+	TRACER_AUTO;
     TInt retVal = KErrNone;
     // get the  ETOUDlgOff if its set don't show TOU dialog else show TOU 
     TInt termsOfUseDisabled = KErrNone;
@@ -3272,6 +3298,7 @@ TInt CVIMPSTUiTabbedView::ShowTermsofuseL()
 //
 void CVIMPSTUiTabbedView::MakeVoipCallL()
     {
+	TRACER_AUTO;
     // making voip call will take in three steps
     // pop up the selection dialog
     // select adress
@@ -3319,6 +3346,7 @@ void CVIMPSTUiTabbedView::MakeVoipCallL()
 // ---------------------------------------------------------
 void CVIMPSTUiTabbedView::ExecuteAiwCallL( const TDesC& aSelectedAddress )
 	{
+	TRACER_AUTO;
 	//aSelectedAdress will be an xsp id of format "ServiceName:UserId"
 	//here we need to truncate the servicename and pass only the UserId
     //Find if aSelectedAdress of type "ServiceName:UserId"
@@ -3369,6 +3397,7 @@ void CVIMPSTUiTabbedView::ExecuteAiwCallL( const TDesC& aSelectedAddress )
 
 void CVIMPSTUiTabbedView::LaunchHelpL( const TDesC& aContext )
     {
+	TRACER_AUTO;
     CArrayFix< TCoeHelpContext >* cntx = new( ELeave ) CArrayFixFlat< TCoeHelpContext >( KHelpContextSize );
     CleanupStack::PushL( cntx );
 
@@ -3395,6 +3424,7 @@ MVIMPSTSettingsStore* CVIMPSTUiTabbedView::SettingsStore()
 //
 TBool CVIMPSTUiTabbedView::CancelLoginSupportedL()
     {
+	TRACER_AUTO;
     TInt cancelNotSupported(KErrNone);
     TBool returnValue = ETrue;
     // read from the cenrep settings 
@@ -3414,6 +3444,7 @@ TBool CVIMPSTUiTabbedView::CancelLoginSupportedL()
 //
 TBool CVIMPSTUiTabbedView::ChangeConnectionSupportedL()
     {
+	TRACER_AUTO;
     TInt changeConnectionSupported(KErrNone);
     TBool returnValue = ETrue;
     // read from the cenrep settings 
@@ -3436,6 +3467,7 @@ TInt CVIMPSTUiTabbedView::HandleNotifyL(
         CAiwGenericParamList& aEventParamList,
         const CAiwGenericParamList& /* aInParamList */)
 	{
+	TRACER_AUTO;
 	TInt result = 0;
 		if( (aCmdId == KAiwCmdSelect) && (aEventId == KAiwEventCompleted && iSelectedAction == ECreateXSPCall ))
 			{
@@ -3527,6 +3559,7 @@ TInt CVIMPSTUiTabbedView::HandleNotifyL(
 //
 void CVIMPSTUiTabbedView::BlockContactL(TBool aBlock /* = EFalse */)
     {
+	TRACER_AUTO;
     TInt index = CurrentItemIndex();
     if(iContainer)
         {
@@ -3581,6 +3614,7 @@ void CVIMPSTUiTabbedView::BlockContactL(TBool aBlock /* = EFalse */)
 // --------------------------------------------------------------------------
 void CVIMPSTUiTabbedView::ShowBlockedContactListL()
 	{
+	TRACER_AUTO;
 	if(!iIsToolBarHidden)
 	    {
 	    ShowHideFixedToolbarL(EFalse);
@@ -3600,7 +3634,8 @@ void CVIMPSTUiTabbedView::ShowBlockedContactListL()
 // --------------------------------------------------------------------------
 void CVIMPSTUiTabbedView::HandleContactSelectionCompleteL()
 	{
-	 CHAT_DP_FUNC_ENTER("CVIMPSTUiTabbedView::HandleContactSelectionCompleteL");
+	TRACER_AUTO;
+	
 	 if( iWaitNote )
 	        {
 	        delete iWaitNote;
@@ -3612,7 +3647,7 @@ void CVIMPSTUiTabbedView::HandleContactSelectionCompleteL()
 
         if ( iSelectedData.iPackedLinks )                     //add the selected contact to the service tab
             {
-            CHAT_DP_FUNC_DP("CVIMPSTUiTabbedView","process contact");
+            TRACE("process contact");
             if( iSelectedAction == CVIMPSTUiTabbedView::EInvitAcceptCreateNew )
                    {
                  iCommandHandler.HandleCommandL( ECmdProcessAcceptedContactNew, this, (TAny*)&iSelectedData );
@@ -3629,7 +3664,7 @@ void CVIMPSTUiTabbedView::HandleContactSelectionCompleteL()
         //invitation has been accepted using update existing contact
         // updation is successful
         // send accepted request to command/engine/server   
-        CHAT_DP_FUNC_DP("HandleSessionContextEventL","frnrequest accepted");
+        TRACE("frnrequest accepted");
         iCommandHandler.HandleCommandL(EFriendAccpeted, this, iFriendRequestId );
         }
      else if(  iSelectedAction == CVIMPSTUiTabbedView::EContactCreateNew ||  iSelectedAction == CVIMPSTUiTabbedView::EContactAddFromContacts)
@@ -3652,7 +3687,7 @@ void CVIMPSTUiTabbedView::HandleContactSelectionCompleteL()
 
          if ( iSelectedData.iPackedLinks )                     //add the selected contact to the service tab
              {
-             CHAT_DP_FUNC_DP("CVIMPSTUiTabbedView","process contact");
+           TRACE("process contact");
              if( iSelectedAction == CVIMPSTUiTabbedView::EContactCreateNew )
                  {
                  iCommandHandler.HandleCommandL( ECmdProcessSelectedContactNew, this, (TAny*)&iSelectedData );
@@ -3682,7 +3717,7 @@ void CVIMPSTUiTabbedView::HandleContactSelectionCompleteL()
 		 iQueryResult = NULL;	
 		 }
     iSelectedAction = KErrNotFound;  // This is to clear the previous selected action.
-    CHAT_DP_FUNC_DONE("CVIMPSTUiTabbedView::HandleContactSelectionCompleteL");  
+      
 	}
 
 // --------------------------------------------------------------------------
@@ -3703,7 +3738,7 @@ void CVIMPSTUiTabbedView::LaunchSettingsViewL()
     below code need to remove and new API will be called.
     ***************************************************************************************
     */
-        
+	TRACER_AUTO; 
     _LIT(KStartupParams, "ACTION=4 SERID=");
     _LIT8(KStartupParams8, "ACTION=4 SERID=");
     //Take CSC UID (In future if this UID change , we also need to change it otherwise we will not be able
@@ -3755,6 +3790,7 @@ void CVIMPSTUiTabbedView::LaunchSettingsViewL()
 
 void CVIMPSTUiTabbedView::ReInitializeServiceHandlerL()
     {
+	TRACER_AUTO;
     if(iIsServiceHandleReSet )
         {
         if(iServiceHandler)
@@ -3776,6 +3812,7 @@ void CVIMPSTUiTabbedView::ReInitializeServiceHandlerL()
 
 void CVIMPSTUiTabbedView::LaunchFetchDialogL()
     {
+	TRACER_AUTO;
     iSelectedAction = EContactAddFromContacts;
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL( iEngine.ServiceId() ) ;
     TBool localStore = EFalse;
@@ -3807,6 +3844,7 @@ void CVIMPSTUiTabbedView::LaunchFetchDialogL()
 
 void CVIMPSTUiTabbedView::ExecuteSingleItemFetchL( TAiwSingleEntrySelectionDataV2 aData )
     {
+	TRACER_AUTO;
     if(iAiwParamList)
            {
            delete iAiwParamList;
@@ -3833,6 +3871,7 @@ void CVIMPSTUiTabbedView::ExecuteSingleItemFetchL( TAiwSingleEntrySelectionDataV
 // --------------------------------------------------------------------------
 void CVIMPSTUiTabbedView::ExecuteMultipleItemFetchL( TAiwMultipleEntrySelectionDataV2 aData )
     {
+	TRACER_AUTO;
     if(iAiwParamList)
         {
         delete iAiwParamList;

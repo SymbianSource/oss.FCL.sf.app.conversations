@@ -23,7 +23,7 @@
 #include "cvimpststorageserviceview.h"
 
 //debug prints
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -35,9 +35,8 @@
 //
 EXPORT_C void CVIMPSTStorageManagerFactory::InitialiseLibraryL()
     {
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::InitialiseLibraryL() begin") );
+	TRACER_AUTO;
     CVIMPSTStorageManager::InitialiseLibraryL();
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::InitialiseLibraryL() end") );
     }
 
 // -----------------------------------------------------------------------------
@@ -47,7 +46,7 @@ EXPORT_C void CVIMPSTStorageManagerFactory::InitialiseLibraryL()
 //
 EXPORT_C TInt CVIMPSTStorageManagerFactory::Release()
     {
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::Release()") );
+	TRACER_AUTO;
     return CVIMPSTStorageManager::Release();  
     }
 
@@ -61,7 +60,7 @@ EXPORT_C void CVIMPSTStorageManagerFactory::InitialiseViewL(
 												const TDesC& aStoreName,
 												const TDesC& aServiceName)
     {
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::InitialiseViewL() begin") );
+	TRACER_AUTO;
     //get the stroage manager instance
     CVIMPSTStorageManager& storagemanager = CVIMPSTStorageManager::Instance( );
     
@@ -69,7 +68,6 @@ EXPORT_C void CVIMPSTStorageManagerFactory::InitialiseViewL(
     CVIMPSTStorageServiceView* contactlistInterface = 
     				storagemanager.CreateServiceViewL( aServiceId, aStoreName, aServiceName );
     
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::InitialiseViewL() end") );
     }    
     
 
@@ -79,7 +77,7 @@ EXPORT_C void CVIMPSTStorageManagerFactory::InitialiseViewL(
 //
 EXPORT_C MVIMPSTStorageServiceView* CVIMPSTStorageManagerFactory::ContactListInterfaceL(TUint32 aServiceId)
     {
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::ContactListInterfaceL() begin") );
+	TRACER_AUTO;
     //get the stroage manager instance
     CVIMPSTStorageManager& storagemanager = CVIMPSTStorageManager::Instance( );
     
@@ -88,7 +86,6 @@ EXPORT_C MVIMPSTStorageServiceView* CVIMPSTStorageManagerFactory::ContactListInt
     				storagemanager.CreateServiceViewL( aServiceId, KNullDesC, KNullDesC );
     
     //cast to the base class and return the MVIMPSTStorageServiceView base ptr
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::ContactListInterfaceL() begin") );
     return dynamic_cast<MVIMPSTStorageServiceView*>(contactlistInterface);    
     
     }    
@@ -99,7 +96,7 @@ EXPORT_C MVIMPSTStorageServiceView* CVIMPSTStorageManagerFactory::ContactListInt
 //
 EXPORT_C MVIMPSTStorageItemModel* CVIMPSTStorageManagerFactory::ItemModelInterfaceL( TUint32 aServiceId )
 	{	
-	TRACE( T_LIT("CVIMPSTStorageManagerFactory::ItemModelInterfaceL() begin") );
+	TRACER_AUTO;
     //get the stroage manager instance
     CVIMPSTStorageManager& storagemanager = CVIMPSTStorageManager::Instance( );    
     
@@ -108,7 +105,6 @@ EXPORT_C MVIMPSTStorageItemModel* CVIMPSTStorageManagerFactory::ItemModelInterfa
     				storagemanager.CreateServiceViewL( aServiceId, KNullDesC, KNullDesC );
     
     //cast to the base class and return the MVIMPSTStorageItemModel base ptr
-    TRACE( T_LIT("CVIMPSTStorageManagerFactory::ItemModelInterfaceL() end") );
     return dynamic_cast<MVIMPSTStorageItemModel*>(itemModel);
    
     }      

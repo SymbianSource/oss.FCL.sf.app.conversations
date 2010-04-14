@@ -24,7 +24,7 @@
 #include    "cvimpstuidoublelistboxtabviewcontrol.h" // tab control
 #include 	<vimpstuires.rsg>
 #include    "tvimpstenums.h"
-#include    "vimpstdebugprint.h" 
+#include "uiservicetabtracer.h"
 // platform includes
 
 #include    <AknUtils.h>
@@ -47,6 +47,7 @@ CVIMPSTUiDoubleListboxArray* CVIMPSTUiDoubleListboxArray::NewL(MVIMPSTProcessArr
 							            CVIMPSTUiDoubleListBoxTabViewControl& aTabbedviewControl
 							            )
     {
+	TRACER_AUTO;
     CVIMPSTUiDoubleListboxArray* self = new (ELeave) CVIMPSTUiDoubleListboxArray( aItemModel, 
     								aListboxData, aListBox,aTabbedviewControl);
     								
@@ -79,7 +80,7 @@ CVIMPSTUiDoubleListboxArray::CVIMPSTUiDoubleListboxArray( MVIMPSTProcessArray& a
 // Symbian OS default constructor can leave.
 void CVIMPSTUiDoubleListboxArray::ConstructL()
 	{
-	
+	TRACER_AUTO;
 	 // maximum length of icons appended to identification
     // There can be four icons (A+B and two on D-column)
     iMaxLengthOfIcons =
@@ -116,7 +117,8 @@ TInt CVIMPSTUiDoubleListboxArray::MdcaCount() const
 //
 TPtrC16 CVIMPSTUiDoubleListboxArray::MdcaPoint( TInt aIndex ) const
 	{
-	CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::MdcaPoint: aIndex: %d"), aIndex );	    
+	TRACER_AUTO;
+	TRACE(" aIndex: %d", aIndex );	    
 	// Although this is a const method, we do change the member data.
 	// This is done because of performance
 	// -> no need to create new buffer every time.
@@ -126,13 +128,13 @@ TPtrC16 CVIMPSTUiDoubleListboxArray::MdcaPoint( TInt aIndex ) const
   
     // fetch the item and process correct type    
     TVIMPSTEnums::TItem type = iItemArray.GetType(aIndex);
-    CHAT_DP( D_CHAT_LIT(" -> item type: %d"), type );	    
+    TRACE(" item type: %d", type );	    
  
     switch( type )
         {
         case TVIMPSTEnums::EOwnStatusItem:
 	        {
-	        CHAT_DP( D_CHAT_LIT(" -> own data") );	    
+	        TRACE("  own data" );	    
 	        TRAP_IGNORE( AppendOwnDataL(dataPtr,aIndex ) );
 	        break;	
 	        }	
@@ -145,12 +147,12 @@ TPtrC16 CVIMPSTUiDoubleListboxArray::MdcaPoint( TInt aIndex ) const
         default:
             {
             // shouldn't be here
-            CHAT_DP( D_CHAT_LIT(" -> default") );	    
+            TRACE(" -> default" );	    
             break;
             }
         } //end outer switch
     
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::MdcaPoint out") );	    
+       
     return dataPtr;
 	}
 	
@@ -166,9 +168,9 @@ void CVIMPSTUiDoubleListboxArray::AppendOwnDataL( TPtr& aBuffer,
                                       TInt aIndex
                                       ) const
     {    
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::AppendOwnDataL" ) );		
+	TRACER_AUTO;		
     TVIMPSTEnums::TVIMPSTRegistrationState loginstate = iItemArray.GetLoginState();
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::AppendOwnDataL, login state: %d" ), loginstate );		
+    TRACE("login state: %d" , loginstate );		
     TInt avtarIndex = iItemArray.OwnAvatarIndexL();
 
     if( avtarIndex )
@@ -199,7 +201,7 @@ void CVIMPSTUiDoubleListboxArray::AppendOwnDataL( TPtr& aBuffer,
     if (  TVIMPSTEnums::ESVCERegistered == loginstate ) 
         {
         TVIMPSTEnums::TOnlineStatus status = iItemArray.GetOnlineStatusL(aIndex);
-        CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::AppendOwnDataL, status: %d" ), status );		
+        TRACE(" status: %d" , status );		
         TPtrC statusText = iItemArray.StatusTextL( aIndex );
         if( statusText.Length()  > 0) // if status text show it
             {
@@ -265,7 +267,7 @@ void CVIMPSTUiDoubleListboxArray::AppendOwnDataL( TPtr& aBuffer,
         // append tab before appending icon
         aBuffer.Append( KTab );
 
-        CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::AppendOwnDataL, handle status enum: %d" ), status );		
+        TRACE(" handle status enum: %d" , status );		
         switch(status)
             {
             case TVIMPSTEnums::EOnline:
@@ -314,7 +316,7 @@ void CVIMPSTUiDoubleListboxArray::AppendOwnDataL( TPtr& aBuffer,
         // except in  disconnecting state show username
         if(TVIMPSTEnums::ESVCENetworkDisConnecting != loginstate )                               
             {
-            CHAT_DP( D_CHAT_LIT("CVIMPSTUiArray::AppendOwnDataL, offline state" ) );		
+			TRACE(" offline state" );		
             TPtrC userId = iItemArray.LoginUserIdFromStoreL(); 
             aBuffer.Append( VIMPSTUtils::DisplayId( userId ));
             }

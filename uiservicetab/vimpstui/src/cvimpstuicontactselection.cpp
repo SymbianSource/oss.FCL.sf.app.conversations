@@ -18,6 +18,7 @@
 // INCLUDE FILES
 #include "cvimpstuicontactselection.h"
 #include "cvimpstuitabbedview.h"
+#include "uiservicetabtracer.h"
 
 #include <e32base.h>
 
@@ -59,6 +60,7 @@ CVIMPSTUiContactSelection::CVIMPSTUiContactSelection(CVIMPSTUiTabbedView& iViewO
 //
 void CVIMPSTUiContactSelection::IssueRequest()
 	{
+	TRACER_AUTO;
 	if( IsActive() )
 		{
 		Cancel();	

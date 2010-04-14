@@ -31,7 +31,7 @@
 #include "mvimpstengine.h"
 #include "cvimpststoragemanagerfactory.h"
 #include "mvimpststorageserviceview.h"
-#include "vimpstdebugtrace.h"
+
 // system include
 #include 	<aknenv.h>
 #include	<aknlists.h>
@@ -48,6 +48,7 @@
 
 #include    <MVPbkContactStoreListObserver.h>
 #include    "mvimpstenginepresencesubservice.h"
+#include "uiservicetabtracer.h"
 
 #include <aknlayoutscalable_avkon.cdl.h>
 // imlauncher
@@ -93,6 +94,7 @@ CVIMPSTUiSingleListBoxTabViewControl::CVIMPSTUiSingleListBoxTabViewControl(CVIMP
 //
 void CVIMPSTUiSingleListBoxTabViewControl::ConstructL()
     {
+	TRACER_AUTO;
     CreateWindowL();
    
     // register to get the call back for any array data change
@@ -154,6 +156,7 @@ CVIMPSTUiSingleListBoxTabViewControl* CVIMPSTUiSingleListBoxTabViewControl::NewL
         CVIMPSTUiBrandData& aBrandHandler,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTUiSingleListBoxTabViewControl* self = NewLC(aTabbedView,aKeyEventHandler,
     			aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::Pop(self);
@@ -171,6 +174,7 @@ CVIMPSTUiSingleListBoxTabViewControl* CVIMPSTUiSingleListBoxTabViewControl::NewL
         CVIMPSTUiBrandData& aBrandHandler,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTUiSingleListBoxTabViewControl* self =
         new (ELeave) CVIMPSTUiSingleListBoxTabViewControl(aTabbedView,aKeyEventHandler,
         aCommandHandler, aServiceId, aBrandHandler,aEngine);
@@ -517,14 +521,14 @@ void CVIMPSTUiSingleListBoxTabViewControl::SetCurrentItemIndexAndDraw(TInt aInde
 void CVIMPSTUiSingleListBoxTabViewControl::SetListEmptyTextL(TInt aResourceId)
     {
     HBufC* msgText;
-    TRACE( T_LIT("CVIMPSTUiSingleListBoxTabViewControl:SetListEmptyTextL:Start"));    
+    TRACER_AUTO;    
     // Get Service Name from Engine , load string from resource and display.
     // This text is shown to tell the user to restart phone to get the service again.
     TPtrC serviceNamePtr(iEngine.ServiceName());
     msgText = StringLoader::LoadLC(aResourceId, serviceNamePtr, iCoeEnv);
     iListBox->View()->SetListEmptyTextL(*msgText);
-    TRACE( T_LIT("Display Text %S"), msgText );
-    TRACE( T_LIT("CVIMPSTUiSingleListBoxTabViewControl:SetListEmptyTextL:End"));
+    TRACE( "Display Text %S", msgText );
+    
     CleanupStack::PopAndDestroy(msgText);
     }
 
@@ -643,11 +647,13 @@ void CVIMPSTUiSingleListBoxTabViewControl::SendMessageL()
 	{
 	TInt index = CurrentItemIndex();   
 	TPtrC seletctedItem = iArrayProcess.GetItemUserId(index) ;
-	if( index< 0 || !(seletctedItem.Length()) )
+	if( index< 0 )
 		{
-		// return if item not found or there is no user id.
+		// return if item not found.
 		return;	
 		}
+      if(seletctedItem.Length())
+		{
    // No need to check for the presence of the contact as in singleline 
    // list box there is no presence, hence directly open the ocnversation view.
     TVwsViewId activeViewId;
@@ -656,6 +662,16 @@ void CVIMPSTUiSingleListBoxTabViewControl::SendMessageL()
     iArrayProcess.ResetPendingMsg( index );
     // imlauncher call for luanching the conversationview with seletced user id
     IMCVLauncher::LaunchImConversationViewL(activeViewId, iServiceId, seletctedItem );  
+		}
+	else
+		{
+	      //When there is no XSP Id present it comes to here
+		//Displaying a note that there is no XSP ID
+	      HBufC* note = NULL;
+	      note = StringLoader::LoadLC( R_QTN_SERVTAB_NOXSP_ERROR );
+	      VIMPSTUtilsDialog::DisplayNoteDialogL( *note );
+		CleanupStack::PopAndDestroy( note );
+		}
 	}
 // ---------------------------------------------------------
 // CVIMPSTUiSingleListBoxTabViewControl::UpdateViewL
@@ -665,6 +681,7 @@ void CVIMPSTUiSingleListBoxTabViewControl::SendMessageL()
 void CVIMPSTUiSingleListBoxTabViewControl::UpdateViewL( 
 				TInt aIndex, TVIMPSTEnums::TItem aType)
     {
+	TRACER_AUTO;
     TInt index = KErrNotFound;
     if( aIndex < 0 )
     	{
@@ -733,6 +750,7 @@ void CVIMPSTUiSingleListBoxTabViewControl::UpdateViewL(
 //
 void CVIMPSTUiSingleListBoxTabViewControl::ActivateFindPaneL()
     {
+	TRACER_AUTO;
     if( !iFindbox )
         {
         iFindbox = CAknSearchField::NewL( *this,
@@ -767,6 +785,7 @@ void CVIMPSTUiSingleListBoxTabViewControl::ActivateFindPaneL()
 //
 void CVIMPSTUiSingleListBoxTabViewControl::DeactivateFindPaneL()
     {
+	TRACER_AUTO;
     if( !iFindbox )
 	    {
 	    return;	
@@ -987,6 +1006,7 @@ void CVIMPSTUiSingleListBoxTabViewControl::SetCbaLockL( TBool aLock )
 //
 void CVIMPSTUiSingleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= EFalse*/ )
     {
+	TRACER_AUTO;
     TInt cbaRes = R_SERVTAB_SOFTKEYS_OPTIONS_EXIT__EMPTY;
     iCurrentCmdToExe = -1;
     if( !iCbaLock )

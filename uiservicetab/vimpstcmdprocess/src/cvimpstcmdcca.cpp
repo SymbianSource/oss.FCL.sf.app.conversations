@@ -33,6 +33,8 @@
 #include "tvimpstconsts.h"
 #include "vimpstdetailsviewpluginuids.hrh"
 
+#include "uiservicetabtracer.h"
+
 // Constants
 
 // --------------------------------------------------------------------------
@@ -71,6 +73,7 @@ CVIMPSTCmdCCA* CVIMPSTCmdCCA::NewL(
         	MVIMPSTProcessArray& aArrayProcess,
         MVIMPSTEngine& aEngine )
     {
+	 TRACER_AUTO;
     CVIMPSTCmdCCA* self = new (ELeave ) CVIMPSTCmdCCA( aCommandId,aIndex,aConnection,aArrayProcess, aEngine );
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -92,7 +95,8 @@ void CVIMPSTCmdCCA::ConstructL()
 //
 void CVIMPSTCmdCCA::ExecuteLD()
     {
-   	// CHAT_DP_FUNC_ENTER("CVIMPSTSettingsCmd::ExecuteLD");
+    TRACER_AUTO;
+   	
     //push to the cleanupstack
     CleanupStack::PushL( this );    
   	
@@ -101,9 +105,9 @@ void CVIMPSTCmdCCA::ExecuteLD()
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	// CHAT_DP_FUNC_ENTER("CVIMPSTSettingsCmd:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	// CHAT_DP_FUNC_DONE("CVIMPSTSettingsCmd::ExecuteLD");	
+		
     }
 
 
@@ -143,7 +147,7 @@ TInt CVIMPSTCmdCCA::Result() const
 //
 void CVIMPSTCmdCCA::LaunchCcaL()
 	{   
-
+	TRACER_AUTO;
 	if ( iParameter )
 		{
 		iParameter->Close();

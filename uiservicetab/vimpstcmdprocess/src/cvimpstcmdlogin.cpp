@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -77,22 +78,23 @@ void CVIMPSTCmdLogin::ConstructL()
 //
 void CVIMPSTCmdLogin::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );   
 	
 	//call login
    	iEngine.Login();
    	
-    CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd:: CommandFinished");
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTEnableServiceCmd:: CommandFinished");	
+	
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTEnableServiceCmd::ExecuteLD");	
+	
     }
 
 

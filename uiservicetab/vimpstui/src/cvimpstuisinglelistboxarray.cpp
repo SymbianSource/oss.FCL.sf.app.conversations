@@ -32,6 +32,7 @@
 #include    <AknIconArray.h>
 #include    <eikclbd.h>
 #include    <AknsConstants.h>
+#include "uiservicetabtracer.h"
 
 #include    <vimpstui.mbg>
 
@@ -43,6 +44,7 @@ CVIMPSTUiSingleListboxArray* CVIMPSTUiSingleListboxArray::NewL(MVIMPSTProcessArr
 							            CVIMPSTUiSingleStyleListBox& aListBox
 							            )
     {
+	TRACER_AUTO;
     CVIMPSTUiSingleListboxArray* self = new (ELeave) CVIMPSTUiSingleListboxArray( aItemModel, 
     								aListboxData, aListBox);
     								
@@ -73,7 +75,7 @@ CVIMPSTUiSingleListboxArray::CVIMPSTUiSingleListboxArray( MVIMPSTProcessArray& a
 // Symbian OS default constructor can leave.
 void CVIMPSTUiSingleListboxArray::ConstructL()
 	{
-	
+	TRACER_AUTO;
 	 // maximum length of icons appended to identification
     // There can be four icons (A+B and two on D-column)
     iMaxLengthOfIcons =
@@ -107,6 +109,7 @@ TInt CVIMPSTUiSingleListboxArray::MdcaCount() const
 //
 TPtrC16 CVIMPSTUiSingleListboxArray::MdcaPoint( TInt aIndex ) const
 	{
+	TRACER_AUTO;
 	// Although this is a const method, we do change the member data.
 	// This is done because of performance
 	// -> no need to create new buffer every time.
@@ -146,6 +149,7 @@ void CVIMPSTUiSingleListboxArray::AppendContactL( TPtr& aBuffer,
                                       TInt aIndex
                                       ) const
     {
+	TRACER_AUTO;
     // A-column
      aBuffer.Append( KEmptyIconA );
     // B-column

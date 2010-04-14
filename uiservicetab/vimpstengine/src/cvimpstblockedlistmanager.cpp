@@ -16,7 +16,7 @@
 */
 // INCLUDE FILES
 #include "cvimpstblockedlistmanager.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -26,11 +26,10 @@
 // ---------------------------------------------------------
 CVIMPSTBlockedListManager* CVIMPSTBlockedListManager::NewL()
     {
-    TRACE( T_LIT("CVIMPSTBlockedListManager::NewL start"));
+	TRACER_AUTO;
     CVIMPSTBlockedListManager* self = 
     			CVIMPSTBlockedListManager::NewLC();
-    CleanupStack::Pop( self );
-   	TRACE( T_LIT("CVIMPSTBlockedListManager::NewL end"));
+    CleanupStack::Pop( self ); 
     return self;
     }
 
@@ -40,11 +39,10 @@ CVIMPSTBlockedListManager* CVIMPSTBlockedListManager::NewL()
 // ---------------------------------------------------------
 CVIMPSTBlockedListManager* CVIMPSTBlockedListManager::NewLC()
 	{
-	TRACE( T_LIT("CVIMPSTBlockedListManager::NewLC start"));
+	TRACER_AUTO;
 	CVIMPSTBlockedListManager* self = new (ELeave) CVIMPSTBlockedListManager;
 	CleanupStack::PushL( self );
 	self->ConstructL();
-	TRACE( T_LIT("CVIMPSTBlockedListManager::NewLC end"));
 	return self;
 	}
     
@@ -53,8 +51,8 @@ CVIMPSTBlockedListManager* CVIMPSTBlockedListManager::NewLC()
 // ---------------------------------------------------------
 void CVIMPSTBlockedListManager::ConstructL()
 	{
-	TRACE( T_LIT("CVIMPSTBlockedListManager::ConstructL start"));
-    TRACE( T_LIT("CVIMPSTBlockedListManager::ConstructL end"));    	
+	TRACER_AUTO;
+	
     }
 	
 // ---------------------------------------------------------
@@ -88,6 +86,7 @@ void CVIMPSTBlockedListManager::AddToBlockedListL(const TDesC& aContact)
 // ---------------------------------------------------------
 void CVIMPSTBlockedListManager::RemoveFromBlockListL(const TDesC& aContact)
 	{
+	TRACER_AUTO;
 	for(TInt i=0; i<iBlockedList.Count(); ++i)
 		{
 		if(0 == aContact.CompareC(iBlockedList[i]->Des()))

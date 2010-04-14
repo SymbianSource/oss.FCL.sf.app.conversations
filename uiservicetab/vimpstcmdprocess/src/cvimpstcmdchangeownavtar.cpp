@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -78,8 +79,8 @@ void CVIMPSTCmdChangeOwnAvtar::ConstructL()
 //
 void CVIMPSTCmdChangeOwnAvtar::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnAvtar::ExecuteLD");
-    //push to the cleanupstack
+    TRACER_AUTO;
+     //push to the cleanupstack
     CleanupStack::PushL( this );   
 	
 	//Get Presence SubService  			
@@ -92,15 +93,15 @@ void CVIMPSTCmdChangeOwnAvtar::ExecuteLD()
         presence.PublishOwnPresenceL(iData.iStatus, iData.iStatusText, iData.iFileName , iData.iMimeType, ETrue );
         }      
   
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnAvtar:: CommandFinished");
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnAvtar:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdChangeOwnAvtar::ExecuteLD");	
+	
     }
 
 

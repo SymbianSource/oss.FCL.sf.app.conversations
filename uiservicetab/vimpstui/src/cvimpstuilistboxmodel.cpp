@@ -18,6 +18,7 @@
 
 #include "cvimpstuilistboxmodel.h"
 #include "mvimpstprocessarray.h"
+#include "uiservicetabtracer.h"
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -43,6 +44,7 @@ CVIMPSTUiListBoxModel::~CVIMPSTUiListBoxModel()
 //
 TInt CVIMPSTUiListBoxModel::NumberOfItems() const
     {
+	TRACER_AUTO;
     if( IsFilterActive() )
         {
         // Something is filtered
@@ -79,6 +81,7 @@ TPtrC CVIMPSTUiListBoxModel::ItemText( TInt aItemIndex ) const
 //
 TInt CVIMPSTUiListBoxModel::FilteredItemIndex( TInt aVisibleItemIndex ) const
     {
+	TRACER_AUTO;
     if( !IsFilterActive() )
         {
         // Nothing is filtered
@@ -120,6 +123,7 @@ TInt CVIMPSTUiListBoxModel::FilteredItemIndex( TInt aVisibleItemIndex ) const
 //
 TInt CVIMPSTUiListBoxModel::VisibleItemIndex( TInt aOriginalIndex ) const
     {
+	TRACER_AUTO;
     if( !IsFilterActive() )
         {
         // Nothing is filtered
@@ -162,6 +166,7 @@ TInt CVIMPSTUiListBoxModel::VisibleItemIndex( TInt aOriginalIndex ) const
 //
 TInt CVIMPSTUiListBoxModel::CountItems() const
     {
+	TRACER_AUTO;
     TInt itemcount = 0;
     if( Filter() )
         {
@@ -199,6 +204,7 @@ TInt CVIMPSTUiListBoxModel::CountItems() const
 //
 TPtrC CVIMPSTUiListBoxModel::ItemAt( TInt aIndex ) const
     {
+	TRACER_AUTO;
     TInt itemcount = -1;
     if( Filter() )
         {
@@ -235,6 +241,7 @@ TPtrC CVIMPSTUiListBoxModel::ItemAt( TInt aIndex ) const
 //
 TBool CVIMPSTUiListBoxModel::IsContactList( TInt aIndex, RArray<TInt>& aPosArray ) const
     {
+	TRACER_AUTO;
     TInt startInd = aPosArray.Find( aIndex );
     if( KErrNotFound == startInd )
         {

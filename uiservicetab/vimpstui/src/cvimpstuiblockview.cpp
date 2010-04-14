@@ -40,6 +40,7 @@
 //resource
 #include <vimpstuires.rsg>
 #include <ExtensionManagerRes.rsg>
+#include "uiservicetabtracer.h"
 
 using namespace Phonebook2;
 
@@ -72,6 +73,7 @@ CVIMPSTUiBlockView::CVIMPSTUiBlockView(
 //
 void CVIMPSTUiBlockView::ConstructL()
     {
+	TRACER_AUTO;
     ViewBaseConstructL( KIMCONTACTSEXTNIMPLEMENTATIONUID, iBlockViewId );
 
     iPresenceSubService = iEngine.GetPreseceSubService();
@@ -95,6 +97,7 @@ CVIMPSTUiBlockView* CVIMPSTUiBlockView::NewL( MxSPViewMapper& aMapper,
 			    MVIMPSTEngine& aEngine ,
 			    MVIMPSTCmdHandler& aCommandHandler)
     {
+	TRACER_AUTO;
     CVIMPSTUiBlockView* self = new(ELeave) CVIMPSTUiBlockView( aMapper, 
             aContactManager,
             aBlockViewId,
@@ -127,7 +130,7 @@ CVIMPSTUiBlockView::~CVIMPSTUiBlockView()
 //
 void CVIMPSTUiBlockView::HandleCommandL( TInt aCommand )
     {
-	
+	TRACER_AUTO;
    	switch ( aCommand ) 
 		{
 		//Next two commands have same function
@@ -184,6 +187,7 @@ void CVIMPSTUiBlockView::HandleCommandL( TInt aCommand )
 void CVIMPSTUiBlockView::DynInitMenuPaneL( TInt aResourceId,
                                      CEikMenuPane* aMenuPane )
     {
+	TRACER_AUTO;
     //using the existing menu resource as it contains unblock item
     if( aResourceId == R_EXTENSION_MANAGER_MENU)
         {
@@ -219,7 +223,7 @@ void CVIMPSTUiBlockView::DoActivateViewL( const TVwsViewId& aPrevViewId,
         									TUid /*aCustomMessageId*/, 
         									const TDesC8&  /*aCustomMessage*/ )
     {
- 
+	TRACER_AUTO;
     HBufC* titleText = StringLoader::LoadLC( R_QTN_SERVTAB_TITLE_BLOCKEDLIST );
     
     //to set the icon ( context pane image) as in tabbed view
@@ -286,6 +290,7 @@ void CVIMPSTUiBlockView::DoDeactivate()
 //
 void CVIMPSTUiBlockView::UpdateNaviPaneTextL( )
 	{
+	TRACER_AUTO;
 	// Change the navigation pane from tabs to text label    
     CEikStatusPane* sp = CEikonEnv::Static()->AppUiFactory()->StatusPane();
     CAknNavigationControlContainer* np =

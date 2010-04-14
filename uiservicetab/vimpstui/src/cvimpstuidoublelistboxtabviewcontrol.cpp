@@ -46,7 +46,7 @@
 #include <vimpstuires.rsg>
 
 #include <aknlayoutscalable_avkon.cdl.h>
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 // imlauncher
 #include <imcvlauncher.h>
 const TInt KTextLimit( 40 ); // Text-limit for find-field
@@ -86,6 +86,7 @@ CVIMPSTUiDoubleListBoxTabViewControl::CVIMPSTUiDoubleListBoxTabViewControl(CVIMP
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::ConstructL()
     {
+	TRACER_AUTO;
     CreateWindowL();
     // register to get the call back for any array data change
     iArrayProcess.AddObserver(this);  
@@ -145,6 +146,7 @@ CVIMPSTUiDoubleListBoxTabViewControl* CVIMPSTUiDoubleListBoxTabViewControl::NewL
         CVIMPSTUiBrandData& aBrandHandler,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTUiDoubleListBoxTabViewControl* self = NewLC(aTabbedView,aKeyEventHandler,
     			aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::Pop(self);
@@ -162,6 +164,7 @@ CVIMPSTUiDoubleListBoxTabViewControl* CVIMPSTUiDoubleListBoxTabViewControl::NewL
         CVIMPSTUiBrandData& aBrandHandler,
         MVIMPSTEngine& aEngine)
     {
+	TRACER_AUTO;
     CVIMPSTUiDoubleListBoxTabViewControl* self =
         new (ELeave) CVIMPSTUiDoubleListBoxTabViewControl(aTabbedView,aKeyEventHandler,
         aCommandHandler, aServiceId, aBrandHandler,aEngine);
@@ -192,31 +195,31 @@ CVIMPSTUiDoubleListBoxTabViewControl::~CVIMPSTUiDoubleListBoxTabViewControl()
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUserId ) 
     {
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL  Start") );
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL aUserId = %S "), &aUserId );
+	TRACER_AUTO;
+    TRACE( "aUserId = %S ", &aUserId );
     CFormattedCellListBoxData* listBoxData = iListBox->ItemDrawer()->ColumnData();
     TPtrC loginUserId = iArrayProcess.LoginUserIdFromStoreL();
     TInt Avindex = 0;
     CGulIcon* newIcon = NULL;
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL loginUserId = %S "), &loginUserId );
+    TRACE( "loginUserId = %S ", &loginUserId );
     if( KErrNone == loginUserId.Compare( aUserId ) )
         {
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL inside if ownuserid") );
+        TRACE( "inside if ownuserid" );
         TPtrC8 avatardata = iArrayProcess.OwnAvatarContentL();
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL after iArrayProcess.OwnAvatarContentL()") );
+        TRACE( "after iArrayProcess.OwnAvatarContentL()" );
         Avindex = iArrayProcess.OwnAvatarIndexL();
         if( avatardata.Length() )
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL avatardata.Length()") );
+            TRACE( "avatardata.Length()" );
             newIcon = AvatarToIconL( avatardata );
             }
         if( newIcon ) // there is a new avatar icon 
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL newIcon") );
+            TRACE("newIcon" );
             CArrayPtr<CGulIcon>* currentIconArray = listBoxData->IconArray();
             if( Avindex ) // if there is old icon already
                 {
-                TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL Avindex ") );
+                TRACE( "Avindex " );
                 // delete the old icon compress the array and insert at the same position
                 currentIconArray->Delete( Avindex );
                 currentIconArray->Compress();
@@ -224,17 +227,17 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUs
                 }
             else 
                 { 
-                TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL else of Avindex ") );
+                TRACE( "else of Avindex " );
                 // if there is no old icon append at the last
                 currentIconArray->AppendL( newIcon);
                 // set the index to cenrep
-                TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL currentIconArray->Count()-1 = %d "),currentIconArray->Count()-1  );
+                TRACE( " currentIconArray->Count()-1 = %d ",currentIconArray->Count()-1  );
                 iArrayProcess.SetOwnAvatarIndexL( currentIconArray->Count()-1 );
                 }
             }
         else 
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL else of avatar got cleared.") );
+            TRACE( "else of avatar got cleared." );
             // avatar got cleared just  set the icon index to '0'
             // icon what was added still remains in the  listbox icon array
             // dont delete the old icon, because that needs to modify the whole 
@@ -246,27 +249,27 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUs
         }
     else
         {
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL else  not own id") );
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL else  not own id aUserId = %S"),&aUserId );
+        TRACE( " else  not own id" );
+        TRACE( " else  not own id aUserId = %S",&aUserId );
         TInt index = iArrayProcess.GetSelectedItemIndex( aUserId );//Get the index from storage.
         
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL after GetSelectedItemIndex") );
+        TRACE( " after GetSelectedItemIndex" );
         TPtrC8 avatardata = iArrayProcess.AvatarContent( index );
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL after iArrayProcess.AvatarContent") );
+        TRACE("after iArrayProcess.AvatarContent" );
         Avindex = iArrayProcess.AvatarIndex(index);
-        TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL after Avindex = %d"),Avindex );
+        TRACE( " after Avindex = %d",Avindex );
         if( avatardata.Length() )
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL inside if avatardata.Length()") );
+            TRACE( "inside if avatardata.Length()" );
             newIcon = AvatarToIconL( avatardata );
             }
         if( newIcon ) // there is a new avatar icon 
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL inside if newIcon") );
+            TRACE( "inside if newIcon" );
             CArrayPtr<CGulIcon>* currentIconArray = listBoxData->IconArray();
             if( Avindex ) // if there is old icon already
                 {
-                TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL inside Avindex") );
+                TRACE( " inside Avindex" );
                 // delete the old icon compress the array and insert at the same position
                 currentIconArray->Delete( Avindex );
                 currentIconArray->Compress();
@@ -274,7 +277,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUs
                 }
             else 
                 { 
-                TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL inside Avindex else") );
+                TRACE( " inside Avindex else" );
                 // if there is no old icon append at the last
                 currentIconArray->AppendL( newIcon);
                 // set the index to cenrep
@@ -283,7 +286,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUs
             }
         else 
             {
-            TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL  avatar got cleared") );
+            TRACE( " avatar got cleared" );
             // avatar got cleared just  set the icon index to '0'
             // icon what was added still remains in the  listbox icon array
             // dont delete the old icon, because that needs to modify the whole 
@@ -295,7 +298,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL( const TDesC& aUs
         }
 
     iListBox->DrawNow();
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarChangeL  End") );
+    
     }	
 // ---------------------------------------------------------
 // CVIMPSTUiDoubleListBoxTabViewControl::HandleAddition
@@ -316,6 +319,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAdditionL(TVIMPSTEnums::TItem a
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::HandleDeletionL(TVIMPSTEnums::TItem aType , TInt aIndex )
 	{
+	TRACER_AUTO;
 	if(iListBox)
 		{
 		iListBox->HandleItemRemovalL();  
@@ -334,6 +338,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleDeletionL(TVIMPSTEnums::TItem a
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::HandleItemAdditionL()
     {
+	TRACER_AUTO;
     if(iListBox)
   	 	{
         iListBox->HandleItemAdditionL();  
@@ -415,6 +420,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::FocusChanged( TDrawNow aDrawNow )
 //
 CCoeControl* CVIMPSTUiDoubleListBoxTabViewControl::ComponentControl(TInt aIndex) const
     {
+	TRACER_AUTO;
    // return iListBox;
     switch ( aIndex )
         {
@@ -449,6 +455,7 @@ CCoeControl* CVIMPSTUiDoubleListBoxTabViewControl::ComponentControl(TInt aIndex)
 TKeyResponse CVIMPSTUiDoubleListBoxTabViewControl::OfferKeyEventL
         (const TKeyEvent& aKeyEvent,TEventCode aType)
     {
+	TRACER_AUTO;
     if ( !aKeyEvent.iCode ) 
         {
         //The character code generated 
@@ -547,6 +554,7 @@ TKeyResponse CVIMPSTUiDoubleListBoxTabViewControl::OfferKeyEventL
 //
 TInt CVIMPSTUiDoubleListBoxTabViewControl::CurrentItemIndex() const
     {
+	TRACER_AUTO;
     if( !iListBox )
         {
         return KErrNotFound;
@@ -580,6 +588,7 @@ TInt CVIMPSTUiDoubleListBoxTabViewControl::CurrentItemIndex() const
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::SetCurrentItemIndex(TInt aIndex)
     {
+	TRACER_AUTO;
     if (iListBox->CurrentItemIndex() != aIndex &&
         aIndex >= 0 &&
         aIndex < iListBox->Model()->NumberOfItems() )
@@ -608,14 +617,14 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SetCurrentItemIndexAndDraw(TInt aInde
 void CVIMPSTUiDoubleListBoxTabViewControl::SetListEmptyTextL(TInt aResourceId)
     {
     HBufC* msgText;
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl:SetListEmptyTextL:Start"));  
+    TRACER_AUTO;  
     // Get Service Name from Engine , load string from resource and display.
     // This text is shown to tell the user to restart phone to get the service again.
     TPtrC serviceNamePtr(iEngine.ServiceName());
     msgText = StringLoader::LoadLC(aResourceId, serviceNamePtr, iCoeEnv);
     iListBox->View()->SetListEmptyTextL(*msgText);
-    TRACE( T_LIT("Display Text %S"), msgText );
-    TRACE( T_LIT("CVIMPSTUiDoubleListBoxTabViewControl:SetListEmptyTextL:End"));
+    TRACE("Display Text %S", msgText );
+    
     CleanupStack::PopAndDestroy(msgText);
     }
 
@@ -627,7 +636,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SetListEmptyTextL(TInt aResourceId)
 void CVIMPSTUiDoubleListBoxTabViewControl::LoadBitmapsL()
     {
   
-    
+	TRACER_AUTO;
 	CFormattedCellListBoxData* listBoxData = iListBox->ItemDrawer()->ColumnData();
 	if ( !listBoxData )
 		{
@@ -703,6 +712,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::LoadBitmapsL()
 void CVIMPSTUiDoubleListBoxTabViewControl::HandleListBoxEventL(
         CEikListBox* /*aListBox*/, TListBoxEvent aEventType )
     {
+	TRACER_AUTO;
     iTabbedView.UpdateToolbarL();
     switch(aEventType)
         {
@@ -783,6 +793,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleListBoxEventL(
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::SendMessageL()
 	{
+	TRACER_AUTO;
 //	TInt index = iListBox->CurrentItemIndex();
 	TInt index = CurrentItemIndex();        
 	if( index< 0 )
@@ -829,6 +840,15 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SendMessageL()
             IMCVLauncher::LaunchImConversationViewL(activeViewId, iServiceId, seletctedItem, itemName, contactLink);
             }
 	    }
+	else
+		{
+	     //When there is no XSP Id present it comes to here
+	     //Displaying a note that there is no XSP ID
+			HBufC* note = NULL;
+	        note = StringLoader::LoadLC( R_QTN_SERVTAB_NOXSP_ERROR );
+	        VIMPSTUtilsDialog::DisplayNoteDialogL( *note );
+	        CleanupStack::PopAndDestroy( note );
+		}
 	
 	}
 // ---------------------------------------------------------
@@ -839,6 +859,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SendMessageL()
 void CVIMPSTUiDoubleListBoxTabViewControl::UpdateViewL( 
 				TInt aIndex, TVIMPSTEnums::TItem aType)
     {
+	TRACER_AUTO;
     TInt index = KErrNotFound;
      if( aIndex < 0 )
     	{
@@ -907,6 +928,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::UpdateViewL(
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::ActivateFindPaneL()
     {
+	TRACER_AUTO;
     if( !iFindbox )
         {
         // Use EAdaptiveSearch so that we can search according to columns.
@@ -948,6 +970,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::ActivateFindPaneL()
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::DeactivateFindPaneL()
     {
+	TRACER_AUTO;
     if( !iFindbox )
 	    {
 	    return;	
@@ -1003,6 +1026,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SetFocussedId(const TDesC& aContact)
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::SetLayout()
     {
+	TRACER_AUTO;
     const TRect rect( Rect() );
     if( iListBox && iFindPaneIsVisible )
         {
@@ -1100,7 +1124,8 @@ void CVIMPSTUiDoubleListBoxTabViewControl::CheckAndSetLastItemFlag()
 // Compares the Saved Contact in iFocussedID with the contacts in the List and focuses if it is found 
 // ---------------------------------------------------------
 void CVIMPSTUiDoubleListBoxTabViewControl::SetFocusAndMakeItemVisible()
-    {  
+    { 
+	TRACER_AUTO;
     TInt count = iArrayProcess.Count();
     TInt index = CurrentItemIndex();
     if( index == count )
@@ -1146,6 +1171,7 @@ CCoeControl* CVIMPSTUiDoubleListBoxTabViewControl::CoeControl()
 // ------------------------------------------------------------------------
 CGulIcon* CVIMPSTUiDoubleListBoxTabViewControl::AvatarToIconL( const TDesC8& aAvatarContent )
     {
+	TRACER_AUTO;
     CGulIcon* newIcon = NULL;
     CVIMPSTEngineImageHandler* imageHandler = CVIMPSTEngineImageHandler::NewL();
     CleanupStack::PushL( imageHandler );
@@ -1185,6 +1211,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::SetCbaLockL( TBool aLock )
 //
 void CVIMPSTUiDoubleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= EFalse*/ )
     {
+	TRACER_AUTO;
     TInt cbaRes = R_SERVTAB_SOFTKEYS_OPTIONS_EXIT__EMPTY;
     iCurrentCmdToExe = -1;
     if( !iCbaLock )
@@ -1367,6 +1394,7 @@ void CVIMPSTUiDoubleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= 
 // ---------------------------------------------------------
 void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarDeleteL( const TDesC& aUserId )
 	{
+	TRACER_AUTO;
 	TInt index = iArrayProcess.GetSelectedItemIndex(aUserId );//Get the index from storage.
 	if(index >= 0)
 		{

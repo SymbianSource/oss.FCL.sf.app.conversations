@@ -21,7 +21,7 @@
 #include    "mvimpststoragecontact.h"
 #include    "tvimpstenums.h"
 #include    "cvimpststoragedefs.h"
-#include 	"vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 // The order of contacts if sorted by status
 const TInt KConstOnline  = 1;
@@ -43,6 +43,7 @@ const TInt KConstUnknown = 9;
 TInt CompareAlphabetically( const MVIMPSTStorageContact& aFirst, 
                            const MVIMPSTStorageContact& aSecond )
     {
+	TRACER_AUTO;
     return aFirst.Name().CompareC( aSecond.Name(),
                                              KCollationLevel, NULL );
     }
@@ -51,6 +52,7 @@ TInt CompareAlphabetically( const MVIMPSTStorageContact& aFirst,
 // Group the contact by it's status. 
 TInt OrderContact( const MVIMPSTStorageContact& aContact )
     {
+	TRACER_AUTO;
      // Contact is not blocked, group by presence status
       switch( aContact.OnlineStatus() )
             {
@@ -98,6 +100,7 @@ TInt OrderContact( const MVIMPSTStorageContact& aContact )
 TInt CompareByPresence( const MVIMPSTStorageContact& aFirst, 
                         const MVIMPSTStorageContact& aSecond )
     {
+	TRACER_AUTO;
     TInt firstGroup( OrderContact( aFirst ) );
     TInt secondGroup( OrderContact( aSecond ) );
 
@@ -116,6 +119,7 @@ TInt CompareByPresence( const MVIMPSTStorageContact& aFirst,
 // Two-phased constructor.
 CVIMPSTStorageContactSorter* CVIMPSTStorageContactSorter::NewL() 
     {
+	TRACER_AUTO;
     CVIMPSTStorageContactSorter* self = new( ELeave ) CVIMPSTStorageContactSorter();
     return self;
     }
@@ -123,7 +127,7 @@ CVIMPSTStorageContactSorter* CVIMPSTStorageContactSorter::NewL()
 // Destructor
 CVIMPSTStorageContactSorter::~CVIMPSTStorageContactSorter()
     {
-    TRACE( T_LIT("CVIMPSTStorageContactSorter::~CVIMPSTStorageContactSorter") );
+	TRACER_AUTO;
     }
 
 // ---------------------------------------------------------
@@ -133,9 +137,8 @@ CVIMPSTStorageContactSorter::~CVIMPSTStorageContactSorter()
 //
 void CVIMPSTStorageContactSorter::Sort( RPointerArray< MVIMPSTStorageContact >& aList )
     {
-    TRACE( T_LIT("CVIMPSTStorageContactSorter::Sort() begin") );
+	TRACER_AUTO;
     aList.Sort( iAlgorithm );
-    TRACE( T_LIT("CVIMPSTStorageContactSorter::Sort() end") );
     }
 
 // ---------------------------------------------------------
@@ -148,6 +151,7 @@ void CVIMPSTStorageContactSorter::Sort( RPointerArray< MVIMPSTStorageContact >& 
 TInt CVIMPSTStorageContactSorter::Compare( const MVIMPSTStorageContact& aFirst, 
                                     const MVIMPSTStorageContact& aSecond ) const
     {
+	TRACER_AUTO;
     return iAlgorithm.operator TGeneralLinearOrder()( &aFirst, &aSecond );
     }
 
@@ -169,6 +173,7 @@ CVIMPSTStorageContactSorter::CVIMPSTStorageContactSorter() :
 void CVIMPSTStorageContactSorter::SetSortAlgorithm( 
                             MVIMPSTStorageContact::TSortAlgorithm aAlgorithm )
     {    
+	TRACER_AUTO;
     switch( aAlgorithm )
             {
         case MVIMPSTStorageContact::ECompareByPresence: 

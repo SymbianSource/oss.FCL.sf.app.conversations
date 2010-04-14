@@ -18,7 +18,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -83,7 +84,7 @@ void CVIMPSTCmdBlockContact::ConstructL()
 //
 void CVIMPSTCmdBlockContact::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTCmdBlockContact::ExecuteLD");
+   	TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );       
     iError = KErrGeneral;
@@ -96,11 +97,11 @@ void CVIMPSTCmdBlockContact::ExecuteLD()
             {
             MVIMPSTEnginePresenceSubService& presence = 
                 MVIMPSTEnginePresenceSubService::Cast (*subService);
-            iError = presence.AddToBlockListL(iContactId);
-            CHAT_DP( D_CHAT_LIT(" -> After iError: %d" ), iError);
+            iError = presence.AddToBlockListL(iContactId);           
+            TRACE("iError: %d", iError);
             }
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdBlockContact:: CommandFinished");
+   
     if( iError == KErrNone )
         {
         iProcessArray.RemoveFromUnknonOrInvitationListL( iContactId ,ETrue );
@@ -109,9 +110,8 @@ void CVIMPSTCmdBlockContact::ExecuteLD()
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdBlockContact:: CommandFinished");	
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdBlockContact::ExecuteLD");	
+	
     }
 
 

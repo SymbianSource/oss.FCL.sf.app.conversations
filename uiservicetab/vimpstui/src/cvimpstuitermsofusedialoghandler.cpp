@@ -22,6 +22,7 @@
 #include "cvimpstsettingsstore.h"
 #include <vimpstuires.rsg>
 #include <avkon.hrh>
+#include "uiservicetabtracer.h"
 
 
 
@@ -39,6 +40,7 @@ TInt CVIMPSTUiTermsOfUseDialogHandler::HandleTermsOfUseDialogLD(
         TInt& aServiceId,
         HBufC* aToUMsg/* = NULL*/)
     {   
+	TRACER_AUTO;
     // Show Terms of Use, return KErrCancel if user does not accept them,
     // otherwise continue
     if ( !DisplayTermsOfUseAndQueryLD(aToUMsg) )
@@ -63,6 +65,7 @@ TInt CVIMPSTUiTermsOfUseDialogHandler::HandleTermsOfUseDialogLD(
 //
 TBool CVIMPSTUiTermsOfUseDialogHandler::DisplayTermsOfUseAndQueryLD(HBufC* aToUMsg/* = NULL*/)
     {
+	TRACER_AUTO;
     TInt retVal = EAknSoftkeyCancel;    
     CVIMPSTUiTermsOfUseDlg* dlg = CVIMPSTUiTermsOfUseDlg::NewLC(  );
     dlg->SetToUMsgL(aToUMsg);

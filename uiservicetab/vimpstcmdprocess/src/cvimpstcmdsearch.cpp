@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -81,7 +82,8 @@ void CVIMPSTCmdSearch::ConstructL()
 //
 void CVIMPSTCmdSearch::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdSearch::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );   
 	
@@ -96,15 +98,15 @@ void CVIMPSTCmdSearch::ExecuteLD()
 	   	iError = searchMgr.SearchContactsL( iKeyDataArray );   	
 		}	  	
    	
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdSearch:: CommandFinished");
+   
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdSearch:: CommandFinished");	
+	
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdSearch::ExecuteLD");	
+	
     }
 
 

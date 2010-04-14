@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -61,6 +62,7 @@ CVIMPSTCmdChangeOwnMessage* CVIMPSTCmdChangeOwnMessage::NewL(
         const TInt aCommandId,TStatusAndStatusText aStatus,
         MVIMPSTEngine& aEngine)
     {
+	 TRACER_AUTO;
     CVIMPSTCmdChangeOwnMessage* self = new (ELeave ) CVIMPSTCmdChangeOwnMessage( aCommandId ,aStatus, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -80,7 +82,8 @@ void CVIMPSTCmdChangeOwnMessage::ConstructL()
 //
 void CVIMPSTCmdChangeOwnMessage::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnMessage::ExecuteLD");
+    
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );   
 	
@@ -95,15 +98,15 @@ void CVIMPSTCmdChangeOwnMessage::ExecuteLD()
         presence.PublishOwnPresenceL(iStatus, iStatusText);
         }
    	
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnMessage:: CommandFinished");
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnMessage:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdChangeOwnMessage::ExecuteLD");	
+	
     }
 
 

@@ -73,7 +73,7 @@
 
 //Presence Observer
 #include "mvimpstenginepresencesubserviceeventobserver.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "vimpstcustomcleanupapi.h" //For customized cleanup function
 #include "mvimpstengineserviceconnectioneventobserver.h"
 
@@ -113,8 +113,7 @@ iXimpEventObserver(aXimpEventObserver),
     iAvatarSupported( EFalse ),
     iIsClearingAvatar(EFalse)
         {
-        TRACE( T_LIT("CVIMPSTEnginePrecenseSubService::CVIMPSTEnginePrecenseSubService start")); 
-        TRACE( T_LIT("CVIMPSTEnginePrecenseSubService::CVIMPSTEnginePrecenseSubService end"));
+	TRACER_AUTO;
         }
 
 // ---------------------------------------------------------------------------
@@ -123,7 +122,7 @@ iXimpEventObserver(aXimpEventObserver),
 //
 void CVIMPSTEnginePresenceSubService::ConstructL()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::ConstructL start")); 
+	TRACER_AUTO;
 
     iCchHandler.RegisterCchObserverL(this,ECCHPresenceSub);
 
@@ -145,7 +144,6 @@ void CVIMPSTEnginePresenceSubService::ConstructL()
 	iLogoutRequest = EFalse;
 	iSubscribeToAuthList = EFalse;
 	iAutoAccept = EFalse;
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::ConstructL end")); 
 
     }
 
@@ -160,11 +158,10 @@ CVIMPSTEnginePresenceSubService::NewL( TUint32 aServiceId,
         CVIMPSTEngineSessionCntxtObserver& aXimpEventObserver,
         MVIMPSTEngineServiceConnectionEventObserver& aObserver )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewL start")); 
+	TRACER_AUTO;
     CVIMPSTEnginePresenceSubService* self = NewLC( aServiceId,aCchHandler, aTableFetcher, 
             aXimpEventObserver,aObserver );
     CleanupStack::Pop(self);
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewL end"));
     return self;
     }
 
@@ -179,12 +176,11 @@ CVIMPSTEnginePresenceSubService::NewLC( TUint32 aServiceId,
         CVIMPSTEngineSessionCntxtObserver& aXimpEventObserver,
         MVIMPSTEngineServiceConnectionEventObserver& aObserver )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewLC start")); 
+	TRACER_AUTO;
     CVIMPSTEnginePresenceSubService* self =
     new (ELeave) CVIMPSTEnginePresenceSubService( aServiceId,aCchHandler, aTableFetcher,  aXimpEventObserver,aObserver);
     CleanupStack::PushL(self);
     self->ConstructL();
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewLC end")); 
     return self;
     }
 
@@ -195,7 +191,7 @@ CVIMPSTEnginePresenceSubService::NewLC( TUint32 aServiceId,
 //
 CVIMPSTEnginePresenceSubService::~CVIMPSTEnginePresenceSubService()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewLC start")); 
+	TRACER_AUTO;
 	
 	iCchHandler.UnRegisterCchObserver(ECCHPresenceSub);
     
@@ -205,7 +201,6 @@ CVIMPSTEnginePresenceSubService::~CVIMPSTEnginePresenceSubService()
     delete iBlockedListMgr;
     iBlockedListMgr = NULL;
        
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::NewLC end")); 
     }
 
 // ---------------------------------------------------------------------------
@@ -216,7 +211,7 @@ CVIMPSTEnginePresenceSubService::~CVIMPSTEnginePresenceSubService()
 
 TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::SubServiceState() const
 	{
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService::ServiceState start")); 
+	TRACER_AUTO;
 	return iServiceState;
 	}
 
@@ -227,8 +222,8 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::SubServi
 //
 TVIMPSTEnums::SubServiceType CVIMPSTEnginePresenceSubService::Type() const
 	{
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService::Type") ); 
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService: [0x%x]"), this );		    	
+	TRACER_AUTO;
+	TRACE( "CVIMPSTEnginePresenceSubService: [0x%x]", this );
 	return TVIMPSTEnums::EPresence;
 	}
 
@@ -240,13 +235,12 @@ TVIMPSTEnums::SubServiceType CVIMPSTEnginePresenceSubService::Type() const
 
 TBool CVIMPSTEnginePresenceSubService::Enabled()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::Enabled start")); 
+	TRACER_AUTO;
     TBool ret = EFalse;
     if( TVIMPSTEnums::ESVCERegistered == iServiceState)
         {
         ret = ETrue;
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::Enabled end")); 
     return ret;    
     }
 
@@ -256,7 +250,7 @@ TBool CVIMPSTEnginePresenceSubService::Enabled()
 //
 void CVIMPSTEnginePresenceSubService::RetrieveSubscribedListL()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RetrieveSubscribedListL start")); 
+	TRACER_AUTO;
 
     //Create group id
     TBuf<KUriMaxLength> buffer( KListNameAllBuddy );
@@ -273,7 +267,6 @@ void CVIMPSTEnginePresenceSubService::RetrieveSubscribedListL()
     requestMapper->CreateRequestL(operationId,EFalse,EVIMPSTXimpOperationGetSubscribedList);
     CleanupStack::PopAndDestroy(); // groupList
     // list retrieving ok. Waiting for list.;
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RetrieveSubscribedListL end")); 
     }
 
 // ---------------------------------------------------------------------------
@@ -282,7 +275,7 @@ void CVIMPSTEnginePresenceSubService::RetrieveSubscribedListL()
 //
 void CVIMPSTEnginePresenceSubService::SubscribePresenceOfSingleContactL( const TDesC& aUriOfTheContact)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SubscribePrecenseOfSingleContactL start"));
+	TRACER_AUTO;
      __ASSERT_ALWAYS( aUriOfTheContact.Length(), User::Leave( KErrArgument ) );		
      //if anything is there with colon eg sip:user@presence1. strip the part before :
     TInt len = aUriOfTheContact.Find(_L(":"));
@@ -296,10 +289,9 @@ void CVIMPSTEnginePresenceSubService::SubscribePresenceOfSingleContactL( const T
     namePtr.Append(KColon);
     namePtr.Append(buddyId);
     
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SubscribeToPresenceCacheL: %S"), &namePtr );
+    TRACE("SubscribeToPresenceCacheL: %S", &namePtr );
     iPresenceCacheReader->SubscribePresenceBuddyChangeL(*name);
     CleanupStack::PopAndDestroy(name); //  name    
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SubscribePrecenseOfSingleContactL end"));  
     }
 
 // ---------------------------------------------------------------------------
@@ -310,7 +302,7 @@ void CVIMPSTEnginePresenceSubService::SubscribePresenceOfSingleContactL( const T
 void CVIMPSTEnginePresenceSubService::UnSubscribePresenceOfSingleContactL(
         const TDesC& aUriOfTheContact )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribePrecenseOfSingleContactL start"));   
+	TRACER_AUTO;
     HBufC* name = HBufC::NewLC( KPropertyMaxLength );
     TPtr namePtr( name->Des() );
     namePtr.Zero();
@@ -319,10 +311,9 @@ void CVIMPSTEnginePresenceSubService::UnSubscribePresenceOfSingleContactL(
     namePtr.Append(KColon);
     namePtr.Append(aUriOfTheContact);
     
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnSubscribeToPresenceCacheL: %S"), &namePtr);
+    TRACE( "UnSubscribeToPresenceCacheL: %S", &namePtr);
     iPresenceCacheReader->UnSubscribePresenceBuddyChangeL(*name);
     CleanupStack::PopAndDestroy(name); //  name                  
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribePrecenseOfSingleContactL end")) ;   
     }
 
 // ---------------------------------------------------------------------------
@@ -335,7 +326,7 @@ DoHandlePresentityGroupContentEventL(
         const MXIMPContext& /*aContext*/,
         const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresentityGroupContentEventL start"));
+	TRACER_AUTO;
 	  	      
     const MPresentityGroupContentEvent& event =
     	*TXIMPGetInterface< const MPresentityGroupContentEvent >::From( 
@@ -346,14 +337,13 @@ DoHandlePresentityGroupContentEventL(
 	TInt supportedFeatures = iXimpEventObserver.GetSupportedFeatures();
   	if(EVIMPSTFeatureFetch & supportedFeatures)
 		{   
-	    TRACE( T_LIT(" -> storing into respective service store" ));
+  	TRACE(" -> storing into respective service store" );
 	    StoreToVirtualStoreL( event );
 		}
 	//this is to ensure the presence for the local sotre contacts is not lost.
-	TRACE( T_LIT(" -> new member count: %d" ), event.NewMembersCount() );    
-    TRACE( T_LIT(" -> current member count: %d" ), event.CurrentMembersCount() );    
-    TRACE( T_LIT(" -> disappeared member count: %d" ), event.DisappearedMembersCount() );    
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresentityGroupContentEventL end"));
+  	TRACE( "new member count: %d" , event.NewMembersCount() ); 
+    TRACE( " current member count: %d" , event.CurrentMembersCount() );  
+    TRACE( "disappeared member count: %d" , event.DisappearedMembersCount() );   
     }
 
 // ---------------------------------------------------------------------------
@@ -366,7 +356,7 @@ DoHandlePresenceGrantRequestListEventL(
         const MXIMPContext& /*aContext*/,
         const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceGrantRequestListEventL start"));
+	TRACER_AUTO;
     TVIMPSTEnums::TVIMPSTPresenceRequestStatus autoAccept = iSettingsTableFetcher.PresenceRequestStatusL(iServiceId);
     if(autoAccept == TVIMPSTEnums::ESVCEPresenceRequestStatusAutoAccept)
         {
@@ -381,16 +371,16 @@ DoHandlePresenceGrantRequestListEventL(
      							*TXIMPGetInterface<const MPresenceGrantRequestListEvent >::From( 
 								aEvent, MXIMPBase::EPanicIfUnknown );
 
-    TRACE( T_LIT(" -> new watcher count: %d" ), event.NewRequestsCount() );    
-    TRACE( T_LIT(" -> current watcher count: %d" ), event.CurrentRequestsCount() );    
+     TRACE("new watcher count: %d" , event.NewRequestsCount() );   
+     TRACE("current watcher count: %d" , event.CurrentRequestsCount() ); 
     HBufC* identbuf(NULL);
     HBufC* displayName(NULL);
     TInt newcount     = event.NewRequestsCount();
     TInt currentcount = event.CurrentRequestsCount();
     if(newcount)
         {
-        TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceGrantRequestListEventL newcount =%d" ), newcount );    
-        TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceGrantRequestListEventL iServiceState =%d" ), iServiceState );    
+    TRACE( " newcount =%d" , newcount );    
+    TRACE( "iServiceState =%d" , iServiceState );    
 
         for(TInt i=0; i<newcount; i++)
             {
@@ -398,10 +388,10 @@ DoHandlePresenceGrantRequestListEventL(
             identbuf = reqInfo.RequestorId().Identity().AllocLC();
             displayName = reqInfo.RequestorDisplayName().AllocLC();
             TPtr identbufPtr = identbuf->Des();
-            TRACE( T_LIT(" -> identity: %S" ), &identbufPtr );   
+            TRACE( "identity: %S" , &identbufPtr );   
             if(identbuf->Length())
                 {
-                TRACE( T_LIT(" -> pass to command process" ));   
+            TRACE( " pass to command process" );   
                 if( iAutoAccept &&
                         TVIMPSTEnums::ESVCERegistered == iServiceState)
                     {
@@ -409,10 +399,10 @@ DoHandlePresenceGrantRequestListEventL(
                     }
                  else if( iSubServiceObserver )
                     {
-                    TRACE( T_LIT(" -> informed observer." )); 
+                 TRACE( " informed observer." ); 
                     iSubServiceObserver->HandleAddRequestEventL( TVIMPSTEnums::EAddItem , *identbuf, *displayName);
                     }                    
-                TRACE( T_LIT(" -> pass to command process" )); 
+                TRACE( " pass to command process" );
                 }
             CleanupStack::PopAndDestroy( displayName );
             CleanupStack::PopAndDestroy( identbuf );
@@ -424,25 +414,24 @@ DoHandlePresenceGrantRequestListEventL(
         identbuf = reqInfo.RequestorId().Identity().AllocLC();
         displayName  = reqInfo.RequestorDisplayName().AllocLC();
         TPtr identbufPtr = identbuf->Des();
-        TRACE( T_LIT(" -> identity: %S" ), &identbufPtr );   
+        TRACE( "identity: %S" , &identbufPtr );  
         if(identbuf->Length())
             {
-            TRACE( T_LIT(" -> pass to command process" ));   
+        TRACE( " pass to command process" );
             if( iAutoAccept)
                 {
                 TInt error = SendPresenceGrantPresentityL( identbufPtr, ETrue );                    
                 }
              else if( iSubServiceObserver )
                 {
-                TRACE( T_LIT(" -> informed observer." )); 
+             TRACE( " informed observer."); 
                 iSubServiceObserver->HandleAddRequestEventL(TVIMPSTEnums::EAddItem ,*identbuf, *displayName);
                 }      
-            TRACE( T_LIT(" -> pass to command process" )); 
+            TRACE( "pass to command process" ); 
             }
         CleanupStack::PopAndDestroy( displayName );
         CleanupStack::PopAndDestroy ( identbuf );
         }    
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceGrantRequestListEventL end"));
 
     }
 
@@ -455,12 +444,12 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::ResolveS
         TInt aServiceError )
     {
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::ResolveServiceStateL start"));    
+	TRACER_AUTO;
 
     TVIMPSTEnums::TVIMPSTRegistrationState state = TVIMPSTEnums::ESVCENotRegistered;       
 
-    TRACE( T_LIT("ResolveServiceStateL() iServiceId: %d, ServiceState: %d"), 
-            iServiceId, aState );       
+    
+    TRACE( " iServiceId: %d, ServiceState: %d",  iServiceId, aState ); 
 
     TBool handleServiceStates = ETrue;
     if ( aServiceError && ECCHDisabled != aState )
@@ -470,7 +459,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::ResolveS
         //Not sure whether the below is right - have mailed to Markus for MoreInfo on this state
         if ( (KCCHErrorInvalidSettings != aServiceError) && (ECCHConnecting == aState) )        
             {   
-            TRACE( T_LIT("ResolveServiceStateL() ESVCEWaitingForNetwork") );
+            TRACE( " ESVCEWaitingForNetwork");
             handleServiceStates = EFalse;  
             //state = TVIMPSTEnums::ESVCEWaitingForNetwork;
             state = TVIMPSTEnums::ESVCENotRegistered; 
@@ -483,13 +472,13 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::ResolveS
             {
             case ECCHEnabled:
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCERegistered") );
+                TRACE( "ESVCERegistered" );
                 state = TVIMPSTEnums::ESVCEUpdatingContacts;   
                 break;
                 }
             case ECCHDisconnecting:      
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCERegistered") );                
+                TRACE( " ESVCERegistered" );   
                 state = TVIMPSTEnums::ESVCENetworkDisConnecting;
                 }
                 break;
@@ -497,14 +486,14 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::ResolveS
             case ECCHUninitialized:
             case ECCHDisabled:  
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCENotRegistered") );
+                TRACE( "ESVCENotRegistered");
                 state = TVIMPSTEnums::ESVCENotRegistered;                
                 }
                 break;
 
             case ECCHConnecting:               
                 {
-                TRACE( T_LIT("ResolveServiceStateL() ESVCENoNetworkConnecting") );                
+                TRACE( " ESVCENoNetworkConnecting");  
                 state = TVIMPSTEnums::ESVCENetworkConnecting;
                 }
                 break;
@@ -514,7 +503,6 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEnginePresenceSubService::ResolveS
             }
         }        
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::ResolveServiceStateL end"));
 
     return state;  
 
@@ -531,9 +519,9 @@ void CVIMPSTEnginePresenceSubService::CchEventOccuredL(
         TInt aServiceError )
     {
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::CchEventOccuredL start"));
-    TRACE( T_LIT("CchEventOccuredL() TCCHSubserviceState : %d, ServiceErr: %d"), 
-            aState, aServiceError );
+	TRACER_AUTO;
+	
+    TRACE("TCCHSubserviceState : %d, ServiceErr: %d", aState, aServiceError );
 
     if ( aServiceError && ECCHDisabled != aState )
         {
@@ -566,7 +554,6 @@ void CVIMPSTEnginePresenceSubService::CchEventOccuredL(
 		    iObserver.HandleServceConnectionEventL();			}
         }   
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::CchEventOccuredL end"));
 
     }
 
@@ -579,21 +566,21 @@ void CVIMPSTEnginePresenceSubService::DoHandleCchErrorL(
         TInt aServiceError )
     {
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandleCchErrorL start"));
-    TRACE( T_LIT("DoHandleCchErrorL() ServiceErr: %d"), 
-            aServiceError );
+	TRACER_AUTO;
+	   TRACE( "ServiceErr: %d",  aServiceError );
 
     if ( aServiceError )
         {
         //unsubscribe can only be done, when bind is already done
         if(TVIMPSTEnums::EVIMPSTBindDone ==iXimpEventObserver.ContextBindStatus())
             {
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandleCchErrorL unscribe and unbind"));
+            TRACE( "unscribe and unbind");
             TRAP_IGNORE( UnsubscribeListsL() ); 
             iXimpEventObserver.ServerUnBindL( ETrue );
             }
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandleCchErrorL end"));
+
+
     }
 
 // ---------------------------------------------------------
@@ -606,7 +593,7 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
 						         						  const TDesC8& aMimetype /*= KNullDesC8*/,
 						         						  TBool aIsAvatar /*= EFalse*/ )
     {
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService::PublishOwnPresenceL start"));
+	TRACER_AUTO;
     // Take handles to object factory and publish interface
     MPresencePublishing& publisher = iXimpEventObserver.XimpPresencePublishingL();
 
@@ -616,25 +603,25 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
     MPresenceInfoFieldCollection& attributeFields = personPresence->Fields();
 	
  	MPresenceInfoField* infoField = NULL;
-	TRACE( T_LIT("PublishOwnPresenceL aIsAvatar: %d"),  aIsAvatar );
+ 	TRACE( "aIsAvatar: %d",  aIsAvatar );
 	// avatar field set || clear
 	if ( aIsAvatar )
         {
-        TRACE( T_LIT(" PublishOwnPresenceL adding avatar field"));
+	TRACE( " PublishOwnPresenceL adding avatar field");
         
      	infoField = iXimpEventObserver.PresenceObjectFactoryL().NewInfoFieldLC();
         MPresenceInfoFieldValueBinary* avatarField = iXimpEventObserver.PresenceObjectFactoryL().NewBinaryInfoFieldLC(); 
-        TRACE( T_LIT(" PublishOwnPresenceL processing image data"));
+        TRACE( " PublishOwnPresenceL processing image data");
         CVIMPSTEngineImageHandler* imageHandler = CVIMPSTEngineImageHandler::NewL();
         CleanupStack::PushL(imageHandler);
         // get the avatar content from the image processor
         // returns image content if the  processing succesful 
         
         HBufC8* avatarContent = imageHandler->ProcessImageFromFileL( aFilename , aMimetype);
-        TRACE( T_LIT(" PublishOwnPresenceL processing image data completed "));
+        TRACE( " PublishOwnPresenceL processing image data completed ");
         if ( avatarContent )
 			{
-			TRACE( T_LIT("PublishOwnPresenceL valid image data found "));
+        TRACE( "PublishOwnPresenceL valid image data found ");
 			CleanupStack::PushL(avatarContent);
 			// set a new avatar
 			avatarField->SetBinaryValueL(*avatarContent);
@@ -643,7 +630,7 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
 			}
 		else
 			{
-			TRACE( T_LIT("PublishOwnPresenceL NULL image data found "));
+		TRACE("PublishOwnPresenceL NULL image data found ");
 			//  clear the avatar 
 			avatarField->SetBinaryValueL(KNullDesC8);
 			iIsClearingAvatar = ETrue;  //set iIsClearingAvatar to ETrue
@@ -658,7 +645,7 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
 		attributeFields.AddOrReplaceFieldL(infoField ); // infofield ownership transfered
         CleanupStack::Pop(); // infoField
 		infoField = NULL;
-		TRACE( T_LIT(" PublishOwnPresenceL adding avatar field completed "));
+		TRACE( "adding avatar field completed ");
         }
 
     // availabilty field
@@ -700,7 +687,7 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
     mapper->CreateRequestL(reqId, ETrue,EVIMPSTXimpOperationPublisOwnPresence);// waite here
     TInt error = iXimpEventObserver.GetCompletedReqResult(); // get the result error
     CleanupStack::PopAndDestroy(1); // myPresence
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::PublishOwnPresenceL end "));
+    
     return error;
     }
 
@@ -710,6 +697,7 @@ TInt CVIMPSTEnginePresenceSubService::PublishOwnPresenceL(TVIMPSTEnums::TOnlineS
 // ---------------------------------------------------------    
 NPresenceInfo::TAvailabilityValues CVIMPSTEnginePresenceSubService::ConvertPresenceStatus(TVIMPSTEnums::TOnlineStatus aStatus)
     {
+	TRACER_AUTO;
     NPresenceInfo::TAvailabilityValues availablity;
     switch(aStatus)
         {
@@ -765,16 +753,14 @@ TInt  CVIMPSTEnginePresenceSubService::FetchPresenceFromCache()
     //TODO::Figure out how to get the service name.
     // passed the service id to see the member count
     TInt error( KErrArgument );
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceFormCache() start") );
+    TRACER_AUTO;
 	if( iServiceName )
 		{
 		TPtr serviceNamePtr = iServiceName->Des();
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceFormCache() - %S"), 
-		        &serviceNamePtr );
+		TRACE( "CVIMPSTEnginePresenceSubService::FetchPresenceFormCache() - %S", &serviceNamePtr );
 		// passed the service to register for notification
 		error = iPresenceCacheReader->AllBuddiesPresenceInService(*iServiceName, this );		
 		}
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceFormCache() end") ); 
 	return error;
     }
 
@@ -785,25 +771,25 @@ TInt  CVIMPSTEnginePresenceSubService::FetchPresenceFromCache()
 void CVIMPSTEnginePresenceSubService::HandlePresenceReadL(TInt /*aErrorCode*/,
         RPointerArray<MPresenceBuddyInfo2>& aPresenceBuddyInfoList)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL start"));
+	TRACER_AUTO;
     // we have the ownership of  aPresenceBuddyInfoList : Push it to customize cleanupstack
     // aPresenceBuddyInfoList is collection of owned object and each object need to be deleted
     CustomCleanupResetAndDestroyPushL(aPresenceBuddyInfoList);
     MVIMPSTStorageServiceView* storage = 
     				CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
     TInt buddyCount = aPresenceBuddyInfoList.Count();
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - count: %d" ), buddyCount );
+    TRACE( "count: %d" , buddyCount );
     for ( TInt i =0 ; i < buddyCount ; ++i)
 		{
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - buddy index: %d" ), i );
+    TRACE( " buddy index: %d" , i );
 		MPresenceBuddyInfo2* buddyinfo = aPresenceBuddyInfoList[i];
 		// read the buddyID : returns in XSP format
 		TPtrC buddyXSPId = buddyinfo->BuddyId();
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - Status Message: %s" ), &buddyXSPId );
+		TRACE( "Status Message: %s" , &buddyXSPId );
 		TPtrC buddyId = buddyXSPId.Right( buddyXSPId.Length() - iServiceName->Length() - KColon().Length());
 		// read the availability /presence state enum value 
 		MPresenceBuddyInfo2::TAvailabilityValues availabilityEnum = buddyinfo->Availability();
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - Availability ENUM value: %d" ), availabilityEnum );
+		TRACE( "Availability ENUM value: %d" , availabilityEnum );
 		TPtrC avablityText = buddyinfo->AvailabilityText();
 		// convert the presence cache enum value to service tab enum 
 		TVIMPSTEnums::TOnlineStatus status = ConvertPresenceCacheEnums( availabilityEnum , avablityText);
@@ -814,17 +800,17 @@ void CVIMPSTEnginePresenceSubService::HandlePresenceReadL(TInt /*aErrorCode*/,
 			}
 		// read the  status message 
 		TPtrC statusMsg = buddyinfo->StatusMessage();
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - Status Message: %s" ), &statusMsg );
+		TRACE("Status Message: %s" , &statusMsg );
 		TPtrC8 avatarContent = buddyinfo->Avatar();
 		HBufC8* avatarScaledData = NULL;
 		if ( avatarContent.Length() )
 			{
-			TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - avatarContent Content available" ) );
+			TRACE( "avatarContent Content available"  );
 			CVIMPSTEngineImageHandler* imageHandler = CVIMPSTEngineImageHandler::NewL();
 			CleanupStack::PushL(imageHandler);
-			TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - imageHandler created " ) );
+			TRACE( "imageHandler created "  );
 		    avatarScaledData = imageHandler->ProcessImageFromDataL( avatarContent , KNullDesC8() );
-		    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL - ProcessImageFromDataL returned " ) );
+		    TRACE( "ProcessImageFromDataL returned " );
 			CleanupStack::PopAndDestroy();//imageHandler
 			}
 		if( avatarScaledData && avatarScaledData->Length() )
@@ -841,7 +827,6 @@ void CVIMPSTEnginePresenceSubService::HandlePresenceReadL(TInt /*aErrorCode*/,
     aPresenceBuddyInfoList.ResetAndDestroy();
  
     CleanupStack::PopAndDestroy();  //  aPresenceBuddyInfoList
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceReadL end"));
     }
 
 // ---------------------------------------------------------------------------
@@ -851,7 +836,7 @@ void CVIMPSTEnginePresenceSubService::HandlePresenceReadL(TInt /*aErrorCode*/,
 void CVIMPSTEnginePresenceSubService::HandlePresenceNotificationL(TInt /*aErrorCode*/,
         MPresenceBuddyInfo2* aPresenceBuddyInfo)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceNotificationL start"));    
+	TRACER_AUTO;
        
     if ( aPresenceBuddyInfo )
         {
@@ -860,7 +845,6 @@ void CVIMPSTEnginePresenceSubService::HandlePresenceNotificationL(TInt /*aErrorC
         CleanupStack::PopAndDestroy(1); // aPresenceBuddyInfo
         
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandlePresenceNotificationL end"));
     }
 
 
@@ -870,6 +854,7 @@ void CVIMPSTEnginePresenceSubService::HandlePresenceNotificationL(TInt /*aErrorC
 // ---------------------------------------------------------    
 void  CVIMPSTEnginePresenceSubService::SubscribeForAuthorizationL()
     {
+	TRACER_AUTO;
     TXIMPRequestId req;
     MPresenceAuthorization& authorization = iXimpEventObserver.XimpAuthorizationL();
     req = authorization.SubscribePresenceGrantRequestListL();  
@@ -885,7 +870,7 @@ void  CVIMPSTEnginePresenceSubService::SubscribeForAuthorizationL()
 // ---------------------------------------------------------    
 TInt CVIMPSTEnginePresenceSubService::SendPresenceGrantPresentityL( const TDesC& aContactId , TBool aResponse )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SendPresenceGrantPresentityL stat"));  
+	TRACER_AUTO;
     __ASSERT_ALWAYS( aContactId.Length(), User::Leave( KErrArgument ) );
       
     // return the response to the server.    
@@ -924,12 +909,11 @@ TInt CVIMPSTEnginePresenceSubService::SendPresenceGrantPresentityL( const TDesC&
         MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId) ;
         if(storage && ( !storage->IsLocalStore() || iAutoAccept  ) && aResponse )
             {   
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SendPresenceGrantPresentityL server store") );
+        TRACE( " server store" );
             storage->CreateNewContactL( aContactId,KNullDesC, ETrue, iAutoAccept ); // ETrue is for invitation item 
             } 
         }
     CleanupStack::PopAndDestroy(); //contactIdentity
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::SendPresenceGrantPresentityL end"));
     return error;
     }  
 // ---------------------------------------------------------
@@ -939,14 +923,14 @@ void CVIMPSTEnginePresenceSubService::HandleSessionContextEventL(const MXIMPCont
         const MXIMPBase& aEvent,
         TXimpOperation aXimpOperation /*= EVIMPSTXimpOperationNoOperation*/ )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleSessionContextEventL start"));
+	TRACER_AUTO;
     TInt32 eventId = aEvent.GetInterfaceId();
 
     switch( aEvent.GetInterfaceId() )
         {
         case MXIMPRequestCompleteEvent::KInterfaceId:
             {
-            TRACE( T_LIT("InsideCallbackswitch::MXIMPRequestCompleteEvent"));
+            TRACE( "MXIMPRequestCompleteEvent");
             //temp fix TBD
             //Only use the operations that u r intertest in
             if ( aXimpOperation <= EVIMPSTXimpOperationUnsubscribe )  
@@ -960,35 +944,35 @@ void CVIMPSTEnginePresenceSubService::HandleSessionContextEventL(const MXIMPCont
                         event->CompletionResult().ResultCode(),
                         aEvent ) );
                 }
-            TRACE( T_LIT("InsideCallback::HandlePresenceContextEvent"));    
+            TRACE( "HandlePresenceContextEvent");  
 
             break;
             }
         case MXIMPContextStateEvent::KInterfaceId:
             {
-            TRACE( T_LIT("InsideCallbackswitch::MXIMPContextStateEvent"));
-            TRACE( T_LIT("InsideCallback::MXIMPContextStateEvent"));
+            TRACE( "InsideCallbackswitch::MXIMPContextStateEvent");
+            TRACE("InsideCallback::MXIMPContextStateEvent");
             break;
             }
         case MPresentityGroupContentEvent::KInterfaceId:
             {
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresentityGroupContentEvent"));
+            TRACE( "MPresentityGroupContentEvent");
             DoHandlePresentityGroupContentEventL( aContext, aEvent );
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresentityGroupContentEvent"));
+            TRACE( "MPresentityGroupContentEvent");
             break;  
             }
         case MPresenceGrantRequestListEvent::KInterfaceId:
             {
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresenceGrantRequestListEvent"));
+            TRACE( "MPresenceGrantRequestListEvent");
             DoHandlePresenceGrantRequestListEventL( aContext, aEvent );
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresenceGrantRequestListEvent"));
+            TRACE( "MPresenceGrantRequestListEvent");
             break;
             }
         case MPresenceBlockListEvent::KInterfaceId:
            {
-           TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresenceBlockListEvent"));
+           TRACE( "MPresenceBlockListEvent");
            DoHandlePresenceBlockListEventL( aContext, aEvent );
-           TRACE( T_LIT("CVIMPSTEnginePresenceSubService::MPresenceBlockListEvent"));
+           TRACE( "MPresenceBlockListEvent");
 
            break;
            }
@@ -998,7 +982,6 @@ void CVIMPSTEnginePresenceSubService::HandleSessionContextEventL(const MXIMPCont
             break;
             }
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleSessionContextEventL end"));   
     }    
 
 // ---------------------------------------------------------------------------
@@ -1009,7 +992,7 @@ void CVIMPSTEnginePresenceSubService::HandleListEventCompleteL(TXimpOperation aT
         TInt aCompleteCode,
         const MXIMPBase& /*aEvent*/)
     { 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleListEventCompleteL start"));
+	TRACER_AUTO;
 
     switch ( aType )
         {
@@ -1055,7 +1038,6 @@ void CVIMPSTEnginePresenceSubService::HandleListEventCompleteL(TXimpOperation aT
         default:
             break;   
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleListEventCompleteL end"));    
     }
 
 // ---------------------------------------------------------------------------
@@ -1065,7 +1047,7 @@ void CVIMPSTEnginePresenceSubService::HandleListEventCompleteL(TXimpOperation aT
 void CVIMPSTEnginePresenceSubService::HandleXimpRequestCompleteL(TXimpOperation aType,
         TInt aCompleteCode,const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleXimpRequestCompleteL start"));
+	TRACER_AUTO;
     switch ( aType )
         {
         case EVIMPSTXimpOperationBind:
@@ -1090,7 +1072,6 @@ void CVIMPSTEnginePresenceSubService::HandleXimpRequestCompleteL(TXimpOperation 
         }
 
 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::HandleXimpRequestCompleteL end"));
     }
 // -----------------------------------------------------------------------------
 // CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL
@@ -1099,10 +1080,10 @@ void CVIMPSTEnginePresenceSubService::HandleXimpRequestCompleteL(TXimpOperation 
 void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
                             const MPresentityGroupContentEvent& aListEvent )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL start"));
-    TRACE( T_LIT("CurrentMembersCount count = %d"),aListEvent.CurrentMembersCount() );
-    TRACE( T_LIT("NewMembersCount count = %d"),aListEvent.NewMembersCount() );
-    TRACE( T_LIT("UpdatedMembersCount count = %d"),aListEvent.UpdatedMembersCount() );
+	TRACER_AUTO;
+	TRACE( " count = %d",aListEvent.CurrentMembersCount() );
+    TRACE("NewMembersCount count = %d",aListEvent.NewMembersCount() );
+    TRACE( "UpdatedMembersCount count = %d",aListEvent.UpdatedMembersCount() );
     MVIMPSTStorageServiceView* storage = 
     CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId) ;	
     TLinearOrder< TPtrC > linearOrder (*CompareAlphabetically );
@@ -1122,7 +1103,7 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
             serviceField.Reset();
             // number of contact in this list
            TInt currentMembrcount = aListEvent.CurrentMembersCount();
-           TRACE( T_LIT("currentMembrcount count = %d"),currentMembrcount );
+           TRACE( "currentMembrcount count = %d",currentMembrcount );
             // Handle first current items
             for(TInt j = 0; j < currentMembrcount ;j++ )
                 {
@@ -1137,7 +1118,7 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
 
             // number of contact in this list
             TInt newMembrcount = aListEvent.NewMembersCount() ;
-            TRACE( T_LIT("newMembrcount count = %d"),newMembrcount );
+            TRACE("newMembrcount count = %d",newMembrcount );
             for(TInt i = 0; i < newMembrcount ;i++ )
                 {
                 const MPresentityGroupMemberInfo& memberInfo = 
@@ -1151,9 +1132,9 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
                     firstNameList.Append(displayeName);
                     }
                 }
-            TRACE( T_LIT(" calling CreateNewFetchContactsL") );
-            TRACE( T_LIT(" serviceField count %d"),serviceField.Count());
-            TRACE( T_LIT(" firstNameList count %d"),firstNameList.Count());
+            TRACE( " calling CreateNewFetchContactsL" );
+            TRACE( " serviceField count %d",serviceField.Count());
+            TRACE( " firstNameList count %d",firstNameList.Count());
 
             // If count in both arrays does not match, storage side can panic
             __ASSERT_ALWAYS( firstNameList.Count() == serviceField.Count(), User::Leave( KErrCorrupt));
@@ -1191,7 +1172,7 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
 		        const MXIMPIdentity& memberIdentity = memberInfo.GroupMemberId() ;
 		        TPtrC userId = memberIdentity.Identity();
 		        TPtrC displayeName = memberInfo.GroupMemberDisplayName();
-		        TRACE( T_LIT("CVIMPSTEnginePresenceSubService: newMember %S"), &userId );	
+		        TRACE( " newMember %S", &userId );
 		        storage->CreateNewContactL(userId,displayeName,ETrue,ETrue); 	
 		        }
 		   TInt removedMembrcount = aListEvent.DisappearedMembersCount() ;    
@@ -1201,7 +1182,7 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
 		                                        aListEvent.DisappearedMember( i ) ;
 		        const MXIMPIdentity& memberIdentity = memberInfo.GroupMemberId() ;
 		        TPtrC userId = memberIdentity.Identity();
-				TRACE( T_LIT("CVIMPSTEnginePresenceSubService: deleteMember %S"), &userId );
+		        TRACE( "deleteMember %S", &userId );
 		    	MVIMPSTStorageContact* contactExist = storage->FindContactByUserId(userId);
 		    	if(contactExist)
 		    	    {
@@ -1211,7 +1192,6 @@ void CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL(
 			}
          
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::StoreToVirtualStoreL end")); 
     }
 
 // ---------------------------------------------------------
@@ -1258,6 +1238,7 @@ void CVIMPSTEnginePresenceSubService::SetAvatarSupported(TBool aSupported )
 //  
 TVIMPSTEnums::TOnlineStatus CVIMPSTEnginePresenceSubService::ConvertPresenceCacheEnums(MPresenceBuddyInfo2::TAvailabilityValues aAvailabilityEnum,TPtrC aAvabilityText)
     {
+	TRACER_AUTO;
     // convert the presence cache enums to UI enumvalues
     // by default if the enum doesnot match then its  TVIMPSTEnums::UnKnown
     TVIMPSTEnums::TOnlineStatus status;
@@ -1318,10 +1299,9 @@ TVIMPSTEnums::TOnlineStatus CVIMPSTEnginePresenceSubService::ConvertPresenceCach
 void CVIMPSTEnginePresenceSubService::RegisterPresenceEventObserverL(
         MVIMPSTEnginePresenceSubServiceEventObserver* aObserver)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RegisterPresenceEventObserver start"));	
+	TRACER_AUTO;
     __ASSERT_ALWAYS( aObserver, User::Leave( KErrArgument ));		
     iSubServiceObserver = aObserver;
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RegisterPresenceEventObserver end"));
     }
 
 // ---------------------------------------------------------
@@ -1332,9 +1312,8 @@ void CVIMPSTEnginePresenceSubService::RegisterPresenceEventObserverL(
 void CVIMPSTEnginePresenceSubService::UnRegisterPresenceEventObserver(
         MVIMPSTEnginePresenceSubServiceEventObserver* /*aObserver*/)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnRegisterPresenceEventObserver start"));
+	TRACER_AUTO;
     iSubServiceObserver = NULL;
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnRegisterPresenceEventObserver end"));
     }   
 // ---------------------------------------------------------------------------
 // CVIMPSTEnginePresenceSubService::RetrieveBlockListL
@@ -1342,7 +1321,7 @@ void CVIMPSTEnginePresenceSubService::UnRegisterPresenceEventObserver(
 //
 void CVIMPSTEnginePresenceSubService::RetrieveBlockListL()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RetrieveBlockListL start"));
+	TRACER_AUTO;
 
     //Subscribe block list
     // do get block list"));
@@ -1351,7 +1330,6 @@ void CVIMPSTEnginePresenceSubService::RetrieveBlockListL()
     CVIMPSTEngineRequestMapper* requestMapper =iXimpEventObserver.GetRequestMapper();
     requestMapper->CreateRequestL(operationId,EFalse,EVIMPSTXimpOperationGetBlockList);
     // list retrieving ok. Waiting for list.;
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RetrieveBlockListL end")); 
     }
 // ---------------------------------------------------------------------------
 // CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL
@@ -1359,17 +1337,17 @@ void CVIMPSTEnginePresenceSubService::RetrieveBlockListL()
 //
 void CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL(MPresenceBuddyInfo2& aPresenceBuddyInfo)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL start" ) );
+	TRACER_AUTO;
     MVIMPSTStorageServiceView* storage = 
     						CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
     TPtrC ownUserId = storage->OwnContactL().UserId();
     // read the buddyID : returns in XSP format
     TPtrC buddyXSPId = aPresenceBuddyInfo.BuddyId();
     TPtrC buddyId = buddyXSPId.Right( buddyXSPId.Length() - iServiceName->Length() - KColon().Length());
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL buddyId : %s" ), &buddyId );
+    TRACE( " buddyId : %s" , &buddyId );
     // read the availability /presence state enum value 
     MPresenceBuddyInfo2::TAvailabilityValues availabilityEnum = aPresenceBuddyInfo.Availability();
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL - Availability ENUM value: %d" ), availabilityEnum );
+    TRACE( "Availability ENUM value: %d" , availabilityEnum );
     TPtrC avablityText = aPresenceBuddyInfo.AvailabilityText();
     // convert the presence cache enum value to service tab enum 
     TVIMPSTEnums::TOnlineStatus status = ConvertPresenceCacheEnums( availabilityEnum, avablityText);
@@ -1380,22 +1358,22 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL(MPresenceBud
         GetKeyFieldsAndValuesL(aPresenceBuddyInfo,status);
         //TRACE( T_LIT("DoHandlePresenceNotificationL after GetKeyFieldsAndValuesL- status: %d" ), status );
         }
-    TRACE( T_LIT("DoHandlePresenceNotificationL - status: %d" ), status );
+    TRACE( " status: %d" , status );
     // Read  the  status message 
     TPtrC statusMsg = aPresenceBuddyInfo.StatusMessage();
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL - Status Message: %s" ), &statusMsg );
+    TRACE("Status Message: %s" , &statusMsg );
     TPtrC8 avatarContent = aPresenceBuddyInfo.Avatar();
     
     ////////////////////////////////////////////////////////////////
     HBufC8* avatarScaledData = NULL;
 	if ( avatarContent.Length() )
 		{
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL - avatarContent Content available" ) );
+	TRACE( "avatarContent Content available" );
 		CVIMPSTEngineImageHandler* imageHandler = CVIMPSTEngineImageHandler::NewL();
 		CleanupStack::PushL(imageHandler);
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL - imageHandler created " ) );
+		TRACE( "imageHandler created " );
 		avatarScaledData = imageHandler->ProcessImageFromDataL( avatarContent , KNullDesC8() );
-		TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL - ProcessImageFromDataL returned " ) );
+		TRACE( " ProcessImageFromDataL returned " );
 		CleanupStack::PopAndDestroy();//imageHandler
 		}
     if( avatarScaledData && avatarScaledData->Length())
@@ -1413,7 +1391,6 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL(MPresenceBud
         {
         storage->UpdatePresenceL(buddyId, status, statusMsg, KNullDesC8 );      
         }
-	TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceNotificationL end" ) );
     }
 // ---------------	------------------------------------------------------------
 // CVIMPSTEnginePresenceSubService::
@@ -1424,7 +1401,7 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
                                                         const MXIMPContext& /*aContext*/,
                                                         const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL start"));
+	TRACER_AUTO;
     const MPresenceBlockListEvent& event  =
         *TXIMPGetInterface< const MPresenceBlockListEvent >::From( 
             aEvent,
@@ -1434,16 +1411,16 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
     // inform ui about the state change from updatingcontacts to registered.
     if(TVIMPSTEnums::ESVCEUpdatingContacts == iServiceState )
         {
-        TRACE( T_LIT(" -> CVIMPSTEnginePresenceSubService:state is ESVCEUpdatingContacts" ));  
+    TRACE( " -> DoHandlePresentityGroupContentEventL:state is ESVCEUpdatingContacts" );
         }
         
-    TRACE( T_LIT(" -> new member count: %d" ), event.NewBlocksCount());    
+    TRACE( " new member count: %d" , event.NewBlocksCount());  
 
     TInt subscriptionCount  =  event.NewBlocksCount();
 
-    TRACE( T_LIT(" -> subscriptionCount: %d"), subscriptionCount );
+    TRACE(" subscriptionCount: %d", subscriptionCount );
 
-        TRACE( T_LIT(" -> handling buddy list" ) );    
+        TRACE( "  handling buddy list"  ); 
         HBufC* subsbuf(NULL);        
         for( TInt i =0; i < subscriptionCount; i++ )
             {
@@ -1451,9 +1428,9 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
             const MXIMPIdentity& ident = blockedEntitys.BlockedEntityId();
             subsbuf = ident.Identity().AllocLC();
             TPtr subsbufPtr = subsbuf->Des();
-            TRACE( T_LIT(" -> identity: %S"), &subsbufPtr );    
+            TRACE( " -> identity: %S", &subsbufPtr );   
 
-            TRACE( T_LIT(" -> subscribe to cache" ) );    
+            TRACE(" -> subscribe to cache"  );    
             SubscribePresenceOfSingleContactL(*subsbuf);
             iBlockedListMgr->AddToBlockedListL(*subsbuf);
             CleanupStack::PopAndDestroy( subsbuf );
@@ -1466,7 +1443,7 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
                 const MXIMPIdentity& ident = blockedEntitys.BlockedEntityId();
                 subsbuf = ident.Identity().AllocLC();
                 TPtr subsbufPtr = subsbuf->Des();
-                TRACE( T_LIT(" -> identity: %S"), &subsbufPtr );    
+                TRACE( " identity: %S", &subsbufPtr );
               
                 iBlockedListMgr->RemoveFromBlockListL( *subsbuf );    
                 
@@ -1478,7 +1455,6 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
 	        iBlockedListObserver->HandleBlockedListFetchCompleteL();
 	        iBlockListFetchReqPending = EFalse;
 	        }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL end"));
 
     }
 
@@ -1488,15 +1464,15 @@ void CVIMPSTEnginePresenceSubService::DoHandlePresenceBlockListEventL(
 //
 TInt CVIMPSTEnginePresenceSubService::AddToBlockListL( const TDesC& aContactId )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::AddToBlockListL start"));
+	TRACER_AUTO;
     if(TVIMPSTEnums::ESVCERegistered != iServiceState)
        return KErrNotSupported;
     //if aContactId is zero.
     if( 0 == aContactId.Length())
        return KErrArgument;
     
-    TRACE( T_LIT(" -> aContactId: %s" ), &aContactId);
-    TRACE( T_LIT(" -> perform block operation" ) );      
+    TRACE( " aContactId: %s" , &aContactId);
+    TRACE( " perform block operation" ); 
     
     MXIMPIdentity* identity = iXimpEventObserver.XimpPresenceContextL().ObjectFactory().NewIdentityLC();
     
@@ -1516,7 +1492,6 @@ TInt CVIMPSTEnginePresenceSubService::AddToBlockListL( const TDesC& aContactId )
 	    }
     //when pres. cache call will come.
     CleanupStack::PopAndDestroy(); // identity    
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::AddToBlockListL end"));
     return error;
     }
 
@@ -1526,15 +1501,15 @@ TInt CVIMPSTEnginePresenceSubService::AddToBlockListL( const TDesC& aContactId )
 //
 TInt CVIMPSTEnginePresenceSubService::RemoveFromBlockListL( const TDesC& aUriOfTheContact )
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RemoveFromBlockListL start"));
+	TRACER_AUTO;
     if(TVIMPSTEnums::ESVCERegistered != iServiceState)
        return KErrNotSupported;
     //if aUriOfTheCOntact is zero.
     if( 0 == aUriOfTheContact.Length())
        return KErrNotFound;
     
-    TRACE( T_LIT(" -> aUriOfTheContact: %s" ), &aUriOfTheContact);
-    TRACE( T_LIT(" -> perform unblock operation" ) );      
+    TRACE(" -> aUriOfTheContact: %s" , &aUriOfTheContact);
+    TRACE( " -> perform unblock operation"  );  
     
     MXIMPIdentity* identity = iXimpEventObserver.XimpPresenceContextL().ObjectFactory().NewIdentityLC();
     identity->SetIdentityL( aUriOfTheContact ); 
@@ -1551,7 +1526,6 @@ TInt CVIMPSTEnginePresenceSubService::RemoveFromBlockListL( const TDesC& aUriOfT
 	    }
     CleanupStack::PopAndDestroy( 1 ); // identity    
     
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::RemoveFromBlockListL end"));
     return error;
     }
     
@@ -1583,6 +1557,7 @@ void CVIMPSTEnginePresenceSubService::ResetBlockedListManagerL()
 //
 void CVIMPSTEnginePresenceSubService::FetchBlockedListFromServerL(MVIMPSTEngineBlockedListFetchEventObserver* aOb)
 	{
+	TRACER_AUTO;
 	if(EFalse == iBlockListFetchReqPending)
 		{
 		//set the observer to give call back; Fetch from server is completed.
@@ -1607,6 +1582,7 @@ void CVIMPSTEnginePresenceSubService::FetchBlockedListFromServerL(MVIMPSTEngineB
 //
 void CVIMPSTEnginePresenceSubService::GetKeyFieldsAndValuesL(MPresenceBuddyInfo2& aPresenceBuddyInfo,TVIMPSTEnums::TOnlineStatus &aStatus)
     {
+	TRACER_AUTO;
     TPtrC8 value = aPresenceBuddyInfo.GetAnyField( KExtensionKey());
     // At any point of time fro remote and blocked contact only one of the keys
     // KPendingRequestExtensionValue/KBlockedExtensionValue will be assigned, and not both the keys.
@@ -1638,13 +1614,12 @@ void CVIMPSTEnginePresenceSubService::GetKeyFieldsAndValuesL(MPresenceBuddyInfo2
 //
 void CVIMPSTEnginePresenceSubService::UpdatePresenceStateL()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UpdatePresenceStateL start") );
+	TRACER_AUTO;
     //inform ui about the state change from updatingcontacts to registered.
     iServiceState = TVIMPSTEnums::ESVCERegistered;    
     iObserver.HandleServceConnectionEventL();
     
-    TRACE( T_LIT(" -> HandleContactFetchedL:state is ESVCERegistered" )); 
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UpdatePresenceStateL end"));
+    TRACE( " -> HandleContactFetchedL:state is ESVCERegistered" ); 
     }
 
 // ---------------------------------------------------------------------------
@@ -1653,7 +1628,7 @@ void CVIMPSTEnginePresenceSubService::UpdatePresenceStateL()
 //
 void CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL(const TDesC& aContact)
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL Start"));  
+	TRACER_AUTO;
     if(aContact.Length() && iServiceName->Length())
         {
         HBufC* name = HBufC::NewLC( iServiceName->Length() + KColon().Length() + aContact.Length()  ); // 1. on to cleanup stack
@@ -1663,18 +1638,17 @@ void CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL(const TDesC&
         namePtr.Append(*iServiceName);
         namePtr.Append(KColon);
         namePtr.Append(aContact);
-        TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL namePtr = %S"), &namePtr);  
+        TRACE( " namePtr = %S", &namePtr);  
         MPresenceBuddyInfo2* presenceBuddyInfo = iPresenceCacheReader->PresenceInfoLC(namePtr); // 2. on to cleanupstack
         if ( presenceBuddyInfo )
             {
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL presenceBuddyInfo"));            
+        TRACE("presenceBuddyInfo");            
             DoHandlePresenceNotificationL(*presenceBuddyInfo);
             CleanupStack::PopAndDestroy();  // presenceBuddyInfo
-            TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL presenceBuddyInfo end"));  
+            TRACE("presenceBuddyInfo end");  
             }
         CleanupStack::PopAndDestroy(name);  // name
         }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL End")); 
     }
 
 // ---------------------------------------------------------------------------
@@ -1683,8 +1657,7 @@ void CVIMPSTEnginePresenceSubService::FetchPresenceOfSingleContactL(const TDesC&
 //
 void CVIMPSTEnginePresenceSubService::UnsubscribeListsL()
     {
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL IN"));
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL - unsubscribe buddy list"));
+    TRACER_AUTO;
 
     // It is assumed here that buddy list and authorization list has been always
     // subscribed if bind has been done. Caller of this function must check
@@ -1700,20 +1673,20 @@ void CVIMPSTEnginePresenceSubService::UnsubscribeListsL()
    // Auth list
    if(iSubscribeToAuthList)
        {
-       TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL - unsubscribe auth list"));
+       TRACE("unsubscribe auth list");
        iSubscribeToAuthList = EFalse;
       iXimpEventObserver.XimpAuthorizationL().UnsubscribePresenceGrantRequestListL();  
        }
  
    // block list
-   TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL - check if block is supported"));
+   TRACE( "check if block is supported");
    TInt supportedFeatures = iXimpEventObserver.GetSupportedFeatures();
    if ( (EVIMPSTFeatureBlock & supportedFeatures) && (EVIMPSTFeatureUnBlock & supportedFeatures) )
        {
-       TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL - unsubscribe block list"));
+       TRACE( "unsubscribe block list");
        iXimpEventObserver.XimpAuthorizationL().UnsubscribePresenceBlockListL();        
        }
-    TRACE( T_LIT("CVIMPSTEnginePresenceSubService::UnsubscribeListsL OUT"));
+    
     }
 
 // End of file

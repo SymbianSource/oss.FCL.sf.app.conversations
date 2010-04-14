@@ -23,8 +23,7 @@
 
 // imcvuiapp application
 S60_APP_EXE(imcvuiapp)
-S60_APP_BITMAP(imcvuiapp)
-S60_APP_AIF_ICONS(imcvuiapp)
+
 
 //Publish application registration resource file 
 data=DATAZ_\private\10003a3f\apps\imcvuiapp_reg.rsc    								private\10003a3f\Import\Apps\imcvuiapp_reg.rsc

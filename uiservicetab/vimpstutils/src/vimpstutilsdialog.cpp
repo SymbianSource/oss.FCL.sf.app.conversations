@@ -26,7 +26,7 @@
 #include    <vimpstuires.rsg>
 #include 	<AknQueryDialog.h>
 
-
+#include "uiservicetabtracer.h"
 
 
 // ---------------------------------------------------------
@@ -38,6 +38,7 @@ EXPORT_C TInt VIMPSTUtilsDialog::DisplayNoteDialogL( const TDesC& aText,
         const TInt aButtonsResourceId, /*= R_AVKON_SOFTKEYS_EMPTY*/
         const CAknNoteDialog::TTimeout& aTimeout /*= CAknNoteDialog::EShortTimeout*/ )
 	{
+	TRACER_AUTO;
 	// CodeScanner warning ignored because CS does not
     // notice that PrepareLC puts the dialog to cleanupstack
     CAknNoteDialog* dlg = new ( ELeave ) CAknNoteDialog( // CSI: 35 # See comment above
@@ -63,6 +64,7 @@ EXPORT_C TInt VIMPSTUtilsDialog::DisplayNoteDialogL( const TDesC& aText,
 EXPORT_C TInt VIMPSTUtilsDialog::DisplayErrorNoteL( const TDesC& aText, 
 													TBool aSoftkeyOk /*= EFalse*/ )
 	{
+	TRACER_AUTO;
 	//TODO : Modify the function body when required later
 	if( aSoftkeyOk )
 	    {
@@ -90,6 +92,7 @@ EXPORT_C TInt VIMPSTUtilsDialog::DisplayErrorNoteL( const TDesC& aText,
 EXPORT_C TInt VIMPSTUtilsDialog::DisplayQueryDialogL( TInt aDialogResourceId, 
             											const TDesC& aPrompt )
 	{
+	TRACER_AUTO;
 	CAknQueryDialog* dlg = new (ELeave) CAknQueryDialog(
 											CAknQueryDialog::ENoTone );
 	if( aPrompt != KNullDesC )
@@ -118,6 +121,7 @@ EXPORT_C TInt VIMPSTUtilsDialog::DisplayTextQueryDialogL(
         TInitialSelectionMode aSelectionMode /* = ESelectAll */,
         TBool aDomainSelectionQuery /* = EFalse */ )
     {
+	TRACER_AUTO;
     // CodeScanner warning ignored because CS does not
     // notice that PrepareLC puts the dialog to cleanupstack
     CAknTextQueryDialog* dlg = CVIMPSTUtilsTextQueryDialog::NewL( aDataText, // CSI: 35 # See comment above
@@ -173,6 +177,7 @@ EXPORT_C TInt VIMPSTUtilsDialog::DisplayListQueryDialogL( TInt* aSelectedIndex,
         const TBool /*aIsOnlySelect  = EFalse */ )
 
     {
+	TRACER_AUTO;
     CAknListQueryDialog* dlg = new (ELeave) CAknListQueryDialog( 
                                                     aSelectedIndex );
     dlg->PrepareLC( aDialogResourceId );

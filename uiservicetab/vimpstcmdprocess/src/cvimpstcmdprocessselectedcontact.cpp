@@ -26,7 +26,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h"
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include <MVPbkContactLinkArray.h>
@@ -91,7 +92,8 @@ void CVIMPSTCmdProcessSelectedContact::ConstructL()
 //
 void CVIMPSTCmdProcessSelectedContact::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdProcessSelectedContact::ExecuteLD");
+    
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL( iEngine.ServiceId() ) ;
@@ -182,9 +184,9 @@ void CVIMPSTCmdProcessSelectedContact::ExecuteLD()
         {
         iObserver->CommandFinishedL(*this);
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdProcessSelectedContact:: CommandFinished");    
+     
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdProcessSelectedContact::ExecuteLD");    
+   
     }
 
 
@@ -227,6 +229,7 @@ TInt CVIMPSTCmdProcessSelectedContact::Result() const
 // --------------------------------------------------------------------------
 TBool CVIMPSTCmdProcessSelectedContact::IsContactBlocked(const TDesC& aUserId)
 	{
+	TRACER_AUTO;
    	MVIMPSTEngineSubService* subService =    	   
    	   					(iEngine.SubService(TVIMPSTEnums::EPresence));
     if(subService)

@@ -37,7 +37,7 @@
 #include    <avkon.rsg>
 #include    <caf/content.h>
 #include    <caf/manager.h> // content access
-
+#include "uiservicetabtracer.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -60,6 +60,7 @@ CAvatarSelectionHandler::CAvatarSelectionHandler()
 //
 void CAvatarSelectionHandler::ConstructL()
     {
+	TRACER_AUTO;
     User::LeaveIfError(iApaSession.Connect() );
 
     // create dochandler
@@ -75,6 +76,7 @@ void CAvatarSelectionHandler::ConstructL()
 CAvatarSelectionHandler* CAvatarSelectionHandler::NewLC()
 
     {
+	TRACER_AUTO;
     CAvatarSelectionHandler* self = new( ELeave ) CAvatarSelectionHandler();
 
     CleanupStack::PushL(self);
@@ -150,6 +152,7 @@ TInt CAvatarSelectionHandler::RunError(TInt aError)
 //
 void CAvatarSelectionHandler::HandleServerAppExit(TInt aReason)
     {
+	TRACER_AUTO;
     iServerAppExitReason = aReason;
     if (iWait.IsStarted() )
         {
@@ -165,6 +168,7 @@ void CAvatarSelectionHandler::HandleServerAppExit(TInt aReason)
 TBool CAvatarSelectionHandler::VerifySelectedFilesL( const MDesCArray* aSelectedFiles )
 
     {
+	TRACER_AUTO;
     if( aSelectedFiles && aSelectedFiles->MdcaCount() )
         {
         TPtrC filename( aSelectedFiles->MdcaPoint(0) ); // since muliselection is not allowed
@@ -249,6 +253,7 @@ TBool CAvatarSelectionHandler::VerifySelectedFilesL( const MDesCArray* aSelected
 //
 TSize CAvatarSelectionHandler::DecodeSize(const TSize& aSize)
     {
+	TRACER_AUTO;
     // 1:1 is always valid ratio for decode scaling
     TInt lastValidRatio( 1);
     for (TInt ratio(KDecodeScaleRatioMin); ratio <= KDecodeScaleRatioMax; ratio<<= 1)
@@ -272,6 +277,7 @@ TSize CAvatarSelectionHandler::DecodeSize(const TSize& aSize)
 //
 HBufC*  CAvatarSelectionHandler::HandleAvatarSelectionL(TInt aCommand )
     {
+	TRACER_AUTO;
     HBufC* selectedFile = NULL;
     switch (aCommand)
         {
@@ -352,7 +358,7 @@ HBufC*  CAvatarSelectionHandler::HandleAvatarSelectionL(TInt aCommand )
 //
 void CAvatarSelectionHandler::ShowErrorL(TErrorType aErrorType)
     {
-
+	TRACER_AUTO;
     switch( aErrorType )
         {  
         case EProtected:
@@ -380,6 +386,7 @@ void CAvatarSelectionHandler::ShowErrorL(TErrorType aErrorType)
 //
 void CAvatarSelectionHandler::StoreMimeTypeL(const TDesC& aFilename)
     {
+	TRACER_AUTO;
     TUid dummyUid( KNullUid );
     TDataType dataType;
     User::LeaveIfError( iApaSession.AppForDocument(

@@ -21,6 +21,7 @@
 #include "StringLoader.h"
 //#include "vimpstdebugprint.h" //TODO: for later use
 #include <coemain.h>
+#include "uiservicetabtracer.h"
 
 // CONSTANTS
 // TODO: For later use
@@ -39,6 +40,7 @@ _LIT( KAt, "@" );
 //
 EXPORT_C TPtrC VIMPSTUtils::DisplayId( const TDesC& aId, TBool /*aListHiding*/ )
     {
+	TRACER_AUTO;
     TPtrC ret( aId );
     
     //TODO: Modify the function body when it is required later 
@@ -87,6 +89,7 @@ EXPORT_C TPtrC VIMPSTUtils::DisplayId( const TDesC& aId, TBool /*aListHiding*/ )
 // 
 EXPORT_C HBufC* VIMPSTUtils::LoadResourceL( TInt aResourceId )
 	{
+	TRACER_AUTO;
 	CCoeEnv* env = CCoeEnv::Static();
 	HBufC* ret = NULL;
 	if(env)
@@ -108,6 +111,7 @@ EXPORT_C HBufC* VIMPSTUtils::LoadResourceL( TInt aResourceId )
 // 
 EXPORT_C HBufC* VIMPSTUtils::LoadResourceL( TInt aResourceId , const TDesC& aPrompt)
     {
+	TRACER_AUTO;
     CCoeEnv* env = CCoeEnv::Static();
     HBufC* ret = NULL;
     if(env)
@@ -129,6 +133,7 @@ EXPORT_C HBufC* VIMPSTUtils::LoadResourceL( TInt aResourceId , const TDesC& aPro
 //
 EXPORT_C HBufC* VIMPSTUtils::CombineStringFromResourceLC( TInt aResourceId1, TInt aResourceId2 )
 	{
+	TRACER_AUTO;
 	// empty texts
     _LIT ( KPSUIEmptyStringHeader, "%S\n%S" );
     HBufC* emptyText = CCoeEnv::Static()->AllocReadResourceLC( 

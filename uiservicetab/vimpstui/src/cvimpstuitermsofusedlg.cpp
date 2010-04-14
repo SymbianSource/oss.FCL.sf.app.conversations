@@ -55,6 +55,7 @@
 
 #include    <StringLoader.h>
 #include    "vimpstui.hrh"
+#include "uiservicetabtracer.h"
 const TInt KTextMargin = 100;  // normal text margin in twips
 const TInt KSpaceBefore = 10;  // space before each paragraph (twips)
 const TInt KPixelsBetweenLines = 5; // pixels between text lines
@@ -106,7 +107,7 @@ CVIMPSTUiTermsOfUseDlg* CVIMPSTUiTermsOfUseDlg::NewLC( )
 //
 void CVIMPSTUiTermsOfUseDlg::ConstructL( )
     {
-    
+	TRACER_AUTO;
     iBgContext = CAknsBasicBackgroundControlContext::NewL( 
         KAknsIIDQsnBgAreaMainMessage, Rect(), ETrue );
     
@@ -160,7 +161,8 @@ void CVIMPSTUiTermsOfUseDlg::HandleParsingComplete()
 // ---------------------------------------------------------
 //
 void CVIMPSTUiTermsOfUseDlg::PreLayoutDynInitL()
-	{						
+	{
+	TRACER_AUTO;
 	CAknDialog::PreLayoutDynInitL();
     AknsUtils::RegisterControlPosition( this );
     
@@ -203,6 +205,7 @@ void CVIMPSTUiTermsOfUseDlg::PreLayoutDynInitL()
 //
 void CVIMPSTUiTermsOfUseDlg::PostLayoutDynInitL()
     {
+	TRACER_AUTO;
     CAknDialog::PostLayoutDynInitL();
     
    
@@ -273,6 +276,7 @@ TBool CVIMPSTUiTermsOfUseDlg::OkToExitL( TInt aButtonId )
 TKeyResponse CVIMPSTUiTermsOfUseDlg::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                                                    TEventCode aType )
 	{
+	TRACER_AUTO;
     if( aType != EEventKey )
         {
         return EKeyWasNotConsumed;
@@ -328,7 +332,7 @@ TKeyResponse CVIMPSTUiTermsOfUseDlg::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 
 void CVIMPSTUiTermsOfUseDlg::HandleScrollEventL(CEikScrollBar* aScrollBar, TEikScrollEvent aEventType)
     {
-
+	TRACER_AUTO;
     if( !aScrollBar )
         {
         return ;
@@ -457,6 +461,7 @@ void CVIMPSTUiTermsOfUseDlg::SizeChanged()
 //
 void CVIMPSTUiTermsOfUseDlg::SetNewTitleTextL()
     {
+	TRACER_AUTO;
     CAknTitlePane* title = GetTitlePaneInstanceL();
     
     // Store old one
@@ -488,6 +493,7 @@ void CVIMPSTUiTermsOfUseDlg::SetNewTitleTextL()
 //
 CAknTitlePane* CVIMPSTUiTermsOfUseDlg::GetTitlePaneInstanceL() const
     {
+	TRACER_AUTO;
     CAknTitlePane* title = static_cast< CAknTitlePane* >
         ( CEikonEnv::Static()->AppUiFactory()->StatusPane()->ControlL(
                                         TUid::Uid( EEikStatusPaneUidTitle ) ) );
@@ -506,6 +512,7 @@ CAknTitlePane* CVIMPSTUiTermsOfUseDlg::GetTitlePaneInstanceL() const
 //
 void CVIMPSTUiTermsOfUseDlg::RestoreTitlePaneTextL() const
     {
+	TRACER_AUTO;
     CAknTitlePane* title = GetTitlePaneInstanceL();
 
     if ( iOldTitleText )
@@ -535,6 +542,7 @@ void CVIMPSTUiTermsOfUseDlg::RestoreTitlePaneTextL() const
 //
 void CVIMPSTUiTermsOfUseDlg::UpdateCbaL()
     {
+	TRACER_AUTO;
     TInt cbaRes = R_CNUI_TERMS_OF_USE_DIALOG_CBA;  
     CEikButtonGroupContainer* cba = CEikButtonGroupContainer::Current();
     cba->SetCommandSetL( cbaRes );
@@ -548,6 +556,7 @@ void CVIMPSTUiTermsOfUseDlg::UpdateCbaL()
 //
 void CVIMPSTUiTermsOfUseDlg::UpdateTextColorL()
     {
+	TRACER_AUTO;
     if( !iEditor )
         {
         return;

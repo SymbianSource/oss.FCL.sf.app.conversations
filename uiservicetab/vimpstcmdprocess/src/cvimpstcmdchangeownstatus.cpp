@@ -22,7 +22,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -80,7 +81,8 @@ void CVIMPSTCmdChangeOwnStatus::ConstructL()
 //
 void CVIMPSTCmdChangeOwnStatus::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnStatus::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );   
 	
@@ -111,9 +113,9 @@ void CVIMPSTCmdChangeOwnStatus::ExecuteLD()
         
 	
     
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdChangeOwnStatus:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdChangeOwnStatus::ExecuteLD");	
+
     }
 
 

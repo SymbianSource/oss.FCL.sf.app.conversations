@@ -20,7 +20,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -79,7 +80,8 @@ void CVIMPSTCmdUnBlockContact::ConstructL()
 //
 void CVIMPSTCmdUnBlockContact::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdUnBlockContact::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );       
     if(iContactId.Length())
@@ -94,24 +96,21 @@ void CVIMPSTCmdUnBlockContact::ExecuteLD()
             HBufC* userId = HBufC::NewLC(KPropertyMaxLength); //  2 onto cleanup stack
             TPtr userIdPtr = userId->Des();
             userIdPtr = iContactId;
-          
-            CHAT_DP( D_CHAT_LIT(" -> userId: %s" ), &userIdPtr);
+            TRACE("userId: %s", &userIdPtr);            
             iError = presence.RemoveFromBlockListL(*userId);
-            CHAT_DP( D_CHAT_LIT(" -> iError: %d" ), iError);
+            TRACE("iError: %d", iError);           
             CleanupStack::PopAndDestroy(userId);//2
           
             }
         }
-
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdUnBlockContact:: CommandFinished");
+   
 
     if(iObserver)
         {
         iObserver->CommandFinishedL(*this);
-        }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdUnBlockContact:: CommandFinished"); 
+        }   
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdUnBlockContact::ExecuteLD"); 
+  
     }
 
 

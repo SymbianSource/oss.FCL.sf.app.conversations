@@ -1598,8 +1598,16 @@
 #define qtn_servtab_widget_servdesc          "My online service"
 
 // d: Text shown when service tab is not usable after uninstall
-// l: main_pane_empty_t1/opt2
+// l: main_list_empty_pane/opt2
 // r: MCL
 #define qtn_servtab_swupdate_restart								"Please restart phone to use %U service"
+
+// d: Item showed when there is no XSP id present for the service contact in Uiservicetab
+// d: Popup is shown when there is no XSP id
+// l: popup_note_window/opt2
+// r: MCL
+//
+#define qtn_servtab_noxsp_error          "Contact has no communication address. Add details to the contact."
+
 
 //end of file

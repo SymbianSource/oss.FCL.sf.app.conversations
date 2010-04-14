@@ -30,6 +30,7 @@
 #include <MVPbkContactFieldDateTimeData.h>
 // System includes
 #include <barsread.h>
+#include "uiservicetabtracer.h"
 
 _LIT(KColon,":");
 // --------------------------------------------------------------------------
@@ -150,6 +151,7 @@ void CVIMPSTFieldProperty::SetStoredFieldL(MVPbkStoreContactField& aField )
 //
 const TDesC& CVIMPSTFieldProperty::FieldDataL() 
     {
+	TRACER_AUTO;
     if( iField && !iFieldData )
         {
         const MVPbkContactFieldData& fieldData = iField->FieldData();

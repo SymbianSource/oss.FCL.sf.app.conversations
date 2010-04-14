@@ -20,7 +20,8 @@
 #include "cvimpstenginerequestmapper.h"
 
 #include "cvimpstenginerequest.h"
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 
 // ---------------------------------------------------------
 // CVIMPSTEngineRequestMapper::two phase constructor
@@ -71,6 +72,7 @@ CVIMPSTEngineRequest* CVIMPSTEngineRequestMapper::CreateRequestL
 											(TXIMPRequestId& aRequestId, 
 											TBool aIsWait, TXimpOperation aType)
 	{
+	TRACER_AUTO;
 	CVIMPSTEngineRequest* req = CVIMPSTEngineRequest::NewL(aRequestId,aType );
 	CleanupStack::PushL(req);	
 	TInt status( iRequestArray.Append( req ) );
@@ -92,6 +94,7 @@ CVIMPSTEngineRequest* CVIMPSTEngineRequestMapper::CreateRequestL
 // ---------------------------------------------------------		
 CVIMPSTEngineRequest* CVIMPSTEngineRequestMapper::FindRequestId(const TXIMPRequestId& aRequestId )
 	{
+	TRACER_AUTO;
 	TInt count = iRequestArray.Count() ;
 	TXIMPRequestId reqId ;
 	CVIMPSTEngineRequest *req = NULL;
@@ -115,6 +118,7 @@ CVIMPSTEngineRequest* CVIMPSTEngineRequestMapper::FindRequestId(const TXIMPReque
 // ---------------------------------------------------------		
 void CVIMPSTEngineRequestMapper::RemoveRequestId(const TXIMPRequestId& aRequestId )
     {
+	TRACER_AUTO;
     TInt count = iRequestArray.Count() ;
     for (TInt i=0; i < count; i++)
         {

@@ -22,7 +22,7 @@
 #include "mvimpststorageserviceview.h"
 #include "mvimpststoragecontact.h"
 #include "cvimpstengineservicetablefetcher.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 //system includes
 #include <e32base.h>
@@ -49,14 +49,14 @@ CVIMPSTEngineCVListener::CVIMPSTEngineCVListener(
 //
 void CVIMPSTEngineCVListener::ConstructL()
     {
-    TRACE( T_LIT("CVIMPSTEngineCVListener::ConstructL() start"));
+	TRACER_AUTO;
+    
     // subscribing for the property published by conversation view.
     // attach the properties.
     User::LeaveIfError( iProperty.Attach(KConvViewUID,KXspIdServiceIDKey  ) );
     //start listening property published by CV (to get Contact link and Display name.).
     iProperty.Subscribe( iStatus );
     SetActive();
-    TRACE( T_LIT("CVIMPSTEngineCVListener::ConstructL() end"));
     }
 
 // --------------------------------------------------------------------------
@@ -88,7 +88,7 @@ CVIMPSTEngineCVListener::~CVIMPSTEngineCVListener()
 //
 void CVIMPSTEngineCVListener::RunL()
     {
-    TRACE( T_LIT("CVIMPSTEngineCVListener::RunL() start"));
+	TRACER_AUTO;
     // resubscribe before processing new value to prevent missing updates
     //TBuf <KMaxSerIdXspIdLen> serId_usrId;
     HBufC16* serId_usrId = HBufC16::NewLC(KMaxSerIdXspIdLen);
@@ -157,7 +157,7 @@ void CVIMPSTEngineCVListener::RunL()
                 userDetailsPtr.Append(KDelimiter());
                 userDetailsPtr.Append( *contactLink );
                 
-                TRACE( T_LIT("CVIMPSTEngineCVListener::RunL publishing = %S"),&(*userDetails));        
+                TRACE( " publishing = %S",&(*userDetails)); 
                 
                 iProperty.Set(KConvViewUID,KContactLinkDisplayNameKey,*userDetails);
                 CleanupStack::PopAndDestroy(3);//userDetails,contactLink,dispName
@@ -166,7 +166,7 @@ void CVIMPSTEngineCVListener::RunL()
             // contact not found
             else
                 {
-                TRACE( T_LIT("CVIMPSTEngineCVListener::RunL publishing null display name"));        
+            TRACE( "publishing null display name"); 
                 iProperty.Set(KConvViewUID,KContactLinkDisplayNameKey,KNullDesC());
                 }
             }
@@ -179,7 +179,6 @@ void CVIMPSTEngineCVListener::RunL()
     		}  
     iProperty.Subscribe( iStatus );
     SetActive();
-    TRACE( T_LIT("CVIMPSTEngineCVListener::RunL() end"));
     }
 
 // ---------------------------------------------------------
@@ -188,7 +187,7 @@ void CVIMPSTEngineCVListener::RunL()
 //
 void CVIMPSTEngineCVListener::DoCancel()
     {    
-    TRACE( T_LIT("CVIMPSTEngineCVListener::DoCancel() start"));
+	TRACER_AUTO;
     iProperty.Cancel();
     }
   		     
@@ -198,7 +197,7 @@ void CVIMPSTEngineCVListener::DoCancel()
 //
 TInt CVIMPSTEngineCVListener::RunError( TInt aError )
     {
-    TRACE( T_LIT("CVIMPSTEngineCVListener::RunError() start"));
+    TRACER_AUTO;
     if ( KErrCancel != aError )
         {
         iProperty.Subscribe( iStatus );

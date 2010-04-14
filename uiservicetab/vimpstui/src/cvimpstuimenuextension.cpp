@@ -22,8 +22,7 @@
 #include <coemain.h>
 #include <barsread.h>
 #include <eikmenup.h>
-#include    "vimpstdebugprint.h" 
-
+#include "uiservicetabtracer.h"
 
 #include "cvimpstuimenuextension.h"
 #include "ccommandinfo.h"
@@ -40,8 +39,7 @@
 CVIMPSTUIMenuExtension::CVIMPSTUIMenuExtension( )
 : iNewCommands( EServiceTabMenuExtensionFirstFreeCommand )
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::CVIMPSTUIMenuExtension");
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::CVIMPSTUIMenuExtension");
+	TRACER_AUTO;
     }
 
 // ---------------------------------------------------------------------------
@@ -50,9 +48,9 @@ CVIMPSTUIMenuExtension::CVIMPSTUIMenuExtension( )
 // 
 void CVIMPSTUIMenuExtension::ConstructL()
     {   
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::ConstructL");
+	TRACER_AUTO;
     LoadPluginL( ); 
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::ConstructL");
+    
 
     }
 
@@ -62,10 +60,10 @@ void CVIMPSTUIMenuExtension::ConstructL()
 // 
 CVIMPSTUIMenuExtension* CVIMPSTUIMenuExtension::NewL( )
     { 
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::NewL");
+	TRACER_AUTO;
     CVIMPSTUIMenuExtension* self = NewLC(  );
     CleanupStack::Pop(self);
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::NewL");
+    
     return self;
     }
 
@@ -75,12 +73,12 @@ CVIMPSTUIMenuExtension* CVIMPSTUIMenuExtension::NewL( )
 // 
 CVIMPSTUIMenuExtension* CVIMPSTUIMenuExtension::NewLC()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::NewL");
+	TRACER_AUTO;
     CVIMPSTUIMenuExtension* self =
         new (ELeave) CVIMPSTUIMenuExtension(  );
     CleanupStack::PushL( self );
     self->ConstructL();
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::NewL");
+    
     return self;
     }
 
@@ -90,7 +88,7 @@ CVIMPSTUIMenuExtension* CVIMPSTUIMenuExtension::NewLC()
 // 
 CVIMPSTUIMenuExtension::~CVIMPSTUIMenuExtension()
     {   
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::~CVIMPSTUIMenuExtension");
+	TRACER_AUTO;
     iCommandIdMap.ResetAndDestroy();
     //iCommandIdMap.Close();
     // Reset and destroy the contents of the owned arrays,
@@ -102,7 +100,7 @@ CVIMPSTUIMenuExtension::~CVIMPSTUIMenuExtension()
     
     // Close the ECOM interface
     REComSession::FinalClose();
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::~CVIMPSTUIMenuExtension");
+    
     }
  
 // ----------------------------------------------------------------------------
@@ -113,19 +111,19 @@ CVIMPSTUIMenuExtension::~CVIMPSTUIMenuExtension()
 //
 void CVIMPSTUIMenuExtension::LoadPluginL( )
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::LoadPluginL");
+	TRACER_AUTO;
     // plugininfo array, Owned
     RImplInfoPtrArray pluginInfo;
     iPlugins.ResetAndDestroy();
     REComSession::ListImplementationsL( KMenuCustomisationInterfaceUid,pluginInfo );
     TInt pluginCount = pluginInfo.Count();
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUIMenuExtension::LoadPluginL -->plugincount: %d" ),pluginCount );      
+    TRACE("plugincount: %d" ,pluginCount );      
 
     for ( TInt pluginIndex(0); pluginIndex < pluginCount; ++pluginIndex )
         {
-        CHAT_DP( D_CHAT_LIT("Inside for loop" ) );      
+        TRACE("Inside for loop"  );      
         TUid pluginUid = pluginInfo[pluginIndex]->ImplementationUid();
-        CHAT_DP( D_CHAT_LIT("CVIMPSTUIMenuExtension::LoadPluginL -->ImplementationUid: %u" ),pluginUid.iUid );
+        TRACE("ImplementationUid: %u" ,pluginUid.iUid );
         // Creates the plugin and transfers ownership of the services
         // object to the plugin.
         CMenuExtension* plugin = NULL;
@@ -134,20 +132,20 @@ void CVIMPSTUIMenuExtension::LoadPluginL( )
         if(KErrNone != error)
             {
             // handle the error here.
-            CHAT_DP( D_CHAT_LIT("error loading the plugin error: %d" ),error ); 
+        TRACE("error loading the plugin error: %d" ,error ); 
             }
         else
             {
-            CHAT_DP( D_CHAT_LIT("plugin loaded sucessfully" ) ); 
+        TRACE("plugin loaded sucessfully"  ); 
             //if its here its sure that plugin is not null;
             CleanupStack::PushL( plugin);
             
-            CHAT_DP( D_CHAT_LIT("before mapcommandl" ) ); 
+            TRACE("before mapcommandl"  ); 
             //map the plugin commands to servicetab commands,
             //assings the command maintained in the commandpool,
             //for more details see 
             MapCommandL(*plugin,pluginUid.iUid);
-            CHAT_DP( D_CHAT_LIT("after mapcommandl" ) ); 
+            TRACE("after mapcommandl"  ); 
             
             //add the plugin to the array
             CPluginInfo* newPlugin = new ( ELeave ) CVIMPSTUIMenuExtension::CPluginInfo( plugin, pluginUid);    
@@ -161,7 +159,7 @@ void CVIMPSTUIMenuExtension::LoadPluginL( )
         }
     pluginInfo.ResetAndDestroy();
     pluginInfo.Close();
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::LoadPluginL");
+    
 
     }
 
@@ -173,31 +171,30 @@ void CVIMPSTUIMenuExtension::LoadPluginL( )
 //
 void CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins(TInt aPreviousId, CEikMenuPane& aMenuPane,TUint aServiceId)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins");
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins --> aServiceId : %u" ), aServiceId ); 
+	TRACER_AUTO;
+	TRACE(" aServiceId : %u" , aServiceId ); 
 
     iMenuPane = &aMenuPane;
     // Get the number of  plugins
     const TInt count = iPlugins.Count();
-    CHAT_DP( D_CHAT_LIT("CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins --> count : %d" ), count ); 
+    TRACE(" count : %d" , count ); 
     // Loop though all the command handlers, If DynInitMenuPaneL leaves for one plugin, a plugin
     // error message will be displayed and the loop will continue with
     // the next command handler. If none of the plugins leave, there will
     // be only one TRAP used.
     for ( TInt index = 0; index < count; ++index )
         {
-        CHAT_DP( D_CHAT_LIT("inside for loop" ) ); 
+    TRACE("inside for loop"  ); 
         //trap is required if one plugin leaves then it should continue with other plugins.
         TRAPD(error,iPlugins[index]->Plugin().DynInitMenuPaneL( aPreviousId,
                                                              aMenuPane,aServiceId,*this ));
         if(KErrNone != error)
             {
             //display the appropriate error note for leaving;
-            CHAT_DP( D_CHAT_LIT("error by one of plugind dyninitmenupanel" ) ); 
+        TRACE("error by one of plugind dyninitmenupanel"  ); 
             }
       
         }
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins");
 
     }
 // ----------------------------------------------------------------------------
@@ -207,11 +204,11 @@ void CVIMPSTUIMenuExtension::OfferMenuPaneToPlugins(TInt aPreviousId, CEikMenuPa
 //
 TBool CVIMPSTUIMenuExtension::OfferHandleCommandToPlugins(TInt aCommandId)
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::OfferHandleCommandToPlugins");
+	TRACER_AUTO;
 
      //Get the number of plugins loaded
      const TInt count = iPlugins.Count();
-     CHAT_DP( D_CHAT_LIT("CVIMPSTUIMenuExtension::OfferHandleCommandToPlugins -->count : %d" ),count ); 
+     TRACE("count : %d" ,count ); 
 
      TBool retval = EFalse;
      // Loop though all the command handlers, 
@@ -228,7 +225,7 @@ TBool CVIMPSTUIMenuExtension::OfferHandleCommandToPlugins(TInt aCommandId)
              // Report a problem with plugin.
              }
          }
-     CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::OfferHandleCommandToPlugins");
+     
 
      return retval;
     }
@@ -245,8 +242,7 @@ CVIMPSTUIMenuExtension::CPluginInfo::CPluginInfo(
     : iPlugin( aPlugin ),
       iPluginUid( aPluginUid )
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::CPluginInfo::CPluginInfo");
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::CPluginInfo::CPluginInfo");
+	TRACER_AUTO;
 
     }
 // ----------------------------------------------------------------------------
@@ -257,9 +253,9 @@ CVIMPSTUIMenuExtension::CPluginInfo::CPluginInfo(
 //
 CVIMPSTUIMenuExtension::CPluginInfo::~CPluginInfo() 
     {
-     CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::LoadPluginL");
+	TRACER_AUTO;
      delete iPlugin;
-     CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::LoadPluginL");
+     
     }
     
 // ----------------------------------------------------------------------------
@@ -270,8 +266,7 @@ CVIMPSTUIMenuExtension::CPluginInfo::~CPluginInfo()
 //
 CMenuExtension& CVIMPSTUIMenuExtension::CPluginInfo::Plugin()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::CPluginInfo::Plugin");
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::CPluginInfo::Plugin");
+	TRACER_AUTO;
      return *iPlugin;
     }
 
@@ -283,7 +278,7 @@ CMenuExtension& CVIMPSTUIMenuExtension::CPluginInfo::Plugin()
 // 
 void CVIMPSTUIMenuExtension::MapCommandL( CMenuExtension& aMenuExtension, TInt32  aPluginId )
     { 
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::MapCommandL");
+	TRACER_AUTO;
 
     TInt res = aMenuExtension.CommandInfoResource();
     if( res != KErrNotFound )
@@ -304,7 +299,7 @@ void CVIMPSTUIMenuExtension::MapCommandL( CMenuExtension& aMenuExtension, TInt32
         aMenuExtension.RegisterCommandMapper( *this );
        
         }
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::MapCommandL");
+   
                             
     }
 // ----------------------------------------------------------------------------
@@ -316,7 +311,7 @@ void CVIMPSTUIMenuExtension::MapCommandL( CMenuExtension& aMenuExtension, TInt32
 TInt CVIMPSTUIMenuExtension::GetOldCommand( TInt32 aPluginId, TInt aNewCommand,
                                     TInt& aOldCommand ) const
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::GetOldCommand");
+	TRACER_AUTO;
 
     TInt mapCount = iCommandIdMap.Count();
     TInt err( KErrNotFound );
@@ -331,7 +326,7 @@ TInt CVIMPSTUIMenuExtension::GetOldCommand( TInt32 aPluginId, TInt aNewCommand,
             break;
             }
         }  
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::GetOldCommand");
+    
 
     return err;
     }
@@ -344,7 +339,7 @@ TInt CVIMPSTUIMenuExtension::GetOldCommand( TInt32 aPluginId, TInt aNewCommand,
 TInt CVIMPSTUIMenuExtension::GetNewCommand( TInt32 aPluginId, TInt aOldCommand,
                                     TInt& aNewCommand ) const
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUIMenuExtension::GetNewCommand");
+	TRACER_AUTO;
 
     TInt mapCount = iCommandIdMap.Count();
     TInt err( KErrNotFound );
@@ -359,7 +354,7 @@ TInt CVIMPSTUIMenuExtension::GetNewCommand( TInt32 aPluginId, TInt aOldCommand,
             break;
             }
         }   
-    CHAT_DP_FUNC_DONE("CVIMPSTUIMenuExtension::GetNewCommand");
+   
 
     return err; 
     }
@@ -369,6 +364,7 @@ TInt CVIMPSTUIMenuExtension::GetNewCommand( TInt32 aPluginId, TInt aOldCommand,
 //
 void CVIMPSTUIMenuExtension::AddToAIWCommandMap(TInt aOriginalCommand, TInt aNewCommand)
     {
+	TRACER_AUTO;
     TAIWCommandMapTableItem *item = new TAIWCommandMapTableItem();
     item->iOriginalCmd = aOriginalCommand;
     item->iNewCmd = aNewCommand;
@@ -380,6 +376,7 @@ void CVIMPSTUIMenuExtension::AddToAIWCommandMap(TInt aOriginalCommand, TInt aNew
 //
 TInt CVIMPSTUIMenuExtension::GetNewAIWCommand(TInt aOriginalCommand)
     {
+	TRACER_AUTO;
     TInt count = iAIWCommandMap.Count();
     for( TInt i=0 ; i<count ; i++ )
         {
@@ -405,6 +402,7 @@ void CVIMPSTUIMenuExtension::ResetAIWCommandMap()
 //
 void CVIMPSTUIMenuExtension::SetAIWItemDimmed(TInt aCommand, TBool aHide)
     {
+	TRACER_AUTO;
     TInt cmd = GetNewAIWCommand(aCommand);
     if(cmd != KErrNotFound)
         iMenuPane->SetItemDimmed(cmd,aHide);

@@ -28,6 +28,7 @@
 #include <vimpstuires.rsg>
 
 #include <MPbk2KeyEventHandler.h>
+#include "uiservicetabtracer.h"
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -55,6 +56,7 @@ CVIMPSTUiBlockViewControl::CVIMPSTUiBlockViewControl( CVIMPSTUiBlockView& aBlock
 //
 void CVIMPSTUiBlockViewControl::ConstructL()
     {
+	TRACER_AUTO;
     CreateWindowL();
     iItemArray = new ( ELeave ) CDesCArrayFlat( KArrayGranularity );   
     // Create listbox
@@ -201,6 +203,7 @@ CCoeControl* CVIMPSTUiBlockViewControl::ComponentControl( TInt aIndex ) const
 //
 void CVIMPSTUiBlockViewControl::UpdateBlockedListL()
     {
+	TRACER_AUTO;
 	iItemArray->Reset();
 	
 	TInt granularity( iItemArray->Count() );
@@ -269,6 +272,7 @@ CEikListBox* CVIMPSTUiBlockViewControl::ListBox() const
 //
 HBufC* CVIMPSTUiBlockViewControl::GetFocusedContactLC() const
 	{
+	TRACER_AUTO;
 	HBufC* retText = NULL;
 	TInt curIndex = iListBox->CurrentItemIndex();
 	if(KErrNotFound != curIndex)
@@ -302,6 +306,7 @@ TInt CVIMPSTUiBlockViewControl::GetCurrentIndex() const
 //
 void CVIMPSTUiBlockViewControl::SetCurrentIndex(TInt aIndex)
 	{
+	TRACER_AUTO;
 	if(aIndex>0)
 		{
 	    TInt blockedCount = iListBox->Model()->NumberOfItems();
@@ -321,6 +326,7 @@ void CVIMPSTUiBlockViewControl::SetCurrentIndex(TInt aIndex)
 //
 void CVIMPSTUiBlockViewControl::UpdateCbaL()
     {
+	TRACER_AUTO;
     TInt cbaRes = R_SERVTAB_SOFTKEYS_EMPTY_EMPTY__BACK;    
     if ( !iCba ) 
 	    {
@@ -343,6 +349,7 @@ void CVIMPSTUiBlockViewControl::UpdateCbaL()
 TKeyResponse CVIMPSTUiBlockViewControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 													TEventCode aType )
 	{
+	TRACER_AUTO;
 	if ( !aKeyEvent.iCode ) 
 	        {
 	        //The character code generated 
@@ -409,6 +416,7 @@ TKeyResponse CVIMPSTUiBlockViewControl::OfferKeyEventL( const TKeyEvent& aKeyEve
 //
 void CVIMPSTUiBlockViewControl::SetEmptyTextsToListboxL()
     {    
+	TRACER_AUTO;
     HBufC* emptyFinal = VIMPSTUtils::LoadResourceL(R_SERVTAB_BLOCKLIST_BKGD);
     CleanupStack::PushL(emptyFinal);
     iListBox->View()->SetListEmptyTextL( *emptyFinal );
@@ -421,7 +429,8 @@ void CVIMPSTUiBlockViewControl::SetEmptyTextsToListboxL()
 // ---------------------------------------------------------------------------
 //
 void CVIMPSTUiBlockViewControl::SetUpdatingTextsToListboxL()
-    {    
+    {   
+	TRACER_AUTO;
     HBufC* updating = VIMPSTUtils::LoadResourceL(R_SERVTAB_BLOCKLIST_BKGDTO);
     CleanupStack::PushL(updating);
     iListBox->View()->SetListEmptyTextL( *updating );

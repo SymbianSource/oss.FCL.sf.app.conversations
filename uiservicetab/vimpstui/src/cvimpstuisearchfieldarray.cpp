@@ -27,6 +27,7 @@
 #include <eikcapc.h>
 #include <eikedwin.h>
 #include <AknUtils.h>
+#include "uiservicetabtracer.h"
 
 // --------------------------------------------------------------------------
 // CVIMPSTUiSearchFieldArray::CVIMPSTUiSearchFieldArray
@@ -78,6 +79,7 @@ TInt CVIMPSTUiSearchFieldArray::CreateFieldsL( const TDesC& aLebal,
 											TIMPSTSearchFieldTypes aFieldType /*= EIMAdvancedSearch*/, 
 											TVIMPSTEnums::TVIMPSTSearchKey aSearchKey/* = EVIMPSTSearchKeyUknown*/  )
     {
+	TRACER_AUTO;
     MVIMPSTUiSearchField* newField = CVIMPSTUiSearchField::NewL( aLebal, aFieldDataType, aFieldType , aSearchKey);
     
     iFieldArray.Append( newField ); // ownership to array
@@ -94,6 +96,7 @@ TInt CVIMPSTUiSearchFieldArray::InsertFieldsL(TInt aIndex, const TDesC& aLebal,
 											TIMPSTSearchFieldTypes aFieldType /*= EIMAdvancedSearch*/, 
 											TVIMPSTEnums::TVIMPSTSearchKey aSearchKey/* = EVIMPSTSearchKeyUknown*/ )
     {
+	TRACER_AUTO;
     MVIMPSTUiSearchField* newField = CVIMPSTUiSearchField::NewL( aLebal, aFieldDataType, aFieldType, aSearchKey );
     
     iFieldArray.InsertL( newField ,aIndex); // ownership to array
@@ -106,6 +109,7 @@ TInt CVIMPSTUiSearchFieldArray::InsertFieldsL(TInt aIndex, const TDesC& aLebal,
 //
 TBool CVIMPSTUiSearchFieldArray::AreAllUiFieldsEmpty() const
     {
+	TRACER_AUTO;
     const TInt count = iFieldArray.Count();
     
     for(TInt i = 0; i < count; ++i)
@@ -126,6 +130,7 @@ TBool CVIMPSTUiSearchFieldArray::AreAllUiFieldsEmpty() const
 //
 TBool CVIMPSTUiSearchFieldArray::AreAllUiControlsEmptyL() const
     {
+	TRACER_AUTO;
     const TInt count = iFieldArray.Count();
     
     for(TInt i = 0; i < count; ++i)
@@ -146,6 +151,7 @@ TBool CVIMPSTUiSearchFieldArray::AreAllUiControlsEmptyL() const
 //
 void CVIMPSTUiSearchFieldArray::ResetFieldData() 
     {
+	TRACER_AUTO;
     const TInt count = iFieldArray.Count();
    
     for(TInt i = 0; i < count; ++i)
@@ -166,6 +172,7 @@ void CVIMPSTUiSearchFieldArray::ResetFieldData()
 //
 void CVIMPSTUiSearchFieldArray::CreateUiFieldsFromArrayL(MVIMPSTSearchUiBuilder& aUiBuilder )
 	{
+	TRACER_AUTO;
 	iUiBuilder = NULL; 
 	iUiBuilder = &aUiBuilder;
 	
@@ -185,6 +192,7 @@ void CVIMPSTUiSearchFieldArray::CreateUiFieldsFromArrayL(MVIMPSTSearchUiBuilder&
 //
 void CVIMPSTUiSearchFieldArray::CreateUiFieldsL(MVIMPSTUiSearchField& aField )
 	{
+	TRACER_AUTO;
 	switch( aField.FieldDataType() )
 		{
 
@@ -251,6 +259,7 @@ void CVIMPSTUiSearchFieldArray::CreateUiFieldsL(MVIMPSTUiSearchField& aField )
 //
 void CVIMPSTUiSearchFieldArray::SetFocusL(TInt aFieldIndex )
     {
+	TRACER_AUTO;
     if (aFieldIndex >= 0 && aFieldIndex < iFieldArray.Count() && iUiBuilder )
         {
         MVIMPSTUiSearchField& field = At( aFieldIndex);
@@ -266,6 +275,7 @@ void CVIMPSTUiSearchFieldArray::SetFocusL(TInt aFieldIndex )
 //
 TPtrC CVIMPSTUiSearchFieldArray::GetFirstEnteredFieldDataL()
     {
+	TRACER_AUTO;
     const TInt count = iFieldArray.Count();
     
     for(TInt i = 0; i < count; ++i)
@@ -287,6 +297,7 @@ TPtrC CVIMPSTUiSearchFieldArray::GetFirstEnteredFieldDataL()
 //
 void CVIMPSTUiSearchFieldArray::GetSearchKeyDataL(RArray<TVIMPSTSearchKeyData>& aKeyDataArray )
     {
+	TRACER_AUTO;
     const TInt count = iFieldArray.Count();
     TPtrC dataPtr(KNullDesC );
     for(TInt i = 0; i < count; ++i)

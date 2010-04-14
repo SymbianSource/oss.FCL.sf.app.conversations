@@ -50,7 +50,9 @@
 // system include
 #include <e32property.h>
 #include <s32mem.h>
-#include "vimpstdebugtrace.h"
+
+
+#include "uiservicetabtracer.h"
 #include "vimpstutils.h"
 
 // ======== LOCAL FUNCTIONS ========
@@ -68,6 +70,7 @@ CVIMPSTDetailsContactHandler* CVIMPSTDetailsContactHandler::NewL( MCCAParameter&
 																 TUint aserviceId
 																 )
 	{
+	TRACER_AUTO;
 	CVIMPSTDetailsContactHandler* self =
 	    new(ELeave) CVIMPSTDetailsContactHandler( aObserver, aserviceId );
 	CleanupStack::PushL(self);
@@ -82,7 +85,8 @@ CVIMPSTDetailsContactHandler* CVIMPSTDetailsContactHandler::NewL( MCCAParameter&
 //
 CVIMPSTDetailsContactHandler::~CVIMPSTDetailsContactHandler()
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() start") );
+
+	TRACER_AUTO;
 	Cancel();
 	if (iWait.IsStarted())
 	    {
@@ -94,19 +98,21 @@ CVIMPSTDetailsContactHandler::~CVIMPSTDetailsContactHandler()
 	delete iStoreContact;
 	if (iStoreList)
 		{
-		TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() calling store close") );
+	
+	    TRACE("calling store close");
 		iStoreList->CloseAll(*this);
 		iStoreList = NULL;
 		}
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() iStoreList deleted") );
+	TRACE("iStoreList deleted");
 	delete iServiceStoreUri;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() iServiceStoreUri deleted") );
+	TRACE("iServiceStoreUri deleted");
 	delete iContactManager;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() iContactManager deleted") );
+	TRACE("iContactManager deleted");
 	delete iServiceName;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() iServiceName deleted") );
+	TRACE("iServiceName deleted");
 	delete iIdConverter;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: ~CVIMPSTDetailsContactHandler() end") );
+
+	
 	}
 
 // ---------------------------------------------------------------------------
@@ -129,7 +135,8 @@ CVIMPSTDetailsContactHandler::CVIMPSTDetailsContactHandler(
 //
 void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const TDesC& aServiceStoreUri,const TDesC& aServiceName )
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::ConstructL start") );
+
+	TRACER_AUTO;
 	CVPbkContactStoreUriArray* uriArray = CVPbkContactStoreUriArray::NewLC();
 	TUid launchUid = TUid::Null() ;	
 	iServiceStoreUri = aServiceStoreUri.AllocL();
@@ -155,7 +162,7 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
             {
             TPtr serviceStoreNamePtr = iServiceStoreUri->Des(); 
             uriArray->AppendL( TVPbkContactStoreUriPtr( serviceStoreNamePtr ) );
-            TRACED( T_LIT("ServiceStoreUriL() - storename3: %S"), &serviceStoreNamePtr );
+	    TRACE("ServiceStoreUriL() - storename3: %S", &serviceStoreNamePtr);
             }
 		}
 
@@ -171,7 +178,7 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
 	const TInt versionNumber = readStream.ReadUint8L();
 
 	TInt uriCount = readStream.ReadUint16L();
-	TRACED( T_LIT("ServiceStoreUriL() - uriCount = %d"),uriCount );
+	TRACE("ServiceStoreUriL() - uriCount = %d", uriCount);
 	// Read URIs
 	for ( TInt i = 0; i < uriCount; ++i )
 	    {
@@ -182,7 +189,7 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
 	    if( uriPtr.Length() > 0 )
 	        {
 	        uriArray->AppendL( TVPbkContactStoreUriPtr( uriPtr ) );
-	        TRACED( T_LIT("ServiceStoreUriL() - storename4: %S"), &uriPtr );
+	        TRACE("ServiceStoreUriL() - storename4: %S", &uriPtr);
 	        }
 	    CleanupStack::PopAndDestroy( uriBuffer );
 	    }
@@ -206,7 +213,7 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
         MVPbkContactStore* contactStore =  iStoreList->Find(TVPbkContactStoreUriPtr(contactdb));
         iIdConverter = CVPbkContactIdConverter::NewL(*contactStore);
         }
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler::ConstructL end") );
+  
 	}
 
 
@@ -216,6 +223,7 @@ void CVIMPSTDetailsContactHandler::ConstructL( MCCAParameter& aParameter ,const 
 //
 HBufC* CVIMPSTDetailsContactHandler::GetDisplayNameLC()
     {
+	TRACER_AUTO;
     HBufC* firstName = KNullDesC().AllocL();
     HBufC* lastName = KNullDesC().AllocL();
     HBufC* retValue = NULL;   
@@ -285,11 +293,12 @@ HBufC* CVIMPSTDetailsContactHandler::GetDisplayNameLC()
 void CVIMPSTDetailsContactHandler::SetLinks(
     		MVPbkContactLinkArray* aLinks, TBool aReadXspId )
 	{
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler::SetLinks start") );
+   
+	TRACER_AUTO;
     delete iLinks;
 	iLinks = NULL; 
 	iLinks = aLinks;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::SetLinks iLinks deleted ") );
+	TRACE("iLinks deleted");
 	iCurrentLink = NULL;
 	
 	iReadXspId = aReadXspId;	
@@ -297,11 +306,11 @@ void CVIMPSTDetailsContactHandler::SetLinks(
     	{
         delete iRetrieveOperation;
         iRetrieveOperation = NULL;
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler::SetLinks iRetrieveOperation deleted ") );
+        TRACE("iRetrieveOperation deleted");
     	}
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::SetLinks calling issue request") );
+	TRACE("calling issue request");
 	IssueRequest();
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::SetLinks end") );
+
 	}
 
 // ---------------------------------------------------------------------------
@@ -349,19 +358,19 @@ TStoreType CVIMPSTDetailsContactHandler::StoreType()
 //
 void CVIMPSTDetailsContactHandler::CancelOngoingRequest()
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: CancelOngoingRequest() start ") );
+	TRACER_AUTO;
 	delete iRetrieveOperation;
 	iRetrieveOperation = NULL;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: CancelOngoingRequest() iRetrieveOperation deleted ") );
+	TRACE("iRetrieveOperation deleted");
 	delete iXSPUserId;
 	iXSPUserId = NULL;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: CancelOngoingRequest() iXSPUserId deleted ") );
+	TRACE("iXSPUserId deleted");
 	delete iStoreContact;
 	iStoreContact = NULL;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: CancelOngoingRequest() iStoreContact deleted ") );
+	TRACE("iStoreContact deleted");
 	delete iLinks;
 	iLinks = NULL;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: CancelOngoingRequest() end ") );
+
 	}
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsContactHandler::RunL
@@ -369,27 +378,28 @@ void CVIMPSTDetailsContactHandler::CancelOngoingRequest()
 //
 void CVIMPSTDetailsContactHandler::RunL()
     {
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() start ") );
+   
+	TRACER_AUTO;
     TInt index = 0;
     if (iLinks && iCurrentLink )
         {
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() next link ") );
+		TRACE("next link");
         index = iLinks->Find(*iCurrentLink) + 1;
         }
     if ( iLinks && index < iLinks->Count() )
         {
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() calling retrive ") );
+		  TRACE("calling retrive"); 
         // will get called until the index become equal to count
         iCurrentLink = &iLinks->At(index);            
         TRAPD( err, iRetrieveOperation = iContactManager->RetrieveContactL(*iCurrentLink, *this) );       
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() retrive called  err = %d"),err );
+        TRACE("retrive called  err = %d", err);
         }
     else
         {
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() job finished ") );
+		TRACE("job finished");
         iCurrentLink = NULL;
         }
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler:: RunL() end ") );
+  
     }
 
 // ---------------------------------------------------------------------------
@@ -418,7 +428,7 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
     MVPbkContactOperationBase& /*aOperation*/,
     MVPbkStoreContact* aContact)
     {
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationComplete start ") );
+	TRACER_AUTO; 
     TBool isIssueReguest = ETrue;
     
     delete iRetrieveOperation;
@@ -446,7 +456,7 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
                     TPtrC scheme = MVPbkContactFieldUriData::Cast(fieldData).Scheme();
                     if(iServiceName->Compare(scheme) == 0)
                         {
-                        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: EVPbkFieldStorageTypeUri called ") );
+						TRACE("EVPbkFieldStorageTypeUri called");
                         const MVPbkContactFieldUriData& uri = MVPbkContactFieldUriData::Cast(fieldData);
                         HBufC* user = NULL;
                         delete iXSPUserId;
@@ -465,7 +475,7 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
                                 }
                             CleanupStack::PopAndDestroy();// user
                             }
-                        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: EVPbkFieldStorageTypeUri end  ") );
+                        TRACE("EVPbkFieldStorageTypeUri end");
                         );
                         break;
                         }
@@ -474,7 +484,8 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
             }
         if( iXSPUserId && iContactManager  )
             {
-            TRACED( T_LIT("CVIMPSTDetailsContactHandler:: search is called ") );
+       
+              TRACE("search is called");
             // call back api is not leaving function
             TRAP_IGNORE( iRetrieveOperation = iContactManager->FindL(*iXSPUserId, iContactManager->FieldTypes(),*this) );	
             isIssueReguest = EFalse;
@@ -487,7 +498,8 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
         }	
     else if( iStoreContact  )
         {
-        TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationComplete iStoreContact Valid ") );
+     
+         TRACE("iStoreContact Valid");
         TBool validLink = ETrue;
         if( iStoreType == EStoreLocal && iCurrentLink )
             {
@@ -497,12 +509,14 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
             }
         if( validLink )
             {
-            TRACED( T_LIT("CVIMPSTDetailsContactHandler::HandleContactReadyL ") );
+      
+			TRACE("HandleContactReadyL ");
             TRAP_IGNORE( iObserver.HandleContactReadyL( *iStoreContact ) ); 
             }
         else
             {
-            TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationComplete No data") );
+        
+			TRACE("No data ");
             TRAP_IGNORE( iObserver.HandleContactUnavailableL() ); 
             }
         }
@@ -510,7 +524,7 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationComplete(
         {
         IssueRequest();
         }
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationComplete end ") );
+  
     }
 
 // ---------------------------------------------------------------------------
@@ -521,7 +535,8 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationFailed(
     MVPbkContactOperationBase& /*aOperation*/,
     TInt /*aError*/)
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed satrt ") );
+
+	TRACER_AUTO;
 	delete iRetrieveOperation;
 	iRetrieveOperation = NULL;
 	
@@ -532,14 +547,16 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationFailed(
 		
 		if ( index >= iLinks->Count() )
 			{
-			TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL start") );
+	
+	    TRACE("calling HandleContactUnavailableL start ");
 			TRAP_IGNORE( iObserver.HandleContactUnavailableL() );
-			TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed calling HandleContactUnavailableL end ") );
+	
+		TRACE("calling HandleContactUnavailableL end");
 			return;
 			}
 	  }
 	IssueRequest();
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: VPbkSingleContactOperationFailed end ") );
+
 	}
 
 // ---------------------------------------------------------------------------
@@ -548,7 +565,8 @@ void CVIMPSTDetailsContactHandler::VPbkSingleContactOperationFailed(
 //
 void CVIMPSTDetailsContactHandler::FindCompleteL( MVPbkContactLinkArray* aResults )
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: FindCompleteL satrt ") );
+
+	TRACER_AUTO;
 	CVPbkContactLinkArray* linkArray = NULL;	
 	delete iRetrieveOperation;
 	iRetrieveOperation = NULL;	
@@ -562,20 +580,21 @@ void CVIMPSTDetailsContactHandler::FindCompleteL( MVPbkContactLinkArray* aResult
 			const MVPbkContactStoreProperties& storeProperty = store.StoreProperties();
 			if( storeProperty.Uri().UriDes().Compare( *iServiceStoreUri  ) == 0 )
 				{
-				TRACED( T_LIT("CVIMPSTDetailsContactHandler:: FindCompleteL one result found ") );
+			
+				TRACE("one result found ");
 			    linkArray = CVPbkContactLinkArray::NewLC();
 			    MVPbkContactLink* clone = link.CloneLC();
 			    // take ownership clone
 			    linkArray->AppendL(clone);
-			    CleanupStack::Pop(2); // clone, linkArray
-			    TRACED( T_LIT("CVIMPSTDetailsContactHandler:: FindCompleteL come out of loop ") );
+			    CleanupStack::Pop(2); // clone, linkArray			
+			    TRACE("come out of loop ");
 			    break;
 				}
 			}		
 		}	
 	delete aResults;
 	aResults = NULL;
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: FindCompleteL aResults deleted ") );
+	TRACE("aResults deleted ");
 	if( linkArray )
 		{
 		// take ownership linkArray
@@ -585,7 +604,7 @@ void CVIMPSTDetailsContactHandler::FindCompleteL( MVPbkContactLinkArray* aResult
 		{
 		iObserver.HandleContactUnavailableL();
 		}
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler:: FindCompleteL end ") );
+
 	}
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsContactHandler::
@@ -593,6 +612,7 @@ void CVIMPSTDetailsContactHandler::FindCompleteL( MVPbkContactLinkArray* aResult
 //
 void CVIMPSTDetailsContactHandler::FindFailed( TInt /*aError*/ )
 	{
+	TRACER_AUTO;
 	TRAP_IGNORE( iObserver.HandleContactUnavailableL() ); // takes ownership of contacts.	
 	}
 
@@ -616,12 +636,13 @@ void CVIMPSTDetailsContactHandler::IssueRequest(TInt aError)
 //
 void CVIMPSTDetailsContactHandler::OpenComplete()
     {
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler::OpenComplete start") );
+  
+	TRACER_AUTO;
     if (iWait.IsStarted())
         {
         iWait.AsyncStop();
         }
-    TRACED( T_LIT("CVIMPSTDetailsContactHandler::OpenComplete end") );
+  
     }
 
 // --------------------------------------------------------------------------
@@ -630,7 +651,8 @@ void CVIMPSTDetailsContactHandler::OpenComplete()
 //
 void CVIMPSTDetailsContactHandler::StoreReady(MVPbkContactStore& /*aContactStore*/ )
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::StoreReady") );
+
+	TRACER_AUTO;
 	}
 
 // --------------------------------------------------------------------------
@@ -641,12 +663,13 @@ void CVIMPSTDetailsContactHandler::StoreUnavailable(
 	MVPbkContactStore& /*aContactStore*/,
 	TInt /*aReason*/)
 	{
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::StoreUnavailable start") );
+
+	TRACER_AUTO;
 	if (iWait.IsStarted())
 		{
 		iWait.AsyncStop();
 		}
-	TRACED( T_LIT("CVIMPSTDetailsContactHandler::StoreUnavailable end") );
+
 	}
 
 // -------------------------------------------------------------------------
@@ -667,7 +690,8 @@ void CVIMPSTDetailsContactHandler::HandleStoreEventL(
 
 TBool CVIMPSTDetailsContactHandler::CheckWhetherValidLocalLinkL(
         const MVPbkContactLink& aCurrentLink )
-    {   
+    { 
+	TRACER_AUTO;
     TBool validLocalLink = EFalse;
     User::LeaveIfError( iFs.Connect() );
     // Open existing or create new database.
@@ -692,6 +716,7 @@ TBool CVIMPSTDetailsContactHandler::CheckWhetherValidLocalLinkL(
 //
 TBool CVIMPSTDetailsContactHandler::DbExists()
     {
+	TRACER_AUTO;
     TBuf<512> dbName;    
     RFile temp;
     TBuf< KMaxPath > storagePath;
@@ -727,7 +752,8 @@ TBool CVIMPSTDetailsContactHandler::DbExists()
 // -----------------------------------------------------------
 //
 void CVIMPSTDetailsContactHandler::OpenDbL()
-    {    
+    {  
+	TRACER_AUTO;
     TBuf< KMaxPath > storagePath;
     TBuf<512> dbName;    
     dbName.Append( iServiceName->Des() );
@@ -760,7 +786,8 @@ void CVIMPSTDetailsContactHandler::CloseDb()
 // ----------------------------------------------------------
 //
 TBool CVIMPSTDetailsContactHandler::SeekRowL( TDbColNo aColNo, TInt32& aIdentifier )
-    {    
+    {  
+	TRACER_AUTO;
     TBool ret = EFalse;
     iTable.BeginningL();
     while ( iTable.NextL() )
@@ -780,7 +807,8 @@ TBool CVIMPSTDetailsContactHandler::SeekRowL( TDbColNo aColNo, TInt32& aIdentifi
 // ----------------------------------------------------------
 //
 void CVIMPSTDetailsContactHandler::OpenTableL()
-    {    
+    {  
+	TRACER_AUTO;
     TInt err( iTable.Open( iDb, KContactTable ) );
     if ( err != KErrNone )
         {

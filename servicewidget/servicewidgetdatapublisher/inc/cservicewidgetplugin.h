@@ -23,7 +23,7 @@
 #include <contentharvesterplugin.h>
 #include <contentharvesterpluginuids.hrh>
 #include <mspnotifychangeobserver.h>
-#include <aipropertyextension.h>
+//#include <aipropertyextension.h>
 #include "mservicewidgetobservers.h"
 #include<badesca.h>
 // FORWARD DECLARATIONS
@@ -43,8 +43,8 @@ class CSPNotifyChange;
  
 class CServiceWidgetPlugin : public CContentHarvesterPlugin,
 							 public MSPNotifyChangeObserver,
-							 public MServiceWidgetEventObserver,
-							 public MAiPropertyExtension
+							 public MServiceWidgetEventObserver//,
+							 //public MAiPropertyExtension
 	{
 	friend class Cservicewidgetdatapublisher_ut;
 	public:
@@ -133,7 +133,7 @@ class CServiceWidgetPlugin : public CContentHarvesterPlugin,
 		    * @param aProperty - identification of property.
 		    * @return pointer to property value.
 		    */
-		    TAny* GetPropertyL( TInt aProperty );
+		    //TAny* GetPropertyL( TInt aProperty );
 
 		    /**
 		    * From MAiPropertyExtension.
@@ -142,7 +142,7 @@ class CServiceWidgetPlugin : public CContentHarvesterPlugin,
 		    * @param aProperty - identification of property.
 		    * @param aValue - contains pointer to property value.
 		    */
-		    void SetPropertyL( TInt aProperty, TAny* aValue );
+		    //void SetPropertyL( TInt aProperty, TAny* aValue );
 		
 		
 	private:  // Data members
@@ -161,7 +161,7 @@ class CServiceWidgetPlugin : public CContentHarvesterPlugin,
 	    // Own: service observer
 	    CSPNotifyChange* iSpNotifyChange; 
 	    // Information about the content publisher (this plug-in)
-	    TAiPublisherInfo iInfo;
+	    //TAiPublisherInfo iInfo;
 	};
 
 #endif  // CSERVICEWIDGETPLUGIN_H

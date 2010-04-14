@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -60,6 +61,7 @@ CVIMPSTCmdCloseConversation* CVIMPSTCmdCloseConversation::NewL( const TInt aComm
                                                                 const TDesC& aContactId,
                                                                 MVIMPSTEngine& aEngine )
     {
+	TRACER_AUTO;
     CVIMPSTCmdCloseConversation* self = new (ELeave ) CVIMPSTCmdCloseConversation( aCommandId ,aContactId, aEngine);
     self->ConstructL(); //use contsurctL if necessary
     return self;
@@ -79,7 +81,8 @@ void CVIMPSTCmdCloseConversation::ConstructL()
 //
 void CVIMPSTCmdCloseConversation::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdCloseConversation::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );
     
@@ -99,9 +102,9 @@ void CVIMPSTCmdCloseConversation::ExecuteLD()
         iObserver->CommandFinishedL(*this);
         }
     
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdCloseConversation:: CommandFinished");    
+     
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdCloseConversation::ExecuteLD");    
+    
     }
 
 

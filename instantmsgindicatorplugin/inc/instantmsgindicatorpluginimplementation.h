@@ -64,8 +64,11 @@ public:
 		 * @param aSeriveId, service id.
 		 * @param aSenderId, message sender id.
 		 * @param aMultipleSender, count of number of P-2_p chats.
+		 * @param aCloseConversation, indicates that this even came from closing the 
+		 * conversation and hence no need to paly the tone if there were already new messages.
 		 */
-     void MessageInfoL(TInt aNewMessages, TInt aSeriveId, const TDesC& aSenderId, TInt aMultipleSender);
+     void MessageInfoL(TInt aNewMessages, TInt aSeriveId, const TDesC& aSenderId, 
+                       TInt aMultipleSender,TBool aCloseConversation = EFalse);
  
 
     

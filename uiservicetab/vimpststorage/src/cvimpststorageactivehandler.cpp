@@ -20,7 +20,7 @@
 #include "cvimpststorageactivehandler.h"
 #include "mvimpststorageactiveobserver.h"
 
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include <e32base.h>
 
 // CONSTANTS
@@ -59,6 +59,7 @@ void CVIMPSTStorageActiveHandler::ConstructL()
 CVIMPSTStorageActiveHandler* CVIMPSTStorageActiveHandler::NewL( 
 					MVIMPSTStorageActiveObserver* aObserver )
     {
+	TRACER_AUTO;
     CVIMPSTStorageActiveHandler* self = new( ELeave ) CVIMPSTStorageActiveHandler( aObserver );
 	CleanupStack::PushL( self );
     self->ConstructL();
@@ -81,7 +82,7 @@ void CVIMPSTStorageActiveHandler::IssueRequest(TVIMPSTEnums::TVIMPSTStorgaeEvent
 					                          MVIMPSTStorageContact* aContact,
 					                          TInt aContactIndex )
 	{
-	TRACE( T_LIT("CVIMPSTStorageActiveHandler::IssueRequest() begin") );
+	TRACER_AUTO;
 	
 	 if( IsActive() )
         {
@@ -94,7 +95,6 @@ void CVIMPSTStorageActiveHandler::IssueRequest(TVIMPSTEnums::TVIMPSTStorgaeEvent
 	iList = aList ; 
 	iContact = aContact ;
 	iContactIndex = aContactIndex;
-	TRACE( T_LIT("CVIMPSTStorageActiveHandler::IssueRequest() end") );
 	}
 
 // -----------------------------------------------------------------------------
@@ -104,10 +104,10 @@ void CVIMPSTStorageActiveHandler::IssueRequest(TVIMPSTEnums::TVIMPSTStorgaeEvent
 //
 void CVIMPSTStorageActiveHandler::RunL()
 	{
-	TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunL() begin") );
+	TRACER_AUTO;
 	if( iObserver )
 		{
-		TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunL() send notification") );
+	TRACE( "send notification" );
 		TInt status( iStatus.Int() );
 	    if( status != KErrCancel )
             {
@@ -118,9 +118,8 @@ void CVIMPSTStorageActiveHandler::RunL()
             }
             
         
-		TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunL() notification sent") );
+	    TRACE( " notification sent" );
 		}
-    TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunL() end") );
 	}
 
 // ---------------------------------------------------------
@@ -130,7 +129,7 @@ void CVIMPSTStorageActiveHandler::RunL()
 //
 TInt CVIMPSTStorageActiveHandler::RunError( TInt aError )
 	{
-	TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunError() begin") );
+	TRACER_AUTO;
 	if( iObserver )
 		{
 	    TRAP_IGNORE( iObserver->HandleDelayedNotificationL(iEventType,
@@ -138,7 +137,6 @@ TInt CVIMPSTStorageActiveHandler::RunError( TInt aError )
 											iContact,
 											iContactIndex ) );
         }
-    TRACE( T_LIT("CVIMPSTStorageActiveHandler::RunError() End ") );
 	return aError;
 	}
 // ---------------------------------------------------------

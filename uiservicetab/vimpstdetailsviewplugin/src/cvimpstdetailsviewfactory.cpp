@@ -24,7 +24,8 @@
 
 #include "cvimpstdetailsviewpluginfactory.h"
 #include "cvimpstdetailsviewplugin.h"
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 // meco service uid
 #define KMECOIMPLEMENTATIONUID 0x20012423
 // ---------------------------------------------------------------------------
@@ -55,7 +56,8 @@ CVIMPSTDetailsViewPluginFactory::CVIMPSTDetailsViewPluginFactory():
 //
 void CVIMPSTDetailsViewPluginFactory::ConstructL()
     {
-    TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::ConstructL() start") );
+	TRACER_AUTO;
+
     RProperty::Define(KMeCoPropertyUid, KMeCoXSPDetailsServiceIdKey, RProperty::EInt,
                              ECapabilityReadUserData ,ECapabilityWriteUserData); 
     
@@ -64,7 +66,7 @@ void CVIMPSTDetailsViewPluginFactory::ConstructL()
         {
         User::Leave(KErrArgument);
         }
-    TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::ConstructL() end") );
+
     }
 // ---------------------------------------------------------------------------
 // CVIMPSTDetailsViewPluginFactory::~CVIMPSTDetailsViewPluginFactory
@@ -83,17 +85,18 @@ CVIMPSTDetailsViewPluginFactory::~CVIMPSTDetailsViewPluginFactory()
 //
 TInt CVIMPSTDetailsViewPluginFactory::TabViewCount()
     {
+	TRACER_AUTO;
     // read the service id from RProperty
     RProperty::Get(KMeCoPropertyUid, KMeCoXSPDetailsServiceIdKey, iServiceId ); 
     TInt returnVal = 0;
     if( iServiceId <= 0 )
-        {
-        TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::TabViewCount() iservice <=0") );
+        {     
+        TRACE("iservice <=0");
         return iServiceIds.Count();
         }
     else
-        {
-        TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::TabViewCount() iservice > 0") );
+        {     
+        TRACE("iservice > 0"); 
         iServiceIds.Reset();
         iServiceIds.Append( iServiceId );
         returnVal = 1;
@@ -107,20 +110,21 @@ TInt CVIMPSTDetailsViewPluginFactory::TabViewCount()
 //
 CCCAppViewPluginBase* CVIMPSTDetailsViewPluginFactory::CreateTabViewL( TInt aIndex )
     {
-    TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::CreateTabViewL() start") );
-    TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::CreateTabViewL() aIndex = %d"),aIndex );
+	TRACER_AUTO;
+  
+	TRACE("aIndex = %d", aIndex);
     CCCAppViewPluginBase* viewPluginBase = NULL;    
     if( aIndex < iServiceIds.Count() && aIndex >= 0 )
         {
-        TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::CreateTabViewL() creating view aIndex = %d"),aIndex );
+		TRACE("creating view aIndex = %d", aIndex);
         viewPluginBase = CVIMPSTDetailsViewPlugin::NewL( iServiceIds[aIndex]);
-        TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::CreateTabViewL() view created") );
+        TRACE("view created"); 
         }
     else
         {
         User::Leave(KErrArgument);
         }   
-    TRACED( T_LIT("CVIMPSTDetailsViewPluginFactory::CreateTabViewL() end ") );
+  
     return viewPluginBase;
     }
  
@@ -130,6 +134,7 @@ CCCAppViewPluginBase* CVIMPSTDetailsViewPluginFactory::CreateTabViewL( TInt aInd
 // 
 TInt CVIMPSTDetailsViewPluginFactory::ReadServiceIdL()
     {
+	TRACER_AUTO;
     CSPSettings* settings = CSPSettings::NewLC();
     iServiceIds.Reset();
     ///////////////////////Get Service Id////////////////    

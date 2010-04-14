@@ -27,7 +27,7 @@
 #include "cvimpstuisearchview.h"
 #include "vimpstui.hrh"
 #include "vimpstutilsdialog.h"
-#include    "vimpstdebugprint.h" 
+#include "uiservicetabtracer.h"
 // imlauncher
 #include <imcvlauncher.h>
 
@@ -225,6 +225,7 @@ void CVIMPSTUiSearchViewControl::SetSearchingTextToListboxL()
 void CVIMPSTUiSearchViewControl::HandleListBoxEventL( CEikListBox* /*aListBox*/,
 												 TListBoxEvent aEventType )
     {
+	TRACER_AUTO;
     switch(aEventType)
         {
 
@@ -288,6 +289,7 @@ void CVIMPSTUiSearchViewControl::HandleListBoxEventL( CEikListBox* /*aListBox*/,
 // ---------------------------------------------------------
 void CVIMPSTUiSearchViewControl::OpenConversationL(const TDesC& aContactId )
 	{
+	TRACER_AUTO;
 	MVIMPSTProcessArray& arrayProcess = iCommandHandler.GetProcessInterface();
 	TInt indexInTabbedView = arrayProcess.FindContactIndexL( aContactId );
 	TInt result = EAknSoftkeyOk;
@@ -336,6 +338,7 @@ void CVIMPSTUiSearchViewControl::OpenConversationL(const TDesC& aContactId )
 //
 void CVIMPSTUiSearchViewControl::SizeChanged()
 	{
+	TRACER_AUTO;
 	if ( iListBox )
         {
         iListBox->SetRect(Rect());
@@ -381,6 +384,7 @@ CCoeControl* CVIMPSTUiSearchViewControl::ComponentControl( TInt aIndex ) const
 TKeyResponse CVIMPSTUiSearchViewControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 													TEventCode aType )
 	{
+	TRACER_AUTO;
 	TKeyResponse result = EKeyWasNotConsumed;
 
     // Offer key event first to the key event handler
@@ -422,7 +426,7 @@ TKeyResponse CVIMPSTUiSearchViewControl::OfferKeyEventL( const TKeyEvent& aKeyEv
 //
 void CVIMPSTUiSearchViewControl::UpdateListBoxL(RArray<TVIMPSTSearchData> aSerachData)
     {
-	
+	TRACER_AUTO;
 	TInt granularity( iItemArray->Count() );
 	++granularity;
 	
@@ -487,6 +491,7 @@ CEikListBox* CVIMPSTUiSearchViewControl::ListBox() const
 //
 HBufC* CVIMPSTUiSearchViewControl::GetFocusedContactLC() const
 	{
+	TRACER_AUTO;
 	HBufC* retText=NULL;
 	TInt curIndex = iListBox->CurrentItemIndex();
     TPtrC ptr= iItemArray->MdcaPoint(curIndex);
@@ -508,6 +513,7 @@ HBufC* CVIMPSTUiSearchViewControl::GetFocusedContactLC() const
 //
 void CVIMPSTUiSearchViewControl::ClearListBoxContents()
     {
+	TRACER_AUTO;
 	iItemArray->Reset();
     TRAPD( err, iListBox->HandleItemRemovalL() );
     if( err != KErrNone )
@@ -523,6 +529,7 @@ void CVIMPSTUiSearchViewControl::ClearListBoxContents()
 //
 void CVIMPSTUiSearchViewControl::UpdateCbaL( TBool  aUseDefaultCba /*= EFalse*/ )
     {
+	TRACER_AUTO;
     TInt cbaRes = R_SERVTAB_SOFTKEYS_OPTIONS_BACK__EMPTY;
     iCurrentCmdToExe = -1;
     TInt index = KErrNotFound;
@@ -547,20 +554,20 @@ void CVIMPSTUiSearchViewControl::UpdateCbaL( TBool  aUseDefaultCba /*= EFalse*/ 
 		{
 		if(iSearchView.HideAddToContactsL())
 		    {			
-		    CHAT_DP( D_CHAT_LIT("CVIMPSTUiDoubleListboxArray::HideAddToContactsL after" ) );		
+		   TRACE(" after"  );		
 		    HBufC* contactId = GetFocusedContactLC();
 		    TInt curIndex = iCommandHandler.GetProcessInterface().FindContactIndexL(*contactId); 
 		    TVIMPSTEnums::TOnlineStatus onlinestatus = iCommandHandler.GetProcessInterface().GetOnlineStatusL(curIndex);   
 		    CleanupStack::PopAndDestroy(contactId);
 		    if( TVIMPSTEnums::EPending == onlinestatus )
 		        {
-		        CHAT_DP( D_CHAT_LIT("CVIMPSTUiDoubleListboxArray::EPending in" ) );		
+		        TRACE(" EPending in"  );		
 		        cbaRes = R_SERVTAB_SOFTKEYS_OPTIONS_BACK__EMPTY;
 		        iCurrentCmdToExe = -1;    
 		        }
 		    else
 		        {
-		        CHAT_DP( D_CHAT_LIT("CVIMPSTUiDoubleListboxArray::ESearchOpenConversation" ) );		
+		        TRACE("ESearchOpenConversation"  );		
 		        cbaRes = R_SERVTAB_SOFTKEYS_OPTION_SEARCH_OPENCONV__BACK;
 		        iCurrentCmdToExe = ESearchOpenConversation;    
 		        }

@@ -24,7 +24,7 @@
 #include "mvimpststoragecontact.h"
 #include "mvimpststoragecontactsobserver.h"
 #include "tvimpststoragepanics.h"
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 #include "vimpstdebugassert.h"
 #include "cvimpststoragecontact.h"
 
@@ -59,6 +59,7 @@ CVIMPSTStorageContactList::CVIMPSTStorageContactList( CVIMPSTStorageContactSorte
 void CVIMPSTStorageContactList::ConstructL( const TDesC& aContactListId, 
                                  const TDesC& aDisplayName )
     {
+	TRACER_AUTO;
     iListId = aContactListId.AllocL();  
     iDisplayName = aDisplayName.AllocL();
     }
@@ -72,6 +73,7 @@ CVIMPSTStorageContactList* CVIMPSTStorageContactList::NewL(CVIMPSTStorageContact
 					                                      const TDesC& aContactListId, 
 					                                      const TDesC& aDisplayName )
     {
+	TRACER_AUTO;
     CVIMPSTStorageContactList* self = NewLC(  aSorter,
 			                                  aContactListId, 
 			                                  aDisplayName );
@@ -88,6 +90,7 @@ CVIMPSTStorageContactList* CVIMPSTStorageContactList::NewLC(CVIMPSTStorageContac
 					                                       const TDesC& aContactListId, 
 					                                       const TDesC& aDisplayName )
     {
+	TRACER_AUTO;
     CVIMPSTStorageContactList* self = new( ELeave ) CVIMPSTStorageContactList(aSorter );
     CleanupStack::PushL( self );
     self->ConstructL( aContactListId, aDisplayName );
@@ -141,41 +144,41 @@ TPtrC CVIMPSTStorageContactList::DisplayName() const
 //
 TInt CVIMPSTStorageContactList::AddStorageContactToCacheL( MVIMPSTStorageContact* aContact, TInt& aIndex )
     {
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL begin") ); 
+	TRACER_AUTO;
     
     if( !aContact )
 	    {
 	    return KErrArgument;	
 	    }
     TPtrC userID = aContact->UserId();
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL userId = %S"), &userID ); 
+    TRACE( " userId = %S", &userID ); 
     // optimize insert for inserting of reverse alphabetical order
     TInt idIndex( 0 );
     TInt count( iOrderedContacts.Count() );
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL count = %d"),count ); 
+    TRACE("count = %d",count ); 
     if( count && aContact->UserId().Length() &&
     	 ( 0 <= VIMPSTStorageUtils::NeutralCompare( aContact->UserId(),
     								  iOrderedContacts[ 0 ]->UserId() ) ) )
     	{
-    	TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL inside if") ); 
+    TRACE( "inside if" );
     	// there are items and the contact should not be inserted to beginning
     	// => find the correct place
 	    TLinearOrder< MVIMPSTStorageContact > userIdOrder( *CompareUserIdAlphabetically );
 	    if( KErrNone == iOrderedContacts.FindInOrder( aContact, idIndex, userIdOrder ) )
     	    {
-    	    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL contact already exists.") ); 
+	    TRACE( "contact already exists." ); 
             // this contact already exists, return it
             return KErrAlreadyExists;
             }
     	}
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL inserting the contact") ); 
+    TRACE( "inserting the contact" ); 
     // the position is now correct, insert the contact
     iOrderedContacts.InsertL( aContact, idIndex );
 
     // insert also to list sorted by contact "identification"
     TInt err( KErrNone );
     count = iContactArray.Count();  
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL iContactsArray count %d"),count ); 
+    TRACE( "iContactsArray count %d",count ); 
     TLinearOrder< MVIMPSTStorageContact >& order = iSorter.InsertOrder();
     if( count &&  0 > (*order)( aContact, iContactArray[ 0 ] ) )
     	{
@@ -187,7 +190,7 @@ TInt CVIMPSTStorageContactList::AddStorageContactToCacheL( MVIMPSTStorageContact
        	// insert in correct position
        	err = iContactArray.InsertInOrderAllowRepeats( aContact, order );
        	}
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL iContactsArray inserting error %d"),err ); 
+    TRACE( "iContactsArray inserting error %d",err ); 
     if( err != KErrNone )
         {
         // appending to second array did not succeed, so remove from first and leave
@@ -195,7 +198,6 @@ TInt CVIMPSTStorageContactList::AddStorageContactToCacheL( MVIMPSTStorageContact
         User::Leave( err );
         }
     aIndex = idIndex;
-    TRACE( T_LIT("CVIMPSTStorageContactList::AddStorageContactToCacheL End") ); 
     return err;
     }
  
@@ -205,6 +207,7 @@ TInt CVIMPSTStorageContactList::AddStorageContactToCacheL( MVIMPSTStorageContact
 //
 TInt CVIMPSTStorageContactList::RemoveContactFromCacheL( const TDesC& aContactId, TInt& aIndex )
     {
+	TRACER_AUTO;
     TInt orderedIndex(0);
     TInt contactIndex = FindContactIndex( aContactId, orderedIndex );
 	aIndex = contactIndex;
@@ -226,6 +229,7 @@ TInt CVIMPSTStorageContactList::RemoveContactFromCacheL( const TDesC& aContactId
 //
 TInt CVIMPSTStorageContactList::RemoveContactFromCacheL( const MVPbkContactLink& aContactLink, TInt& index )
     {
+	TRACER_AUTO;
     TInt error = KErrNotFound;
     TInt orderedIndex(0);
     TInt contactIndex = FindContactByLinkL( aContactLink, orderedIndex );
@@ -249,6 +253,7 @@ TInt CVIMPSTStorageContactList::RemoveContactFromCacheL( const MVPbkContactLink&
 TInt CVIMPSTStorageContactList::ContactCount( TBool aSkipOfflineContacts,
 						   TBool aSkipBlocekedContacts ) const
     {
+	TRACER_AUTO;
     if( !aSkipOfflineContacts && !aSkipBlocekedContacts )
         {
         return iContactArray.Count();
@@ -277,6 +282,7 @@ TInt CVIMPSTStorageContactList::ContactCount( TBool aSkipOfflineContacts,
 TInt CVIMPSTStorageContactList::FindContactIndex( const TDesC& aUserId,
                                        TInt& aOrderedIndex ) const
     {
+	TRACER_AUTO;
      TInt low( 0 );
     TInt high( iOrderedContacts.Count() );
     while( high > low )
@@ -326,6 +332,7 @@ void CVIMPSTStorageContactList::Sort()
 //
 void CVIMPSTStorageContactList::ResortContact( MVIMPSTStorageContact* aContact )
     {
+	TRACER_AUTO;
     // let it panic, if index is not found, which would be bad
     TInt index( iContactArray.Find( aContact ) );
     __ASSERT_DEBUG( index != KErrNotFound , Panic( ESortingCorupted ));
@@ -365,6 +372,7 @@ void CVIMPSTStorageContactList::ResortContact( MVIMPSTStorageContact* aContact )
 TInt CVIMPSTStorageContactList::FindIndexOfContact( const MVIMPSTStorageContact* aContact,
                             TVIMPSTEnums::TFilterType aFilter  ) const
     {    
+	TRACER_AUTO;
     TInt count( iContactArray.Count() ); 
     if ( aFilter == TVIMPSTEnums::EFilterAll )
 		{
@@ -424,6 +432,7 @@ TInt CVIMPSTStorageContactList::OnlineCount() const
 //
 MVIMPSTStorageContact& CVIMPSTStorageContactList::operator[]( TInt aIndex ) const
     {
+	TRACER_AUTO;
     __CHAT_ASSERT_DEBUG( aIndex < iContactArray.Count() )
     return *iContactArray[ aIndex ];
     }
@@ -447,6 +456,7 @@ MVIMPSTStorageContact& CVIMPSTStorageContactList::OnlineContact( TInt aIndex ) c
 MVIMPSTStorageContact& CVIMPSTStorageContactList::FilteredContact( 
                 TInt aIndex, TVIMPSTEnums::TFilterType aFilter ) const
 	{
+	TRACER_AUTO;
     if ( aFilter == TVIMPSTEnums::EFilterAll )
 		{
 		return (*this)[aIndex];
@@ -483,6 +493,7 @@ MVIMPSTStorageContact& CVIMPSTStorageContactList::FilteredContact(
 TInt CVIMPSTStorageContactList::FilteredCount( 
                             TVIMPSTEnums::TFilterType aFilter ) const
 	{
+	TRACER_AUTO;
     if ( aFilter == TVIMPSTEnums::EFilterAll )
 		{
 		return Count();
@@ -506,6 +517,7 @@ TInt CVIMPSTStorageContactList::FilteredCount(
 TBool CVIMPSTStorageContactList::FilterAllowsContact( const MVIMPSTStorageContact* aContact,
                              TVIMPSTEnums::TFilterType aFilter ) const
     {
+	TRACER_AUTO;
     TBool showContact( EFalse );
     TInt myStatus( KErrNone );          
     TVIMPSTEnums::TOnlineStatus status(
@@ -558,6 +570,7 @@ TBool CVIMPSTStorageContactList::FilterAllowsContact( const MVIMPSTStorageContac
 //
 MVIMPSTStorageContact* CVIMPSTStorageContactList::FindContact( const TDesC& aContactId )
     {
+	TRACER_AUTO;
     TInt orderedIndex(0);
     TInt contactIndex = FindContactIndex( aContactId, orderedIndex );
     return ( contactIndex >= 0 ? iContactArray[ contactIndex ] : NULL );
@@ -568,6 +581,7 @@ MVIMPSTStorageContact* CVIMPSTStorageContactList::FindContact( const TDesC& aCon
 //
 MVIMPSTStorageContact* CVIMPSTStorageContactList::FindContactByContactLink( const MVPbkContactLink& aContactLink )
     {
+	TRACER_AUTO;
     TInt orderedIndex(0);
     TInt contactIndex = -1;
     TRAP_IGNORE( contactIndex = FindContactByLinkL( aContactLink, orderedIndex );)
@@ -581,6 +595,7 @@ MVIMPSTStorageContact* CVIMPSTStorageContactList::FindContactByContactLink( cons
 TInt CVIMPSTStorageContactList::FindContactByLinkL( const MVPbkContactLink& aContactLink,
                                           TInt& aIndexOrderedArray ) const
     {
+	TRACER_AUTO;
     TInt count( iOrderedContacts.Count() );
     TInt contactIndex = KErrNotFound;
      //Does a Linear Search

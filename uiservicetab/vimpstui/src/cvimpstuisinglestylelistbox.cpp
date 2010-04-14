@@ -19,6 +19,7 @@
 #include "cvimpstuisinglestylelistbox.h"
 #include "cvimpstuilistboxmodel.h"
 #include <aknlists.h>
+#include "uiservicetabtracer.h"
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -45,6 +46,7 @@ void CVIMPSTUiSingleStyleListBox::CreateModelL()
 //
 void CVIMPSTUiSingleStyleListBox::SetContactListModelL(MVIMPSTProcessArray& aContactListModel )
     {
+	TRACER_AUTO;
     if ( iModel )
         {
         static_cast<CVIMPSTUiListBoxModel*>(iModel)->SetContactListModel( aContactListModel );

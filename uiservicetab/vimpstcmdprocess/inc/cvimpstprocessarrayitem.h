@@ -139,6 +139,12 @@ class MVIMPSTProcessArrayItem
      */
     virtual TPtrC16 FormattedItemString() = 0;
     
+    
+    /*
+     * Format and Reformat the string for listbox
+     */
+    virtual void DoFormatStringL() = 0;
+    
    
     /**
      * virtual destructor.

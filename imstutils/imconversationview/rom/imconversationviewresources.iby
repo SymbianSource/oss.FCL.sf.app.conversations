@@ -23,6 +23,7 @@
 S60_APP_RESOURCE(imcvuiapp)
 S60_APP_CAPTION(imcvuiapp)
 
+
 data=DATAZ_\BITMAP_DIR\imcvuiapp.mif      BITMAP_DIR\imcvuiapp.mif 
 
 

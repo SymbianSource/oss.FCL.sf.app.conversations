@@ -24,7 +24,7 @@
 #include <MVPbkContactView.h>
 #include <CVPbkContactIdConverter.h>
 #include "mvimpststorageserviceview.h"
-#include "vimpstdebugtrace.h" 
+#include "uiservicetabtracer.h"
 #include "tvimpstconsts.h"
 #include <CVPbkContactLinkArray.h>
 #include <MVPbkContactLink.h>
@@ -47,7 +47,7 @@ CVIMPSTStorageVPbkLocalStore:: CVIMPSTStorageVPbkLocalStore( MVIMPSTStorageServi
     iServiceCacheWriter( aServiceCacheWriter ),
     iFetchStep( EFetchingUnknown )
     { 
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CVIMPSTStorageVPbkLocalStore()") ); 
+	TRACER_AUTO;
     CActiveScheduler::Add( this );
     }
 
@@ -59,12 +59,11 @@ CVIMPSTStorageVPbkLocalStore* CVIMPSTStorageVPbkLocalStore::NewL( const TDesC& a
     															 const TDesC& aServiceName,
     															 MVIMPSTStorageServiceCacheWriter& aServiceCacheWriter )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::NewL() begin") ); 
+	TRACER_AUTO;
     CVIMPSTStorageVPbkLocalStore* self = NewLC( aContactDb,  
     										   aServiceName,
 											  aServiceCacheWriter);
     CleanupStack::Pop( self );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::NewL() end") ); 
     return self;
     }
 
@@ -77,12 +76,13 @@ CVIMPSTStorageVPbkLocalStore*
     									const TDesC& aServiceName,
     									MVIMPSTStorageServiceCacheWriter& aServiceCacheWriter  )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::NewLC() begin") );
+	TRACER_AUTO;
+    
     CVIMPSTStorageVPbkLocalStore* self =
         new (ELeave) CVIMPSTStorageVPbkLocalStore(aServiceCacheWriter);
     CleanupStack::PushL( self );
     self->ConstructL( aContactDb, aServiceName );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::NewLC() end") );
+   
     return self;
     }
 // ---------------------------------------------------------------------------
@@ -91,9 +91,10 @@ CVIMPSTStorageVPbkLocalStore*
 //
 void CVIMPSTStorageVPbkLocalStore::ConstructL( const TDesC& aContactDb, const TDesC& aServiceName )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() begin") );
+	TRACER_AUTO;
+   
     iVPbkStoreHandler = CVIMPSTStorageVPbkStoreHandler::NewL( aContactDb ,aServiceName, *this,ETrue );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() iVPbkStoreHandler created") );
+    TRACE( "iVPbkStoreHandler created" );
      //construct the persistent store name
     iLocalDBName = HBufC::NewL( aServiceName.Length()+ KStorageExtn().Length());
     TPtr iLocalDBNamePtr = iLocalDBName->Des();
@@ -101,33 +102,33 @@ void CVIMPSTStorageVPbkLocalStore::ConstructL( const TDesC& aContactDb, const TD
     _LIT(KSpecialChar ,"/\\:*?<>\"");
     AknTextUtils :: StripCharacters(iLocalDBNamePtr,KSpecialChar); 
     iLocalDBNamePtr.Append(KStorageExtn());    
-    TRACE( T_LIT("iLocalDBNamePtr: %S"), &iLocalDBNamePtr );
+    TRACE( "iLocalDBNamePtr: %S", &iLocalDBNamePtr );
     MVPbkContactStore* defaultStore = iVPbkStoreHandler->GetDefaultStoreL( aContactDb );
     User::LeaveIfNull(defaultStore);  
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() defaultStore retrived") );
+    TRACE("defaultStore retrived" );
     iIdConverter = CVPbkContactIdConverter::NewL(*defaultStore);
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() iIdConverter created") ); 
+    TRACE( "iIdConverter created" ); 
     User::LeaveIfError( iFs.Connect() );
     // Open existing or create new database.
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() connected to file server") ); 
+    TRACE( "connected to file server" ); 
 	if ( DbExists() )
 		{
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() local db exist") ); 
+		TRACE( "local db exist" ); 
         OpenDbL();
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() open success") );
+        TRACE( "open success" );
 		}
 	else
 		{
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() local db not exist") );
+		TRACE("local db not exist" );
         DoFreespaceLevelCheckL( KEmptyDbSize );
         CreateDbL();
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() local db created") );
+        TRACE("local db created");
 		}
     OpenTableL();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() OpenTableL success ") );
+    TRACE("OpenTableL success " );
     iColset = iDb.ColSetL( KContactTable );    
-   	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() iColset is set") );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ConstructL() end") );	
+   	TRACE( " iColset is set" );
+  
     }
 
 // ---------------------------------------------------------------------------
@@ -137,7 +138,8 @@ void CVIMPSTStorageVPbkLocalStore::ConstructL( const TDesC& aContactDb, const TD
 //
 CVIMPSTStorageVPbkLocalStore::~CVIMPSTStorageVPbkLocalStore()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::~CVIMPSTStorageVPbkLocalStore() begin") );
+	TRACER_AUTO;
+    
     iRetrivedContactArray.ResetAndDestroy();
     TRAP_IGNORE( ResetAndDestroyLocalArrayL() );
         
@@ -150,7 +152,7 @@ CVIMPSTStorageVPbkLocalStore::~CVIMPSTStorageVPbkLocalStore()
     delete iIdConverter;	        
     delete iInviteId;
     delete iVPbkStoreHandler;
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::~CVIMPSTStorageVPbkLocalStore() end") );
+   
     }
  
  // ---------------------------------------------------------------------------
@@ -160,7 +162,7 @@ CVIMPSTStorageVPbkLocalStore::~CVIMPSTStorageVPbkLocalStore()
 //
 void CVIMPSTStorageVPbkLocalStore::ResetAndDestroyLocalArrayL()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ResetAndDestroyLocalArrayL() begin") );
+	TRACER_AUTO;
     TInt count = iFetchContactsToBeAdded.Count();
    	while( count )
 	   	{
@@ -175,7 +177,7 @@ void CVIMPSTStorageVPbkLocalStore::ResetAndDestroyLocalArrayL()
         count = iFetchContactsToBeAdded.Count();
 	   	}
 	iFetchContactsToBeAdded.Reset();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ResetAndDestroyLocalArrayL() end") );
+    
     }
  
 // ----------------------------------------------------------
@@ -184,7 +186,7 @@ void CVIMPSTStorageVPbkLocalStore::ResetAndDestroyLocalArrayL()
 //
 TBool CVIMPSTStorageVPbkLocalStore::LocalStore() const 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::LocalStore() local store") );
+	TRACER_AUTO;
 	return ETrue;
 	}
 // ---------------------------------------------------------------------------
@@ -193,20 +195,20 @@ TBool CVIMPSTStorageVPbkLocalStore::LocalStore() const
 //
 void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent aVPbkStoreEvent) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() begin") );
+	TRACER_AUTO;
 	switch( aVPbkStoreEvent.iEventType )
 	    {
 	    case EVPbkContactReadCompleted:
 	    	{
-	    	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactReadCompleted started") );
+	    	TRACE( " EVPbkContactReadCompleted started" );
 	    	iServiceCacheWriter.NotifyServiceViewL(TVIMPSTEnums::EStorageContactReadComplete);
 	    	if( iFetchStep == EFetchingCalled )
 		    	{
-		    	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactReadCompleted EFetchingCalled ") );
+		    	TRACE( " EVPbkContactReadCompleted EFetchingCalled " );
 		    	IssueRequest();		
 		    	}
 	    	iFetchStep = EContactReadComplete;
-	    	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EContactReadComplete completed ") );
+	    	TRACE( "EContactReadComplete completed " );
 		  	break;
 	    	}
 	    case EVPbkContactReading:
@@ -217,7 +219,7 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 			TDbColNo colNo = iColset->ColNo( KContactId );
 		    if ( SeekRowL( colNo, linkId ) )
 				{
-				TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactReading contact") );
+				TRACE( "EVPbkContactReading contact" );
 				/*
 					*	This is local store, that is phone book and service tab shares only one cdb file.
 					* 	in that case, if somebody edits the cdb file from contacts tab, then also we get the 
@@ -252,7 +254,7 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 			TDbColNo colNo = iColset->ColNo( KContactId );
 			if( iFetchStep  == EFetchingOn )
 		         {
-		         TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactFetching contact") );
+		         TRACE( "EVPbkContactFetching contact" );
 		         WriteToStoreDbL( linkId );
 		         iServiceCacheWriter.AddContactToCacheL (*aVPbkStoreEvent.iContactLink , 
 		                 aVPbkStoreEvent.iUserId ,
@@ -263,7 +265,7 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 				}
 			else if ( SeekRowL( colNo, linkId ) )
 				{
-				TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactAdded start") );
+				TRACE( " EVPbkContactAdded start" );
 				/*
 					*	This is local store, that is phone book and service tab shares only one cdb file.
 					* 	in that case, if somebody edits the cdb file from contacts tab, then also we get the 
@@ -285,11 +287,11 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 										 aVPbkStoreEvent.iDisplayName,
 										 aVPbkStoreEvent.iAvatarContent,
 										 TVIMPSTEnums::EStorageEventContactAddition  );
-				TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactAdded completed") );
+				TRACE( "EVPbkContactAdded completed" );
 				}
 			else if(  iInviteId )
 			    {
-			    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() iInviteId accepted") );
+			    TRACE( "iInviteId accepted" );
 			    if( IsSameContactIdL( *iInviteId, aVPbkStoreEvent.iUserId ) )
 			        {
 			        WriteToStoreDbL( linkId );
@@ -301,13 +303,13 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 			        delete iInviteId;
 			        iInviteId = NULL;
 			        }
-                 TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() iInviteId accepted sucess") );
+                 TRACE( "iInviteId accepted sucess" );
 			    }
 			break;	
 			}
 	   	case EVPbkContactSynchronizing:
 	   	    {
-	   	    TRACE( T_LIT("CVIMPSTStorageVPbkServerStore::HandleVPbkStoreEventL EVPbkContactSynchronizing " ) );
+	   	    TRACE( "EVPbkContactSynchronizing "  );
 	   	    // a contact entry has been created in virtual database store
 	   	    // create the cache contact
 	   	    TInt32 linkId = iIdConverter->LinkToIdentifier(*aVPbkStoreEvent.iContactLink );
@@ -338,77 +340,77 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 	   	        }
 	   	   if(iFetchStep == EFetchingOn)          
                {
-               TRACE( T_LIT("CVIMPSTStorageVPbkServerStore::HandleVPbkStoreEventL  EVPbkContactSynchronizing fetchin on" ) );
+               TRACE( "EVPbkContactSynchronizing fetchin on" );
                IssueRequest();
                }
-	   	    TRACE( T_LIT("CVIMPSTStorageVPbkServerStore::HandleVPbkStoreEventL EVPbkContactSynchronizing completed" ) );
+	   	    TRACE(" EVPbkContactSynchronizing completed"  );
 	   	    break;
 	   	    }
 		case EVPbkContactDeleted:
 		    {
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactDeleted") );
+		    TRACE( "EVPbkContactDeleted" );
 		    TInt32 linkId = iIdConverter->LinkToIdentifier(*aVPbkStoreEvent.iContactLink );
 		    // a contact entry has been deleted from virtual database store
 		    TDbColNo colNo = iColset->ColNo( KContactId );
 		    if ( SeekRowL( colNo, linkId ) )
 		        { 
-		        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactDeleted found in db") );
+		        TRACE( "EVPbkContactDeleted found in db" );
 		        // contatc found in local database ,delete from local database 
 		        DeleteContactFromInternalStoreL( linkId );
-		        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactDeleted deleted from db") );
+		        TRACE( "EVPbkContactDeleted deleted from db" );
 		         // delete from cache contact
 		    	iServiceCacheWriter.RemoveContactFromCacheL(*aVPbkStoreEvent.iContactLink, 
 		    												TVIMPSTEnums::EStorageEventDeleteFromPbk );
-		    	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactDeleted deleted from cache") );
+		    	TRACE( "EVPbkContactDeleted deleted from cache" );
 		        }
 		    break;	 
 		    }
 		case EVPbkContactChanged:
 		    {
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactChanged ") );
+		    TRACE( "EVPbkContactChanged ");
 		    TInt32 linkId = iIdConverter->LinkToIdentifier(*aVPbkStoreEvent.iContactLink );
 		    TDbColNo colNo = iColset->ColNo( KContactId );
 		    if ( SeekRowL( colNo, linkId ) )
 		       {
-		       TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactChanged found in local db") );
+		       TRACE( "EVPbkContactChanged found in local db" );
 		       // found in the list update it
 		       iServiceCacheWriter.UpdateCacheContactL(*aVPbkStoreEvent.iContactLink , 
 					    						 	 aVPbkStoreEvent.iUserId ,
 					    							 aVPbkStoreEvent.iDisplayName,
 					    							 aVPbkStoreEvent.iAvatarContent );
-			   TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactChanged changed in cache") );
+			   TRACE( "EVPbkContactChanged changed in cache");
 		       }
 		    break;	
 		    }
 	    case EVPbkContactRetriving:
 		    {
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactRetriving") );
+		    TRACE( "EVPbkContactRetriving");
 		    // in case of local we allow all 
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactRetriving valid Id") );
+		    TRACE( "EVPbkContactRetriving valid Id");
 			CVIMPSTStorageContact* retrivedContact = CVIMPSTStorageContact::NewL( aVPbkStoreEvent.iUserId ,
 											    								  aVPbkStoreEvent.iDisplayName,
 											    								  *aVPbkStoreEvent.iContactLink,
 											    								  aVPbkStoreEvent.iAvatarContent);
 			iRetrivedContactArray.Append( retrivedContact ); // takes the ownership of retrivedContact
-			TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkContactRetriving valid Id added") );
+			TRACE( "EVPbkContactRetriving valid Id added" );
 			// keep the backup of retrieved contacts
 			// user can add later once it sent to server
 			break;	
 		    }
 		case EVPbkUnknownChanges:
 		    {
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkUnknownChanges start") );
+		    TRACE("EVPbkUnknownChanges start" );
 		    DeleteAllContactFromInternalStoreL();
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkUnknownChanges all delete from db") );
+		    TRACE( " EVPbkUnknownChanges all delete from db" );
 		     // unknow mean all contact deleted from store
 		    iServiceCacheWriter.RemoveAllCacheContactsL();
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() EVPbkUnknownChanges all delete from cache") );
+		    TRACE( " EVPbkUnknownChanges all delete from cache" );
 		    break;	
 		    }
 	    default:
 		 	break;
 	    }
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL() end") );
+	
 	}
 
 
@@ -418,15 +420,15 @@ void CVIMPSTStorageVPbkLocalStore::HandleVPbkStoreEventL(TVIMPSTVPbkStoreEvent a
 //
 void CVIMPSTStorageVPbkLocalStore::IssueRequest()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::IssueRequest() begin") );
+	TRACER_AUTO;
     if( !IsActive() )
 	    {
-	    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::IssueRequest() SetActive") );
+	    TRACE( "SetActive" );
 	    TRequestStatus* status = &iStatus;
 	    User::RequestComplete( status, KErrNone );
 	    SetActive();
 	    }
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::IssueRequest() begin") );
+	
     }
     
 // --------------------------------------------------------------------------
@@ -435,19 +437,19 @@ void CVIMPSTStorageVPbkLocalStore::IssueRequest()
 //
 void CVIMPSTStorageVPbkLocalStore::RunL()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() begin") );
+	TRACER_AUTO;
     TInt count = iFetchContactsToBeAdded.Count();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() count to be added = %d "),count );
+    TRACE( "count to be added = %d ",count );
     if( !count )
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch completed " ) );
+        TRACE(" fetch completed "  );
         iFetchStep = EContactReadComplete;
         iServiceCacheWriter.NotifyServiceViewL( TVIMPSTEnums::EStorageContactFetchComplete );
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch completed notification sent" ) );     
+		TRACE( "fetch completed notification sent"  );     
 	    }
     else
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch in progress" ) );     
+        TRACE( "fetch in progress"  );     
         iFetchStep  = EFetchingOn;
         TVIMPSTContactInfo contactInfoToAdd = iFetchContactsToBeAdded[0];
         MVIMPSTStorageContact* exist = iServiceCacheWriter.FindCacheContactByUserId( *contactInfoToAdd.iUserId );
@@ -455,13 +457,13 @@ void CVIMPSTStorageVPbkLocalStore::RunL()
 	        {
 	        // contact is already exist ,send the notification about this
 	        iServiceCacheWriter.NotifyServiceViewL(TVIMPSTEnums::EStorageContactFetchExistInStore, exist );
-	        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch in progress id exist" ) ); 
+	        TRACE( " fetch in progress id exist" ); 
 	        // process next
 	        IssueRequest();
 	        }
 	    else
 		    {
-		    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch in progress create id in store called" ) ); 
+		    TRACE( "fetch in progress create id in store called"  ); 
 		     // pass the display NAme in place of NULL
         	iVPbkStoreHandler->CreateVPbkContactL( *contactInfoToAdd.iUserId, *contactInfoToAdd.iDisplayName ); // process always 0th item
             }
@@ -471,9 +473,9 @@ void CVIMPSTStorageVPbkLocalStore::RunL()
         delete contactInfoToAdd.iDisplayName;
         contactInfoToAdd.iDisplayName = NULL ;
         iFetchContactsToBeAdded.Compress();
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() fetch in progress iFetchContactsToBeAdded ,one entry removed" ) ); 
+        TRACE( "fetch in progress iFetchContactsToBeAdded ,one entry removed"  ); 
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunL() end") );
+    
     }
 
 // --------------------------------------------------------------------------
@@ -482,7 +484,7 @@ void CVIMPSTStorageVPbkLocalStore::RunL()
 //
 void CVIMPSTStorageVPbkLocalStore::DoCancel()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DoCancel()") );
+	TRACER_AUTO;
     }
 
 // --------------------------------------------------------------------------
@@ -491,7 +493,7 @@ void CVIMPSTStorageVPbkLocalStore::DoCancel()
 //
 TInt CVIMPSTStorageVPbkLocalStore::RunError( TInt aError )
     { 
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RunError()") );   
+	TRACER_AUTO;  
     return aError;
     }
 
@@ -504,18 +506,18 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL(const TDesC& aUserId,
         										   	  const TDesC& aDisplayName ,
         										   	  TBool aInvitationAutoAccept /* = EFalse */ )   
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL() begin") ); 
+	TRACER_AUTO;
 	TInt error = KErrGeneral;
 	if( aInvitationAutoAccept)
 	    {
-	    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL() autoaccept add contact") ); 
+	    TRACE("autoaccept add contact" ); 
 	    delete iInviteId;
 	    iInviteId = NULL;
 	    iInviteId = aUserId.AllocL();
 	    error = iVPbkStoreHandler->CreateVPbkContactL( *iInviteId,aDisplayName ); 
 	    }
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL() error = %d"),error ); 
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL() begin") ); 
+	TRACE( "error = %d",error ); 
+	
 	return error;
 	}
 
@@ -525,7 +527,7 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateVPbkContactL(const TDesC& aUserId,
 //  
 TInt CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL(const MVPbkContactLink& aContactLink) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() begin") ); 
+	TRACER_AUTO;; 
 	TInt error = KErrNotFound;
 	// text now holds the name (or first field of the contact) 
 	TInt32 linkId = iIdConverter->LinkToIdentifier(aContactLink);
@@ -533,17 +535,17 @@ TInt CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL(const MVPbkContactLink& aC
 	TDbColNo colNo = iColset->ColNo( KContactId );
 	if ( SeekRowL( colNo, linkId ) )
 		{
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() link exist in db") ); 
+		TRACE( "link exist in db" ); 
 		// contatc found in local database ,delete from local database 
 		DeleteContactFromInternalStoreL( linkId );
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() link deleted from db") ); 
+		TRACE( "link deleted from db" ); 
 		// delete from cache contact
 		error = iServiceCacheWriter.RemoveContactFromCacheL(aContactLink, 
 															TVIMPSTEnums::EStorageEventContactDelete );
-		TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() link deleted from cache") ); 
+		TRACE( "link deleted from cache" ); 
 		}
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() error %d"),error );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL() end") ); 
+	TRACE("error %d",error );
+	
     return error;
   	}
  
@@ -553,13 +555,13 @@ TInt CVIMPSTStorageVPbkLocalStore::RemoveVPbkContactL(const MVPbkContactLink& aC
 // 
 TInt CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL() 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL() begin" ) );
+	TRACER_AUTO;
 	iRetrivedContactArray.ResetAndDestroy(); 
 	DeleteAllContactFromInternalStoreL();
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL() all contacts deleted from db") );
+	TRACE( "all contacts deleted from db" );
 	iServiceCacheWriter.RemoveAllCacheContactsL();
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL() all contacts deleted from cache") );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL() end" ) );
+	TRACE( "all contacts deleted from cache" );
+	
 	return KErrNone;// local store : delete from local store ,own user has changed
 	}
 // ---------------------------------------------------------------------------
@@ -568,12 +570,12 @@ TInt CVIMPSTStorageVPbkLocalStore::RemoveAllVPbkContactsL()
 //  
 TInt CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL(const TDesC8& aPackedLinks ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL() begin" ) );
+	TRACER_AUTO;
 	iRetrivedContactArray.ResetAndDestroy();
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL() iRetrivedContactArray Reset" ) );
+	TRACE( " iRetrivedContactArray Reset"  );
     iVPbkStoreHandler->RetrieveVPbkContactL( aPackedLinks );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL() iRetrivedContactArray count= %d " ),iRetrivedContactArray.Count() );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL() end " ) );
+    TRACE( "iRetrivedContactArray count= %d " ,iRetrivedContactArray.Count() );
+    
     return iRetrivedContactArray.Count();
     }
 
@@ -583,14 +585,14 @@ TInt CVIMPSTStorageVPbkLocalStore::RetrieveVPbkXSPIdL(const TDesC8& aPackedLinks
 //  
 const TDesC& CVIMPSTStorageVPbkLocalStore::GetRetrieveVPbkXSPIdL(TInt aIndex ) 
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::GetRetrieveVPbkXSPIdL() begin" ) );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::GetRetrieveVPbkXSPIdL() aIndex = %d" ),aIndex );
+	TRACER_AUTO;
+	TRACE( "aIndex = %d" ,aIndex );
 	MVIMPSTStorageContact* contact = NULL;
 	if( aIndex >= 0 && aIndex < iRetrivedContactArray.Count() )
         {
         contact = iRetrivedContactArray[ aIndex ];
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::GetRetrieveVPbkXSPIdL() end" ) );   
+       
     return contact ? contact->UserId() : KNullDesC ; 	
 	}
 // ---------------------------------------------------------------------------
@@ -599,10 +601,10 @@ const TDesC& CVIMPSTStorageVPbkLocalStore::GetRetrieveVPbkXSPIdL(TInt aIndex )
 // 
 TInt CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL( TInt aIndexToUse  )   
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() begin" ) );
+	TRACER_AUTO;
     if( aIndexToUse < 0 && aIndexToUse >= iRetrivedContactArray.Count() )
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() argument error" ) );
+        TRACE( " argument error"  );
         return KErrArgument;
         }
     TInt error = KErrAlreadyExists;
@@ -616,7 +618,7 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL( TInt aIndexToUse  
 	    }
     if( !exist )
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() adding to  cache" ) );
+        TRACE( "adding to  cache" );
         MVPbkContactLink* link = retrivedContact->ContactLink();
         if( link )
 			{
@@ -628,7 +630,7 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL( TInt aIndexToUse  
 			CleanupStack::PushL( contactToAdd );
 			TInt32 linkId = iIdConverter->LinkToIdentifier( *link );
 			error = iServiceCacheWriter.AddStorageContactToCacheL( contactToAdd ); // contactToAdd ownership is transfered
-			TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() adding to  cache done" ) );
+			TRACE( " adding to  cache done"  );
 			if( error == KErrNone )
 				{
 				CleanupStack::Pop(); // contactToAdd , Ownership is transfered to AddStorageContactToCacheL
@@ -638,11 +640,11 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL( TInt aIndexToUse  
 				{
 				CleanupStack::PopAndDestroy(); // contactToAdd	
 				}
-			TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() adding to  db done" ) );
+			TRACE( " adding to  db done"  );
 			}
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() error =%d" ),error );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL() end" ) );
+    TRACE( "error =%d" ,error );
+    
     return error;
     }
 
@@ -652,10 +654,10 @@ TInt CVIMPSTStorageVPbkLocalStore::CreateRetriveVPbkContactL( TInt aIndexToUse  
 // 
 TInt CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL( TInt aIndexToUse  )   
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL() begin" ) );
+	TRACER_AUTO;
     if( aIndexToUse < 0 && aIndexToUse >= iRetrivedContactArray.Count() )
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL() argument error" ) );
+        TRACE( "argument error" );
         return KErrArgument;
         }
     MVIMPSTStorageContact* retrivedContact = iRetrivedContactArray[ aIndexToUse ];
@@ -667,7 +669,7 @@ TInt CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL( TInt aIndexToUse  
     CleanupStack::Pop(); // link
     TInt error = iVPbkStoreHandler->RemoveVPbkContactL( *contactsToDelete );
     CleanupStack::PopAndDestroy(); // contactsToDelete
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL() begin" ) );
+    
     return error;
     }
 // CVIMPSTStorageVPbkLocalStore::UpdateAvatarFieldDataL()
@@ -676,7 +678,7 @@ TInt CVIMPSTStorageVPbkLocalStore::deleteRetriveVPbkContactL( TInt aIndexToUse  
 TInt CVIMPSTStorageVPbkLocalStore::UpdateAvatarFieldDataL(const MVPbkContactLink& aContactLink,
 														  const TDesC8& aAvatartData )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::UpdateAvatarFieldDataL()" ) );
+	TRACER_AUTO;
     return iVPbkStoreHandler->UpdateAvatarFieldDataL( aContactLink, aAvatartData );
     }
 
@@ -686,7 +688,7 @@ TInt CVIMPSTStorageVPbkLocalStore::UpdateAvatarFieldDataL(const MVPbkContactLink
 //
 TInt CVIMPSTStorageVPbkLocalStore::RemoveAvatarFieldL(MVPbkStoreContact& aStoreContact)
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::RemoveAvatarFieldL()" ) );
+	TRACER_AUTO;
 	return iVPbkStoreHandler->RemoveAvatarFieldL( aStoreContact );	
 	}
 
@@ -697,11 +699,11 @@ TInt CVIMPSTStorageVPbkLocalStore::RemoveAvatarFieldL(MVPbkStoreContact& aStoreC
 void CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL( RArray <TPtrC>& aFirstNameList, 
                                                            RArray <TPtrC> &aServiceField ) 
      {
-     TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL() begin" ) );
+	TRACER_AUTO;
      // in case of server contacts delete all contacts
      ResetAndDestroyLocalArrayL();
      TInt count = aServiceField.Count();
-     TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL() count=%d" ),count );
+     TRACE( " count=%d" ,count );
      for( TInt i = 0; i<count; i++ )
          {
          TVIMPSTContactInfo contactInf =
@@ -714,15 +716,15 @@ void CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL( RArray <TPtrC>& aFirst
          }
      if( iFetchStep == EContactReadComplete )
 	     {
-	     TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL() start fetcing" ) );
+	     TRACE( "start fetcing"  );
 	     IssueRequest();	
 	     }
 	 else
 		 {
-		 TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL() EFetchingCalled" ) );
+		 TRACE( " EFetchingCalled"  );
 		 iFetchStep = EFetchingCalled;	
 		 }
-	 TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL() end" ) );
+	
      }
 
 //******************* Database Operations *********************************//
@@ -732,7 +734,7 @@ void CVIMPSTStorageVPbkLocalStore::AddVPbkFetchContactsL( RArray <TPtrC>& aFirst
 //
 TBool CVIMPSTStorageVPbkLocalStore::DbExists()
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DbExists() begin" ) );
+	TRACER_AUTO;
 	RFile temp;
 
 	TBuf< KMaxPath > storagePath;
@@ -751,7 +753,7 @@ TBool CVIMPSTStorageVPbkLocalStore::DbExists()
 		{
 		ret = EFalse;
 		}
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DbExists() end" ) );
+	
 	return ret;
 	}
 
@@ -762,7 +764,7 @@ TBool CVIMPSTStorageVPbkLocalStore::DbExists()
 //
 void CVIMPSTStorageVPbkLocalStore::CreateDbL()
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateDbL() begin" ) );
+	TRACER_AUTO;
 	TBuf< KMaxPath > storagePath;
 	storagePath.Append( KDbPath );
 	iFs.MkDirAll( storagePath );    // make sure the directory exists	
@@ -777,7 +779,7 @@ void CVIMPSTStorageVPbkLocalStore::CreateDbL()
 
     if( err ) 
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateDbL() err = %d" ),err );
+        TRACE( " err = %d" ,err );
         delete iFileStore;
         iFileStore = NULL;
 
@@ -799,7 +801,7 @@ void CVIMPSTStorageVPbkLocalStore::CreateDbL()
         iFs.Delete( storagePath );
         User::Leave( err3 );
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateDbL() end" ) );
+    
     }    
 
 // -----------------------------------------------------------
@@ -808,14 +810,14 @@ void CVIMPSTStorageVPbkLocalStore::CreateDbL()
 //
 void CVIMPSTStorageVPbkLocalStore::OpenDbL()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::OpenDbL() begin" ) );
+	TRACER_AUTO;
     TBuf< KMaxPath > storagePath;
     storagePath.Append( KDbPath );
     storagePath.Append( *iLocalDBName );
     iFileStore = CPermanentFileStore::OpenL( iFs, storagePath, EFileShareReadersOrWriters|EFileWrite );   
     iFileStore->SetTypeL( iFileStore->Layout() );
     iDb.OpenL( iFileStore, iFileStore->Root() );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::OpenDbL() begin" ) );
+    
     }
 
 // -----------------------------------------------------------
@@ -824,11 +826,11 @@ void CVIMPSTStorageVPbkLocalStore::OpenDbL()
 //
 void CVIMPSTStorageVPbkLocalStore::CloseDb()
 	{ 
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CloseDb() begin" ) );
+	TRACER_AUTO;
     delete iFileStore;
     iFileStore = NULL;
     iDb.Close();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CloseDb() end" ) );
+    
     }
 
 // -----------------------------------------------------------
@@ -837,17 +839,17 @@ void CVIMPSTStorageVPbkLocalStore::CloseDb()
 //
 void CVIMPSTStorageVPbkLocalStore::CreateTablesL()
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateTablesL() begin" ) );
+	TRACER_AUTO;
 	CDbColSet* contactId = CDbColSet::NewLC();
 
 	AddColumnL( KContactId, EDbColInt32, contactId );
 
 	TInt err = iDb.CreateTable( KContactTable, *contactId );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateTablesL() err = %d" ),err );
+	TRACE( "err = %d" ,err );
 	User::LeaveIfError( err );
 
 	CleanupStack::PopAndDestroy( contactId );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CreateTablesL() end" ) );	
+	
 	}
 
 // -----------------------------------------------------------
@@ -856,10 +858,10 @@ void CVIMPSTStorageVPbkLocalStore::CreateTablesL()
 //
 void CVIMPSTStorageVPbkLocalStore::AddColumnL( const TDesC& aName, TDbColType aType, CDbColSet* aColset  )
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddColumnL() begin" ) );
+	TRACER_AUTO;
 	TDbCol column( aName, aType );
 	aColset->AddL( column );
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::AddColumnL() end" ) );
+	
 	}
 
 // -----------------------------------------------------------
@@ -868,12 +870,12 @@ void CVIMPSTStorageVPbkLocalStore::AddColumnL( const TDesC& aName, TDbColType aT
 //
 void CVIMPSTStorageVPbkLocalStore::DoFreespaceLevelCheckL( TInt aSize )
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DoFreespaceLevelCheckL() begin" ) );
+	TRACER_AUTO;
     if ( SysUtil::FFSSpaceBelowCriticalLevelL( &iFs, aSize ) )
         {
 		User::Leave( KErrDiskFull );
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DoFreespaceLevelCheckL() end" ) );
+    
 	}
 
 // -----------------------------------------------------------------------------
@@ -882,7 +884,7 @@ void CVIMPSTStorageVPbkLocalStore::DoFreespaceLevelCheckL( TInt aSize )
 //
 void CVIMPSTStorageVPbkLocalStore::DeleteAllContactFromInternalStoreL()
 	{
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteAllContactFromInternalStoreL() begin" ) );
+	TRACER_AUTO;
 	iColset->ColNo( KContactId );
 	iTable.LastL();	
 	while( !iTable.IsEmptyL() )
@@ -893,7 +895,7 @@ void CVIMPSTStorageVPbkLocalStore::DeleteAllContactFromInternalStoreL()
 		// delete alwasy first item untill table is empty
 		iTable.LastL();
 		}
-	TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteAllContactFromInternalStoreL() end" ) );
+	
 	}
 // ----------------------------------------------------------
 // CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL
@@ -901,15 +903,15 @@ void CVIMPSTStorageVPbkLocalStore::DeleteAllContactFromInternalStoreL()
 //
 void CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL( TInt32& aIdentifier )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL() begin" ) );
+	TRACER_AUTO;
     TDbColNo colNo = iColset->ColNo( KContactId );
     if ( SeekRowL( colNo, aIdentifier ) )
         {
         iTable.DeleteL();
         iDb.Compact();
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL() found deleted" ) );
+        TRACE( "found deleted"  );
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL() end" ) );
+   
     }
  
 // ----------------------------------------------------------
@@ -918,7 +920,7 @@ void CVIMPSTStorageVPbkLocalStore::DeleteContactFromInternalStoreL( TInt32& aIde
 //
 void CVIMPSTStorageVPbkLocalStore::WriteToStoreDbL( TInt32& aIdentifier )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::WriteToStoreDbL() begin" ) );
+	TRACER_AUTO;
     TDbColNo colNo = iColset->ColNo( KContactId );
     if (!SeekRowL( colNo, aIdentifier ) )        
         {
@@ -936,7 +938,7 @@ void CVIMPSTStorageVPbkLocalStore::WriteToStoreDbL( TInt32& aIdentifier )
             iTable.Reset();
             } 
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::WriteToStoreDbL() end" ) );    
+   
     }
 // ----------------------------------------------------------
 // CVIMPSTStorageVPbkLocalStore::OpenTableL
@@ -944,15 +946,15 @@ void CVIMPSTStorageVPbkLocalStore::WriteToStoreDbL( TInt32& aIdentifier )
 //
 void CVIMPSTStorageVPbkLocalStore::OpenTableL()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::OpenTableL() begin" ) );
+	TRACER_AUTO;
     TInt err( iTable.Open( iDb, KContactTable ) );
     if ( err != KErrNone )
         {
-        TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::OpenTableL() err =%d" ),err );
+        TRACE( " err =%d" ,err );
         iTable.Close();
         User::Leave( err );
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::OpenTableL() end" ) );
+    
     }
 
 // ----------------------------------------------------------
@@ -961,9 +963,9 @@ void CVIMPSTStorageVPbkLocalStore::OpenTableL()
 //
 void CVIMPSTStorageVPbkLocalStore::CloseTable()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CloseTable() begin" ) );
+	TRACER_AUTO;
     iTable.Close();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::CloseTable() end" ) );
+   
     }
 
 // ----------------------------------------------------------
@@ -972,9 +974,9 @@ void CVIMPSTStorageVPbkLocalStore::CloseTable()
 //
 TInt CVIMPSTStorageVPbkLocalStore::ReadFirstL(  TInt32& aIdentifier )
     { 
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadFirstL() begin" ) );   
+	TRACER_AUTO;
     iTable.BeginningL();
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadFirstL() end" ) );
+    
     return ReadNextL( aIdentifier );
     }
 
@@ -984,7 +986,7 @@ TInt CVIMPSTStorageVPbkLocalStore::ReadFirstL(  TInt32& aIdentifier )
 //
 TInt CVIMPSTStorageVPbkLocalStore::ReadNextL( TInt32& aIdentifier )
     { 
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadNextL() begin" ) );
+	TRACER_AUTO;
     TInt err = KErrNotFound;   
     if ( iTable.NextL() )
         {
@@ -992,8 +994,8 @@ TInt CVIMPSTStorageVPbkLocalStore::ReadNextL( TInt32& aIdentifier )
 		// For some reason ReadCurrentL leaves with KErrEof,
         // even if the contact was read succesfully.
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadNextL() err = %d" ),err );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadNextL() end" ) );
+    TRACE( " err = %d" ,err );
+   
     return err;
     }
 
@@ -1004,12 +1006,12 @@ TInt CVIMPSTStorageVPbkLocalStore::ReadNextL( TInt32& aIdentifier )
 //
 void CVIMPSTStorageVPbkLocalStore::ReadCurrentL( TInt32& aIdentifier )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadCurrentL() begin" ) );
+	TRACER_AUTO;
     iTable.GetL();
 	 // Get Column number for contact data size
     TDbColNo colNo = iColset->ColNo( KContactId );
     aIdentifier = iTable.ColInt32(colNo);
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::ReadCurrentL() end" ) );
+   
     }
     
 // ----------------------------------------------------------
@@ -1018,7 +1020,7 @@ void CVIMPSTStorageVPbkLocalStore::ReadCurrentL( TInt32& aIdentifier )
 //
 TBool CVIMPSTStorageVPbkLocalStore::SeekRowL( TDbColNo aColNo, TInt32& aIdentifier )
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::SeekRowL() begin" ) );
+	TRACER_AUTO;
     TBool ret = EFalse;
     iTable.BeginningL();
     while ( iTable.NextL() )
@@ -1030,7 +1032,7 @@ TBool CVIMPSTStorageVPbkLocalStore::SeekRowL( TDbColNo aColNo, TInt32& aIdentifi
             break; 
             }
         }
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::SeekRowL() end" ) );
+   
     return ret;
     }
 // ----------------------------------------------------------
@@ -1038,7 +1040,7 @@ TBool CVIMPSTStorageVPbkLocalStore::SeekRowL( TDbColNo aColNo, TInt32& aIdentifi
 // ----------------------------------------------------------
 void CVIMPSTStorageVPbkLocalStore::DeleteDatabaseL()
     {
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteDatabaseL() begin" ) );
+	TRACER_AUTO;
     TBuf< KMaxPath > storagePath;
     storagePath.Append( KDbPath ); 
     iFs.MkDirAll( storagePath );   
@@ -1046,13 +1048,14 @@ void CVIMPSTStorageVPbkLocalStore::DeleteDatabaseL()
     //close db before deleting it.
     CloseDb();
     iFs.Delete( storagePath );
-    TRACE( T_LIT("CVIMPSTStorageVPbkLocalStore::DeleteDatabaseL() end" ) );
+   
     }
 // ----------------------------------------------------------
 // CVIMPSTStorageVPbkLocalStore::IsSameContactIdL
 // ----------------------------------------------------------
 TBool CVIMPSTStorageVPbkLocalStore::IsSameContactIdL(const TDesC& aFirstId, const TDesC& aSecondId )
     {
+	TRACER_AUTO;
     TInt colIndex = aFirstId.Find(_L(":"));
     TPtrC firstId = aFirstId.Right( aFirstId.Length() - colIndex -1);
     colIndex = aSecondId.Find(_L(":"));

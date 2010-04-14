@@ -22,7 +22,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -56,7 +57,8 @@ CVIMPSTCmdCancelLogin* CVIMPSTCmdCancelLogin::NewL(
         MVIMPSTEngine& aEngine)
     {
     // return the object created 
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdCancelLogin::NewL");
+   
+    TRACER_AUTO;
     return  new (ELeave ) CVIMPSTCmdCancelLogin( aCommandId , aEngine);
     }
 
@@ -66,23 +68,23 @@ CVIMPSTCmdCancelLogin* CVIMPSTCmdCancelLogin::NewL(
 //
 void CVIMPSTCmdCancelLogin::ExecuteLD()
     {
-   	CHAT_DP_FUNC_ENTER("CVIMPSTCmdCancelLogin::ExecuteLD");
+   	
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );    
     
     // now  call logout for cancel login
     // protocol adaptation has to take care of this 
-    iEngine.LogoutL();
-   	
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdCancelLogin:: CommandFinished");
+    iEngine.LogoutL();	
+    
 
     if(iObserver)
 	    {
 	    iObserver->CommandFinishedL(*this);
 	    }
-	CHAT_DP_FUNC_ENTER("CVIMPSTCmdCancelLogin:: CommandFinished");	
+		
 	CleanupStack::PopAndDestroy();	
-	CHAT_DP_FUNC_DONE("CVIMPSTCmdCancelLogin::ExecuteLD");	
+	
     }
 
 

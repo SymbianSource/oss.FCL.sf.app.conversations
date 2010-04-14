@@ -24,6 +24,8 @@
 #include "cvimpstcmdlogout.h"
 #include "cvimpstcmdcancellogin.h"
 
+#include "uiservicetabtracer.h"
+
 #include "mvimpstcmdobserver.h"
 #include "mvimpstengine.h"
 #include "tvimpstconsts.h"
@@ -63,7 +65,7 @@ iEngine(aEngine)
 //
 void CVIMPSTCmdFactory::ConstructL()
     {
-    
+    TRACER_AUTO;
     TUint32 serviceId = iEngine.ServiceId();
     
     //Make sure we initialise the Storage view for this service
@@ -108,7 +110,7 @@ CVIMPSTCmdFactory* CVIMPSTCmdFactory::NewL(MVIMPSTEngine& aEngine)
 //
 CVIMPSTCmdFactory::~CVIMPSTCmdFactory()
     {
-    
+    TRACER_AUTO;
     iEngine.UnIntializeStorage();
     iEngine.UnRegisterServiceSessionObserver(this);
     
@@ -128,7 +130,7 @@ CVIMPSTCmdFactory::~CVIMPSTCmdFactory()
 MVIMPSTCmd* CVIMPSTCmdFactory::CreateCommandForIdL(
         TImCommandId aCommandId,TAny* aData /*NULL*/) 
     {
-    
+    TRACER_AUTO;
     MVIMPSTCmd* commd = NULL;
 	
 	//Instantiate appropriate command    
@@ -255,6 +257,7 @@ MVIMPSTCmd* CVIMPSTCmdFactory::CreateCommandForIdL(
 void CVIMPSTCmdFactory::HandleServiceEventL
 	    			( TVIMPSTEnums::TVIMPSTRegistrationState aState,TInt aServiceError )
 	{
+	TRACER_AUTO;
 	// need not to store update complete state
 	iArrayProcess->SetLoginStateL( aState );
 	for( TInt index( 0 ); index < iObservers.Count(); ++index )

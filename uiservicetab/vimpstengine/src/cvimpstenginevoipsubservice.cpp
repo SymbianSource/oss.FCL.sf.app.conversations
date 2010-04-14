@@ -24,7 +24,7 @@
 #include "cvimpstengineservicetablefetcher.h"
 #include "mvimpstengineserviceconnectioneventobserver.h"
 //debug
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -38,14 +38,13 @@ CVIMPSTEngineVOIPSubService* CVIMPSTEngineVOIPSubService::NewL( TUint32 aService
 									MVIMPSTEngineServiceConnectionEventObserver& aObserver
 									)
     {
-    TRACE( T_LIT("CVIMPSTEngineVOIPSubService::NewL start"));
-    TRACE( T_LIT("NewL() aServiceId: %d"), aServiceId);
+	TRACER_AUTO;
+	TRACE( "aServiceId: %d", aServiceId);
     
     CVIMPSTEngineVOIPSubService* self = CVIMPSTEngineVOIPSubService::NewLC(aServiceId,aCchHandler,
     										aTableFetcher, aObserver);
     CleanupStack::Pop( self );
 	
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::NewL end"));
     return self;
     }
 
@@ -60,8 +59,8 @@ CVIMPSTEngineVOIPSubService* CVIMPSTEngineVOIPSubService::NewLC( TUint32 aServic
                                                    	CVIMPSTEngineServiceTableFetcher& aTableFetcher,
                                                    	MVIMPSTEngineServiceConnectionEventObserver& aObserver )
 	{
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::NewLC start"));
-	TRACE( T_LIT("NewL() aServiceId: %d"), aServiceId);
+	TRACER_AUTO;
+	TRACE( "aServiceId: %d", aServiceId);
 	
     CVIMPSTEngineVOIPSubService* self = new (ELeave) CVIMPSTEngineVOIPSubService(
     												aServiceId,aCchHandler,aTableFetcher,
@@ -69,7 +68,6 @@ CVIMPSTEngineVOIPSubService* CVIMPSTEngineVOIPSubService::NewLC( TUint32 aServic
     CleanupStack::PushL( self );
     self->ConstructL( );
     
-    TRACE( T_LIT("CVIMPSTEngineVOIPSubService::NewLC end"));
     return self;
 	}
 
@@ -80,11 +78,10 @@ CVIMPSTEngineVOIPSubService* CVIMPSTEngineVOIPSubService::NewLC( TUint32 aServic
 
 CVIMPSTEngineVOIPSubService::~CVIMPSTEngineVOIPSubService()
 	{
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::~CVIMPSTEngineVOIPSubService start"));
+	TRACER_AUTO;
    	
    	iCchHandler.UnRegisterCchObserver(ECCHVoIPSub);	
    	
-   	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::~CVIMPSTEngineVOIPSubService end"));
  	}
 
 
@@ -95,7 +92,7 @@ CVIMPSTEngineVOIPSubService::~CVIMPSTEngineVOIPSubService()
 
 void CVIMPSTEngineVOIPSubService::ConstructL(  )
 	{
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::ConstructL start"));
+	TRACER_AUTO;
 	
 	TCCHSubserviceState serviceState = ECCHUninitialized;    
     TInt error = iCchHandler.GetServiceState( 
@@ -105,10 +102,8 @@ void CVIMPSTEngineVOIPSubService::ConstructL(  )
 	
 	iCchHandler.RegisterCchObserverL(this,ECCHVoIPSub);       	
     
-    TRACE( T_LIT("ConstructL() ResolveServiceState returned ServiceState: %d"), 
-							iServiceState );
-   	
-   	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::ConstructL end"));
+	TRACE( "ResolveServiceState returned ServiceState: %d", iServiceState );
+	
    	
    	}
 
@@ -139,10 +134,8 @@ iObserver(aObserver)
 void CVIMPSTEngineVOIPSubService::CchEventOccuredL( TUint /*aServiceId*/, 
     TCCHSubserviceState aState, TInt aServiceError )
 	{	
-	
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::CchEventOccuredL start"));
-	TRACE( T_LIT("CchEventOccuredL() TCCHSubserviceState : %d, ServiceErr: %d"), 
-									aState, aServiceError );
+	TRACER_AUTO;
+	TRACE( " TCCHSubserviceState : %d, ServiceErr: %d",aState, aServiceError );
 	
 	if ( aServiceError && ECCHDisabled != aState )
         {
@@ -159,7 +152,6 @@ void CVIMPSTEngineVOIPSubService::CchEventOccuredL( TUint /*aServiceId*/,
         iObserver.HandleServceConnectionEventL();
         }	
 	
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::CchEventOccuredL end"));
 	
     }    
 
@@ -171,10 +163,9 @@ void CVIMPSTEngineVOIPSubService::CchEventOccuredL( TUint /*aServiceId*/,
 void CVIMPSTEngineVOIPSubService::DoHandleCchErrorL( 
     TInt aServiceError )
     {
-    
-    TRACE( T_LIT("CVIMPSTEngineVOIPSubService::DoHandleCchErrorL start"));
-    TRACE( T_LIT("DoHandleCchErrorL() ServiceErr: %d"), 
-									aServiceError );
+	TRACER_AUTO;
+	  TRACE(" ServiceErr: %d", aServiceError );
+	
 	/*								
 	MCchUi& cchUi = iCchHandler.CchUiApi();
 										
@@ -195,7 +186,6 @@ void CVIMPSTEngineVOIPSubService::DoHandleCchErrorL(
         }
         */
 	
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::DoHandleCchErrorL end"));
         
     }	
     
@@ -209,13 +199,11 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
 										TCCHSubserviceState aState, 
             							TInt aServiceError )
     {
-    
-    TRACE( T_LIT("CVIMPSTEngineVOIPSubService::ResolveServiceState start"));    
+	TRACER_AUTO;
         
     TVIMPSTEnums::TVIMPSTRegistrationState state = TVIMPSTEnums::ESVCENotRegistered;       
     
-    TRACE( T_LIT("ResolveServiceState() iServiceId: %d, ServiceState: %d"), 
-    							iServiceId, aState );    	
+    TRACE( " iServiceId: %d, ServiceState: %d", iServiceId, aState ); 
 
     TBool handleServiceStates = ETrue;
     if ( aServiceError && ECCHDisabled != aState )
@@ -224,7 +212,7 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
 		//Still API from CCH is required to know whether ALR is supported or not
         if ( (KCCHErrorInvalidSettings != aServiceError) && (ECCHConnecting == aState) )        
             {   
-            TRACE( T_LIT("ResolveServiceState() ESVCEWaitingForNetwork") );
+            TRACE( "ESVCEWaitingForNetwork" );
             handleServiceStates = EFalse;  
             state = TVIMPSTEnums::ESVCEWaitingForNetwork;	           
             }
@@ -236,14 +224,14 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
             {
             case ECCHEnabled:
                 {
-                TRACE( T_LIT("ResolveServiceState() ESVCERegistered") );                
+                TRACE( " ESVCERegistered" );    
                 state = TVIMPSTEnums::ESVCERegistered;
                 }
                 break;
 
             case ECCHDisconnecting:      
                 {
-                TRACE( T_LIT("ResolveServiceState() ESVCENetworkDisConnecting") );                
+                TRACE( " ESVCENetworkDisConnecting");   
                 state = TVIMPSTEnums::ESVCENetworkDisConnecting;
                 }
                 break;
@@ -251,14 +239,14 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
             case ECCHUninitialized:
             case ECCHDisabled:  
                 {
-                TRACE( T_LIT("ResolveServiceState() ESVCENotRegistered") );                
+                TRACE( " ESVCENotRegistered" );   
                 state = TVIMPSTEnums::ESVCENotRegistered;
                 }
                 break;
                 
             case ECCHConnecting:               
                 {
-                TRACE( T_LIT("ResolveServiceState() ESVCENetworkConnecting") );                
+                TRACE(" ESVCENetworkConnecting" );    
                 state = TVIMPSTEnums::ESVCENetworkConnecting;
                 }
                 break;
@@ -268,7 +256,6 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
             }
         }        
         
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::ResolveServiceState end"));
 	        
     return state;  
 	
@@ -281,8 +268,8 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::ResolveServi
 // 
 TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::SubServiceState() const
 	{
-	TRACE( T_LIT("SubServiceState() ServiceId: %d ServiceState: %d"), 
-							iServiceId, iServiceState );
+	TRACER_AUTO;
+	TRACE( " ServiceId: %d ServiceState: %d",iServiceId, iServiceState );
 	return iServiceState;
 	}
  
@@ -293,8 +280,9 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngineVOIPSubService::SubServiceSt
 // 
 TVIMPSTEnums::SubServiceType CVIMPSTEngineVOIPSubService::Type() const	
 	{
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService::Type: %d"), iType );
-	TRACE( T_LIT("CVIMPSTEngineVOIPSubService: [0x%x]"), this );		    	
+	TRACER_AUTO;
+	TRACE( "Type: %d", iType );
+	TRACE( " [0x%x]", this );
 	return iType;	
 	}
 

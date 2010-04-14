@@ -21,7 +21,8 @@
 
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include "mvimpstengine.h"
@@ -79,7 +80,8 @@ void CVIMPSTCmdFriendRequest::ConstructL()
 //
 void CVIMPSTCmdFriendRequest::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdFriendRequest::ExecuteLD");
+   
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );     
     
@@ -94,15 +96,15 @@ void CVIMPSTCmdFriendRequest::ExecuteLD()
         presence.SendPresenceGrantPresentityL(iContactId, ( iCommandId == EFriendAccpeted  ));
         }
     
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdFriendRequest:: CommandFinished");
+    
 
     if(iObserver)
         {
         iObserver->CommandFinishedL(*this);
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdFriendRequest:: CommandFinished");    
+      
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdFriendRequest::ExecuteLD");    
+    
     }
 
 

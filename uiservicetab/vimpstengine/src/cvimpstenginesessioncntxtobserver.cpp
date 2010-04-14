@@ -52,7 +52,7 @@
 #include <searchkeyinfo.h>
 #include <ximpfeatureinfo.h>
 
-#include "vimpstdebugtrace.h"
+#include "uiservicetabtracer.h"
 
 //xmppsettings
 #include "xmppparams.h"
@@ -67,6 +67,7 @@
 // ---------------------------------------------------------
 CVIMPSTEngineSessionCntxtObserver* CVIMPSTEngineSessionCntxtObserver::NewL( TUint32 aServiceId )
     {
+	TRACER_AUTO;
     CVIMPSTEngineSessionCntxtObserver* self = 
     					CVIMPSTEngineSessionCntxtObserver::NewLC( aServiceId);
     CleanupStack::Pop( self );
@@ -79,6 +80,7 @@ CVIMPSTEngineSessionCntxtObserver* CVIMPSTEngineSessionCntxtObserver::NewL( TUin
 // ---------------------------------------------------------
 CVIMPSTEngineSessionCntxtObserver* CVIMPSTEngineSessionCntxtObserver::NewLC(TUint32 aServiceId)
     {
+	TRACER_AUTO;
     CVIMPSTEngineSessionCntxtObserver* self = new 
     					(ELeave) CVIMPSTEngineSessionCntxtObserver( aServiceId);
     CleanupStack::PushL( self );
@@ -92,6 +94,7 @@ CVIMPSTEngineSessionCntxtObserver* CVIMPSTEngineSessionCntxtObserver::NewLC(TUin
 // ---------------------------------------------------------    
 void CVIMPSTEngineSessionCntxtObserver::ConstructL()
 	{
+	TRACER_AUTO;
 	iRequestMapper = CVIMPSTEngineRequestMapper::NewL();	
 	iReqResult = KErrNone;
 	iClient = MXIMPClient::NewClientL();               
@@ -125,7 +128,7 @@ void CVIMPSTEngineSessionCntxtObserver::ConstructL()
 // ---------------------------------------------------------
 CVIMPSTEngineSessionCntxtObserver::~CVIMPSTEngineSessionCntxtObserver()
     {
-    
+	TRACER_AUTO;
     iObserverArray.Reset();
     iObserverArray.Close();
     
@@ -163,9 +166,8 @@ void CVIMPSTEngineSessionCntxtObserver::HandlePresenceContextEvent(
     const MXIMPContext& aContext,
     const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("InsideCallback::HandlePresenceContextEvent start"));
+	TRACER_AUTO;
     TRAP_IGNORE(DoHandlePresenceContextEventL( aContext, aEvent ));
-   	TRACE( T_LIT("InsideCallback::HandlePresenceContextEvent end"));	
     }    
 
 	
@@ -203,7 +205,7 @@ TVIMPSTEnums::TVIMPSTBindStatus CVIMPSTEngineSessionCntxtObserver::ContextBindSt
 //
 TInt CVIMPSTEngineSessionCntxtObserver::ServerBindL(TUid aProtocolUid)
     {
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerBindL start"));
+	TRACER_AUTO;
     TInt err = KErrNotFound;
     //Bind context to desired presence service
     if ( TVIMPSTEnums::EVIMPSTBindDone != iBindStatus )
@@ -220,7 +222,7 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerBindL(TUid aProtocolUid)
             // case is flagged here. When unbind completes, rebind is done. 
             // If unbind is called between these operations, flag is set 
             // ESVCEPresenceBindNotDone to avoid bind if service was disabled
-            TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerBindL err: %d"), err);
+            TRACE( "err: %d", err);
             iBindStatus = TVIMPSTEnums::EVIMPSTBindFailureMode;
             }
         else
@@ -236,7 +238,6 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerBindL(TUid aProtocolUid)
         {
         err = KErrNone;
         }
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerBindL end"));
     return err;
     }
 // ---------------------------------------------------------------------------
@@ -246,7 +247,7 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerBindL(TUid aProtocolUid)
 TInt CVIMPSTEngineSessionCntxtObserver::ServerUnBindL( 
     TBool aDoUnsubscribe )
     {
-	TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerUnBind start"));
+	TRACER_AUTO;
 	TInt err = KErrNotFound;
 	if ( TVIMPSTEnums::EVIMPSTBindDone == iBindStatus )
 		{
@@ -255,7 +256,7 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerUnBindL(
 			iBindStatus = TVIMPSTEnums::EVIMPSTUnBinding;
 			}
 		
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerUnBind - do unbind"));
+        TRACE( " do unbind");
 		TXIMPRequestId operationId = TXIMPRequestId::Null(); 
 		TRAP( err, operationId = iPresenceCtx->UnbindL());
 		iBindStatus = TVIMPSTEnums::EVIMPSTUnBindWaiting;
@@ -269,7 +270,6 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerUnBindL(
 		// rebind when unbind completes.
 		iBindStatus = TVIMPSTEnums::EVIMPSTBindNotDone;
 		}
-	TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::ServerUnBind end"));
 	return err;
     } 
 
@@ -280,7 +280,7 @@ TInt CVIMPSTEngineSessionCntxtObserver::ServerUnBindL(
 //
 HBufC* CVIMPSTEngineSessionCntxtObserver::UriFromXimpOperationLC(const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::UriFromXimpOperationLC start"));
+	TRACER_AUTO;
     const MPresentityPresenceEvent& event =
             *TXIMPGetInterface< const MPresentityPresenceEvent >::From( 
                 aEvent, MXIMPBase::EPanicIfUnknown );  
@@ -290,7 +290,6 @@ HBufC* CVIMPSTEngineSessionCntxtObserver::UriFromXimpOperationLC(const MXIMPBase
         {
         retValue = KNullDesC().AllocLC();
         }
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::UriFromXimpOperationLC end"));
     return retValue;    
     }
 
@@ -302,7 +301,7 @@ void CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL(
     const MXIMPContext& aContext,
     const MXIMPBase& aEvent )
     {
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL start"));
+	TRACER_AUTO;
     const TInt32 eventId = aEvent.GetInterfaceId();
         
         switch( aEvent.GetInterfaceId() )
@@ -310,7 +309,7 @@ void CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL(
             case MXIMPRequestCompleteEvent::KInterfaceId:
                 {
                 
-                TRACE( T_LIT("InsideCallbackswitch::MXIMPRequestCompleteEvent start"));
+                TRACE( "InsideCallbackswitch::MXIMPRequestCompleteEvent start");
                 const MXIMPRequestCompleteEvent* event =
                     TXIMPGetInterface< const MXIMPRequestCompleteEvent >::From( 
                         aEvent, MXIMPBase::EPanicIfUnknown );
@@ -345,83 +344,83 @@ void CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL(
 	                    						operation);
 	                    }
                     }
-                TRACE( T_LIT("InsideCallbackswitch::MXIMPRequestCompleteEvent end"));    
+                TRACE("InsideCallbackswitch::MXIMPRequestCompleteEvent end"); 
                 break;
                 }
 
             case MXIMPContextStateEvent::KInterfaceId:
                 {
-                TRACE( T_LIT("InsideCallbackswitch::MXIMPContextStateEvent"));                
+                TRACE( "InsideCallbackswitch::MXIMPContextStateEvent");  
                 break;
                 }
             case MPresentityPresenceEvent::KInterfaceId:
                 {
-                TRACE( T_LIT("InsideCallbackswitch::::MPresentityPresenceEvent start"));
+                TRACE( "InsideCallbackswitch::::MPresentityPresenceEvent start");
                 TInt count = iObserverArray.Count();
                 for(TInt i = 0; i < count; i++)
                     {
                     iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                     }
-                TRACE( T_LIT("InsideCallbackswitch::::MPresentityPresenceEvent end"));
+                TRACE( "InsideCallbackswitch::::MPresentityPresenceEvent end");
                 break;
                 }
             case MPresentityGroupContentEvent::KInterfaceId:
                {
-               TRACE( T_LIT("InsideCallbackswitch::::MPresentityGroupContentEvent start"));
+               TRACE( "InsideCallbackswitch::::MPresentityGroupContentEvent start");
                TInt count = iObserverArray.Count();
                for(TInt i = 0; i < count; i++)
                   {
                   iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                   }
-               TRACE( T_LIT("InsideCallbackswitch::::MPresentityGroupContentEvent end"));
+               TRACE( "InsideCallbackswitch::::MPresentityGroupContentEvent end");
                break;  
                }
             case MPresenceGrantRequestListEvent::KInterfaceId:
                {
-               TRACE( T_LIT("InsideCallbackswitch::::MPresentityGroupContentEvent start"));
+               TRACE("InsideCallbackswitch::::MPresenceGrantRequestListEvent start");
                TInt count = iObserverArray.Count();
                for(TInt i = 0; i < count; i++)
                   {
                   iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                   }               
-               TRACE( T_LIT("InsideCallbackswitch::::MPresentityGroupContentEvent end"));
+               TRACE( "InsideCallbackswitch::::MPresenceGrantRequestListEvent end");
                break;
                }
            
             case MSearchEvent::KInterfaceId:
                 {
-                TRACE( T_LIT("InsideCallbackswitch::::MSearchEvent start"));
+                TRACE( "InsideCallbackswitch::::MSearchEvent start");
 
                 TInt count = iObserverArray.Count();
                 for(TInt i = 0; i < count; i++)
                    {
                    iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                    } 
-                TRACE( T_LIT("InsideCallbackswitch::::MSearchEvent end"));
+                TRACE( "InsideCallbackswitch::::MSearchEvent end");
 
                 break;
                 }
             case MSearchKeysEvent::KInterfaceId:
                 {
-                TRACE( T_LIT("InsideCallbackswitch::::MSearchKeysEvent start"));
+                TRACE( "InsideCallbackswitch::::MSearchKeysEvent start");
                 TInt count = iObserverArray.Count();
                 for(TInt i = 0; i < count; i++)
                    {
                    iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                    } 
-                TRACE( T_LIT("InsideCallbackswitch::::MSearchKeysEvent end"));
+                TRACE( "InsideCallbackswitch::::MSearchKeysEvent end");
 
                 break;
                 }
             case MPresenceBlockListEvent::KInterfaceId:
                {
-               TRACE( T_LIT("InsideCallbackswitch::::MPresenceBlockListEvent start"));
+               TRACE( "InsideCallbackswitch::::MPresenceBlockListEvent start");
                TInt count = iObserverArray.Count();
                for(TInt i = 0; i < count; i++)
                   {
                   iObserverArray[i]->HandleSessionContextEventL(aContext,aEvent);
                   } 
-               TRACE( T_LIT("InsideCallbackswitch::::MPresenceBlockListEvent end"));
+               TRACE( "InsideCallbackswitch::::MPresenceBlockListEvent end");
                break;
                }
               
@@ -430,7 +429,6 @@ void CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL(
                 break;
                 }
             }
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL end"));
     }
 // ---------------------------------------------------------------------------
 // CVIMPSTEngineSessionCntxtObserver::XimpAuthorizationL
@@ -439,6 +437,7 @@ void CVIMPSTEngineSessionCntxtObserver::DoHandlePresenceContextEventL(
 MPresenceAuthorization& 
 CVIMPSTEngineSessionCntxtObserver::XimpAuthorizationL()
     {
+	TRACER_AUTO;
     __ASSERT_ALWAYS( iFeatures, User::Leave( KErrNotSupported ));
     __ASSERT_ALWAYS( &iFeatures->PresenceAuthorization(), 
         User::Leave( KErrNotSupported ));
@@ -522,6 +521,7 @@ MPresenceFeatures& CVIMPSTEngineSessionCntxtObserver::PresenceFeaturesL() const
 //
 void CVIMPSTEngineSessionCntxtObserver::RegisterObserver(MVIMPSTEngineSessionCntxtObserver* aObserver)
     {
+	TRACER_AUTO;
     if (aObserver)
 	    {    	
 	    
@@ -539,6 +539,7 @@ void CVIMPSTEngineSessionCntxtObserver::RegisterObserver(MVIMPSTEngineSessionCnt
 //
 void CVIMPSTEngineSessionCntxtObserver::UnRegisterObserver(MVIMPSTEngineSessionCntxtObserver* aObserver)
     {
+	TRACER_AUTO;
     if (aObserver)
 	    {    
 	    TInt index = iObserverArray.Find(aObserver);
@@ -557,7 +558,7 @@ void CVIMPSTEngineSessionCntxtObserver::UnRegisterObserver(MVIMPSTEngineSessionC
 //
 void CVIMPSTEngineSessionCntxtObserver::IdentifySupportedFeaturesL()
     {
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::IdentifySupportedFeaturesL start"));
+	TRACER_AUTO;
     using namespace NXIMPFeature::Presence;
     using namespace NXIMPFeature::InstantMessage;
     using namespace NXIMPFeature::Search;
@@ -646,8 +647,7 @@ void CVIMPSTEngineSessionCntxtObserver::IdentifySupportedFeaturesL()
 		    }
     
     	delete ximpCtxFeats;
-        }
-    TRACE( T_LIT("CVIMPSTEngineSessionCntxtObserver::IdentifySupportedFeaturesL end"));
+        }				    
     }
 
 

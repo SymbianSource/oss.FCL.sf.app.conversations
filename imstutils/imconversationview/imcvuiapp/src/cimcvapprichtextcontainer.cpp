@@ -1731,7 +1731,10 @@ void CIMCVAppRichTextContainer::ParseTextL( const TDesC& aText, TInt aStartPos,
         types.AppendL( item.iItemType );
         
         // apply highlight item formatting
-        HighLightItemL( realSel );
+        if( iItemHighlight )
+        	{
+			HighLightItemL( realSel );
+        	}
         }
     
     CleanupStack::PopAndDestroy( findItem );

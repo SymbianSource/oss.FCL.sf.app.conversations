@@ -20,7 +20,8 @@
 #include "cvimpstcmdaddtopbk.h"
 #include "vimpstcmd.hrh"
 #include "mvimpstcmdobserver.h"
-#include "vimpstdebugprint.h" 
+
+#include "uiservicetabtracer.h"
 
 #include <e32def.h>
 #include <MVPbkStoreContact.h>
@@ -79,7 +80,7 @@ void CVIMPSTCmdAddToPbk::ConstructL()
 //
 void CVIMPSTCmdAddToPbk::ExecuteLD()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdAddToPbk::ExecuteLD");
+    TRACER_AUTO;
     //push to the cleanupstack
     CleanupStack::PushL( this );
     MVIMPSTStorageServiceView* storage = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iEngine.ServiceId()) ;
@@ -95,9 +96,9 @@ void CVIMPSTCmdAddToPbk::ExecuteLD()
         {
         iObserver->CommandFinishedL(*this);
         }
-    CHAT_DP_FUNC_ENTER("CVIMPSTCmdAddToPbk:: CommandFinished");    
+       
     CleanupStack::PopAndDestroy();  
-    CHAT_DP_FUNC_DONE("CVIMPSTCmdAddToPbk::ExecuteLD");    
+    
     }
 
 

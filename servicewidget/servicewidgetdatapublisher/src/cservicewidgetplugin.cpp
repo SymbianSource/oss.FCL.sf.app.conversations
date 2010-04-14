@@ -413,7 +413,7 @@ void CServiceWidgetPlugin::HandleError( TInt /*aError*/ )
 // Read property of publisher plug-in.
 // ---------------------------------------------------------------------------
 //
-TAny* CServiceWidgetPlugin::GetPropertyL( TInt aProperty )
+/*TAny* CServiceWidgetPlugin::GetPropertyL( TInt aProperty )
     {
     TRACE_SWP(TXT("CServiceWidgetPlugin::GetPropertyL() start") );
     TAny* property = NULL;
@@ -454,5 +454,5 @@ void CServiceWidgetPlugin::SetPropertyL( TInt aProperty, TAny* aValue )
             break;         
         }
     TRACE_SWP(TXT("CServiceWidgetPlugin::SetPropertyL() end") );
-    }
+    }*/
 // End of File

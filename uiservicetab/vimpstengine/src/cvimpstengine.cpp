@@ -49,7 +49,8 @@
 
 #include "mvimpststoragecontactlist.h"
 #include <cvimpstsettingsstore.h>
-#include "vimpstdebugtrace.h"
+
+#include "uiservicetabtracer.h"
 
 // Constants
 _LIT( KListNameAllBuddy ,"buddylist" );
@@ -63,15 +64,14 @@ CVIMPSTEngine* CVIMPSTEngine::NewL(
 								TUint32 aServiceId,
 								CVIMPSTEngineServiceTableFetcher& aTableFetcher )
     {
-    TRACE( T_LIT("CVIMPSTEngine::NewL start") );
-    TRACE( T_LIT("NewL() ServiceId: %d"), aServiceId );
+	TRACER_AUTO; 
+	TRACE("ServiceId: %d", aServiceId);
     
     
     CVIMPSTEngine* self = CVIMPSTEngine::NewLC(	aServiceId,
     											aTableFetcher );
     CleanupStack::Pop( self );
-	
-    TRACE( T_LIT("CVIMPSTEngine::NewL end") );
+ 
     return self;
     }
 
@@ -84,17 +84,16 @@ CVIMPSTEngine* CVIMPSTEngine::NewL(
 CVIMPSTEngine* CVIMPSTEngine::NewLC(
 								TUint32 aServiceId,
 								CVIMPSTEngineServiceTableFetcher& aTableFetcher )
-	{
-    TRACE( T_LIT("CVIMPSTEngine::NewLC start") );
-    TRACE( T_LIT("NewLC() ServiceId: %d"), aServiceId );
+	{  
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", aServiceId );
 	
     CVIMPSTEngine* self = new (ELeave) CVIMPSTEngine(
     												aServiceId, 
     												aTableFetcher );
     CleanupStack::PushL( self );
-    self->ConstructL( aServiceId );
-    
-    TRACE( T_LIT("CVIMPSTEngine::NewLC end") );
+    self->ConstructL( aServiceId );    
+  
     return self;
 	}
 
@@ -105,7 +104,7 @@ CVIMPSTEngine* CVIMPSTEngine::NewLC(
 
 CVIMPSTEngine::~CVIMPSTEngine()
 	{
-	TRACE( T_LIT("CVIMPSTEngine::~CVIMPSTEngine start") );
+	TRACER_AUTO;
 	
 	iObserverArray.Reset();
     iObserverArray.Close();
@@ -122,7 +121,7 @@ CVIMPSTEngine::~CVIMPSTEngine()
 	delete iCchHandler;
     iCchHandler = NULL;       
 
-    TRACE( T_LIT("CVIMPSTEngine::~CVIMPSTEngine end") );
+ 
  	}
 
 
@@ -133,8 +132,8 @@ CVIMPSTEngine::~CVIMPSTEngine()
 
 void CVIMPSTEngine::ConstructL( TUint32 aServiceId )
 	{
-	TRACE( T_LIT("CVIMPSTEngine::ConstructL  start") );
-    TRACE( T_LIT("ConstructL() - ServiceId: %d"), aServiceId );
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", aServiceId );
 
 	iServiceName = HBufC::NewL( KVIMPSTUISPSMaxPropertyLength );
 	
@@ -160,13 +159,13 @@ void CVIMPSTEngine::ConstructL( TUint32 aServiceId )
 	if ( KErrNotFound != ximpAdapterUid && requireXimp )
 	    {
         TRAPD( err, (iSessionCntxtObserver = CVIMPSTEngineSessionCntxtObserver::NewL(aServiceId)));
-        TRACE( T_LIT("ConstructL() -1st Creating session context observer: %d"), err );	
+        TRACE( "1st Creating session context observer: %d", err );	
         if (KErrNotFound == err)
             {
-						TRACE( T_LIT("Ximp impl not found. Calling Logout") );            	
+						TRACE( "Ximp impl not found. Calling Logout" );            	
             iUnInstall = ETrue;
             LogoutL();
-            TRACE( T_LIT("Logout Called on account of uninstall") );
+            TRACE( "Logout Called on account of uninstall" );
             return;
             }
 	    }
@@ -228,7 +227,6 @@ void CVIMPSTEngine::ConstructL( TUint32 aServiceId )
     iState = ParseGetServiceState();
     //if cch is already logged in, and the callback's servicestatuschanged() stopped
     RetriveContextIfCChEnabledL();
-    TRACE( T_LIT("CVIMPSTEngine::ConstructL  end") );
     }
 
 
@@ -251,7 +249,7 @@ iTableFetcher(aTableFetcher)
 // ---------------------------------------------------------
 void CVIMPSTEngine::RetriveContextIfCChEnabledL()
 	{
-    TRACE( T_LIT("CVIMPSTEngine::RetriveContextIfCChEnabledL  start") );
+	TRACER_AUTO; 
     if ( (iSessionCntxtObserver) && 
          (TVIMPSTEnums::ESVCEUpdatingContacts == iState || TVIMPSTEnums::ESVCERegistered == iState ) 
    		 && ( TVIMPSTEnums::EVIMPSTBindNotDone == iSessionCntxtObserver->ContextBindStatus()  ) )
@@ -266,7 +264,7 @@ void CVIMPSTEngine::RetriveContextIfCChEnabledL()
             }
         SetExtentionFeaturesSupportedL();
 		}
-	TRACE( T_LIT("CVIMPSTEngine::RetriveContextIfCChEnabledL end"));
+
 	}
 
 // ---------------------------------------------------------
@@ -275,18 +273,17 @@ void CVIMPSTEngine::RetriveContextIfCChEnabledL()
 // ---------------------------------------------------------
 TInt CVIMPSTEngine::Login()
 	{
-    TRACE( T_LIT("CVIMPSTEngine::ConstructL  start") );
-    TRACE( T_LIT("Login() - ServiceId: %d"), iServiceId );
+	TRACER_AUTO; 
+    TRACE( "ServiceId: %d", iServiceId );
 	
 	TInt error = KErrNotFound;
 	if(iCchHandler)
 		{
-		TRACE( T_LIT("Login() - EnableService Called"));
+	TRACE( "EnableService Called");
 		error =  iCchHandler->EnableService(); 		
 		}
 	
-	TRACE( T_LIT("Login - error: %d"), error );
-	TRACE( T_LIT("CVIMPSTEngine::Login"));
+	TRACE( "error: %d", error );
 		
 	return error;
 	}
@@ -298,8 +295,8 @@ TInt CVIMPSTEngine::Login()
 // ---------------------------------------------------------
 void CVIMPSTEngine::LogoutL()
 	{
-	TRACE( T_LIT("CVIMPSTEngine::Logout"));
-	TRACE( T_LIT("Logout() - ServiceId: %d"), iServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	
 	if(iCchHandler)
 		{
@@ -321,13 +318,13 @@ void CVIMPSTEngine::LogoutL()
       //to unbind to XIMP context. 
       if( iSessionCntxtObserver )
           {
-          TRACE( T_LIT("Logout() - ServerUnBindL Called"));
+          TRACE( "ServerUnBindL Called");
           iSessionCntxtObserver->ServerUnBindL(ETrue);    
           }		
-		TRACE( T_LIT("Logout() - DisableService Called"));
+		TRACE(" DisableService Called");
 		iCchHandler->DisableService();  
 		}	
-	TRACE( T_LIT("CVIMPSTEngine::Logout"));
+	
 	}
 
 
@@ -337,7 +334,8 @@ void CVIMPSTEngine::LogoutL()
 // ---------------------------------------------------------
 TUint32 CVIMPSTEngine::ServiceId() const
 	{
-	TRACE( T_LIT("ServiceId() - ServiceId: %d"), iServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	return iServiceId;	
 	}
 
@@ -348,8 +346,9 @@ TUint32 CVIMPSTEngine::ServiceId() const
 // ---------------------------------------------------------
 const TDesC& CVIMPSTEngine::ServiceName() const
 	{
+	TRACER_AUTO;
 	TPtr serviceNamePtr = iServiceName->Des();
-	TRACE( T_LIT("ServiceName() - ServiceName: '%S'"), &serviceNamePtr );
+	TRACE( "ServiceName: '%S'", &serviceNamePtr );
 	return *iServiceName;	
 	}
 
@@ -359,7 +358,8 @@ const TDesC& CVIMPSTEngine::ServiceName() const
 // ---------------------------------------------------------
 TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngine::ServiceState() const
 	{
-	TRACE( T_LIT("ServiceState() - ServiceState: %d"), iState  );
+	TRACER_AUTO;
+	TRACE( "ServiceState: %d", iState  );
 	return iState;
 	}
 
@@ -372,13 +372,12 @@ TInt CVIMPSTEngine::GetBrandInfoL(TLanguage& aBrandLanguage,
 				TInt &aBrandVersion, TDes8& aBrandId) const
 
 	{
-	TRACE( T_LIT("CVIMPSTEngine::GetBrandInfoL start"));
-	TRACE( T_LIT("GetBrandInfoL() - ServiceId: %d"), iServiceId );
+	TRACER_AUTO;	
+	TRACE("ServiceId: %d", iServiceId );
 	
 	iTableFetcher.GetBrandIdL(iServiceId, aBrandId);
 	aBrandLanguage = iTableFetcher.PropertyBrandLanguageL(iServiceId);
-	aBrandVersion = iTableFetcher.PropertyBrandVersionL(iServiceId);
-	TRACE( T_LIT("CVIMPSTEngine::GetBrandInfoL end"));
+	aBrandVersion = iTableFetcher.PropertyBrandVersionL(iServiceId);	
 	return KErrNone;
 	}
 	
@@ -389,10 +388,9 @@ TInt CVIMPSTEngine::GetBrandInfoL(TLanguage& aBrandLanguage,
 // ---------------------------------------------------------
 TBool CVIMPSTEngine::IsSubServiceSupportedL(TVIMPSTEnums::SubServiceType aType) const 
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceSupportedL start"));
-	TRACE( T_LIT ("IsSubServiceSupportedL() - ServiceId: %d"), iServiceId);
-	TRACE( T_LIT ("IsSubServiceSupportedL() - SubServiceType: %d"), aType);
+	TRACER_AUTO;	
+	TRACE("ServiceId: %d", iServiceId);
+	TRACE("SubServiceType: %d", aType);
 	
 	TBool support = EFalse;
 	
@@ -402,8 +400,7 @@ TBool CVIMPSTEngine::IsSubServiceSupportedL(TVIMPSTEnums::SubServiceType aType) 
 		support = ETrue;
 		}
 	
-	TRACE( T_LIT("IsSubServiceSupportedL() - support: %d"), support );	
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceSupportedL end"));
+	TRACE( "support: %d", support );		
 	return support;
 	
 	}
@@ -416,9 +413,10 @@ TBool CVIMPSTEngine::IsSubServiceSupportedL(TVIMPSTEnums::SubServiceType aType) 
 TBool CVIMPSTEngine::IsSubServiceEnabled(TVIMPSTEnums::SubServiceType aType) const 
 	{
 	
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceEnabled start"));
-    TRACE( T_LIT("IsSubServiceEnabled() - ServiceId: %d"), iServiceId );
-    TRACE( T_LIT("IsSubServiceEnabled() - SubServiceType: %d"), aType );
+
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", iServiceId );
+    TRACE( "SubServiceType: %d", aType );
 
 	MVIMPSTEngineSubService* subService = SubService(aType);
 	TBool enabled = EFalse;
@@ -430,8 +428,7 @@ TBool CVIMPSTEngine::IsSubServiceEnabled(TVIMPSTEnums::SubServiceType aType) con
 			enabled = ETrue;
 			}
 		}	
-	TRACE( T_LIT("IsSubServiceEnabled() - enabled: %d"), enabled );
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceEnabled end") );
+	TRACE( "enabled: %d", enabled );
 	return enabled;	
 	}
 			
@@ -441,10 +438,10 @@ TBool CVIMPSTEngine::IsSubServiceEnabled(TVIMPSTEnums::SubServiceType aType) con
 // ---------------------------------------------------------	
 void CVIMPSTEngine::ContactStoreIdL (TDes& aContactStoreId ) const
 	{
-	TRACE( T_LIT("CVIMPSTEngine::ContactStoreIdL start"));
-	TRACE( T_LIT("ContactStoreIdL() - ServiceId: %d"), iServiceId );	
+	TRACER_AUTO;
+	TRACE("ServiceId: %d", iServiceId );	
 	iTableFetcher.GetContactStoreIdL(iServiceId, aContactStoreId);	
-	TRACE( T_LIT("CVIMPSTEngine::ContactStoreIdL end"));
+
 	}
 
 // ---------------------------------------------------------------------------
@@ -454,14 +451,14 @@ void CVIMPSTEngine::ContactStoreIdL (TDes& aContactStoreId ) const
 void CVIMPSTEngine::RegisterServiceSessionObserverL
 							(MVIMPSTEngineServiceStateEventObserver* aObserver)
 	{
-	__ASSERT_ALWAYS(aObserver,User::Leave(KErrArgument));
-	TRACE( T_LIT("CVIMPSTEngine::RegisterServiceSessionObserverL start"));
+	TRACER_AUTO;
+	__ASSERT_ALWAYS(aObserver,User::Leave(KErrArgument));	
 	TInt index = iObserverArray.Find(aObserver);
 	        if( index == KErrNotFound )
 	            {
 	            iObserverArray.Append( aObserver );   
 	            } 
-	TRACE( T_LIT("CVIMPSTEngine::RegisterServiceSessionObserverL end"));
+
 	}
 	
 // ---------------------------------------------------------------------------
@@ -471,7 +468,8 @@ void CVIMPSTEngine::RegisterServiceSessionObserverL
 void CVIMPSTEngine::UnRegisterServiceSessionObserver
 							(MVIMPSTEngineServiceStateEventObserver* aObserver)
 	{
-	TRACE( T_LIT("CVIMPSTEngine::UnRegisterServiceSessionObserverL start"));
+
+	TRACER_AUTO;
     if(aObserver)
         {
         TInt index = iObserverArray.Find(aObserver);
@@ -481,7 +479,7 @@ void CVIMPSTEngine::UnRegisterServiceSessionObserver
             iObserverArray.Compress();
             }
         }
-	TRACE( T_LIT("CVIMPSTEngine::UnRegisterServiceSessionObserverL end"));
+
 	}
 // ---------------------------------------------------------
 // CVIMPSTEngine::IntializeStorage
@@ -489,8 +487,8 @@ void CVIMPSTEngine::UnRegisterServiceSessionObserver
 // ---------------------------------------------------------	
 void CVIMPSTEngine::IntializeStorageL()
 	{
-    TRACE( T_LIT("CVIMPSTEngine::IntializeStorageL"));
-    TRACE( T_LIT("IntializeStorageL() - ServiceId: %d"), iServiceId );	
+	TRACER_AUTO;
+    TRACE( "ServiceId: %d", iServiceId );	
  	iContactInterface = CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
  	if(iContactInterface)
 		{
@@ -515,7 +513,7 @@ void CVIMPSTEngine::IntializeStorageL()
 		CleanupStack::PopAndDestroy(&lastUserName); //lastUserName  
 		CleanupStack::PopAndDestroy(); //store     
 		}
- 	TRACE( T_LIT("CVIMPSTEngine::IntializeStorageL") );
+ 
 	}
 // ---------------------------------------------------------
 // CVIMPSTEngine::UnIntializeStorage
@@ -523,13 +521,13 @@ void CVIMPSTEngine::IntializeStorageL()
 // ---------------------------------------------------------	
 void CVIMPSTEngine::UnIntializeStorage()
 	{
-	TRACE( T_LIT("CVIMPSTEngine::UnIntializeStorage start"));
-	TRACE( T_LIT("UnIntializeStorage() - ServiceId: %d"), iServiceId );
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	if(iContactInterface)
 		{
 		iContactInterface->RemoveObserver( this );
 		} 
-	TRACE( T_LIT("CVIMPSTEngine::UnIntializeStorage end"));
+
 	}
 	
 //-----------------------------------------------------------------------------
@@ -538,7 +536,8 @@ void CVIMPSTEngine::UnIntializeStorage()
 //----------------------------------------------------------------------------- 
 void CVIMPSTEngine::SetOwnUserIdIfChangedL(const TDesC& aUserId)
 	{
-	TRACE( T_LIT("CVIMPSTEngine::SetOwnUserIdL"));
+
+	TRACER_AUTO;
 	MVIMPSTSettingsStore* store = CVIMPSTSettingsStore::NewLC();
 	RBuf lastUserName;
 	lastUserName.CreateL( KPropertyMaxLength );
@@ -552,7 +551,7 @@ void CVIMPSTEngine::SetOwnUserIdIfChangedL(const TDesC& aUserId)
 		} 
 	CleanupStack::PopAndDestroy(&lastUserName); //lastUserName         
 	CleanupStack::PopAndDestroy(); //store 
-	TRACE( T_LIT("CVIMPSTEngine::SetOwnUserIdL"));
+
 	}
 
 //-----------------------------------------------------------------------------
@@ -561,8 +560,9 @@ void CVIMPSTEngine::SetOwnUserIdIfChangedL(const TDesC& aUserId)
 //----------------------------------------------------------------------------- 
 HBufC* CVIMPSTEngine::GetOwnUserIdFromCChOrStorageL() const
 	{
-	TRACE( T_LIT("CVIMPSTEngine::GetOwnUserIdFromCChL"));
-	TRACE( T_LIT("GetOwnUserIdFromCChL() - ServiceId: %d"), iServiceId );
+
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	HBufC* buffer = NULL;
 	if(iCchHandler)
 		{
@@ -584,10 +584,9 @@ HBufC* CVIMPSTEngine::GetOwnUserIdFromCChOrStorageL() const
 //----------------------------------------------------------------------------- 
 MVIMPSTEngineSubService* CVIMPSTEngine::SubService(TVIMPSTEnums::SubServiceType aType) const 
 	{
-	TRACE( T_LIT("CVIMPSTEngine::SubService start"));
-	TRACE( T_LIT("SubService() - ServiceId: %d"), iServiceId );
-	TRACE( T_LIT("SubService() - SubServiceType: %d"), aType );
-	
+	TRACER_AUTO;
+	TRACE("ServiceId: %d", iServiceId );
+	TRACE( "SubServiceType: %d", aType );
 	TInt subServiceCount = iSubService.Count();
 	MVIMPSTEngineSubService* subService = NULL;	
 	
@@ -597,13 +596,14 @@ MVIMPSTEngineSubService* CVIMPSTEngine::SubService(TVIMPSTEnums::SubServiceType 
         
         if (aType == iSubService[index]->Type())
 	        {
-	        subService = iSubService[index];
-	        TRACE( T_LIT("SubService() - SubService Found") );	
+	        subService = iSubService[index];	  
+	        TRACE("SubService Found");
 	        break;
 	        }       			
 		}	
 	
-	TRACE( T_LIT("CVIMPSTEngine::SubService end"));
+
+    
 	return subService;	
 	}
 	
@@ -614,10 +614,9 @@ MVIMPSTEngineSubService* CVIMPSTEngine::SubService(TVIMPSTEnums::SubServiceType 
 //----------------------------------------------------------------------------- 
 MVIMPSTEngineExtentionFeatures* CVIMPSTEngine::ExtentionFeatures(TVIMPSTEnums::ExtentionType aType) const 
 	{
-	TRACE( T_LIT("CVIMPSTEngine::ExtentionFeatures start"));
-	TRACE( T_LIT("ExtentionFeatures() - ServiceId: %d"), iServiceId );
-	TRACE( T_LIT("ExtentionFeatures() - ExtentionType: %d"), aType );
-	
+	TRACER_AUTO;
+	TRACE("ServiceId: %d", iServiceId);
+	TRACE("ExtentionType: %d", aType);
 	TInt fetaureCount = iExtentionFeatures.Count();
 	MVIMPSTEngineExtentionFeatures* feature = NULL;	
 	
@@ -627,13 +626,13 @@ MVIMPSTEngineExtentionFeatures* CVIMPSTEngine::ExtentionFeatures(TVIMPSTEnums::E
         
         if (aType == iExtentionFeatures[index]->Type())
 	        {
-	        feature = iExtentionFeatures[index];
-	        TRACE( T_LIT("SubService() - ExtentionFeatures Found") );	
+	        feature = iExtentionFeatures[index];	   
+	        TRACE("ExtentionFeatures Found");	
 	        break;
 	        }       			
 		}	
 	
-	TRACE( T_LIT("CVIMPSTEngine::ExtentionFeatures"));
+
 	return feature;	
 	}
 
@@ -645,19 +644,18 @@ MVIMPSTEngineExtentionFeatures* CVIMPSTEngine::ExtentionFeatures(TVIMPSTEnums::E
 //----------------------------------------------------------------------------- 
 void CVIMPSTEngine::AddExtentionFeaturesL(MVIMPSTEngineExtentionFeatures* aFeature) 
 	{
-	__ASSERT_ALWAYS(aFeature,User::Leave(KErrArgument));
-	
-	TRACE( T_LIT("CVIMPSTEngine::AddExtentionFeaturesL"));
-	TRACE( T_LIT("AddExtentionFeaturesL() - ServiceId: %d"), iServiceId );
-	
+	__ASSERT_ALWAYS(aFeature,User::Leave(KErrArgument));	
+
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	if (aFeature)
 		{		
-		TRACE( T_LIT("AddExtentionFeaturesL() - ExtentionType: %d"), aFeature->Type() );
-		iExtentionFeatures.Append(aFeature);	
-		TRACE( T_LIT("AddExtentionFeaturesL() - Append Done") );
+	    TRACE( "ExtentionType: %d", aFeature->Type() );
+		iExtentionFeatures.Append(aFeature);		
+		TRACE( "Append Done" );
 		}	
 	
-	TRACE( T_LIT("CVIMPSTEngine::AddExtentionFeaturesL"));
+
 	
 	}
 	
@@ -668,10 +666,9 @@ void CVIMPSTEngine::AddExtentionFeaturesL(MVIMPSTEngineExtentionFeatures* aFeatu
 //----------------------------------------------------------------------------- 
 void CVIMPSTEngine::RemoveExtentionFeatures(TVIMPSTEnums::ExtentionType aType) 
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngine::RemoveExtentionFeatures"));
-	TRACE( T_LIT("RemoveExtentionFeatures() - ServiceId: %d"), iServiceId );
-	
+	TRACER_AUTO;	
+
+	TRACE( "ServiceId: %d", iServiceId );
 	TInt fetaureCount = iExtentionFeatures.Count();
 	
 	// iterate the service array
@@ -680,15 +677,15 @@ void CVIMPSTEngine::RemoveExtentionFeatures(TVIMPSTEnums::ExtentionType aType)
         
         if (aType == iExtentionFeatures[index]->Type())
 	        {
-	        TRACE( T_LIT("RemoveExtentionFeatures() Found - ExtentionType: %d"), aType );
+	        TRACE( "ExtentionType: %d", aType );
 	        iExtentionFeatures.Remove(index);
 	        iExtentionFeatures.Compress();
-	        TRACE( T_LIT("RemoveExtentionFeatures() - Remove Done") );
+	        TRACE( "Remove Done" );
 	        break;
 	        }       			
 		}	
 	
-	TRACE( T_LIT("CVIMPSTEngine::RemoveExtentionFeatures end"));
+
 		
 	}	
 	
@@ -700,8 +697,8 @@ void CVIMPSTEngine::RemoveExtentionFeatures(TVIMPSTEnums::ExtentionType aType)
 //-----------------------------------------------------------------------------
 void  CVIMPSTEngine::HandleServceConnectionEventL()
 	{
-	TRACE( T_LIT("CVIMPSTEngine::HandleServceConnectionEventL"));
-	TRACE( T_LIT("HandleServceConnectionEventL() - ServiceId: %d"), iServiceId );	
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );	
 
 	TVIMPSTEnums::TVIMPSTRegistrationState previousState = iState;
 	iState = ParseGetServiceState();	
@@ -716,7 +713,7 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 			presSubService->ResetBlockedListManagerL();
 			}
 		}
-	TRACE( T_LIT("HandleServceConnectionEventL() - PreviousState: %d, CurrentState:%d"), previousState, iState );
+	TRACE( "PreviousState: %d, CurrentState:%d", previousState, iState );
 	//Only send observer notifications if there is any change in the Service State
 	//Otherwise not required
 	if (previousState != iState)
@@ -731,11 +728,11 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
     if (  presSubService && TVIMPSTEnums::ESVCERegistered == previousState &&
           TVIMPSTEnums::ESVCENetworkConnecting == iState )
           {
-          TRACE( T_LIT( "HandleServceConnectionEventL()-UnsubscribeLists" ) );
+          TRACE( "UnsubscribeLists"  );
           
           TRAPD( err, presSubService->UnsubscribeListsL() );
 	  
-          TRACE( T_LIT( "HandleServceConnectionEventL()-UnsubscribeLists -err: %d" ), err );
+          TRACE( "UnsubscribeLists -err: %d" , err );
 	  
           if ( iSessionCntxtObserver )
               {
@@ -745,7 +742,7 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 		TInt count = iObserverArray.Count();
 		for (TInt index=0; index<count; index++)		
 			{
-			TRACE( T_LIT("HandleServceConnectionEventL()calling HandleServiceEventL") );
+			TRACE( "calling HandleServiceEventL" );
 			iObserverArray[index]->HandleServiceEventL(iState, KErrNone);
 			}		
 		TInt ximpAdapterUid = iTableFetcher.XimpAdapterUidL(iServiceId);
@@ -809,7 +806,7 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 				} //end of else if
 			}// end of isessioncontextobserver and ximpadapteruid.
 			}// end of if(previousstate != iState)	
-	TRACE( T_LIT("CVIMPSTEngine::HandleServceConnectionEventL end") );
+
 	}
 	
 //-----------------------------------------------------------------------------
@@ -818,7 +815,7 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 //-----------------------------------------------------------------------------
 TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngine::ParseGetServiceState()
 	{
-	
+	TRACER_AUTO;
 	TInt subServiceCount = iSubService.Count();
 	TInt serviceState = 0;
 		
@@ -877,7 +874,8 @@ TVIMPSTEnums::TVIMPSTRegistrationState CVIMPSTEngine::ParseGetServiceState()
 //-----------------------------------------------------------------------------
 void  CVIMPSTEngine::HandleContactFetchedL()
     {
-    TRACE( T_LIT("CVIMPSTEngine::HandleContactFetchedL"));
+  
+	TRACER_AUTO;
     
     if (TVIMPSTEnums::ESVCERegistered == iState ||
 	    	TVIMPSTEnums::ESVCEUpdatingContacts == iState ) 
@@ -913,7 +911,7 @@ void  CVIMPSTEngine::HandleContactFetchedL()
 			    }
 			}                
 		}                
-    TRACE( T_LIT("CVIMPSTEngine::HandleContactFetchedL end"));
+  
     }
     
 // --------------------------------------------------------------------------
@@ -925,22 +923,24 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 			        						MVIMPSTStorageContact* aContact,
 			        						TInt /*aContactIndex*/ )
     {
-    TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL begin"));
-    TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL iState = %d"), iState);
+  
+	TRACER_AUTO;  
+	TRACE(" iState = %d", iState);
     if (TVIMPSTEnums::ESVCERegistered == iState ||	TVIMPSTEnums::ESVCEUpdatingContacts == iState ) 
-		{
-		TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL Inside IF"));
-		TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL aEventType : %d"), aEventType);
+		{	
+        TRACE( "Inside IF");	
+        TRACE( "aEventType : %d", aEventType);
 		switch( aEventType )
 		    {
 		    case TVIMPSTEnums::EStorageContactReadComplete:
 		    case TVIMPSTEnums::EStorageContactFetchComplete:
 		        {
-		        TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL aEventType EStorageContactFetchComplete"));
+		        TRACE( "aEventType EStorageContactFetchComplete");
 		        MVIMPSTEngineSubService* subService =  SubService(TVIMPSTEnums::EPresence); 
 		        if( subService )   
 		            {
-		            TRACE( T_LIT("HandleStorageChangeL::EStorageContactFetchComplete Inside IF subService"));
+		       
+		           TRACE( "Inside IF subService");
 		            MVIMPSTEnginePresenceSubService& presenceSubService = MVIMPSTEnginePresenceSubService::Cast(*subService);
 		            
 		            MVIMPSTStorageServiceView* storage =  CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
@@ -952,13 +952,15 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
                             {
                             presenceSubService.SubscribePresenceOfSingleContactL( ownUserId );
                             }
-		                TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL inside  if storage"));
+		          
+		                TRACE( "inside  if storage");
 		                MVIMPSTStorageContactList* list = storage->FindContactList(KIMContactListId) ;      
 		                if ( list )                     
 		                    {
-		                    TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL inside  if list"));
-		                    TInt count = list->Count();
-		                    TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL inside  count = %d"), count);
+		               
+		                     TRACE( "inside  if list");
+		                    TInt count = list->Count();		                 
+		                    TRACE( "inside  count = %d", count);
 		                    for(TInt i = 0;i < count; i++)
 		                        {
 		                        MVIMPSTStorageContact* contact = &(list->operator[](i));
@@ -966,8 +968,8 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 		                            {
                                     if( contact->UserId().Length() )
                                         {
-                                        TPtrC userId = contact->UserId();
-                                        TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL inside userId = %S"), &userId);
+                                        TPtrC userId = contact->UserId();                                   
+                                        TRACE("inside userId = %S", &userId);
                                         presenceSubService.SubscribePresenceOfSingleContactL( contact->UserId() );    
                                         }
 		                            } // end of if(contact)
@@ -985,8 +987,8 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 		    case TVIMPSTEnums::EStorageContactSynchronizing:
 		    case TVIMPSTEnums::EStorageContactReading:
 		    case TVIMPSTEnums::EStorageContactFetchExistInStore:
-		        {
-		        TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL aEventType : %d"), aEventType);
+		        {		    
+		        TRACE( "aEventType : %d", aEventType);
 		        MVIMPSTEngineSubService* subService =  SubService(TVIMPSTEnums::EPresence); 
 		        if( subService && aContact && 
 		                aContact->UserId().Length() && 
@@ -1001,7 +1003,8 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 		    case TVIMPSTEnums::EStorageEventUserIdPreChange:
 		    case TVIMPSTEnums::EStorageEventDeleteFromPbk:
 		        {
-		        TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL EStorageEventUserIdPreChange/EStorageEventDeleteFromPbk"));
+		     
+		        TRACE("EStorageEventUserIdPreChange/EStorageEventDeleteFromPbk");
 		        if( aContact && aContact->UserId().Length() ) 
 		            {
 		            TPtrC userId = aContact->UserId();
@@ -1030,7 +1033,8 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 		        }
 		    case TVIMPSTEnums::EStorageEventUserIdPostChange:
 		        {
-		        TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL EStorageEventUserIdPostChange"));
+		     
+		        TRACE("EStorageEventUserIdPostChange");
 		        if( aContact && aContact->UserId().Length() ) 
 		            {
 		            TPtrC userId = aContact->UserId();
@@ -1057,7 +1061,6 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 		        }
 		    }
 		}
-    TRACE( T_LIT("CVIMPSTEngine::HandleStorageChangeL end"));
     }
     
 //-----------------------------------------------------------------------------
@@ -1066,7 +1069,7 @@ void CVIMPSTEngine::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEventType 
 //-----------------------------------------------------------------------------    
 void CVIMPSTEngine::CreateExtentionFeaturesL()
     {
-    TRACE( T_LIT("CVIMPSTEngine::CreateExtentionFeaturesL start"));
+	TRACER_AUTO;
     if (!iSessionCntxtObserver)
         {
         return;	
@@ -1113,7 +1116,7 @@ void CVIMPSTEngine::CreateExtentionFeaturesL()
         //unbinded
         iSessionCntxtObserver->RegisterObserver(searchitem);
         }
-    TRACE( T_LIT("CVIMPSTEngine::CreateExtentionFeaturesL end"));
+    
     }
 
 //-----------------------------------------------------------------------------
@@ -1122,7 +1125,7 @@ void CVIMPSTEngine::CreateExtentionFeaturesL()
 //-----------------------------------------------------------------------------    
 void CVIMPSTEngine::SetExtentionFeaturesSupportedL()
     {
-    TRACE( T_LIT("CVIMPSTEngine::SetExtentionFeaturesSupportedL start"));
+	TRACER_AUTO;
     if (!iSessionCntxtObserver)
 		{
 		return;	
@@ -1177,7 +1180,6 @@ void CVIMPSTEngine::SetExtentionFeaturesSupportedL()
             avatarFeature.SetAvatarSupported(ETrue);                
             }
         }
-    TRACE( T_LIT("CVIMPSTEngine::SetExtentionFeaturesSupportedL end"));
     }
 
 
@@ -1187,6 +1189,7 @@ void CVIMPSTEngine::SetExtentionFeaturesSupportedL()
 //-----------------------------------------------------------------------------    
 void CVIMPSTEngine::ReSetExtentionFeaturesSupportedL()
     {
+	TRACER_AUTO;
     //first find whether we have the extention already created
     //in the extention manager list
     MVIMPSTEngineExtentionFeatures* feature = ExtentionFeatures(
@@ -1229,10 +1232,10 @@ void CVIMPSTEngine::ReSetExtentionFeaturesSupportedL()
 // ---------------------------------------------------------
 void CVIMPSTEngine::DefaultDomainNameL( TDes& aDefaultDomainName ) const
 	{
-	TRACE( T_LIT("CVIMPSTEngine::DefaultDomainName start"));
-	TRACE( T_LIT("DefaultDomainNameL() - ServiceId: %d"), iServiceId );	
+	TRACER_AUTO;	
+	TRACE( "ServiceId: %d", iServiceId );
 	iTableFetcher.GetDefaultDomainNameL(iServiceId, aDefaultDomainName);	
-	TRACE( T_LIT("CVIMPSTEngine::DefaultDomainNameL end"));
+
 	}
 	
 
@@ -1242,11 +1245,9 @@ void CVIMPSTEngine::DefaultDomainNameL( TDes& aDefaultDomainName ) const
 // ---------------------------------------------------------
 TBool CVIMPSTEngine::IsSubServiceSupportedInternal(TVIMPSTEnums::SubServiceType aType) const 
 	{
-	
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceSupportedL"));
-	TRACE( T_LIT("IsSubServiceSupportedL() - ServiceId: %d"), iServiceId );	
-	TRACE( T_LIT("IsSubServiceSupportedL() - SubServiceType: %d"), aType );
-	
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
+	TRACE( "SubServiceType: %d", aType );
 	TInt err = KErrNotFound;
 	TBool support = EFalse;
 	TCCHSubserviceState aCCHState(ECCHUninitialized);	
@@ -1280,8 +1281,8 @@ TBool CVIMPSTEngine::IsSubServiceSupportedInternal(TVIMPSTEnums::SubServiceType 
 		support = ETrue;		
 		}
 		
-	TRACE( T_LIT("IsSubServiceSupportedL() - support: %d"), support );	
-	TRACE( T_LIT("CVIMPSTEngine::IsSubServiceSupportedL end"));
+
+	TRACE("support: %d", support );
 	return support;
 	}
 	
@@ -1292,19 +1293,19 @@ TBool CVIMPSTEngine::IsSubServiceSupportedInternal(TVIMPSTEnums::SubServiceType 
 // ---------------------------------------------------------
 TInt CVIMPSTEngine::ChangeConnectionL()
 	{
-	TRACE( T_LIT("CVIMPSTEngine::ChangeConnectionL"));
-	TRACE( T_LIT("ChangeConnectionL() - ServiceId: %d"), iServiceId );	
-	
+	TRACER_AUTO;
+	TRACE( "ServiceId: %d", iServiceId );
 	TInt error = KErrNotFound;
 	if(iCchHandler)
 		{
-		TRACE( T_LIT("ChangeConnectionL() Called") );
+	
+	   TRACE( "ChangeConnectionL() Called" );
 		error =  iCchHandler->ChangeConnectionL(); 		
 		}
 	
-	TRACE( T_LIT("ChangeConnectionL - error: %d"), error );	
-	TRACE( T_LIT("CVIMPSTEngine::ChangeConnectionL end") );
-		
+
+	TRACE("error: %d", error );
+
 	return error;
 	}		
 
@@ -1315,6 +1316,7 @@ TInt CVIMPSTEngine::ChangeConnectionL()
 
 TBool CVIMPSTEngine::IsBlockSupportedL()
     {
+	TRACER_AUTO;
     TBool isBlockSupported = EFalse;
     //We would have got the supported features 
     if(iSessionCntxtObserver && (TVIMPSTEnums::ESVCERegistered == ParseGetServiceState()))
@@ -1334,7 +1336,8 @@ TBool CVIMPSTEngine::IsBlockSupportedL()
 // ---------------------------------------------------------
 TBool CVIMPSTEngine::IsPasswordAvailableL()
     {
-    TRACE( T_LIT("CVIMPSTEngine::IsPasswordAvailable start - End"));
+	TRACER_AUTO;
+ 
     return(iCchHandler->IsPasswordAvailable(ECchPasswordSet));    
     }
     
@@ -1343,6 +1346,7 @@ TBool CVIMPSTEngine::IsPasswordAvailableL()
 // ---------------------------------------------------------
 void CVIMPSTEngine::DeleteDataBaseL() 
 	{
+	TRACER_AUTO;
 	MVIMPSTStorageServiceView* storage = 
 	CVIMPSTStorageManagerFactory::ContactListInterfaceL(iServiceId);
 	if( storage )
@@ -1358,6 +1362,7 @@ void CVIMPSTEngine::DeleteDataBaseL()
 //
 MVIMPSTEnginePresenceSubService* CVIMPSTEngine::GetPreseceSubService()
 	{
+	TRACER_AUTO;
 	MVIMPSTEngineSubService* subService = SubService(TVIMPSTEnums::EPresence);
 	if (subService)
 		{
@@ -1399,6 +1404,7 @@ void CVIMPSTEngine::RegisterBlockedListObserver(
 //
 void CVIMPSTEngine::HandleChangeConnectionEventL()
     {
+	TRACER_AUTO;
     MVIMPSTEngineSubService* subService = SubService(TVIMPSTEnums::EPresence);
     if (subService)
         {

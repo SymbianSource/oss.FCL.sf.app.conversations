@@ -49,7 +49,7 @@
 #include "tvimpstconsts.h"
 #include "cvimpstuiblockview.h"
 
-#include "vimpstdebugprint.h" 
+#include "uiservicetabtracer.h"
 #include "cvimpstuimenuextension.h"
 
 // ================= MEMBER FUNCTIONS =======================
@@ -68,7 +68,7 @@ void CVIMPSTUiExtensionFactory::ConstructL()
     {
     
     // Load the Resource File
-    CHAT_DP_FUNC_ENTER("CVIMPSTUiExtensionFactory::ConstructL -start");
+	TRACER_AUTO;
 	TFileName resPathWithoutDrive;
     resPathWithoutDrive.Zero();
     resPathWithoutDrive.Append( KResourceDir() );
@@ -105,7 +105,7 @@ void CVIMPSTUiExtensionFactory::ConstructL()
     iMenuExtension = CVIMPSTUIMenuExtension::NewL();  
     // Get's all sevices
     CreateServicesL();
-      CHAT_DP_FUNC_DONE("CVIMPSTUiExtensionFactory::ConstructL -end");
+     
     }
 
 
@@ -115,12 +115,12 @@ void CVIMPSTUiExtensionFactory::ConstructL()
 //
 CVIMPSTUiExtensionFactory* CVIMPSTUiExtensionFactory::NewL()
     {
-    	  CHAT_DP_FUNC_ENTER("CVIMPSTUiExtensionFactory::NewL -start");
+	TRACER_AUTO;
     CVIMPSTUiExtensionFactory* self = new (ELeave) CVIMPSTUiExtensionFactory;
     CleanupStack::PushL(self);
     self->ConstructL();
     CleanupStack::Pop(self);
-    CHAT_DP_FUNC_DONE("CVIMPSTUiExtensionFactory::NewL -end");
+    
     return self;
     }
 
@@ -131,7 +131,7 @@ CVIMPSTUiExtensionFactory* CVIMPSTUiExtensionFactory::NewL()
 //
 CVIMPSTUiExtensionFactory::~CVIMPSTUiExtensionFactory()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUiExtensionFactory::~CVIMPSTUiExtensionFactory -start");
+	TRACER_AUTO;
     delete iEngine;
     
     iCoeEnv.DeleteResourceFile( iResourceOffset );
@@ -140,7 +140,7 @@ CVIMPSTUiExtensionFactory::~CVIMPSTUiExtensionFactory()
     CVIMPSTEngineFactory::Release();
     
     delete iMenuExtension;
-    CHAT_DP_FUNC_DONE("CVIMPSTUiExtensionFactory::~CVIMPSTUiExtensionFactory -end");
+    
     }
 
 
@@ -151,7 +151,7 @@ CVIMPSTUiExtensionFactory::~CVIMPSTUiExtensionFactory()
 //
 CxSPBaseView* CVIMPSTUiExtensionFactory::CreateViewL( TUid aViewId, CPbk2UIExtensionView& aView )
     {
-    	CHAT_DP_FUNC_ENTER("CVIMPSTUiExtensionFactory::CreateViewL-start");
+	TRACER_AUTO;
     CxSPBaseView* view = NULL;
     
     TInt oldView;
@@ -199,7 +199,7 @@ CxSPBaseView* CVIMPSTUiExtensionFactory::CreateViewL( TUid aViewId, CPbk2UIExten
 
 			}
 	    }
-    CHAT_DP_FUNC_DONE("CVIMPSTUiExtensionFactory::CreateViewL-end");
+   
     return view;
     }
   
@@ -220,7 +220,7 @@ void CVIMPSTUiExtensionFactory::RegisterViewMapper( MxSPViewMapper& aMapper )
 //                               
 TInt CVIMPSTUiExtensionFactory::ViewInfoResource() const
 	{
-
+	TRACER_AUTO;
 	// Indicate KErrNotFound. This way static resources are not used but
     // xSP Extension Manager queries data. Exception: If IM is not
     // supported, indicate it via resource for simplicity
@@ -310,14 +310,14 @@ const MxSPViewInfo* CVIMPSTUiExtensionFactory::ViewInfo( TInt aIndex ) const
 //  
 void CVIMPSTUiExtensionFactory::CreateServicesL()
     {
-    CHAT_DP_FUNC_ENTER("CVIMPSTUiExtensionFactory::CreateServicesL - start");
+	TRACER_AUTO;
     // Get all available services   
     RPointerArray<MVIMPSTEngine> engines;
     
     if (iEngineFactoryInstance)
 	    {
 	    iEngineFactoryInstance->GetServiceEnginePtr(engines);      
-    CHAT_DP( D_CHAT_LIT("CreateServicesL() engines.Count(): %d"), engines.Count());
+	    TRACE("CreateServicesL() engines.Count(): %d", engines.Count());
     // iterate the service array
     for ( TInt index = 0; index < engines.Count() ; index++ )        
         {
@@ -330,7 +330,7 @@ void CVIMPSTUiExtensionFactory::CreateServicesL()
     engines.Reset();
     engines.Close();
 	    }
-    CHAT_DP_FUNC_DONE("CVIMPSTUiExtensionFactory::CreateServicesL - end");
+  
     }	
 	
 // ---------------------------------------------------------------------------

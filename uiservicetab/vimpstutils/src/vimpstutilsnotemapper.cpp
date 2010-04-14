@@ -23,6 +23,7 @@
 #include <vimpstuires.rsg>
 #include <StringLoader.h>
 #include <eikenv.h>
+#include "uiservicetabtracer.h"
 
 
 
@@ -33,6 +34,7 @@
 //
 EXPORT_C void VIMPSTUtilsNoteMapper::ShowNoteL( const TInt aErrorCode, const TDesC& aAdditionalData )
 	{
+	TRACER_AUTO;
 	TBool ignoreAdditionalData( EFalse ); // Some logical strings are without parameters...
 	TBool errorNote( ETrue );
 	TBool defaultNote( EFalse );

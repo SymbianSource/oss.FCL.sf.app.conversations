@@ -28,6 +28,7 @@
 #include <MVPbkContactFieldUriData.h>
 // System includes
 #include <barsread.h>
+#include "uiservicetabtracer.h"
 _LIT(KColon,":");
 
 // ---------------------------------------------------------------------------
@@ -128,6 +129,7 @@ TInt CVIMPSTFieldPropertyArray::Count() const
          TBool aPresenceSupported,
          TDesC& aServiceName, TStoreType aStoreType)
      {
+	 TRACER_AUTO;
      // aSupportedFieldTypeList is a list of the supported field type of the used store
      const TInt count = aReader.ReadInt16();
 

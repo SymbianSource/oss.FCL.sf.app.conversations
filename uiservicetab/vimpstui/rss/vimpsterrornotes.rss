@@ -24,6 +24,6 @@ RESOURCE TBUF r_im_login_passer_note 	            { buf = qtn_im_login_passer_no
 RESOURCE TBUF r_qtn_chat_error_not_sup_functions    { buf = qtn_chat_error_not_sup_functions; } 
 RESOURCE TBUF r_qtn_servtab_saving_contact_failed   { buf = qtn_servtab_saving_contact_failed;}
 RESOURCE TBUF r_qtn_servtab_error_addown            { buf = qtn_servtab_error_addown; }
-
+RESOURCE TBUF r_qtn_servtab_noxsp_error             { buf = qtn_servtab_noxsp_error; }
 
 // End of File
