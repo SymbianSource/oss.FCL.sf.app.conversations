@@ -34,6 +34,16 @@
 #include "mimcvtapeventobserver.h"
 
 // CONSTANTS
+
+    // -- The (KTopLeft_x,KTopLeft_y) and (KBottomRight_x,KBottomRight_y) are the co ordinates of the 
+    // topleft and bottomright points of the first cell in the grid.
+    // These co-ordinates to draw the grid lines and the logic to draw the grid lines is based on the topleft 
+    //and bottomright points of the first cell in the grid
+#define KTopLeft_x 56
+#define KTopLeft_y 55
+#define KBottomRight_x 105
+#define KBottomRight_y 104
+
 // ================= MEMBER FUNCTIONS =======================
 
 // -----------------------------------------------------------------------------
@@ -225,40 +235,35 @@ TInt CIMCVAppSmileIconGrid::HeightInRows()
 //
 void CIMCVAppSmileIconGrid::SetLayout()
     {
-    IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::SetLayout() start") );
- 	iIsMirrored = AknLayoutUtils::LayoutMirrored() ;
-    
+    IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::SetLayout() start"));
+    iIsMirrored = AknLayoutUtils::LayoutMirrored();
+
     // popup_grid_graphic_window (Parent)
-    TRect parentRect( iParent->Rect() );
-   
+    TRect parentRect(iParent->Rect());
+
     // listscroll_popup_graphic_pane (this compoment)
     TAknLayoutRect listLayoutRect;
-    listLayoutRect.LayoutRect( 
-        parentRect, 
-        AknLayoutScalable_Avkon::listscroll_popup_graphic_pane() );
-    
+    listLayoutRect.LayoutRect(parentRect,
+            AknLayoutScalable_Avkon::listscroll_popup_graphic_pane(0));
+
     // grid_graphic_popup_pane
     TAknLayoutRect gridLayoutRect;
-    gridLayoutRect.LayoutRect( 
-        listLayoutRect.Rect(), 
-        AknLayoutScalable_Avkon::grid_graphic_popup_pane( 0 ) );
-  
-	// cell_graphic_popup_pane (upper left cell)
-	TAknLayoutRect oneCellRect;
-	oneCellRect.LayoutRect( 
-        gridLayoutRect.Rect(), 
-        AknLayoutScalable_Avkon::cell_graphic_popup_pane( 0, 0, 0 ) );
-   
+    gridLayoutRect.LayoutRect(listLayoutRect.Rect(),
+            AknLayoutScalable_Avkon::grid_graphic_popup_pane(0));
+
+    // cell_graphic_popup_pane (upper left cell)
+    TAknLayoutRect oneCellRect;
+    oneCellRect.LayoutRect(gridLayoutRect.Rect(),
+            AknLayoutScalable_Avkon::cell_graphic_popup_pane(0, 0, 0));
+
     iFirstCell = oneCellRect.Rect();
     iCellWidth = iFirstCell.Width();
     iCellHeight = iFirstCell.Height();
 
     // cell_graphic_popup_pane_g1 (icon size)
     TAknLayoutRect myIconRect;
-    myIconRect.LayoutRect( 
-        iFirstCell, 
-        AknLayoutScalable_Avkon::cell_graphic2_pane_g5(0) );
-    
+    myIconRect.LayoutRect(iFirstCell,
+            AknLayoutScalable_Avkon::cell_graphic_popup_pane_g1(0));
     iIconSize = myIconRect.Rect().Size();
     IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::SetLayout() end") );
     }
@@ -330,7 +335,6 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 	{
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::Draw() start") );
 	CWindowGc& gc = SystemGc();
-
 	MAknsSkinInstance* skin = AknsUtils::SkinInstance();
 	MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
 
@@ -368,14 +372,15 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 			}
 
 		TInt i( 0 );
-
+		TPoint cellLeftTop( KTopLeft_x,KTopLeft_y );
+		TPoint cellBottomRight( KBottomRight_x,KBottomRight_y );
 		if(!iIsMirrored)	
 			{
 			//draw horizontal lines
 			for( i = 0; i <= iRowCount; ++i )
 				{
-				TPoint startPoint( iFirstCell.iTl );
-				TPoint endPoint( iFirstCell.iTl );
+				TPoint startPoint( cellLeftTop );
+				TPoint endPoint( cellLeftTop );
 				startPoint.iY += i * iCellHeight;
 				endPoint.iY += i * iCellHeight;
 				endPoint.iX += ( ( i == iRowCount ) || ( i == 0 && iRowCount == 1 )
@@ -389,8 +394,8 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 			//draw vertical lines
     	for( i = 0; i <= iMaxColumns; ++i )
 				{
-				TPoint startPoint( iFirstCell.iTl );
-				TPoint endPoint( iFirstCell.iTl );
+        TPoint startPoint( cellLeftTop );
+        TPoint endPoint( cellLeftTop );
 				startPoint.iX += i * iCellWidth;
 				endPoint.iX += i * iCellWidth;
 				endPoint.iY += ( i <= lastRowIconsCount ? 
@@ -403,8 +408,8 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 			//draw horizontal lines
 			for( i = 0; i <= iRowCount; ++i )
 				{
-				TPoint startPoint( iFirstCell.iBr.iX, iFirstCell.iTl.iY);
-				TPoint endPoint( iFirstCell.iBr.iX, iFirstCell.iTl.iY );
+				TPoint startPoint( cellBottomRight.iX, cellLeftTop.iY);
+				TPoint endPoint( cellBottomRight.iX, cellLeftTop.iY );
 				startPoint.iY += i * iCellHeight;
 				endPoint.iY += i * iCellHeight;
 				endPoint.iX -= ( ( i == iRowCount ) || ( i == 0 && iRowCount == 1 )
@@ -418,8 +423,8 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 			//draw vertical lines
     	for( i = 0; i <= iMaxColumns; ++i )
 				{
-				TPoint startPoint( iFirstCell.iBr.iX, iFirstCell.iTl.iY );
-				TPoint endPoint( iFirstCell.iBr.iX, iFirstCell.iTl.iY);
+				TPoint startPoint( cellBottomRight.iX, cellLeftTop.iY );
+				TPoint endPoint( cellBottomRight.iX, cellLeftTop.iY);
 				startPoint.iX -= i * iCellWidth;
 				endPoint.iX -= i * iCellWidth;
 				endPoint.iY += ( i <= lastRowIconsCount ? 
@@ -457,7 +462,11 @@ void CIMCVAppSmileIconGrid::DrawItem( CWindowGc& aGc,
     {
     IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::DrawItem() start") );
     //lets count currect cell
-    TRect myRect  = iFirstCell;
+    TPoint cellLeftTop( KTopLeft_x,KTopLeft_y );
+    TPoint cellBottomRight( KBottomRight_x,KBottomRight_y );
+
+    TRect myRect;
+    myRect.SetRect( cellLeftTop, cellBottomRight );
     TPoint offset;
     
     if(!iIsMirrored)
@@ -508,8 +517,9 @@ void CIMCVAppSmileIconGrid::DrawItem( CWindowGc& aGc,
             }
         }
     
-    TAknWindowLineLayout myIconLayout( AknLayoutScalable_Avkon::cell_graphic2_pane_g5(0) );
 
+    TAknWindowLineLayout myIconLayout( AknLayoutScalable_Avkon::cell_graphic_popup_pane_g1(0) );
+    
     TAknLayoutRect myIconRect;
     myIconRect.LayoutRect( myRect, myIconLayout );
 

@@ -22,8 +22,11 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+
+#ifdef FF_MECO_XMPP
 ../rom/imconnectionprovider.iby						 	CORE_APP_LAYER_IBY_EXPORT_PATH(imconnectionprovider.iby)
 10282CE5.txt                	/epoc32/data/z/private/10202BE9/10282CE5.txt				
+#endif
 
 PRJ_MMPFILES
 

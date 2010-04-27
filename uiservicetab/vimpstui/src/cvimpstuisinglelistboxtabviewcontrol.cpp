@@ -1177,9 +1177,9 @@ void CVIMPSTUiSingleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= 
     }
     
 // ---------------------------------------------------------
-// CVIMPSTUiSingleListBoxTabViewControl::HandleAvatarDeleteL()
+// CVIMPSTUiSingleListBoxTabViewControl::HandleAvatarRefreshL()
 // ---------------------------------------------------------
-void CVIMPSTUiSingleListBoxTabViewControl::HandleAvatarDeleteL( const TDesC&/* aUserId */)
+void CVIMPSTUiSingleListBoxTabViewControl::HandleAvatarRefreshL( const TDesC&/* aUserId */,TBool /*aBlock*/)
 	{
 	//no avatar implementation for single list box.
 	}

@@ -167,8 +167,8 @@ class CVIMPSTUiSingleListBoxTabViewControl : public CCoeControl,
 		/**
 		* @see MVIMPSTUiTabbedViewControl.
 		*/
-		void HandleAvatarDeleteL( const TDesC& aUserId );
-	
+		void HandleAvatarRefreshL( const TDesC& aUserId,TBool aBlock );
+		
         
         /**
 	     * LoadsBitmap array.

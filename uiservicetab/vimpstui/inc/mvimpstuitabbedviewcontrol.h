@@ -122,9 +122,9 @@ public:
     virtual void HandleItemAdditionL()= 0;
     
     /**
-    *Handle the avatar deletion in UI
+    *Handle the avatar deletion,updation in UI
     */
-	virtual void HandleAvatarDeleteL( const TDesC& aUserId )= 0;
+	virtual void HandleAvatarRefreshL( const TDesC& aUserId,TBool aBlock)= 0;
 	
 	/**
     *Handle the avatar deletion in UI

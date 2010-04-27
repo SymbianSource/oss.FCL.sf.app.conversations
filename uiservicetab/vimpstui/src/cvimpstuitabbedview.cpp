@@ -1251,7 +1251,7 @@ MVIMPSTCmdHandler& CVIMPSTUiTabbedView::CommandHandlerL()
 void CVIMPSTUiTabbedView::CommandFinishedL(
         const MVIMPSTCmd& aCommand )
     {
-
+      TRACER_AUTO;
     //handle the observer for commands issues thro HandleCommandL()
 
     switch (aCommand.CommandId())
@@ -1427,6 +1427,7 @@ void CVIMPSTUiTabbedView::CommandFinishedL(
             }
         case ECmdBlockContact:
            {
+		TRACE("block finished enter");
            //blockcontact command is complete
            //use aCommand.Result() to get the data 
            //Ownership is not given to the caller  
@@ -1438,8 +1439,10 @@ void CVIMPSTUiTabbedView::CommandFinishedL(
                }
            if(aCommand.Result() != KErrNone) 
                {
+		   TRACE( "aCommand result = %d ", aCommand.Result() );
                HBufC* prompt = NULL;
                prompt = StringLoader::LoadLC( R_QTN_CHAT_BLOCKING_FAILED  );
+		   TRACE("blocking error prompt displaying");	
                TInt ret( VIMPSTUtilsDialog::DisplayErrorNoteL( *prompt ) );
                CleanupStack::PopAndDestroy(prompt);
                }
@@ -1447,6 +1450,8 @@ void CVIMPSTUiTabbedView::CommandFinishedL(
            } 
         case ECmdUnBlockContact:
            {
+		TRACE("unblock finished enter");
+
            if(iWaitNote)
                {
                delete iWaitNote;
@@ -1458,11 +1463,34 @@ void CVIMPSTUiTabbedView::CommandFinishedL(
            //some error occured.
            if(aCommand.Result() != KErrNone) 
                {
+                TRACE( "aCommand result = %d ", aCommand.Result() );
                HBufC* prompt = NULL;
                prompt = StringLoader::LoadLC( R_QTN_CHAT_UNBLOCKING_FAILED  );
+		   TRACE("unblocking error prompt displaying");	
                TInt ret( VIMPSTUtilsDialog::DisplayErrorNoteL( *prompt ) );
                CleanupStack::PopAndDestroy(prompt);
                }
+           else
+        	   {
+			TRACE("unblocking successful");	
+
+		         if(iContainer)
+		          {
+		            TInt index = CurrentItemIndex();
+			        if( index > 0 )
+                         {
+	                      MVIMPSTProcessArray& arrayprocess = iCommandHandler.GetProcessInterface();
+	                      HBufC* contactId =  arrayprocess.GetItemUserId(index).AllocLC();
+	              	      if( contactId->Length() )
+	                          {									   
+						TRACE("HandleAvatarRefreshl calling for unblock");		   
+				    iContainer->HandleAvatarRefreshL(*contactId,EFalse);
+		      
+			          }					
+	                      }
+	               CleanupStack::PopAndDestroy();
+                    }   
+        	   }
            break;
            } 
         default:
@@ -3593,8 +3621,9 @@ void CVIMPSTUiTabbedView::BlockContactL(TBool aBlock /* = EFalse */)
             
         	if(iContainer)
                 {
+                     TRACE("HandleAvatarRefreshl calling for blocking");		   
                 
-		iContainer->HandleAvatarDeleteL(*contactId);
+		iContainer->HandleAvatarRefreshL(*contactId, ETrue);
                 }
             }
         else 

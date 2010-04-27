@@ -1389,12 +1389,15 @@ void CVIMPSTUiDoubleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= 
     }
 
 // ---------------------------------------------------------
-// CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarDeleteL()
+// CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarRefreshL()
 // Saves the Contact ID in iFocussedID
 // ---------------------------------------------------------
-void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarDeleteL( const TDesC& aUserId )
+void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarRefreshL( const TDesC& aUserId,TBool aBlock )
 	{
 	TRACER_AUTO;
+	if(aBlock)
+	{
+      TRACE("inside blocking");		   
 	TInt index = iArrayProcess.GetSelectedItemIndex(aUserId );//Get the index from storage.
 	if(index >= 0)
 		{
@@ -1419,5 +1422,14 @@ void CVIMPSTUiDoubleListBoxTabViewControl::HandleAvatarDeleteL( const TDesC& aUs
 
 		}
 	}
+
+	else
+	{
+          TRACE("inside unblocking calling handleavatarchangel");
+	   HandleAvatarChangeL(aUserId);
+	}
+
+	}
+
 
 // End of File

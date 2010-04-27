@@ -213,6 +213,8 @@ const TDesC& CIMCVAppSmileIconUtility::GetSmileString( TInt aIconId ) const
 void CIMCVAppSmileIconUtility::SearchSmilesL( const TDesC& aStr, TDes& aFixedStr,
 										 RArray<TInt>* aArray )
 	{
+	CleanupClosePushL(*aArray);
+	
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconUtility::SearchSmilesL() start") );
 	TInt i;
     iSmileArray.ResetAndDestroy();
@@ -227,6 +229,9 @@ void CIMCVAppSmileIconUtility::SearchSmilesL( const TDesC& aStr, TDes& aFixedStr
 		}
     
 	iSmileArray.ResetAndDestroy();
+	
+	CleanupStack::Pop(aArray);
+	
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconUtility::SearchSmilesL() end") );
 	}
 
@@ -240,6 +245,8 @@ void CIMCVAppSmileIconUtility::SearchSmilesL( const TDesC& aStr,
                          TDes* aFixedStr /*= NULL */,
                          TInt aStartPos /* = 0 */) const
     {
+	CleanupClosePushL(aSmileyInfoArray);
+	
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconUtility::SearchSmilesL() start") );
 	HBufC* text = HBufC::NewMaxLC( aStr.Length() );
 	TPtr fixedText( text->Des() );
@@ -298,6 +305,8 @@ void CIMCVAppSmileIconUtility::SearchSmilesL( const TDesC& aStr,
         }
         
     CleanupStack::PopAndDestroy( 2, text ); // replaceString, text
+    CleanupStack::Pop(&aSmileyInfoArray);
+    
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconUtility::SearchSmilesL() end") );
     }
 

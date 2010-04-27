@@ -206,9 +206,6 @@ void CIMCVAppSmileIconDialog::SetSizeAndPosition(const TSize& /*aSize*/)
 TInt CIMCVAppSmileIconDialog::CalculatePopupVariety()
     {
     IM_CV_LOGS(TXT("CIMCVAppSmileIconDialog::CalculatePopupVariety() start") );
-	CIMCVAppSmileIconGrid* grid =
-			static_cast< CIMCVAppSmileIconGrid*>(
-			Control( EIMIdSelectSmileGrid ) );   
 
     TAknLayoutScalableParameterLimits smileyDialogVariety = 
     	AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
@@ -251,123 +248,118 @@ TInt CIMCVAppSmileIconDialog::CalculatePopupVariety()
 // ---------------------------------------------------------
 //
 void CIMCVAppSmileIconDialog::SetLayout()
-	{   
-	IM_CV_LOGS(TXT("CIMCVAppSmileIconDialog::SetLayout() start") );
-	iIsMirrored = AknLayoutUtils::LayoutMirrored() ;
-	TRect clientRect = iAvkonAppUi->ApplicationRect();
+    {
+    IM_CV_LOGS(TXT("CIMCVAppSmileIconDialog::SetLayout() start"));
+    iIsMirrored = AknLayoutUtils::LayoutMirrored();
+    TRect clientRect; 
     //check LAF docs for constants
-    TAknLayoutRect mainPane;
-    mainPane.LayoutRect( clientRect, AknLayoutScalable_Avkon::main_pane( 6 ) );
-	
-	CIMCVAppSmileIconGrid* grid =
+    //AknLayoutUtils::LayoutMetricsRect
+    AknLayoutUtils::LayoutMetricsRect(AknLayoutUtils::EApplicationWindow,
+            clientRect);
+    CIMCVAppSmileIconGrid* grid =
 
-			static_cast< CIMCVAppSmileIconGrid*>(
+    static_cast<CIMCVAppSmileIconGrid*> (
 
-			Control( EIMIdSelectSmileGrid ) ); 	
-			
+    Control(EIMIdSelectSmileGrid));
+
     // Select correct popup layout
 
     TInt varietyNumber = CalculatePopupVariety();
     TRect rect = grid->GetFirstCellRect();
+
     TInt iconCount = iIconArray.Count();
     // calculating the number of rows required by the icon grid.
-    TInt rowCount = 1 + ( iconCount/4 );
+
+    TInt viewableWidth = 0;
     
-    // 4 * rowCount denotes the maximum number of icons accomodated
-    // in the row.
-    TInt areaOfIcon = 4 * rowCount * rect.Width() * rect.Height();
-	TInt viewableWidth=0;
-	    
-    for (TInt i=varietyNumber; i>0; i--)
-	    {    
+    for (TInt i = varietyNumber; i >= 0; i--)
+        {
 
-    TAknWindowLineLayout popupGridDialogLayout( 
-	        AknLayoutScalable_Avkon::popup_grid_graphic_window( i ) );
+        TAknWindowLineLayout popupGridDialogLayout(
+                AknLayoutScalable_Avkon::popup_grid_graphic_window(i)); 
 
+        TAknLayoutRect dialogRect;
 
-	    TAknLayoutRect dialogRect;
+        dialogRect.LayoutRect(clientRect, popupGridDialogLayout);
+        
+        viewableWidth = CheckDialog(dialogRect, rect);
+        if (viewableWidth)
+            {
+            varietyNumber = i;
+            break;
+            }
+        }
+    if (viewableWidth)
+        {
+        TAknWindowLineLayout popupGridDialogLayout(
+                AknLayoutScalable_Avkon::popup_grid_graphic_window(
+                        varietyNumber));
+        TAknLayoutRect dialogRect;
+        dialogRect.LayoutRect(clientRect, popupGridDialogLayout);
+        grid->SetViewableWindowWidth(viewableWidth);
+        SetRect(dialogRect.Rect());
+        }
+    // If there is no suitable solution for the smiley dialog layout
+    else
+        {
+        // No variety of the popup_grid_graphic_window has provided sufficient area
+        // for the grid display. Hence selecting 0 variety for displaying the grid
+        // because it has the greatest area.
+        varietyNumber = 0;
+        TAknWindowLineLayout popupGridDialogLayout(
+                AknLayoutScalable_Avkon::popup_grid_graphic_window(
+                        varietyNumber));
 
-	    dialogRect.LayoutRect(
-	        mainPane.Rect(), popupGridDialogLayout );
-		    
-		viewableWidth = CheckDialog(dialogRect,rect);    
-	    if(viewableWidth)
-		    {
-		    varietyNumber = i;
-		    break;
-		    }
-	    }
-    
-	if(viewableWidth)
-		{
-	    TAknWindowLineLayout popupGridDialogLayout( 
-        AknLayoutScalable_Avkon::popup_grid_graphic_window( varietyNumber ) );
-    TAknLayoutRect dialogRect;
-    dialogRect.LayoutRect(
-        mainPane.Rect(), popupGridDialogLayout );
-		grid->SetViewableWindowWidth(viewableWidth);
-    SetRect( dialogRect.Rect() );
-	    }
-	// If there is no suitable solution for the smiley dialog layout
-	else 
-	    {
-	    // Use the max variety number
-	    varietyNumber = CalculatePopupVariety();
+        TAknLayoutRect dialogRect;
 
-	    TAknWindowLineLayout popupGridDialogLayout( 
-	            AknLayoutScalable_Avkon::popup_grid_graphic_window( varietyNumber ) );
+        dialogRect.LayoutRect(clientRect, popupGridDialogLayout);
 
-	    TAknLayoutRect dialogRect;
+        if (!iIsMirrored)
+            {
+            // Right Margin of the top left (top right) icon's X
+            TInt leftMargin = rect.iTl.iX;
 
-	    dialogRect.LayoutRect(
-	            mainPane.Rect(), popupGridDialogLayout );
+            // Use the max viewable width
+            viewableWidth = dialogRect.Rect().iBr.iX
+                    - dialogRect.Rect().iTl.iX - leftMargin;
+            }
+        else
+            {
+            // Left Margin of the top left (top right) icon's X
+            TInt rightMargin = rect.iBr.iX;
 
-	  
+            // Use the max viewable width
+            viewableWidth = dialogRect.Rect().iBr.iX
+                    - dialogRect.Rect().iTl.iX + rightMargin;
+            }
 
-	    if ( !iIsMirrored )
-	        {
-	        // Right Margin of the top left (top right) icon's X
-	        TInt leftMargin = rect.iTl.iX;
+        grid->SetViewableWindowWidth(viewableWidth);
 
-	        // Use the max viewable width
-	        viewableWidth = dialogRect.Rect().iBr.iX - dialogRect.Rect().iTl.iX - leftMargin;
-	        }
-	    else 
-	        {
-	        // Left Margin of the top left (top right) icon's X
-	        TInt rightMargin = rect.iBr.iX;
+        if (!iIsMirrored)
+            SetRect(dialogRect.Rect());
+        // When the Hebrew is the language as well as the Arb languages
+        // The align is not right
+        else
+            {
+            TRect mirroredDialogRect;
 
-	        // Use the max viewable width
-	        viewableWidth = dialogRect.Rect().iBr.iX - dialogRect.Rect().iTl.iX + rightMargin;
-	        }
+            // Align to right.
+            mirroredDialogRect = dialogRect.Rect();
 
-	    grid->SetViewableWindowWidth( viewableWidth );
+            // Get the rect of the cba pane.
+            TRect controlPaneRect;
+            AknLayoutUtils::LayoutMetricsRect(AknLayoutUtils::EControlPane,
+                    controlPaneRect);
 
-	    if ( !iIsMirrored )
-	        SetRect( dialogRect.Rect() );
-	    // When the Hebrew is the language as well as the Arb languages
-	    // The align is not right
-	    else 
-	        {
-	        TRect mirroredDialogRect;
+            TInt cbaWidth = controlPaneRect.iBr.iX - controlPaneRect.iTl.iX;
 
-	        // Align to right.
-	        mirroredDialogRect = dialogRect.Rect();
+            mirroredDialogRect.iTl.iX -= cbaWidth;
+            mirroredDialogRect.iBr.iX -= cbaWidth;
 
-	        // Get the rect of the cba pane.
-	        TRect controlPaneRect;
-	        AknLayoutUtils::LayoutMetricsRect(
-	                AknLayoutUtils::EControlPane, controlPaneRect);
-
-	        TInt cbaWidth = controlPaneRect.iBr.iX - controlPaneRect.iTl.iX;
-
-	        mirroredDialogRect.iTl.iX -= cbaWidth;
-	        mirroredDialogRect.iBr.iX -= cbaWidth;
-
-	        SetRect( mirroredDialogRect );
-	        }
-	    }
-	}
+            SetRect(mirroredDialogRect);
+            }
+        }
+    }
 
 
 
@@ -383,42 +375,37 @@ void CIMCVAppSmileIconDialog::SetLayout()
 
 TInt CIMCVAppSmileIconDialog::CheckDialog(TAknLayoutRect aDialogRect,TRect aRect)
 		{
-        TInt topMargin = aRect.iTl.iY;
+        // topMargin is the height of the margin which the smiley grid has 
+        // above its top horizontal line and bottom horizontal line.
+        TInt topMargin = aRect.Height();
         
-        TInt viewableWidth = 0;
+        TRect dialogRect = aDialogRect.Rect();
         
+        TInt vWidth = 0;
+        TInt vheight = 0;
+        TInt vArea = 0;
+        vheight = dialogRect.iBr.iY - dialogRect.iTl.iY - 2*topMargin;
         if ( !iIsMirrored )
             {
-            TInt leftMargin = aRect.iTl.iX;
-                    
-            viewableWidth = aDialogRect.Rect().iBr.iX - aDialogRect.Rect().iTl.iX - 2*leftMargin;
+            vWidth = dialogRect.iBr.iX - dialogRect.iTl.iX - 2*aRect.iTl.iX;;
             }
         else 
             {
-            TInt rightMargin = aRect.iBr.iX;
-                                
-            viewableWidth = aDialogRect.Rect().iBr.iX - aDialogRect.Rect().iTl.iX + 2*rightMargin;
+            vWidth = dialogRect.iBr.iX - dialogRect.iTl.iX + 2*aRect.iBr.iX;
             }
-        TInt viewableHight = aDialogRect.Rect().iBr.iY -aDialogRect.Rect().iTl.iY - topMargin;
-		
-		TInt viewableArea = viewableWidth*viewableHight;
+		vArea = vWidth*vheight;
 		
 	    TInt iconCount = iIconArray.Count();
 
-	    // calculating the number of rows required by the icon grid.
-	    TInt rowCount = 1 + ( iconCount/4 );
+	    TInt areaOfIcon = iconCount * aRect.Width() * aRect.Height();
 	    
-	    // 4 * rowCount denotes the maximum number of icons accomodated
-	    // in the row.
-	    TInt areaOfIcon = 4 * rowCount * aRect.Width() * aRect.Height();
-	    
-	    if(areaOfIcon > viewableArea)
+	    if(areaOfIcon > vArea)
 		    {
 			return 0;
 		    }
 		else
 			{
-			return viewableWidth;
+			return vWidth;
 			}
 		}
 
