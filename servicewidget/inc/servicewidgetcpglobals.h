@@ -67,6 +67,8 @@ _LIT(KMask,"_mask");
 
 //Supported Commands
 _LIT8( KAdd, "Add" );
+_LIT8(KGetList,"GetList");
+_LIT8(KResults,"results");
 // Input arguments
 _LIT8( KType, "type" );
 _LIT8( KItem, "item" );
@@ -114,7 +116,7 @@ _LIT8( KActionMap, "action_map" );
 _LIT(KServiceWidget, "servicewidget");
 //UID 20021383 is of Publisher used here as constant to avoid conflict with any other 
 //Homescreen widget.This will be suffix to publisher name to make unique id for theme.
-_LIT( KThemeUid, "_20021383"); 
+_LIT( KThemeUid, ":0x20021383"); 
 _LIT8( KTemplateType, "template_type");
 _LIT8( KWidgetName,   "widget_name");
 _LIT8( KWidgetInfo,   "widget_info"); 

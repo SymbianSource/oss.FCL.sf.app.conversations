@@ -550,8 +550,10 @@ void CIMCVAppSmileIconGrid::HandlePointerEventL(
     TInt oldSelection = iCursorPos;
     TPoint hitPos = aPointerEvent.iPosition;
     
-    // Convert XY position to linear cursor position
-    hitPos -= iFirstCell.iTl;
+    // Convert XY position to linear cursor position    
+    TPoint cellLeftTop( KTopLeft_x,KTopLeft_y );
+    hitPos -= cellLeftTop;
+    
     TInt xPos = hitPos.iX / iCellWidth;
     TInt yPos = hitPos.iY / iCellHeight;
     TInt newSelection = yPos * iMaxColumns + xPos;

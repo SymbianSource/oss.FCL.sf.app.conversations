@@ -203,6 +203,11 @@ void CServiceWidgetPlugin::LoadResourceFileL()
 void CServiceWidgetPlugin::UpdateL() 
     {
     TRACE_SWP(TXT("CServiceWidgetPlugin::UpdateL() Start") );
+    //Unregisrer all previously registered services.
+    if(iContentPublisher)
+		{
+		iContentPublisher->UnregisterAllWidgetsL();
+		}
     //register for service table notifications
     RArray<TUint> serviceIds;
     CleanupClosePushL( serviceIds );

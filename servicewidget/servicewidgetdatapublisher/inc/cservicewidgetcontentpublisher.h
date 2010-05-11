@@ -95,6 +95,11 @@ class CServiceWidgetContentPublisher: public CBase,
 		   * @param aPublisherId,  publisher id
 		   */
 		  void UnregisterWidgetL(const TDesC& aPublisherId );
+		  
+		  /**
+		   * Unregister all widgets from CPS
+		   */
+		  void UnregisterAllWidgetsL();
 
 		  /**
 		   * Register widget from CPS

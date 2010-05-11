@@ -30,6 +30,8 @@
 #include <servicewidgetpluginres.rsg>
 #include <StringLoader.h>
 
+#define KSW_LIST_GRANULARITY 8
+
 // ---------------------------------------------------------------------------
 // CServiceWidgetContentPublisher::CServiceWidgetContentPublisher
 // ---------------------------------------------------------------------------
@@ -230,8 +232,8 @@ void CServiceWidgetContentPublisher::RegisterWidgetL(const TDesC& aPublisherId,
         cpdatamap->InsertL( KContentType, TLiwVariant( KTemplateWidget ));
         cpdatamap->InsertL( KContentId, TLiwVariant( KAll ));
         //Take widget name as "service name"
-        //Give widget name here which will be displayed in HomeScreen Add Content menu
-        datamap->InsertL( KWidgetName, TLiwVariant( aPublisherId ));
+        //Give widget name here which will be displayed in HomeScreen Add Content menu        
+        datamap->InsertL( KWidgetName, TLiwVariant( aPublisherId.Left( aPublisherId.Length()-KThemeUid().Length() ) ) );
         datamap->InsertL( KTemplateType, TLiwVariant( KServiceWidget )); 
         
         //To publish logo and widget description
@@ -302,8 +304,8 @@ void CServiceWidgetContentPublisher::RegisterWidgetL(const TDesC& aPublisherId,
 //
 void CServiceWidgetContentPublisher::UnregisterWidgetL(const TDesC& aPublisherId )
     {
-    TRACE_SWP(TXT("CServiceWidgetContentPublisher::RegisterForObserverL() start") );
-    
+    TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterWidgetL() start") );
+    TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterWidgetL() ServiceName %S"), &aPublisherId);
     CLiwGenericParamList* inparam = &(iServiceHandler->InParamListL()); 
     CLiwGenericParamList* outparam = &(iServiceHandler->OutParamListL());
     CLiwDefaultMap*  cpdatamap= CLiwDefaultMap::NewLC();
@@ -322,6 +324,85 @@ void CServiceWidgetContentPublisher::UnregisterWidgetL(const TDesC& aPublisherId
     inparam->Reset();
     TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterWidget() end") );
     }//end UnregisterWidget
+
+// ---------------------------------------------------------------------------
+// CServiceWidgetContentPublisher::UnregisterAllWidgetsL
+// ---------------------------------------------------------------------------
+//
+void CServiceWidgetContentPublisher::UnregisterAllWidgetsL()
+    {
+    TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterAllWidgetsL() start") );
+    
+    CLiwGenericParamList* inparam = &(iServiceHandler->InParamListL()); 
+    CLiwGenericParamList* outparam = &(iServiceHandler->OutParamListL());
+    CLiwDefaultMap*  cpdatamap= CLiwDefaultMap::NewLC();    
+
+    cpdatamap->InsertL( KPublisherId, TLiwVariant( KAll ));
+    cpdatamap->InsertL( KContentType, TLiwVariant( KTemplateWidget ));
+    cpdatamap->InsertL( KContentId, TLiwVariant( KAll ));
+    
+    // fill in input list for GetList command
+    inparam->AppendL(TLiwGenericParam(KType, TLiwVariant(KPublisher)));
+    inparam->AppendL(TLiwGenericParam(KData, TLiwVariant(cpdatamap)));    
+    
+    iMsgInterface->ExecuteCmdL(KGetList, *inparam, *outparam, 0, this );
+    CDesC16ArrayFlat* serviceNames = new (ELeave) CDesC16ArrayFlat( KSW_LIST_GRANULARITY );
+    CleanupStack::PushL( serviceNames );
+    
+    if(outparam)
+		{		
+		TInt pos(0);
+		const TLiwGenericParam* param = NULL;
+		param = outparam->FindFirst(pos,KResults);
+		if(pos != KErrNotFound)
+			{
+			HBufC* uidStr = KThemeUid().AllocLC();
+			TLiwVariant variant = (*outparam)[pos].Value();
+			variant.PushL();
+			
+			CLiwIterable* iterable = variant.AsIterable();
+			iterable->Reset();
+			
+			while ( iterable->NextL( variant ) )
+			  {
+			  CLiwDefaultMap *map = CLiwDefaultMap::NewLC();
+			  variant.Get( *map );
+			  if ( map->FindL( KPublisherId, variant) )
+				  {				  
+				  if(variant.AsDes().Length() >= KThemeUid().Length())
+					  {
+					  TPtrC tempUidStr;
+					  tempUidStr.Set(variant.AsDes().Right(KThemeUid().Length()));
+					  if( 0 == tempUidStr.Compare(uidStr->Des()))
+						  {
+						  //If publisher id has KThemeUid, then this services is 
+						  //registered by this component
+						  serviceNames->AppendL(variant.AsDes());
+						  }
+					  }
+				  }
+				  CleanupStack::PopAndDestroy( map );
+				 } //End of while
+			
+			CleanupStack::PopAndDestroy( &variant );
+			CleanupStack::PopAndDestroy( uidStr );
+			} //End of if(pos != KErrNotFound)
+		}
+    
+    TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterAllWidgetsL():ServiceCountForDeletion %d"), serviceNames->Count());
+    for(TInt i=0; i<serviceNames->Count();i++)
+		{		
+		UnregisterWidgetL((*serviceNames)[i]);
+		}
+    
+    CleanupStack::PopAndDestroy(serviceNames);
+    CleanupStack::PopAndDestroy(cpdatamap);      
+    outparam->Reset();
+    inparam->Reset();
+    
+    TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterAllWidgetsL() end") );
+    }
+
 
 // ---------------------------------------------------------------------------
 // CServiceWidgetContentPublisher::RemoveWidgetDataL

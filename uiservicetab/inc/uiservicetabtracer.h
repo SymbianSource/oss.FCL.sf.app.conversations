@@ -31,10 +31,15 @@
 // 2    = Log to file (RFileLogger)
 // --------------------------------------------------------------------------
 //
+
 #ifdef __WINS__
-    #define TRACER_LOG_METHOD 1 // for WINS
+  #ifdef _DEBUG
+    #define TRACER_LOG_METHOD 1 // for WINS UDEB
+  #else
+    #define TRACER_LOG_METHOD 0 // for WINS UREL
+ #endif
 #else
-    #define TRACER_LOG_METHOD 2 // for device
+  #define TRACER_LOG_METHOD 2 // for device
 #endif
 
 #endif

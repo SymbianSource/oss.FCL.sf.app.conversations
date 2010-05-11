@@ -88,6 +88,11 @@ void CServiceWidgetServiceManager::ConstructL()
 	settings->FindEntryL( iServiceId, *entry ) ;
 	// set the service name to presence cache updater
     iServiceName = entry->GetServiceName().AllocL() ;
+    
+    //KThemeUid appended to iServiceName for making service name unique from serivces 
+    //published by other applications
+    iServiceName = iServiceName->ReAllocL(iServiceName->Des().Length() + KThemeUid().Length());
+    iServiceName->Des().Append(KThemeUid);
 	CleanupStack::PopAndDestroy(2); // entry,settings
 	
 	iBrandHandler = CServiceWidgetBrandHandler::NewL(iServiceId);
@@ -218,7 +223,12 @@ void CServiceWidgetServiceManager::SetCurrentTextDataL()
     
     TRACE_SWP(TXT("CServiceWidgetServiceManager::SetCurrentTextDataL() service is complete") );
     // service configured correctly
-    TPtrC serviceName = iServiceName->Left( KIMWCP_FIRSTTEXT_SIZE );
+    TPtrC serviceNameWithUID = iServiceName->Left( KIMWCP_FIRSTTEXT_SIZE );
+    
+    //serviceName is retrieved by removing KThemeUID. This text is displayed in first line of 
+    //home screen widget when iServiceState state is ESWSNotRegistered state. 
+    TPtrC serviceName = serviceNameWithUID.Left( serviceNameWithUID.Length() - KThemeUid().Length() );
+    
     TPtrC ownUser = ServiceWidgetUtils::DisplayId( iCchHandler->OwnUserIdL().Left( KIMWCP_FIRSTTEXT_SIZE  ) );
     switch( iServiceState )
         {
@@ -727,8 +737,9 @@ void CServiceWidgetServiceManager::CreateHandlersL()
 		// please note this is boot blugin so keep lesser memory use
 		if( !iPresenceHandler && iCchHandler->IsSubServiceSupported( ECCHPresenceSub ) )
 			{
-			TPtrC ownId = iCchHandler->OwnUserIdL();
-			iPresenceHandler = CServiceWidgetPresenceHandler::NewL(*this,*iServiceName,ownId );
+			TPtrC ownId = iCchHandler->OwnUserIdL();			
+			TPtrC str = iServiceName->Des().Left(iServiceName->Des().Length()-KThemeUid().Length());
+			iPresenceHandler = CServiceWidgetPresenceHandler::NewL(*this,str,ownId );
 			iPresenceHandler->GetConnectedSessionL( iCchHandler->XimpAdaptationUidL(), iServiceId );
 			TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() iPresenceHandler cretaed ") );	
 			}

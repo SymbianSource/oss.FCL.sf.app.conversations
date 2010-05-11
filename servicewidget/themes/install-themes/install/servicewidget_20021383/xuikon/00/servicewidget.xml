@@ -7,8 +7,7 @@
         <contentsource id="servicewidget" name="" value="0x20019594"/>
         <configuration name="service" value="Service.ContentPublishing"/>
         <configuration name="interface" value="IContentPublishing"/>
-        <configuration name="command" value="GetList"/>
-        <configuration name="publisher" value="servicewidget"/>
+        <configuration name="command" value="GetList"/>        
         <configuration id="pub_id" name="publisher" value=""/>
         
 		<!-- Template designer choice -->
