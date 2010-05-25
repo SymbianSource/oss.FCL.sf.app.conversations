@@ -505,6 +505,7 @@ void CVIMPSTEngineSearchMgrExtention::ProcessSearchKeysEventL(const MSearchKeysE
 	    iSearchObservers[i]->HandleSearchKeysEventL(enumKeyArray, labelKeyArray );	
 	    }
 	
+    	labelKeyArray.ResetAndDestroy();
 	CleanupStack::PopAndDestroy(2); //enumKeyArray, labelKeyArray
     
     }

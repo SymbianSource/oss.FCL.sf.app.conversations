@@ -799,7 +799,14 @@ void  CVIMPSTEngine::HandleServceConnectionEventL()
 									}// end of for
 								} // end of if(contact)
 							}// end of for
-						storage->Sort(KIMContactListId);
+						storage->Sort(KIMContactListId);						
+						// Inform service state changes to UI service tab
+						// and further to update the buddy list after sort. 
+						TInt obsvrArrayCount = iObserverArray.Count();
+						for (TInt index=0; index<obsvrArrayCount; index++)		
+							{
+							iObserverArray[index]->HandleServiceEventL(iState, KErrNone);
+							}	
 						}
 					}
 				ReSetExtentionFeaturesSupportedL();

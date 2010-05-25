@@ -206,7 +206,7 @@ void CServiceWidgetPlugin::UpdateL()
     //Unregisrer all previously registered services.
     if(iContentPublisher)
 		{
-		iContentPublisher->UnregisterAllWidgetsL();
+		iContentPublisher->UnregisterAllWidgetsL(&iServiceIds);
 		}
     //register for service table notifications
     RArray<TUint> serviceIds;

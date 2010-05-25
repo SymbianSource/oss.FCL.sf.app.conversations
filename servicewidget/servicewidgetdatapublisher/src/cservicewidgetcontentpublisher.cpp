@@ -30,6 +30,9 @@
 #include <servicewidgetpluginres.rsg>
 #include <StringLoader.h>
 
+#include <spsettings.h> 
+#include <spentry.h>
+
 #define KSW_LIST_GRANULARITY 8
 
 // ---------------------------------------------------------------------------
@@ -329,9 +332,23 @@ void CServiceWidgetContentPublisher::UnregisterWidgetL(const TDesC& aPublisherId
 // CServiceWidgetContentPublisher::UnregisterAllWidgetsL
 // ---------------------------------------------------------------------------
 //
-void CServiceWidgetContentPublisher::UnregisterAllWidgetsL()
+void CServiceWidgetContentPublisher::UnregisterAllWidgetsL(RArray<TInt>* aServiceArray)
     {
     TRACE_SWP(TXT("CServiceWidgetContentPublisher::UnregisterAllWidgetsL() start") );
+    CDesC16ArrayFlat* servicesExisting = new (ELeave) CDesC16ArrayFlat( KSW_LIST_GRANULARITY );
+    CleanupStack::PushL( servicesExisting );
+    if(aServiceArray && aServiceArray->Count() > 0)
+    	{
+		CSPSettings* settings = CSPSettings::NewLC();
+		for(TInt i=0; i<aServiceArray->Count();i++)
+			{
+			CSPEntry* entry = CSPEntry::NewLC();
+			settings->FindEntryL( (*aServiceArray)[i], *entry ) ;			
+			servicesExisting->AppendL(entry->GetServiceName());
+			CleanupStack::PopAndDestroy(entry);
+			}
+		CleanupStack::PopAndDestroy(settings);
+    	}
     
     CLiwGenericParamList* inparam = &(iServiceHandler->InParamListL()); 
     CLiwGenericParamList* outparam = &(iServiceHandler->OutParamListL());
@@ -351,9 +368,8 @@ void CServiceWidgetContentPublisher::UnregisterAllWidgetsL()
     
     if(outparam)
 		{		
-		TInt pos(0);
-		const TLiwGenericParam* param = NULL;
-		param = outparam->FindFirst(pos,KResults);
+		TInt pos(0);		
+		outparam->FindFirst(pos,KResults);
 		if(pos != KErrNotFound)
 			{
 			HBufC* uidStr = KThemeUid().AllocLC();
@@ -377,7 +393,24 @@ void CServiceWidgetContentPublisher::UnregisterAllWidgetsL()
 						  {
 						  //If publisher id has KThemeUid, then this services is 
 						  //registered by this component
-						  serviceNames->AppendL(variant.AsDes());
+						  TBool serviceExisting = EFalse;
+						  if(servicesExisting && servicesExisting->Count() > 0)
+							  {							  
+							  for(TInt i=0; i<servicesExisting->Count(); i++)
+								  {
+								  TPtrC serviceName;
+								  serviceName.Set(variant.AsDes().Left(variant.AsDes().Length()-KThemeUid().Length()));								  
+								  if(serviceName.Compare((*servicesExisting)[i]) == 0)
+									  {
+									  serviceExisting = ETrue;
+									  break;
+									  }
+								  }							  
+							  }
+						  if(!serviceExisting)
+							  {
+							  serviceNames->AppendL(variant.AsDes());
+							  }
 						  }
 					  }
 				  }
@@ -396,7 +429,8 @@ void CServiceWidgetContentPublisher::UnregisterAllWidgetsL()
 		}
     
     CleanupStack::PopAndDestroy(serviceNames);
-    CleanupStack::PopAndDestroy(cpdatamap);      
+    CleanupStack::PopAndDestroy(cpdatamap);
+    CleanupStack::PopAndDestroy(servicesExisting);
     outparam->Reset();
     inparam->Reset();
     

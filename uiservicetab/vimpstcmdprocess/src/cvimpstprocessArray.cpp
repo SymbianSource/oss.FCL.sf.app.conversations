@@ -1026,6 +1026,14 @@ void CVIMPSTProcessArray::SetLoginStateL(TVIMPSTEnums::TVIMPSTRegistrationState 
         iUnKnownContactArray.Reset();
         iAddRequestArray.ResetAndDestroy();// delete all items
         iAddRequestArray.Reset();
+        
+        // Reset contact list array (append the contacts to contact list array 
+        // by getting from contactlist model) before contacts update.  
+        if(aLoginState == TVIMPSTEnums::ESVCENotRegistered )
+        	{
+			ResetArray();
+        	}
+        
         // reset the status of all the contacts.
         // no need to check the item type here. by the time its here all the other 
         // type except contact item are removed.

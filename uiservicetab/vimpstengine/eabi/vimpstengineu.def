@@ -11,4 +11,6 @@ EXPORTS
 	_ZN33MVIMPSTEngineContactMgmtExtention4CastERK30MVIMPSTEngineExtentionFeatures @ 10 NONAME
 	_ZTI20CVIMPSTEngineFactory @ 11 NONAME ; #<TI>#
 	_ZTV20CVIMPSTEngineFactory @ 12 NONAME ; #<VT>#
+	_ZTI23CVIMPSTEngineCVListener @ 13 NONAME
+	_ZTV23CVIMPSTEngineCVListener @ 14 NONAME
 

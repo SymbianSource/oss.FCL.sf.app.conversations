@@ -106,9 +106,9 @@ LIBRARY                 imcacheclient.lib
 //For contact details
 LIBRARY		vpbkeng.lib 
 
-#ifdef CHAT_ENABLE_DEBUG_PRINT
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
 LIBRARY                 flogger.lib
-#endif
+//#endif
 
 // end of file
 

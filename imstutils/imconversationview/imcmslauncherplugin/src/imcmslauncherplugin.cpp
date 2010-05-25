@@ -145,7 +145,7 @@ void CImCmsLauncherPlugin::ExecuteL( const TDesC& aXspId )
 	if (KErrNotFound != serviceId)
 		{
 		//if valid service
-		TInt err = IMCVLauncher::LaunchImConversationViewL(activeViewId, serviceId, userId->Des());	
+		TInt err = IMCVLauncher::LaunchImConversationViewL(activeViewId, serviceId, userId->Des(), CmsParameter()->DisplayName());	
 		CleanupStack::PopAndDestroy();
 		User::LeaveIfError(err);
 		return;		

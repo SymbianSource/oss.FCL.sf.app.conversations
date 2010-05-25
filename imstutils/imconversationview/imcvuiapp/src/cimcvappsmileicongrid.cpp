@@ -30,19 +30,19 @@
 #include <AknDef.h>
 #include "imcvlogger.h"
 #include "imcvuiapputils.h"
-
 #include "mimcvtapeventobserver.h"
 
-// CONSTANTS
 
-    // -- The (KTopLeft_x,KTopLeft_y) and (KBottomRight_x,KBottomRight_y) are the co ordinates of the 
-    // topleft and bottomright points of the first cell in the grid.
-    // These co-ordinates to draw the grid lines and the logic to draw the grid lines is based on the topleft 
-    //and bottomright points of the first cell in the grid
+// CONSTANTS
+// The (KTopLeft_x,KTopLeft_y) and (KBottomRight_x,KBottomRight_y) are the co ordinates of the 
+// topleft and bottomright points of the first cell in the grid.
+// These co-ordinates to draw the grid lines and the logic to draw the grid lines is based on the topleft 
+// and bottomright points of the first cell in the grid.
 #define KTopLeft_x 56
 #define KTopLeft_y 55
 #define KBottomRight_x 105
 #define KBottomRight_y 104
+
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -340,7 +340,7 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 
 	if( !iDragEvent )
 		{
-		//draw the grid
+		// Draw the grid
 		gc.SetPenStyle(CGraphicsContext::ESolidPen);    
 		gc.SetBrushStyle(CGraphicsContext::ENullBrush);
 		gc.SetPenSize(TSize(1,1));    
@@ -367,7 +367,7 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
     	TInt lastRowIconsCount = iIconCount % iMaxColumns;
 		if( lastRowIconsCount == 0 && iIconCount > 0 )
 			{
-			// last row is full
+			// Last row is full
     	    lastRowIconsCount = iMaxColumns;
 			}
 
@@ -376,7 +376,7 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 		TPoint cellBottomRight( KBottomRight_x,KBottomRight_y );
 		if(!iIsMirrored)	
 			{
-			//draw horizontal lines
+			// Draw horizontal lines
 			for( i = 0; i <= iRowCount; ++i )
 				{
 				TPoint startPoint( cellLeftTop );
@@ -391,11 +391,11 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 				gc.DrawLine( startPoint, endPoint );
 				}
 
-			//draw vertical lines
-    	for( i = 0; i <= iMaxColumns; ++i )
+			// Draw vertical lines
+			for( i = 0; i <= iMaxColumns; ++i )
 				{
-        TPoint startPoint( cellLeftTop );
-        TPoint endPoint( cellLeftTop );
+				TPoint startPoint( cellLeftTop );
+				TPoint endPoint( cellLeftTop );
 				startPoint.iX += i * iCellWidth;
 				endPoint.iX += i * iCellWidth;
 				endPoint.iY += ( i <= lastRowIconsCount ? 
@@ -405,28 +405,28 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 			}
 		else
 			{
-			//draw horizontal lines
+			// Draw horizontal lines
 			for( i = 0; i <= iRowCount; ++i )
 				{
-				TPoint startPoint( cellBottomRight.iX, cellLeftTop.iY);
-				TPoint endPoint( cellBottomRight.iX, cellLeftTop.iY );
+				TPoint startPoint( cellLeftTop );
+				TPoint endPoint( cellLeftTop );
 				startPoint.iY += i * iCellHeight;
 				endPoint.iY += i * iCellHeight;
-				endPoint.iX -= ( ( i == iRowCount ) || ( i == 0 && iRowCount == 1 )
-				    ? ( lastRowIconsCount ) 
-    		    * iCellWidth : iMaxColumns * iCellWidth );
-				// sub 1 pixel to remove the gap from bottom left corners
+				endPoint.iX += ( ( i == iRowCount ) || ( i == 0 && iRowCount == 1 )
+								    ? ( lastRowIconsCount ) 
+				    		    * iCellWidth : iMaxColumns * iCellWidth );
+				// subtract one pixel to remove the gap from bottom left corners
 				--endPoint.iX;
 				gc.DrawLine( startPoint, endPoint );
 				}
 
-			//draw vertical lines
-    	for( i = 0; i <= iMaxColumns; ++i )
+			// Draw vertical lines
+			for( i = 0; i <= iMaxColumns; ++i )
 				{
-				TPoint startPoint( cellBottomRight.iX, cellLeftTop.iY );
-				TPoint endPoint( cellBottomRight.iX, cellLeftTop.iY);
-				startPoint.iX -= i * iCellWidth;
-				endPoint.iX -= i * iCellWidth;
+				TPoint startPoint( cellLeftTop );
+				TPoint endPoint( cellLeftTop );
+				startPoint.iX += i * iCellWidth;
+				endPoint.iX += i * iCellWidth;
 				endPoint.iY += ( i <= lastRowIconsCount ? 
 				    iCellHeight * iRowCount : iCellHeight * ( iRowCount - 1  ) );
 				gc.DrawLine( startPoint, endPoint );
@@ -434,7 +434,7 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 
 			}
 
-		//draw icons
+		// Draw icons
 		for( i = 0; i < iIconCount; ++i )
 			{
 			DrawItem( gc, skins, skin, cc, i, i == iCursorPos );
@@ -442,9 +442,9 @@ void CIMCVAppSmileIconGrid::Draw( const TRect& /* aRect */ ) const
 		}
 	else
 		{
-		// only selection changed, highlight new pos
+		// Only selection changed, highlight new pos
 		DrawItem( gc, cc != NULL, skin, cc, iCursorPos, ETrue );        
-		// and clear old
+		// And clear old
 		DrawItem( gc, cc != NULL, skin, cc, iPrevCursorPos, EFalse );
 		}
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::Draw() end") );    
@@ -461,7 +461,7 @@ void CIMCVAppSmileIconGrid::DrawItem( CWindowGc& aGc,
                        TInt aIndex, TBool aSelected ) const
     {
     IM_CV_LOGS(TXT("CIMCVAppSmileIconGrid::DrawItem() start") );
-    //lets count currect cell
+    //lets count current cell
     TPoint cellLeftTop( KTopLeft_x,KTopLeft_y );
     TPoint cellBottomRight( KBottomRight_x,KBottomRight_y );
 
@@ -475,7 +475,7 @@ void CIMCVAppSmileIconGrid::DrawItem( CWindowGc& aGc,
     }
     else
     {
-    	offset.iX = -(( aIndex % iMaxColumns ) * iCellWidth);
+    	offset.iX = ( aIndex % iMaxColumns ) * iCellWidth;
     }
     
     offset.iY = aIndex / iMaxColumns * iCellHeight;

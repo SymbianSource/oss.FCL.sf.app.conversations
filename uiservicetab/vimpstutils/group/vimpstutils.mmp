@@ -65,9 +65,9 @@ LIBRARY         		mediaclientimage.lib  // bitmap to descriptor conversion
 
 
 
-#ifdef CHAT_ENABLE_DEBUG_PRINT
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
 LIBRARY       flogger.lib
-#endif
+//#endif
 
 LANG			SC
 

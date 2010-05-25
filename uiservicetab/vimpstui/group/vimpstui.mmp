@@ -180,9 +180,9 @@ LIBRARY 				AknLayout2Scalable.lib // scalable avkon layout
 // Dependencies to other Phonebook 2 components
 LIBRARY VPbkEng.lib //Pbk2Presentation.lib
 
-#ifdef CHAT_ENABLE_DEBUG_PRINT
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
 LIBRARY                 flogger.lib
-#endif
+//#endif
 
 LANG SC
 // end of file

@@ -99,7 +99,7 @@ class CServiceWidgetContentPublisher: public CBase,
 		  /**
 		   * Unregister all widgets from CPS
 		   */
-		  void UnregisterAllWidgetsL();
+		  void UnregisterAllWidgetsL(RArray<TInt>* aServiceArray);
 
 		  /**
 		   * Register widget from CPS

@@ -20,6 +20,15 @@
 #ifndef __ICPLOGGER_H__
 #define __ICPLOGGER_H__
 
+#ifdef __WINS__
+ #ifdef _DEBUG
+    #define ICP_ENABLE_DEBUG_LOGS // for WINS UDEB
+ #endif
+#else
+ #ifdef _DEBUG     
+    #define ICP_ENABLE_DEBUG_LOGS // for device UDEB
+ #endif
+#endif
 #define SCP_TP_PRINT(s) L##s
 #define SCP_STRA_PRINT(s) SCP_TP_PRINT(s)
 #define SCP_STR_PRINT(t) SCP_STRA_PRINT("[SCP]") L##t
@@ -103,6 +112,7 @@
 
 inline void IcpDebugWriteFormat(TRefByValue<const TDesC> aFmt,...)
     {
+#ifdef ICP_ENABLE_DEBUG_LOGS
     _LIT(KDir, "icp");
     _LIT(KName, "icp.log");
 
@@ -111,6 +121,7 @@ inline void IcpDebugWriteFormat(TRefByValue<const TDesC> aFmt,...)
     VA_START(args,aFmt);
     RFileLogger::WriteFormat(KDir, KName, EFileLoggingModeAppend, aFmt, args);
     VA_END(args);
+#endif
     }
 
 #endif  // __SCPLOGGER_H__

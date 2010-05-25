@@ -70,9 +70,9 @@ LIBRARY     Pbk2Presentation.lib
 
 LIBRARY     cntmodel.lib cntview.lib 
 
-#ifdef CHAT_ENABLE_DEBUG_PRINT
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
 LIBRARY     flogger.lib
-#endif
+//#endif
 
 LANG			SC
 

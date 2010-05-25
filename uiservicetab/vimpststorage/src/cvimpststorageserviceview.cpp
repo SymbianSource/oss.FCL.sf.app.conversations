@@ -567,7 +567,21 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::FindContactByUserId( const TDe
             TRACE(" contact found " );          
             break;
             }
+        if(!contact)
+        	{
+			TInt acount =contactList->Count();
+			for( TInt i( 0 ); i < acount; ++i )
+				{
+				MVIMPSTStorageContact* acontact = &(contactList->operator [](i));
+				if( acontact->UserId().Compare( aUserId) == 0 )
+					{
+					contact=acontact;
+					break;
+					}
+				}
+        	}
         }
+    
     return contact;
   	}
 // -----------------------------------------------------------------------------
@@ -790,7 +804,12 @@ MVIMPSTStorageContact* CVIMPSTStorageServiceView::AddContactToCacheL (const MVPb
 		}
 	TRACE(" Before findcontactlink" ); 
 	MVIMPSTStorageContact* contact = FindContactByLink(aContactLink);
-	TRACE( " After findcontactlink " ); 
+	TRACE( " After findcontactlink check for findcontactuserid" ); 
+	if(!contact && aUserId.Length() )
+		{
+		MVIMPSTStorageContact* contact = FindContactByUserId( aUserId );
+		}
+	TRACE( " After findcontactuserid " ); 
 	if( !contact )
 		{
 		TRACE( " contact not exist "); 

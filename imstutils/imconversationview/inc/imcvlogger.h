@@ -27,7 +27,15 @@
 
 // enable logs printing
 // into  c:\\logs\\imcv\\imcv.txt
-#define ENABLE_DEBUG_LOGS
+#ifdef __WINS__
+  #ifdef _DEBUG
+    #define ENABLE_DEBUG_LOGS // for WINS UDEB
+ #endif
+#else
+  #ifdef _DEBUG     
+    #define ENABLE_DEBUG_LOGS // for device UDEB
+  #endif
+#endif
 
 /**   
 * Usage of Log MACRO'S

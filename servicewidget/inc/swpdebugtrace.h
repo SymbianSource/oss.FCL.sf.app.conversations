@@ -26,7 +26,15 @@
 //  DEFINES
 // enable logs printing
 // into  c:\\logs\\swp\\swp.txt
-#define SWP_ENABLE_DEBUG_LOGS
+#ifdef __WINS__
+ #ifdef _DEBUG
+    #define SWP_ENABLE_DEBUG_LOGS // for WINS UDEB
+ #endif
+#else
+ #ifdef _DEBUG
+    #define SWP_ENABLE_DEBUG_LOGS // for device UDEB
+ #endif
+#endif
 
 /**   
 * Usage of Log MACRO'S

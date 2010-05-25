@@ -149,7 +149,7 @@
                 	sizeof( CHAT_DEBUG_FILENAME)-1,
                 	CHAT_TO_UNICODE( CHAT_DEBUG_FILENAME ) };
             #else
-                _LIT( KName, "ChatDebug.log" );
+                _LIT( KName, "IMConversationDebug.log" );
             #endif // CHAT_DEBUG_FILENAME
 
             // take the ellipsis parameters

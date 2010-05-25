@@ -23,8 +23,15 @@
 #include <e32std.h>
 
 //#ifdef _DEBUG
-#define ENABLE_DEBUG_LOGS
-//#endif
+#ifdef __WINS__
+  #ifdef _DEBUG
+    #define ENABLE_DEBUG_LOGS // for WINS UDEB
+ #endif
+#else
+  #ifdef _DEBUG
+    #define ENABLE_DEBUG_LOGS // for device UDEB
+  #endif
+#endif
 
 /**   
 * Usage of Log MACRO'S

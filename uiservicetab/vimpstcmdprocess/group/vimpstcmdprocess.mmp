@@ -95,9 +95,9 @@ LIBRARY 	sysutil.lib efsrv.lib
 LIBRARY     servicehandler.lib
 LIBRARY		apgrfx.lib 
 
-#ifdef CHAT_ENABLE_DEBUG_PRINT
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
 LIBRARY                 flogger.lib
-#endif
+//#endif
 
 
 // end of file
