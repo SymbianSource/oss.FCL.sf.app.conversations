@@ -81,6 +81,7 @@ SOURCE			  cimcvmenuextensionmanager.cpp
 USERINCLUDE       ../inc 
 USERINCLUDE       ../rss
 USERINCLUDE       ../../inc 
+USERINCLUDE     ../../../../inc
 USERINCLUDE       ../../imcvuiengine/inc 
 USERINCLUDE	  ../../../../group
 USERINCLUDE		  ../../../../uiservicetab/vimpstdetailsviewplugin/inc

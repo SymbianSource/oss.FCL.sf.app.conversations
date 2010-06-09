@@ -35,7 +35,7 @@ USERINCLUDE     ../../Group
 USERINCLUDE     ../inc
 USERINCLUDE     ../src
 USERINCLUDE     ../rss
-
+USERINCLUDE     ../../../inc
 USERINCLUDE     ../../vimpstutils/inc
 USERINCLUDE     ../../vimpstengine/inc
 USERINCLUDE     ../../vimpstcmdprocess/inc

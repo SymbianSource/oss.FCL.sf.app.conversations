@@ -29,6 +29,7 @@
 #include "cimcvcommandinfo.h"
 
 #include "cvmenucommandinfo.hrh"
+#include "vimpstcustomcleanupapi.h"
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -103,6 +104,7 @@ void CIMCVMenuExtensionManager::LoadPluginL( )
     {
     // plugininfo array, Owned
     RImplInfoPtrArray pluginInfo;
+    CustomCleanupResetAndDestroyPushL(pluginInfo);
     iPlugins.ResetAndDestroy();
     REComSession::ListImplementationsL( KMenuCustomisationInterfaceUid,pluginInfo );
     TInt pluginCount = pluginInfo.Count();
@@ -139,8 +141,9 @@ void CIMCVMenuExtensionManager::LoadPluginL( )
            }
         
         }
-    pluginInfo.ResetAndDestroy();
-    pluginInfo.Close();
+
+     CleanupStack::PopAndDestroy(); 
+     
     }
 
 

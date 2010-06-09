@@ -39,7 +39,11 @@
     #define TRACER_LOG_METHOD 0 // for WINS UREL
  #endif
 #else
-  #define TRACER_LOG_METHOD 2 // for device
+  #ifdef _DEBUG
+    #define TRACER_LOG_METHOD 2 // for Armv5 UDEB
+  #else
+    #define TRACER_LOG_METHOD 0 // for Armv5 UREL
+ #endif
 #endif
 
 #endif

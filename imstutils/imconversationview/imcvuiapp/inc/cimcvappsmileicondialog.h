@@ -138,6 +138,8 @@ class CIMCVAppSmileIconDialog : public CAknDialog,
         TBool iSmileyPointed;
         
         TBool iIsMirrored;
+        
+        TBool iLayoutChanged;
     };
 
 #endif  // CIMCVAPPSMILEICONDIALOG_H

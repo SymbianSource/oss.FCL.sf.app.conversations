@@ -474,6 +474,7 @@ void CVIMPSTUiTabbedView::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMen
                     }
                 }
             // common to all 
+            aMenuPane->SetItemDimmed(ECmdOpenConversation, ETrue);
             aMenuPane->SetItemDimmed(ECmdContactAddAsFriend, ETrue);
             aMenuPane->SetItemDimmed(KAiwCmdCall, ETrue);
             aMenuPane->SetItemDimmed(ECmdCloseConversation, ETrue);
@@ -514,6 +515,11 @@ void CVIMPSTUiTabbedView::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMen
                                 if ( iCommandHandler.GetProcessInterface().IsConversationExist( itemIndex ) )
                                     {
                                     aMenuPane->SetItemDimmed(ECmdCloseConversation, EFalse);	
+                                    aMenuPane->SetItemDimmed(ECmdOpenConversation, ETrue);
+                                    }
+                                else
+                                	{
+									aMenuPane->SetItemDimmed(ECmdOpenConversation, EFalse);
                                     }
                                 }
                             }
@@ -606,7 +612,12 @@ void CVIMPSTUiTabbedView::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMen
                         {                            
                         if (iCommandHandler.GetProcessInterface().IsConversationExist( itemIndex ))
                             {
-                            aMenuPane->SetItemDimmed(ECmdCloseConversation, EFalse);    
+                            aMenuPane->SetItemDimmed(ECmdCloseConversation, EFalse);
+                            aMenuPane->SetItemDimmed(ECmdOpenConversation, ETrue);
+                            }
+                        else
+                        	{
+							aMenuPane->SetItemDimmed(ECmdOpenConversation, EFalse);
                             }
                         }
                     if(voipService)

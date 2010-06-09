@@ -28,6 +28,7 @@
 #include "ccommandinfo.h"
 
 #include "servicetabmenucommandinfo.hrh"
+#include "vimpstcustomcleanupapi.h"
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -114,6 +115,7 @@ void CVIMPSTUIMenuExtension::LoadPluginL( )
 	TRACER_AUTO;
     // plugininfo array, Owned
     RImplInfoPtrArray pluginInfo;
+    CustomCleanupResetAndDestroyPushL(pluginInfo);
     iPlugins.ResetAndDestroy();
     REComSession::ListImplementationsL( KMenuCustomisationInterfaceUid,pluginInfo );
     TInt pluginCount = pluginInfo.Count();
@@ -157,8 +159,8 @@ void CVIMPSTUIMenuExtension::LoadPluginL( )
            }
         
         }
-    pluginInfo.ResetAndDestroy();
-    pluginInfo.Close();
+    CleanupStack::PopAndDestroy(); 
+    
     
 
     }

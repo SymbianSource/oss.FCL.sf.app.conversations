@@ -469,15 +469,7 @@ void CIMCVAppSmileIconGrid::DrawItem( CWindowGc& aGc,
     myRect.SetRect( cellLeftTop, cellBottomRight );
     TPoint offset;
     
-    if(!iIsMirrored)
-    {
-    	offset.iX = ( aIndex % iMaxColumns ) * iCellWidth;	
-    }
-    else
-    {
-    	offset.iX = ( aIndex % iMaxColumns ) * iCellWidth;
-    }
-    
+    offset.iX = ( aIndex % iMaxColumns ) * iCellWidth;
     offset.iY = aIndex / iMaxColumns * iCellHeight;
     
     myRect.Move( offset );

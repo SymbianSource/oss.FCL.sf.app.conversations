@@ -137,6 +137,12 @@ RESOURCE MENU_PANE r_servtab_tabbed_view_menu
     {
     items =
     {
+       MENU_ITEM  // Open conversation
+           { 
+           command = ECmdOpenConversation; 
+           txt = qtn_servtab_open_conversation;
+           flags = EEikMenuItemSpecific;
+           },  	
        MENU_ITEM
            {
            command = ECmdContactAddAsFriend;

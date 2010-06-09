@@ -82,7 +82,7 @@ CIMCVAppSmileIconDialog::~CIMCVAppSmileIconDialog()
 CIMCVAppSmileIconDialog::CIMCVAppSmileIconDialog( 
                             const RPointerArray<CGulIcon>& aIconArray,
 							TInt& aSelectedIconId )
-:iIconArray( aIconArray ), iIconId( aSelectedIconId )
+:iIconArray( aIconArray ), iIconId( aSelectedIconId ), iLayoutChanged(EFalse)
     {
     
     }
@@ -141,8 +141,9 @@ void CIMCVAppSmileIconDialog::HandleResourceChange( TInt aType )
     IM_CV_LOGS(TXT("CIMCVAppSmileIconDialog::HandleResourceChange() start") );
     if( aType == KEikDynamicLayoutVariantSwitch )
         {
-        SetLayout();
-        }
+		iLayoutChanged = ETrue;
+		SetLayout();
+        } 
 	CAknDialog::HandleResourceChange( aType );
 	IM_CV_LOGS(TXT("CIMCVAppSmileIconDialog::HandleResourceChange() end") );
     }
@@ -391,8 +392,17 @@ TInt CIMCVAppSmileIconDialog::CheckDialog(TAknLayoutRect aDialogRect,TRect aRect
             }
         else 
             {
-            vWidth = dialogRect.iBr.iX - dialogRect.iTl.iX + 2*aRect.iBr.iX;
-            }
+			// Patch fix for mirrored layout when mode changes from portrait to
+			// landscape or vice versa the width calculation differs to adjust the correct width
+			if (iLayoutChanged) // mode change like portrait to landscape or vice versa
+				{
+				vWidth = (2*aRect.iBr.iX) - (dialogRect.iBr.iX - dialogRect.iTl.iX);
+				}
+			else
+				{
+				vWidth = dialogRect.iBr.iX - dialogRect.iTl.iX + 2*aRect.iBr.iX;
+				}
+            } 
 		vArea = vWidth*vheight;
 		
 	    TInt iconCount = iIconArray.Count();

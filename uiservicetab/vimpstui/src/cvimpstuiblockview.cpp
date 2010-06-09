@@ -193,6 +193,7 @@ void CVIMPSTUiBlockView::DynInitMenuPaneL( TInt aResourceId,
         {
         //add search view menu items 
         aMenuPane->AddMenuItemsL( R_SERVTAB_TABBED_VIEW_MENU ); 
+        aMenuPane->SetItemDimmed(ECmdOpenConversation, ETrue);
         aMenuPane->SetItemDimmed(ECmdContactAddAsFriend,ETrue);
         aMenuPane->SetItemDimmed(KAiwCmdCall,ETrue);
         aMenuPane->SetItemDimmed(ECmdCloseConversation,ETrue);
