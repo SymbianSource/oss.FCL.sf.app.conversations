@@ -517,6 +517,7 @@ TInt CServiceWidgetCchHandler::EnableServiceL( )
 
     if( iCchClient  )
         {
+		iCchClient->SetConnectivityDialogsAllowed( ETrue );
         CCchService* service = iCchClient->GetService( iServiceId );
         if( service )
             {

@@ -329,7 +329,11 @@ void CIMCVEngineCchHandler::DoHandleServiceStatusChangedL(
 				// as user would loose all the on-going conversation when the network connection is
 				// restored.				
 				if (aServiceStatus.Error () != KCCHErrorNetworkLost )
-				iEngine.CloseAllOpenChatsL();
+				   {
+					iEngine.CloseAllOpenChatsL();
+					iEngine.ReleaseConnectionL ();
+					iEngine.DeleteContextL ();
+				   }
 				notifyEvent = MIMCVEngineCCHObserver::EDisconnecting;
 				break;	
 				}

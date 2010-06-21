@@ -320,6 +320,10 @@ void CVIMPSTProcessArray::HandleStorageChangeL( TVIMPSTEnums::TVIMPSTStorgaeEven
 
             if(iProcessObservers)
                 {
+                if (aContact->AvatarContent().Length())
+                    {
+                    iProcessObservers->HandleAvatarChangeL(aContact->UserId());
+                    }
                 /* passing aContactIndex so that the focus is on owndata item */
                 iProcessObservers->HandleAdditionL(TVIMPSTEnums::EContactItem, aContactIndex );
                 }   
