@@ -32,6 +32,6 @@
 void RVIMPSTSettingsReleaseArray::Close()
 	{
 	ResetAndDestroy();
-	RPointerArray::Close();
+	RPointerArray<HBufC>::Close();
 	}
 
