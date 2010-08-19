@@ -36,6 +36,8 @@ ECOM_PLUGIN(vimpstdetailsviewplugin.dll,vimpstdetailsviewplugin.rsc)
 // stub SIS, provides support for SIS upgrading
 data=DATAZ_/system/install/uiservicetabstub.sis    system/install/uiservicetabstub.sis
 
+data=DATAZ_\private\20012423\backup_registration.xml  private\20012423\backup_registration.xml
+
 #endif //__IMUISERVICETAB_IBY__
 
 

@@ -64,7 +64,7 @@
 #include "MxSPContactManager.h"
 
 //resource
-#include <ExtensionManagerRes.rsg>
+#include <extensionmanagerres.rsg>
 #include <vimpstuires.rsg>
 
 // System includes

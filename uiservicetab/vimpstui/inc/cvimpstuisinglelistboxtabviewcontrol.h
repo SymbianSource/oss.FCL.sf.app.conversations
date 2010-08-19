@@ -50,7 +50,8 @@ class CVIMPSTUiSingleListBoxTabViewControl : public CCoeControl,
         										MVIMPSTCmdHandler& aCommandHandler,
         										TUint32 aServiceId,
         										CVIMPSTUiBrandData& aBrandHandler,
-        										MVIMPSTEngine& aEngine );
+        										MVIMPSTEngine& aEngine,
+        										CEikButtonGroupContainer* aCba);
         
         /**
          * Creates a new CImContactsTabbedViewControl and leaves it to
@@ -68,7 +69,8 @@ class CVIMPSTUiSingleListBoxTabViewControl : public CCoeControl,
         											MVIMPSTCmdHandler& aCommandHandler,
         											TUint32 aServiceId,
         											CVIMPSTUiBrandData& aBrandHandler,
-        											MVIMPSTEngine& aEngine  );
+        											MVIMPSTEngine& aEngine,
+        											CEikButtonGroupContainer* aCba);
         
         /**
          * Destructor.
@@ -254,7 +256,8 @@ class CVIMPSTUiSingleListBoxTabViewControl : public CCoeControl,
                     							MVIMPSTCmdHandler& aCommandHandler,
                     							TUint32 aServiceId,
                     							CVIMPSTUiBrandData& aBrandHandler,
-                    							MVIMPSTEngine& aEngine );
+                    							MVIMPSTEngine& aEngine,
+                    							CEikButtonGroupContainer* aCba);
         
         /**
          * Performs the 2nd phase of construction.

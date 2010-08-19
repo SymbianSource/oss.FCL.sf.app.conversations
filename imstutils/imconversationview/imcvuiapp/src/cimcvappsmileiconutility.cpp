@@ -27,8 +27,8 @@
 #include    "cimcvappbitmapmapping.h"     // defines the skinned bitmap ids
 
 #include 	"mimcvappui.h"
-#include 	<UniUtils.rsg>
-#include 	<MsgEditorAppUi.rsg>
+#include 	<uniutils.rsg>
+#include 	<msgeditorappui.rsg>
 #include 	<imcvuiapp.rsg>
 #include 	<bautils.h>
 #include 	<PUAcodes.hrh>

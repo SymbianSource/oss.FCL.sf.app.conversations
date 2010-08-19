@@ -1458,7 +1458,12 @@ void CIMCVAppView::HandleChatListEvent(TInt aServiceId,TChatListEventType aEvent
         case EChatAllItemDeleted:
             {               
 			IM_CV_LOGS (TXT("CIMCVAPPVIEW  :: DELETE ALL CHATS ***************************"));
-            iRTContainerCache->DeleteAllServiceContainer( aServiceId );
+            
+			if(iViewDeactivated)
+			    {
+			    iRTContainerCache->DeleteAllServiceContainer( aServiceId );
+			    }
+			
             break;
             }
         default:

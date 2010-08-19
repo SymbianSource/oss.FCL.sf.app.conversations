@@ -108,6 +108,7 @@ void CVIMPSTDetailsPresenceHandler::SubscribePresenceL(const TDesC& aUserId )
 		iUserId = NULL;	
 		}
 	iUserId = aUserId.AllocL();
+	iStatus = TVIMPSTEnums::EOffline;
 	if( !iPresenceSupported )
 	    {
 	    return;
@@ -401,7 +402,7 @@ const TDesC& CVIMPSTDetailsPresenceHandler::GetStatusTextL()
 		{
 		iStatusText = StringLoader::LoadL( resourceId );	
 		}
-	if( iStatusText && iUserId )
+	if( iStatusText )
 		{
 		return *iStatusText;	
 		}

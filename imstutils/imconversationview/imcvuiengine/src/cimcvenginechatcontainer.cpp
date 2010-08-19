@@ -152,7 +152,7 @@ void CIMCVEngineChatContainer::CloseAllContainers()
     	IM_CV_LOGS(TXT("CIMCVEngineChatContainer::CloseAllContainers() closing container ") );    
         iChatListObservers[ a ]->HandleChatListEvent( iServiceId, EChatAllItemDeleted, NULL  );
         }   
-	iChatContainer.ResetAndDestroy();
+	//iChatContainer.ResetAndDestroy();
 	IM_CV_LOGS(TXT("CIMCVEngineChatContainer::CloseAllContainers() End") );
 	}
   

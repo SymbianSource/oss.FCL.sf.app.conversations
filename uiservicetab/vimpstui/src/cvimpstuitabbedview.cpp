@@ -83,7 +83,7 @@
 #include "cvimpstuimenuextension.h"
 
 //resource
-#include <ExtensionManagerRes.rsg>
+#include <extensionmanagerres.rsg>
 #include <vimpstuires.rsg>
 
 //CCA
@@ -1090,7 +1090,7 @@ void CVIMPSTUiTabbedView::DoActivateViewL( const TVwsViewId& aPrevViewId,
         iContainerCreationStarted = ETrue;
         iContainer = MVIMPSTUiTabbedViewControlFactory::NewTabControlL(*this,
                 &iView,iCommandHandler, iServiceId,
-                *iBrandHandler, iEngine);
+                *iBrandHandler, iEngine, iView.Cba());
         // take the control pointer
         CCoeControl* cCoeControl = iContainer->CoeControl();
         iAppUi->AddToStackL( iView, cCoeControl );
