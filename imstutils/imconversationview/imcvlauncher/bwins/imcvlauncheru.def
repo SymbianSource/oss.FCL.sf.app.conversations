@@ -1,3 +1,0 @@
-EXPORTS
-	?LaunchImConversationViewL@IMCVLauncher@@SAHVTVwsViewId@@HABVTDesC16@@1PAVMVPbkContactLink@@@Z @ 1 NONAME ; int IMCVLauncher::LaunchImConversationViewL(class TVwsViewId, int, class TDesC16 const &, class TDesC16 const &, class MVPbkContactLink *)
-
