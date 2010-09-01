@@ -1,0 +1,103 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  vimpstui resource.
+*
+*/
+
+
+
+
+// Terms of Use
+
+
+RESOURCE TBUF r_qtn_servtab_tou_title          { buf = qtn_servtab_tou_title; }
+
+
+// ---------------------------------------------------------
+//
+//    r_cnui_terms_of_use_dialog_cba
+//
+// ---------------------------------------------------------
+//
+RESOURCE CBA r_cnui_terms_of_use_dialog_cba
+    {
+    buttons =
+        {        
+        CBA_BUTTON { id = EIMPSCommonUITOUContinue; txt = qtn_servtab_sk_accept; },        
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = qtn_servtab_sk_decline; },
+        CBA_BUTTON { id = EIMPSCommonUITOUContinue; txt = qtn_servtab_sk_accept; } 
+        };
+    }
+// ---------------------------------------------------------
+//
+//    r_cnui_terms_of_use_dialog_cba
+//
+// ---------------------------------------------------------
+//
+RESOURCE CBA r_cnui_terms_of_use_dialog_initial_cba
+    {
+    buttons =
+        {        
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; },        
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = text_softkey_cancel; },  
+        CBA_BUTTON { id = EAknSoftkeyEmpty; txt = text_softkey_empty; }
+        };
+    }
+// ---------------------------------------------------------
+//
+//    r_cnui_terms_of_use_dialog
+//
+// ---------------------------------------------------------
+//    
+RESOURCE DIALOG r_cnui_terms_of_use_dialog
+	{
+	flags=EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect | 
+	      EEikDialogFlagCbaButtons | EEikDialogFlagNotifyEsc | EEikDialogFlagWait;
+	buttons=r_cnui_terms_of_use_dialog_initial_cba;
+	title= qtn_chat_tou_title;
+    items=
+		{
+		DLG_LINE
+			{
+			type=EEikCtRichTextEditor;
+			id=	ETOURichEditorId;
+			itemflags = EEikDlgItemCtlMinWidthOrLess;
+			control= RTXTED
+					{
+					//width=200;
+					//height=200;
+					//textlimit=200;
+					flags= KMultiLineExpandingEditorFlags |
+					       EEikEdwinReadOnly | EEikEdwinAvkonDisableCursor |
+					       EEikEdwinNoAutoSelection;
+					//max_view_height_in_lines=3;
+                    avkon_flags = EAknEditorFlagEnableScrollBars;
+					};
+			}
+		};
+	}    
+
+//----------------------------------------------------
+//
+// Terms of Use richtext editor
+//
+//----------------------------------------------------
+RESOURCE RTXTED r_cnui_terms_of_use_editor
+    {
+    flags = EEikEdwinReadOnly | EEikEdwinAvkonDisableCursor;
+    avkon_flags = EAknEditorFlagDefault;
+    }
+
+//  End of File
+

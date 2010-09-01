@@ -1,0 +1,50 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: 
+;
+;Language - standard language definitions
+&EN
+
+;UID is the dll's UID
+#{"UiServiceTab"},(0x20012423),1,1,4, TYPE=SA, RU
+
+;Supports Series 60 v 5.0
+(0x1028315F), 0, 0, 0, {"Series60ProductID"}
+
+;Localised Vendor name
+%{"Nokia"}
+
+;VendorID
+:"Nokia"
+
+; Files to copy
+
+"/EPOC32/RELEASE/ARMV5/UREL/vimpstutils.dll"							-"!:/sys/bin/vimpstutils.dll"
+"/EPOC32/RELEASE/ARMV5/UREL/vimpststorage.dll"							-"!:/sys/bin/vimpststorage.dll"
+"/EPOC32/RELEASE/ARMV5/UREL/vimpstengine.dll"					-"!:/sys/bin/vimpstengine.dll"
+"/EPOC32/RELEASE/ARMV5/UREL/vimpstcmdprocess.dll"								-"!:/sys/bin/vimpstcmdprocess.dll"
+"/EPOC32/RELEASE/ARMV5/UREL/vimpstui.dll"					-"!:/sys/bin/vimpstui.dll"
+"/EPOC32/RELEASE/ARMV5/UREL/vimpstdetailsviewplugin.dll"					-"!:/sys/bin/vimpstdetailsviewplugin.dll"
+
+"/EPOC32/DATA/Z/Resource/vimpstdetailsviewpluginrsc.rsc"				-"!:/Resource/vimpstdetailsviewpluginrsc.rsc"
+"/EPOC32/DATA/Z/Resource/vimpstuires.rsc"				-"!:/Resource/vimpstuires.rsc"
+"/EPOC32/DATA/Z/Resource/Plugins/vimpstui.rsc"				-"!:/Resource/Plugins/vimpstui.rsc"
+"/EPOC32/DATA/Z/Resource/Plugins/vimpstdetailsviewplugin.rsc"				-"!:/Resource/Plugins/vimpstdetailsviewplugin.rsc"
+; Backup & restore
+"../group/backup_registration.xml"       -"!:/private/20012423/backup_registration.xml"
+
+"/EPOC32/DATA/Z/Resource/apps/vimpstui.mif"								-"!:/Resource/apps/vimpstui.mif"
+
+; end of file
+

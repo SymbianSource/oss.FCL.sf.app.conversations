@@ -1,0 +1,9 @@
+EXPORTS
+	_ZN28CVIMPSTStorageManagerFactory15InitialiseViewLEmRK7TDesC16S2_ @ 1 NONAME
+	_ZN28CVIMPSTStorageManagerFactory18InitialiseLibraryLEv @ 2 NONAME
+	_ZN28CVIMPSTStorageManagerFactory19ItemModelInterfaceLEm @ 3 NONAME
+	_ZN28CVIMPSTStorageManagerFactory21ContactListInterfaceLEm @ 4 NONAME
+	_ZN28CVIMPSTStorageManagerFactory7ReleaseEv @ 5 NONAME
+	_ZTI21CVIMPSTStorageManager @ 6 NONAME ; #<TI>#
+	_ZTV21CVIMPSTStorageManager @ 7 NONAME ; #<VT>#
+

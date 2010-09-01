@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  cenrep settings store
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+#include "vimpstsettingsuids.h"
+
+TARGET          vimpstsettings.dll
+TARGETTYPE      dll
+UID             KStaticInterfaceDllUid2 KMecoSettingstoreUid3
+
+CAPABILITY 			CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../group
+USERINCLUDE     ../src
+		
+SOURCEPATH      ../src
+SOURCE		cvimpstsettingsstore.cpp
+SOURCE		cvimpstsettings.cpp
+//CenRep 
+SOURCE		cvimpstsettingscenrep.cpp
+SOURCE		rvimpstsettingsreleasearray.cpp
+//Generic key-value pair implementation
+SOURCE		cvimpstsettingskeyvaluepairs.cpp
+SOURCE		cvimpstsettingskeyvaluepair.cpp
+SOURCE		cvimpstsettingslookupkeyvaluepair.cpp
+
+
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY					centralrepository.lib 				// central repository
+LIBRARY                 euser.lib             				// basic things
+LIBRARY                 estor.lib             				// RReadStream
+
+#ifdef CHAT_ENABLE_DEBUG_PRINT
+LIBRARY                 flogger.lib
+#endif
+
+LANG SC
+// end of file
+

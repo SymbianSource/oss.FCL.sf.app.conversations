@@ -1,0 +1,131 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  search dialog fields resources.
+*
+*/
+
+
+// --------------------------------------------------------------------------
+// search dialog menu pane
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_search_editor_menupane
+    {
+    items=
+        {
+        
+        };
+    }
+
+// --------------------------------------------------------------------------
+// search dialog menu bar
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_search_editor_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_search_editor_menupane;
+            }
+        };
+    }
+
+
+// --------------------------------------------------------------------------
+// search dialog context menu bar
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_search_editor_context_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_search_editor_context_menupane;
+            }
+        };
+    }
+
+// --------------------------------------------------------------------------
+// search dialog context menu pane
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_search_editor_context_menupane
+    {
+    items=
+        {
+        
+        };
+    }
+ 
+// --------------------------------------------------------------------------
+// Memory entry editor dialog template
+// --------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_search_entry_dialog
+    {
+    title = qtn_servtab_search_title;
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+            EEikDialogFlagFillAppClientRect | EEikDialogFlagCbaButtons |
+            EEikDialogFlagWait | EEikDialogFlagNotifyEsc|EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    form = r_search_entry_form;
+    }   
+// --------------------------------------------------------------------------
+// Dynamic form resource
+// --------------------------------------------------------------------------
+//
+RESOURCE FORM r_search_entry_form
+    {
+    flags = EEikFormShowBitmaps | EEikFormUseDoubleSpacedFormat;
+    }
+
+//----------------------------------------------------------
+//
+//		r_search_softkeys_basic_cancel__basic
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_search_softkeys_basic_cancel__edit
+	{
+    flags = 0;
+	buttons = 
+        {
+        CBA_BUTTON { id = EBasicSearch; txt = qtn_servtab_basic_search; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = text_softkey_cancel; },
+        CBA_BUTTON { id = EAknSoftkeyEdit; txt = text_softkey_edit; }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//		r_search_softkeys_advanced_cancel__advanced
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_search_softkeys_advanced_cancel__edit
+	{
+    flags = 0;
+	buttons = 
+        {
+        CBA_BUTTON { id = EAdvancedSearch; txt = qtn_servtab_advanced_search; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = text_softkey_cancel; },
+        CBA_BUTTON { id = EAknSoftkeyEdit; txt = text_softkey_edit; }
+        };
+    }
+    
+    
+// End of File

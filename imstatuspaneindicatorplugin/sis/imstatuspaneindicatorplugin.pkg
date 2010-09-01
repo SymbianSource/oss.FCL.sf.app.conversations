@@ -1,0 +1,40 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: 
+;
+;Language - standard language definitions
+&EN
+
+;UID is the dll's UID
+#{"imstatuspaneindicatorplugin"},(0x20026767),1,1,0, TYPE=SA, RU
+
+;Supports Series 60 v 5.0
+(0x1028315F), 0, 0, 0, {"Series60ProductID"}
+
+;Localised Vendor name
+%{"Nokia-EN"}
+
+;VendorID
+:"Nokia"
+
+; Files to copy
+;;//imstatuspaneindicatorplugin.dll
+"\EPOC32\RELEASE\ARMV5\UREL\imstatuspaneindicatorplugin.dll"					-"!:\sys\bin\imstatuspaneindicatorplugin.dll"
+
+
+"\EPOC32\DATA\Z\Resource\imstatuspaneindicatorpluginrss.rsc"				-"!:\Resource\imstatuspaneindicatorpluginrss.rsc"
+"\EPOC32\DATA\Z\Resource\Plugins\imstatuspaneindicatorplugin.rsc"				-"!:\Resource\Plugins\imstatuspaneindicatorplugin.rsc"
+
+; end of file
+

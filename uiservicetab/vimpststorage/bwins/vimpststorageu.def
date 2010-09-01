@@ -1,0 +1,7 @@
+EXPORTS
+	?InitialiseViewL@CVIMPSTStorageManagerFactory@@SAXKABVTDesC16@@0@Z @ 1 NONAME ; void CVIMPSTStorageManagerFactory::InitialiseViewL(unsigned long, class TDesC16 const &, class TDesC16 const &)
+	?ItemModelInterfaceL@CVIMPSTStorageManagerFactory@@SAPAVMVIMPSTStorageItemModel@@K@Z @ 2 NONAME ; class MVIMPSTStorageItemModel * CVIMPSTStorageManagerFactory::ItemModelInterfaceL(unsigned long)
+	?InitialiseLibraryL@CVIMPSTStorageManagerFactory@@SAXXZ @ 3 NONAME ; void CVIMPSTStorageManagerFactory::InitialiseLibraryL(void)
+	?Release@CVIMPSTStorageManagerFactory@@SAHXZ @ 4 NONAME ; int CVIMPSTStorageManagerFactory::Release(void)
+	?ContactListInterfaceL@CVIMPSTStorageManagerFactory@@SAPAVMVIMPSTStorageServiceView@@K@Z @ 5 NONAME ; class MVIMPSTStorageServiceView * CVIMPSTStorageManagerFactory::ContactListInterfaceL(unsigned long)
+

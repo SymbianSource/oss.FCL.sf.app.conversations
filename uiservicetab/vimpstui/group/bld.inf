@@ -1,0 +1,99 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  build info file for vimpstui xSP extension
+*
+*/
+
+
+//
+// Platforms
+//
+PRJ_PLATFORMS
+DEFAULT
+
+//
+// Exports
+//
+PRJ_EXPORTS
+
+
+../bitmaps/example_tab.bmp          /epoc32/s60/bitmaps/example_tab.bmp
+../bitmaps/example_tab_mask.bmp     /epoc32/s60/bitmaps/example_tab_mask.bmp
+../bitmaps/example_msn_tab.svg       /epoc32/s60/icons/example_msn_tab.svg 
+../bitmaps/qgn_prop_im_friend_voip.svg      /epoc32/s60/icons/qgn_prop_im_friend_voip.svg 
+../bitmaps/qgn_prop_im_friend_off.svg		/epoc32/s60/icons/qgn_prop_im_friend_off.svg
+../bitmaps/qgn_prop_im_friend_on.svg		/epoc32/s60/icons/qgn_prop_im_friend_on.svg
+../bitmaps/qgn_prop_im_friend_away.svg		/epoc32/s60/icons/qgn_prop_im_friend_away.svg
+../bitmaps/qgn_prop_im_friend_busy.svg		/epoc32/s60/icons/qgn_prop_im_friend_busy.svg
+../bitmaps/qgn_prop_im_friend_invisible.svg		/epoc32/s60/icons/qgn_prop_im_friend_invisible.svg
+../bitmaps/qgn_prop_im_imsg.svg		/epoc32/s60/icons/qgn_prop_im_imsg.svg
+../bitmaps/qgn_prop_im_imsg_new.svg		/epoc32/s60/icons/qgn_prop_im_imsg_new.svg
+../bitmaps/qgn_prop_im_friend_on_mobile.svg		/epoc32/s60/icons/qgn_prop_im_friend_on_mobile.svg
+
+// avatar files
+../bitmaps/qgn_prop_service_default_avatar.svg		/epoc32/s60/icons/qgn_prop_service_default_avatar.svg
+../bitmaps/qgn_prop_service_friend_request_received.svg		/epoc32/s60/icons/qgn_prop_service_friend_request_received.svg
+../bitmaps/qgn_prop_service_friend_request_sent.svg		/epoc32/s60/icons/qgn_prop_service_friend_request_sent.svg
+../bitmaps/qgn_prop_service_off_friend_request_received.svg		/epoc32/s60/icons/qgn_prop_service_off_friend_request_received.svg
+../bitmaps/qgn_prop_service_off_friend_request_sent.svg		/epoc32/s60/icons/qgn_prop_service_off_friend_request_sent.svg
+../bitmaps/qgn_servtab_avatar_blocked.svg		/epoc32/s60/icons/qgn_servtab_avatar_blocked.svg
+
+
+
+//
+// IMExtentionUi components
+//
+
+PRJ_MMPFILES
+
+vimpstui.mmp
+
+PRJ_EXTENSIONS
+
+// Using mifconv_ext tool ( replacing gnu make to create icons ) To know more about mifconv tool go to the below link:
+// http://s60wiki.nokia.com/S60Wiki/Mifconv_extension#Use_of_Iconlist_-_Icon_sources_are_fetched_from_.5Cepoc32.5Cs60.5Cicons
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE vimpstui.mif
+OPTION HEADERFILE vimpstui.mbg
+OPTION SOURCES -c8,1 qgn_stat_im_uni \
+ -c8,1 qgn_prop_im_friend_voip \
+ -c8,8 example_msn_tab \
+ -c8,1 qgn_prop_im_friend_off \
+ -c8,1 qgn_prop_im_friend_on \
+ -c8,1 qgn_prop_im_friend_away \
+ -c8,1 qgn_prop_im_friend_busy \
+ -c8,1 qgn_prop_im_friend_invisible \
+ -c8,1 qgn_prop_im_imsg \
+ -c8,1 qgn_prop_im_imsg_new \
+ -c8,1 qgn_indi_tb_voip \
+ -c8,1 qgn_indi_tb_conversation \
+ -c8,1 qgn_indi_tb_business_card \
+ -c8,1 qgn_indi_tb_add_recipient \
+ -c8,1 qgn_prop_service_default_avatar \
+ -c8,1 qgn_prop_service_friend_request_received \
+ -c8,1 qgn_prop_service_friend_request_sent \
+ -c8,1 qgn_prop_service_off_friend_request_received \
+ -c8,1 qgn_prop_service_off_friend_request_sent\
+ -c8,1 qgn_prop_im_friend_on_mobile\
+ -c8,1 qgn_servtab_avatar_blocked
+END
+
+PRJ_EXTENSIONS
+START EXTENSION s60/mifconv
+OPTION TARGETFILE vimpst_servicetab_default.mif
+OPTION HEADERFILE vimpst_servicetab_default.mbg
+OPTION SOURCES -c8,1 qgn_prop_im_imsg
+
+END

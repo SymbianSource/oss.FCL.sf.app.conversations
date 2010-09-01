@@ -1,0 +1,34 @@
+<configuration>
+    <control>
+        <settings>
+          <item id="servicewidget" name="ContentSource">
+            <property  name="name" value=""/>
+          </item>
+        
+          <item id="pub_id" name="publisher" > 
+            <property  name="value" value=""/> 
+          </item>
+          
+          <item id="prop1" name="contentdata">
+            <property  name="class" value="serviceimage"/>
+          </item>
+          
+          <item id="prop2" name="contentdata">
+            <property  name="class" value="owntext"/> <!--Template designer choice-->
+          </item>
+         
+          <item id="prop3" name="contentdata">
+             <!-- Template designer choice -->
+            <property  name="class" value="msgtext"/> <!--Template designer choice-->
+          </item>
+                            
+          <!--foruth item-->
+          <item id="prop4" name="contentdata">
+            <property  name="class" value="statusimage"/> <!--Template designer choice-->
+          </item>
+            <item id="p_trigger" name="pubtrigger">   
+                <property name="name" value="selected"/> 
+            </item>   
+        </settings>
+    </control>
+</configuration>

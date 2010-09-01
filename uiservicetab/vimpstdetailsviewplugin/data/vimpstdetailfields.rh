@@ -1,0 +1,126 @@
+/*
+* Copyright (c) 2006-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource headers for project VIMPSTPresentation field
+*                ordering
+*
+*/
+
+
+#ifndef VIMPSTFIELDORDERING_RH
+#define VIMPSTFIELDORDERING_RH
+
+// -------------------------------------------------------------------------
+// A structure for defining presentation order for field types.
+// -------------------------------------------------------------------------
+//
+STRUCT VIMPST_FIELDTYPE_PRESENTATION_ORDER
+    {
+    /// Field type resource id from VPbkEng.rsg
+    LONG fieldTypeResId;
+    /// The number that specifies the location of this field type
+    /// in contact presentation (defines the order of fields). 
+    /// See appropriate language specific VIMPSTDefaultFieldOrdering.hrh, 
+    /// VIMPSTChineseFieldOrdering.hrh or VIMPSTJapaneseFieldOrdering.hrh.
+    
+    BYTE orderingItem;
+    /// The number that specifies the location of this field type
+    ///  in the UI when adding an new fieldtype to the contact.
+    /// See appropriate language specific VIMPSTDefaultFieldOrdering.hrh, 
+    /// VIMPSTChineseFieldOrdering.hrh or VIMPSTJapaneseFieldOrdering.hrh.
+
+    BYTE addItemOrdering;
+    }
+
+/**
+ * Phonebook vCard property. Loaded from resource to a CPbkVcardProperty C++ instance.
+ * @see CPbkVcardProperty
+ */
+STRUCT VIMPST_VCARD_PROPERTY
+    {
+    /// The property name as integer UID from ctndef.hrh
+    LONG name;
+    /// The parameters as integer UIDs from cntdef.hrh
+    STRUCT parameters[];
+    }
+
+/**
+ * Phonebook constant field information resource structure. Loaded from resources into 
+ * corresponding CPbkFieldInfo C++ instance.
+ *
+ * @see CPbkFieldInfo
+ */
+STRUCT VIMPST_FIELD
+    {
+   	LONG fieldTypeResId;
+    /**
+     * Unique field id.
+     * @see TPbkFieldId
+     */
+    BYTE Id;
+
+    /**
+     * Maximum length of field (in characters) from Phonebook UI specification.
+     */
+	WORD	MaxLength;
+
+     /**
+     * Phonebook Icon id of the field.
+     */
+	BYTE	IconId;
+
+	 /**
+	 * Label text for Add item dialogs
+     */
+    LTEXT DisplayLabel;
+    }
+
+
+/**
+ * Array of PHONEBOOK_FIELDs.
+ *
+ * @see PHONEBOOK_FIELD
+ */
+STRUCT VIMPST_FIELD_ARRAY
+    {
+    /// Array items.
+    STRUCT items[];
+    }
+
+
+/**
+ * Array of VIMPST_STATUS.
+ *
+ * @see VIMPST_STATUS
+ */
+STRUCT VIMPST_STATUS
+    {
+    /**
+     * Unique field id.
+     * @see TPbkFieldId
+     */
+    BYTE StatusId;
+
+    /**
+	 * Label text for Add item dialogs
+     */
+    LTEXT TextLabel;
+    }
+
+STRUCT VIMPST_STATUS_ARRAY
+    {
+    /// Array items.
+    STRUCT stausItems[];
+    }
+    
+#endif // VIMPSTFIELDORDERING_RH

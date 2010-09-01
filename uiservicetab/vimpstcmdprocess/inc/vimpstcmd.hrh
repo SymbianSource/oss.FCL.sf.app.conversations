@@ -1,0 +1,58 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  A enum  IM command codes.
+*
+*/
+
+
+#ifndef VIMPSTCMD_HRH
+#define VIMPSTCMD_HRH
+
+/**
+ * A enum
+ * IM command codes.
+ */
+enum TImCommandId
+    {    
+    EFirstCmd = 0, /* First command*/
+    ELoginService, /* Login command*/
+    ELogoutService, /* Logout command*/
+    ELaunchCCA, /* Launch details view command*/
+    EAddContact, /* Add contact command*/
+    EDeleteContact, /* DElete contact command*/
+    EChangeOwnStatus, /* Change own status command*/
+    EChangeOwnMessage, /* change own message command*/
+    ESearch, /* Search command*/
+    EFriendAccpeted, /* Friend request accepted command*/
+    EFriendRejected, /* Frined request rejected command*/
+    EChangeOwnAvtar,
+    ECloseConversation,
+    EAddFromPbk,
+    EAddToPbk,
+    ECancelLogin,
+    EEditContact,
+    ECmdProcessSelectedContactNew,
+    ECmdProcessSelectedContactExist,
+    ECmdProcessAcceptedContactNew,
+    ECmdProcessAcceptedContactExist,
+    ECmdBlockContact,
+    ECmdUnBlockContact,
+    EFetchBlockedList,
+    ELastCmd = 65535 /* Last command, some arbitrary number.*/
+    };
+
+
+#endif // VIMPSTCMD_HRH
+
+// End of File

@@ -1,0 +1,107 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: cvimpststoragecontact_ut.dll
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          CVIMPSTStorageContact_UT.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+EPOCALLOWDLLDATA
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+
+//TARGETPATH      ?target_path
+DEFFILE         cvimpststoragecontact_ut.def
+
+USERINCLUDE     ../inc 
+USERINCLUDE 	../../stubs
+USERINCLUDE		../../../../inc
+USERINCLUDE		../../../../../inc
+
+//OS_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH	../../../../src
+
+SOURCE			cvimpststoragecontact.cpp
+
+SOURCEPATH      ../src
+
+SOURCE          CVIMPSTStorageContact_UT.cpp
+SOURCE          CVIMPSTStorageContact_UTBlocks.cpp
+
+SOURCEPATH 		../../stubs
+
+//stubs
+SOURCE			s_MVPbkContactFieldTextData.cpp
+SOURCE			s_MVPbkContactFieldUriData.cpp
+SOURCE			s_MVPbkContactFieldBinaryData.cpp
+SOURCE			s_CVPbkContactManager.cpp
+SOURCE			s_MVPbkContactLinkstub.cpp
+SOURCE			CVPbkContactStoreUriArrayStub.cpp
+SOURCE			CVPbkStoreContactStub.cpp
+SOURCE			s_CVPbkBaseContactFieldCollection.cpp
+SOURCE			s_CVPbkStoreContactField.cpp
+SOURCE			s_CVPbkContactStoreList.cpp
+SOURCE			s_CVPbkContactViewDefinition.cpp
+SOURCE			s_CVPbkContactView.cpp
+SOURCE			s_CPbk2SortOrderManager.cpp
+SOURCE			s_TVPbkContactStoreUriPtr.cpp
+SOURCE			s_CVPbkContactLinkArray.cpp
+SOURCE			s_VPbkContactStoreUris.cpp
+SOURCE			pbkuistubs.cpp
+SOURCE			s_cactive.cpp 
+SOURCE			s_CPBK2StoreConfiguration.cpp 
+
+
+//RESOURCE        resource_file
+//RESOURCE        resource_file2
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+
+LANG            SC
+
+/*
+START WINS      
+?wins_specific_information
+END
+
+START MARM
+?marm_specific_information
+END
+*/
+// Other possible keywords:
+ 
+// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
+/*
+START BITMAP ?target
+TARGETPATH   ?emulated_path_on_target_machine
+HEADER
+SOURCE       ?color_depth ?source_bitmap
+END
+*/
+// DEFFILE ?filename
+// AIF ?filename
+
+// End of File

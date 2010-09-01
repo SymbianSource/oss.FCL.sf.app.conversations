@@ -1,0 +1,53 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: pkg file for IMUiService tab
+;
+;Language - standard language definitions
+&EN
+
+;UID is the dll's UID
+#{"IMUiServiceTab"},(0x20012423),1,0,0
+
+;Localised Vendor name
+%{"Nokia-EN"}
+
+;VendorID
+:"Nokia"
+
+; Files to copy
+
+"\EPOC32\RELEASE\ARMV5\UREL\VIMPSTUtils.dll"							-"!:\sys\bin\VIMPSTUtils.dll"
+
+"\EPOC32\RELEASE\ARMV5\UREL\vimpststorage.dll"							-"!:\sys\bin\vimpststorage.dll"
+
+"\EPOC32\RELEASE\ARMV5\UREL\vimpstservicemanager.dll"					-"!:\sys\bin\vimpstservicemanager.dll"
+
+"\EPOC32\RELEASE\ARMV5\UREL\imcommands.dll"								-"!:\sys\bin\imcommands.dll"
+
+"\EPOC32\RELEASE\ARMV5\UREL\IMContactsExtentionUi.dll"					-"!:\sys\bin\IMContactsExtentionUi.dll"
+
+"\EPOC32\DATA\Z\Resource\Plugins\IMContactsExtentionUi.rsc"				-"!:\Resource\Plugins\IMContactsExtentionUi.rsc"
+
+"\EPOC32\DATA\Z\Resource\IMExtentionUiRes.rsc"							-"!:\Resource\IMExtentionUiRes.rsc"
+
+"\EPOC32\DATA\Z\Resource\IMExtentionUi.mbm"								-"!:\Resource\IMExtentionUi.mbm"
+
+"\EPOC32\DATA\Z\Resource\IMExtentionUi.mif"								-"!:\Resource\IMExtentionUi.mif"
+
+"\EPOC32\DATA\Z\Resource\VIMPSTUtilsRes.rsc"							-"!:\Resource\VIMPSTUtilsRes.rsc"
+
+"\EPOC32\DATA\Z\Resource\vimpstservicevariation.rsc"					-"!:\Resource\vimpstservicevariation.rsc"
+
+; end of file
+

@@ -1,0 +1,140 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*    id definitions for Example.
+*
+*/
+
+
+#ifndef __VIMPSTUI_HRH__
+#define __VIMPSTUI_HRH__
+
+
+
+/**
+ * Control IDs.
+ *
+ * NOTE! Control IDs can't start from zero.
+ */
+enum TControlIds
+    {
+    EGeneralWaitNoteId = 1,
+    ETOURichEditorId
+    };
+
+
+// CONSTANTS
+// First available command id for example extension
+#define KFirstCommandId 10100
+
+/**
+ * Commands for the Example component.
+ */
+enum TImContactsExtentionCommands
+    {
+    //common commands
+    ECmdLogin = KFirstCommandId,
+    ECmdLogout,
+    ECmdChangeConnectioninWaitingState,
+    ECmdChangeConnectioninOnlineState,
+    ECmdCancelLogin,
+    ECmdSettings,    
+    ECmdContactEdit,
+    ECmdOpenFriendRequest,
+    ECmdChangeStatus,
+    ECmdOpenConversation,
+    ECmdCloseConversation,    
+    ECmdContactOption,
+    ECmdCreateNewOption,
+    ECmdBlock,
+    ECmdUnBlock,
+    ECmdGetBlockedList,
+    
+    //contact option submneu commands
+    ECmdContactDetails,    
+    ECmdContactDelete,
+    
+    //create new submenu option commands
+    ECmdAddContact,
+    ECmdAddFromPhoneBook,
+    ECmdSearch,    
+    
+    ESearchAddFriends,
+    ESearchOpenConversation,
+    ESearchMore,
+    ESearchPrev,
+    ESearchNew,
+        
+    //tool bar
+    ECmdToolbarVoipCall,
+    ECmdToolbarChat,
+    ECmdToolbarNewContact,
+    ECmdToolbarDetails,
+
+    EBasicSearch,
+    EAdvancedSearch,
+    ESearchWaitNote,
+    EImCmdHelp,
+    ECmdExit,    
+    
+    //avatar 
+    ECmdMyAvatar,
+    ECmdDefaultAvatar,
+    ECmdAvatarGallery,
+    ECmdAvatarNewPhoto,
+
+    // unknown contacts related command
+    ECmdContactAddAsFriend,
+    
+     // aiw assin commands
+    ECmdAIWAddToContact , 
+    ECmdAIWLinkToContact,
+    
+    // reserve range for AIW commands
+    ECmdAIWRangeStart
+    
+   
+    };
+
+
+enum TIMPSCommonUIMenuCommands
+    {
+    EIMPSCommonUIFindMenuPlaceHolder = 1,
+    EIMPSCommonUITOUContinue
+    };
+
+/**
+ * Client group remote UI query messages.
+ *
+ * Enumeration defining different client group confirmation 
+ * queries and their responses.
+ */
+enum TCnUiRemoteUiMessages
+    {
+    ERemoteCancelAllActivity = KErrCancel,
+    ERemoteQueryAccepted = ETrue,
+    ERemoteQueryDeclined = EFalse,
+    
+    ECGQActiveConnectionScheduledClose = 100,                  ///<Client Group Query
+    ECGQActiveConnectionSuppressForScheduledConnection = 101   ///<Client Group Query
+    };
+
+// Size of Array used in launching context sensitive help
+#define KHelpContextSize 1
+
+
+
+#endif //__VIMPSTUI_HRH__
+
+// End of File

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg width="16" height="16" viewBox="0 0 16 16">
+<path fill="none" stroke="#496DA2" d="M10.028,7.009"/>
+<path fill="none" stroke="#496DA2" d="M10.028,4.4"/>
+<radialGradient id="_2" gradientUnits="userSpaceOnUse" cx="6.69" cy="4.59" r="7.7">
+<stop stop-color="#CEE1EF" offset="0"/>
+<stop stop-color="#A2C2DD" offset="1"/>
+</radialGradient>
+<path fill="url(#_2)" d="M14.362,7.996c0,3.52-2.845,6.365-6.361,6.365c-3.513,0-6.362-2.846-6.362-6.365 c0-3.514,2.85-6.356,6.362-6.356C11.518,1.64,14.362,4.482,14.362,7.996z"/>
+<path fill="#496DA2" d="M4.226,9.059c0.17-0.019,0.35-0.055,0.538-0.129L4.58,8.465C3.913,8.728,3.323,8.44,3.317,8.437 L3.09,8.883c0.018,0.009,0.263,0.126,0.625,0.173c0.114,0.543,0.869,3.373,4.287,3.373v-0.5 C5.104,11.929,4.376,9.706,4.226,9.059z"/>
+<polygon fill="#496DA2" points="7.401,6.185 5.926,4.711 5.923,4.715 5.908,4.7 4.433,6.173 4.963,6.704 5.911,5.756 6.871,6.715 "/>
+<rect x="9.528" y="4.4" fill="#496DA2" width="1" height="2.608"/>
+</svg>

@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     This file contains declarations for resources of 
+*     Instant Messanger's SmileUtility.
+*     The file can be included in resource file.
+*
+*/
+
+
+#ifndef IMCVAPPSMILEUTILITY_RH
+#define IMCVAPPSMILEUTILITY_RH
+
+
+// RESOURCE STRUCTS
+
+STRUCT IM_SMILE_ARRAY
+	{
+	STRUCT smiles[]; // IM_SMILE
+	}
+
+STRUCT IM_SMILE
+	{
+	WORD icon_id;
+	WORD mask_id;
+	STRUCT strings[]; // LBUF
+	}
+
+#endif	// IMCVAPPSMILEUTILITY_RH
+
+//End of file
+
+

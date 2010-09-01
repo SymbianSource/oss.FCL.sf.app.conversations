@@ -1,0 +1,33 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: pkg file for xmpp adapter
+;
+
+; xmppadaptor.pkg
+;
+;Languages
+:"Nokia Corporation"
+%{"Vendor-EN"}
+&EN
+;Header
+#{"ProvMecoSettings"}, (0x0A6A4E92), 1, 0, 1, TYPE=SA,RU
+(0x101F6F88), 0, 0, 0, {"Series60ProductID"}
+
+; xmpp adapter DLLs
+"\EPOC32\RELEASE\ARMV5\UREL\xmppadapter.dll"							-"!:\sys\bin\xmppadapter.dll"
+"\EPOC32\DATA\Z\Resource\Plugins\xmppadapter.rsc"						-"!:\Resource\Plugins\xmppadapter.rsc"
+"\EPOC32\DATA\Z\Resource\wpgeneralxmppsettingsadapter.rsc"						-"!:\Resource\wpgeneralxmppsettingsadapter.rsc"
+
+
+; end of file

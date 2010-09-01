@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Utils for IMUiServiceTab modules.
+*
+*/
+
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+#include		"../../inc/vimpstbuilddefinitions.h"
+
+CAPABILITY CAP_GENERAL_DLL
+
+TARGET          vimpstutils.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x20012424
+VENDORID		VID_DEFAULT
+
+VERSION      10.0
+
+SOURCEPATH      ../src
+SOURCE					vimpstutils.cpp
+SOURCE					vimpstutilsdialog.cpp
+SOURCE					vimpstutilsnotemapper.cpp
+SOURCE      		vimpstutilswaitnote.cpp
+SOURCE      		vimpstutilstextquerydialog.cpp
+SOURCE      		cvimpstimageprocessor.cpp
+SOURCE      		cvimpstengineaimagehandler.cpp
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../Group
+
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY                 euser.lib
+LIBRARY                 efsrv.lib
+LIBRARY                 avkon.lib
+LIBRARY                 aknnotify.lib
+LIBRARY                 eikcore.lib
+LIBRARY                 eikdlg.lib
+LIBRARY                 eikcoctl.lib
+LIBRARY                 bafl.lib
+LIBRARY     			aknlayout.lib
+LIBRARY                 eikctl.lib
+LIBRARY					cone.lib 
+LIBRARY					commonengine.lib 
+LIBRARY 				imageconversion.lib // image processing
+LIBRARY 				fbscli.lib      // cfsbitmap 
+LIBRARY 				bitmaptransforms.lib  // bitmap scaling
+LIBRARY         		mediaclientimage.lib  // bitmap to descriptor conversion
+
+
+
+//#ifdef CHAT_ENABLE_DEBUG_PRINT
+LIBRARY       flogger.lib
+//#endif
+
+LANG			SC
+
+
+// EXPORTUNFROZEN
+

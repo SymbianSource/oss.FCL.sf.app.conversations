@@ -1,0 +1,4 @@
+EXPORTS
+	?NewLC@CVIMPSTSettingsStore@@SAPAVMVIMPSTSettingsStore@@XZ @ 1 NONAME ; class MVIMPSTSettingsStore * CVIMPSTSettingsStore::NewLC(void)
+	?NewL@CVIMPSTSettingsStore@@SAPAVMVIMPSTSettingsStore@@XZ @ 2 NONAME ; class MVIMPSTSettingsStore * CVIMPSTSettingsStore::NewL(void)
+

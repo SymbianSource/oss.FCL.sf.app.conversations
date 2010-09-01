@@ -1,0 +1,12 @@
+EXPORTS
+	?SetVibra@CIMAlertManager@@UAEXH@Z @ 1 NONAME ; void CIMAlertManager::SetVibra(int)
+	?RemoveObserver@CIMAlertManager@@UAEXPBVMIMAlertManagerObserver@@@Z @ 2 NONAME ; void CIMAlertManager::RemoveObserver(class MIMAlertManagerObserver const *)
+	?SetVolume@CIMAlertManager@@UAEXH@Z @ 3 NONAME ; void CIMAlertManager::SetVolume(int)
+	?CreateNotifierL@IMAlertNotifierFactory@@SAPAVMIMAlertNotifierInterface@@PAVMIMAlertNotifierKeyObserver@@@Z @ 4 NONAME ; class MIMAlertNotifierInterface * IMAlertNotifierFactory::CreateNotifierL(class MIMAlertNotifierKeyObserver *)
+	?AddObserverL@CIMAlertManager@@UAEXPBVMIMAlertManagerObserver@@@Z @ 5 NONAME ; void CIMAlertManager::AddObserverL(class MIMAlertManagerObserver const *)
+	?SetRingingType@CIMAlertManager@@UAEXW4TProfileRingingType@@@Z @ 6 NONAME ; void CIMAlertManager::SetRingingType(enum TProfileRingingType)
+	?NewL@CIMAlertManager@@SAPAV1@XZ @ 7 NONAME ; class CIMAlertManager * CIMAlertManager::NewL(void)
+	?PlayL@CIMAlertManager@@UAEXK@Z @ 8 NONAME ; void CIMAlertManager::PlayL(unsigned long)
+	?Stop@CIMAlertManager@@UAEXXZ @ 9 NONAME ; void CIMAlertManager::Stop(void)
+	?DoPlayL@CIMAlertManager@@AAEXK@Z @ 10 NONAME ; void CIMAlertManager::DoPlayL(unsigned long)
+

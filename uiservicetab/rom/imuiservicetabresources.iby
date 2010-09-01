@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - Initial contribution
+* 
+* Contributors:
+* 
+* 
+* Description:
+* Export help related files.
+*
+*/
+
+
+#ifndef __IMUISERVICETAB_RESOURCESIBY__
+#define __IMUISERVICETAB_RESOURCESIBY__
+
+//im ui service tab 
+
+// ECom plugin resources
+data=DATAZ_\RESOURCE_FILES_DIR\vimpstuires.rsc    RESOURCE_FILES_DIR\vimpstuires.rsc
+
+data=DATAZ_\RESOURCE_FILES_DIR\vimpstdetailsviewpluginrsc.rsc    		RESOURCE_FILES_DIR\vimpstdetailsviewpluginrsc.rsc
+
+data=DATAZ_\BITMAP_DIR\vimpstui.mif   BITMAP_DIR\vimpstui.mif
+
+data=DATAZ_\BITMAP_DIR\vimpst_servicetab_default.mif   BITMAP_DIR\vimpst_servicetab_default.mif
+// Enabling Default branding. To be activated after solving 'Application Closed : BS'
+data=\epoc32\winscw\c\private\102828DD\data\xsp\xsp\files\r47.conversations.mif	 private\102828DD\data\xsp\xsp\files\r47.conversations.mif
+data=\epoc32\winscw\c\private\102828DD\data\xsp\xsp\brandfile.bin.r47														 private\102828DD\data\xsp\xsp\brandfile.bin.r47
+								
+#endif //__IMUISERVICETAB_RESOURCESIBY__
+
+

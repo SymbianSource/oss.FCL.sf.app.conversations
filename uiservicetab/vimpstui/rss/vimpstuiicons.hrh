@@ -1,0 +1,34 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  icons definitions for example dll
+*
+*/
+
+
+#ifndef __VIMPSTUIICONS_HRH__
+#define __VIMPSTUIICONS_HRH__
+
+// INCLUDE
+#include <vimpstui.mbg>
+
+//  MACROS
+	
+#define qgn_gc_service_tab	             		EMbmImextentionuiExample_msn_tab //EMbmExampleExample_tab
+#define qgn_gc_service_tab_mask	            	EMbmImextentionuiExample_msn_tab_mask	//EMbmExampleExample_tab_mask
+#define qgn_gc_service_icon               		EMbmImextentionuiExample_yahoo_tab
+#define qgn_gc_service_icon_mask              	EMbmImextentionuiExample_yahoo_tab_mask
+
+#endif // __VIMPSTUIICONS_HRH__
+
+// End of File

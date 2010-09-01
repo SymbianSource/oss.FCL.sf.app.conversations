@@ -1,0 +1,86 @@
+/*
+* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  build information file
+*
+*/
+
+
+//
+// Platforms
+//
+PRJ_PLATFORMS
+DEFAULT
+
+//
+// Exports
+//
+//PRJ_EXPORTS
+
+
+// mmp file 
+PRJ_MMPFILES
+// icons (bitmap icons must have some different names than scalable icons)
+
+//enable when branding is needed.
+//gnumakefile import.mk
+
+
+
+imcvuiapp.mmp
+
+PRJ_EXTENSIONS
+
+// Using mifconv_ext tool ( replacing gnu make to create icons ) To know more about mifconv tool go to the below link:
+// http://s60wiki.nokia.com/S60Wiki/Mifconv_extension#Use_of_Iconlist_-_Icon_sources_are_fetched_from_.5Cepoc32.5Cs60.5Cicons
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE imcvuiapp.mif
+OPTION HEADERFILE imcvuiapp.mbg
+OPTION SOURCES -c8,1 qgn_prop_im_off_title \
+ -c8,1 qgn_prop_im_on_title	\
+ -c8,1 qgn_prop_im_away_title \
+ -c8,1 qgn_prop_im_busy_title \
+ -c8,1 qgn_prop_im_invisible_title \
+ -c8,1 qgn_prop_im_on_mobile_title \
+ -c8,1 qgn_prop_im_smileys_happy \
+ -c8,1 qgn_prop_im_smileys_sad	\
+ -c8,1 qgn_prop_im_smileys_laugh \
+ -c8,1 qgn_prop_im_smileys_wink	\
+ -c8,1 qgn_prop_im_smileys_kiss \
+ -c8,1 qgn_prop_im_smileys_angry \
+ -c8,1 qgn_prop_im_smileys_bored \
+ -c8,1 qgn_prop_im_smileys_crying \
+ -c8,1 qgn_prop_im_smileys_glasses \
+ -c8,1 qgn_prop_im_smileys_indif \
+ -c8,1 qgn_prop_im_smileys_robot \
+ -c8,1 qgn_prop_im_smileys_shock \
+ -c8,1 qgn_prop_im_smileys_skeptical \
+ -c8,1 qgn_prop_im_smileys_sleepy \
+ -c8,1 qgn_prop_im_smileys_sunglasses \
+ -c8,1 qgn_prop_im_smileys_surprise	\
+ -c8,1 qgn_prop_im_smileys_tired \
+ -c8,1 qgn_prop_im_smileys_veryhappy \
+ -c8,1 qgn_prop_im_smileys_verysad \
+ -c8,1 qgn_prop_im_smileys_wickedsmile \
+ -c8,1 qgn_prop_im_tome	\
+ -c8,1 qgn_prop_im_from \
+ -c8,8 qgn_indi_tb_msg_send \
+ -c8,8 qgn_indi_tb_smiley \
+ -c8,8 qgn_indi_tb_business_card \
+ -c8,1 qgn_indi_im_msg_editor
+END
+
+
+// end of file
+

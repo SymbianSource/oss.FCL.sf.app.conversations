@@ -1,0 +1,26 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  imwidget resources IBY file.
+*
+*/
+
+#ifndef __SERVICEWIDGET_RESOURCESIBY__
+#define __SERVICEWIDGET_RESOURCESIBY__
+
+//service widget
+
+// ECom plugin resources
+data=DATAZ_\RESOURCE_FILES_DIR\servicewidgetpluginres.rsc    			RESOURCE_FILES_DIR\servicewidgetpluginres.rsc
+
+#endif //__SERVICEWIDGET_RESOURCESIBY__

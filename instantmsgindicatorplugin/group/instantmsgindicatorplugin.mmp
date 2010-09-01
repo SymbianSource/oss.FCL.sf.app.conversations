@@ -1,0 +1,73 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  plugin for getting the message infiormation form instantmessageingcache
+*
+*/
+#include <data_caging_paths.hrh>
+
+// To get the APP_LAYER_SYSTEMINCLUDE-definition
+#include <platform_paths.hrh>
+
+#include "../inc/instantmsgindicatoruids.h"
+
+TARGET		 instantmsgindicatorplugin.dll
+TARGETTYPE	 PLUGIN
+UID			 KECOMRECOGNITIONUID2 KINSTANTMSGINDICATORUID3
+CAPABILITY   CAP_ECOM_PLUGIN
+
+VERSION      10.0
+
+//used to allow binary compression by making use of BYTEPAIR algorithm
+PAGED 
+
+USERINCLUDE	 ../inc
+USERINCLUDE	 ../../instantmessagesalert/inc
+
+// Default system include paths for application layer modules.
+APP_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE  /epoc32/include/ecom
+
+SOURCEPATH	  ../src
+
+SOURCE        instantmsgindicatorproxy.cpp
+SOURCE		  instantmsgindicatorpluginimplementation.cpp
+
+
+// Resources
+START RESOURCE  ../rss/20026766.rss
+TARGET			instantmsgindicatorplugin.rsc
+TARGETPATH      ECOM_RESOURCE_DIR
+END
+
+
+LIBRARY         aknskins.lib
+LIBRARY         egul.lib
+LIBRARY         fbscli.lib 
+LIBRARY         aknicon.lib
+
+LIBRARY			    efsrv.lib
+LIBRARY         commonengine.lib
+LIBRARY         bafl.lib
+LIBRARY         euser.lib
+LIBRARY         cone.lib
+LIBRARY         ecom.lib
+LIBRARY         apparc.lib
+LIBRARY         apgrfx.lib
+LIBRARY         calinterimapi.lib
+LIBRARY			aknnotify.lib
+LIBRARY			instantmessagesalert.lib
+
+// Eod of file
+

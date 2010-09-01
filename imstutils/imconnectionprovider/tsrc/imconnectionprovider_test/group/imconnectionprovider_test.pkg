@@ -1,0 +1,44 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: imconnectionprovider_test.pkg
+;
+;Header
+#{"imconnectionprovider_test"}, (0x101FB3E3), 1, 2, 3, TYPE=SP
+
+;Language - standard language definitions
+&EN
+
+;Vendor ID
+:"Nokia Corporation"
+
+;Localised vendor
+%{"Vendor-EN"}
+
+;Supports Series 60 v 0.9
+[0x101F7961], 0, 0, 0, {"Series60ProductID"}
+
+
+;INI FILE
+; ttestframework , because rom will not allow to update , rename it 
+; after install to  testframework.ini
+
+"..\init\testframework.ini"        			- "c:\Testframework\testframework.ini"
+
+;CFG FILES
+ "..\conf\imconnectionprovider_test.cfg"-"c:\Testframework\imconnectionprovider_test.cfg"
+
+
+;imconnectionprovider_test dll files
+ "\epoc32\release\armv5\urel\imconnectionprovider_test.dll"-"!:\Sys\Bin\imconnectionprovider_test.dll"
+    

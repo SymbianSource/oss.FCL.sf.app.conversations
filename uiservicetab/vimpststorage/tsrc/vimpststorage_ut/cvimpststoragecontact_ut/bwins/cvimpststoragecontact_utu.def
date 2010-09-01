@@ -1,0 +1,128 @@
+EXPORTS
+	?LibEntryL@@YAPAVCScriptBase@@AAVCTestModuleIf@@@Z @ 1 NONAME ; class CScriptBase * __cdecl LibEntryL(class CTestModuleIf &)
+	??0CActive@@IAE@H@Z @ 2 NONAME ; CActive::CActive(int)
+	??0CActiveSchedulerWait@@QAE@XZ @ 3 NONAME ; CActiveSchedulerWait::CActiveSchedulerWait(void)
+	??0TVPbkContactStoreUriPtr@@QAE@ABVTDesC16@@@Z @ 4 NONAME ; TVPbkContactStoreUriPtr::TVPbkContactStoreUriPtr(class TDesC16 const &)
+	??0TVPbkContactStoreUriPtr@@QAE@XZ @ 5 NONAME ; TVPbkContactStoreUriPtr::TVPbkContactStoreUriPtr(void)
+	??1CActive@@UAE@XZ @ 6 NONAME ; CActive::~CActive(void)
+	??1CActiveSchedulerWait@@UAE@XZ @ 7 NONAME ; CActiveSchedulerWait::~CActiveSchedulerWait(void)
+	??ACVPbkContactStoreUriArray@@QBE?AVTVPbkContactStoreUriPtr@@H@Z @ 8 NONAME ; class TVPbkContactStoreUriPtr CVPbkContactStoreUriArray::operator[](int) const
+	?Add@CActiveScheduler@@SAXPAVCActive@@@Z @ 9 NONAME ; void CActiveScheduler::Add(class CActive *)
+	?AddContactStoreURIL@CPbk2StoreConfiguration@@QAEXVTVPbkContactStoreUriPtr@@@Z @ 10 NONAME ; void CPbk2StoreConfiguration::AddContactStoreURIL(class TVPbkContactStoreUriPtr)
+	?AddDefaultSavingStoreObserverL@CPbk2StoreConfiguration@@QAEXAAVMPbk2DefaultSavingStoreObserver@@@Z @ 11 NONAME ; void CPbk2StoreConfiguration::AddDefaultSavingStoreObserverL(class MPbk2DefaultSavingStoreObserver &)
+	?AddObserverL@CPbk2SortOrderManager@@QAEXAAVMPbk2SortOrderObserver@@@Z @ 12 NONAME ; void CPbk2SortOrderManager::AddObserverL(class MPbk2SortOrderObserver &)
+	?AddObserverL@CPbk2StoreConfiguration@@QAEXAAVMPbk2StoreConfigurationObserver@@@Z @ 13 NONAME ; void CPbk2StoreConfiguration::AddObserverL(class MPbk2StoreConfigurationObserver &)
+	?AddSubViewL@CVPbkContactViewDefinition@@QAEXPAV1@@Z @ 14 NONAME ; void CVPbkContactViewDefinition::AddSubViewL(class CVPbkContactViewDefinition *)
+	?AddSupportedContactStoreURIL@CPbk2StoreConfiguration@@QAEXVTVPbkContactStoreUriPtr@@@Z @ 15 NONAME ; void CPbk2StoreConfiguration::AddSupportedContactStoreURIL(class TVPbkContactStoreUriPtr)
+	?AppendAllL@CVPbkContactStoreUriArray@@QAEXABV1@@Z @ 16 NONAME ; void CVPbkContactStoreUriArray::AppendAllL(class CVPbkContactStoreUriArray const &)
+	?AppendL@CVPbkContactLinkArray@@QAEXPAVMVPbkContactLink@@@Z @ 17 NONAME ; void CVPbkContactLinkArray::AppendL(class MVPbkContactLink *)
+	?AppendL@CVPbkContactStoreUriArray@@QAEXABVTVPbkContactStoreUriPtr@@@Z @ 18 NONAME ; void CVPbkContactStoreUriArray::AppendL(class TVPbkContactStoreUriPtr const &)
+	?AsyncStop@CActiveSchedulerWait@@QAEXXZ @ 19 NONAME ; void CActiveSchedulerWait::AsyncStop(void)
+	?Cancel@CActive@@QAEXXZ @ 20 NONAME ; void CActive::Cancel(void)
+	?Cast@MVPbkContactFieldBinaryData@@SAAAV1@AAVMVPbkContactFieldData@@@Z @ 21 NONAME ; class MVPbkContactFieldBinaryData & MVPbkContactFieldBinaryData::Cast(class MVPbkContactFieldData &)
+	?Cast@MVPbkContactFieldBinaryData@@SAABV1@ABVMVPbkContactFieldData@@@Z @ 22 NONAME ; class MVPbkContactFieldBinaryData const & MVPbkContactFieldBinaryData::Cast(class MVPbkContactFieldData const &)
+	?Cast@MVPbkContactFieldTextData@@SAAAV1@AAVMVPbkContactFieldData@@@Z @ 23 NONAME ; class MVPbkContactFieldTextData & MVPbkContactFieldTextData::Cast(class MVPbkContactFieldData &)
+	?Cast@MVPbkContactFieldTextData@@SAABV1@ABVMVPbkContactFieldData@@@Z @ 24 NONAME ; class MVPbkContactFieldTextData const & MVPbkContactFieldTextData::Cast(class MVPbkContactFieldData const &)
+	?Cast@MVPbkContactFieldUriData@@SAAAV1@AAVMVPbkContactFieldData@@@Z @ 25 NONAME ; class MVPbkContactFieldUriData & MVPbkContactFieldUriData::Cast(class MVPbkContactFieldData &)
+	?Cast@MVPbkContactFieldUriData@@SAABV1@ABVMVPbkContactFieldData@@@Z @ 26 NONAME ; class MVPbkContactFieldUriData const & MVPbkContactFieldUriData::Cast(class MVPbkContactFieldData const &)
+	?CommitContactsL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABV?$TArray@PAVMVPbkStoreContact@@@@AAVMVPbkBatchOperationObserver@@@Z @ 27 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::CommitContactsL(class TArray<class MVPbkStoreContact *> const &, class MVPbkBatchOperationObserver &)
+	?Compare@TVPbkContactStoreUriPtr@@QBEHABV1@W4TVPbkContactStoreUriComponent@1@@Z @ 28 NONAME ; int TVPbkContactStoreUriPtr::Compare(class TVPbkContactStoreUriPtr const &, enum TVPbkContactStoreUriPtr::TVPbkContactStoreUriComponent) const
+	?Compare@TVPbkContactStoreUriPtr@@QBEHABVTDesC16@@W4TVPbkContactStoreUriComponent@1@@Z @ 29 NONAME ; int TVPbkContactStoreUriPtr::Compare(class TDesC16 const &, enum TVPbkContactStoreUriPtr::TVPbkContactStoreUriComponent) const
+	?Component@TVPbkContactStoreUriPtr@@QBE?BVTPtrC16@@W4TVPbkContactStoreUriComponent@1@@Z @ 30 NONAME ; class TPtrC16 const TVPbkContactStoreUriPtr::Component(enum TVPbkContactStoreUriPtr::TVPbkContactStoreUriComponent) const
+	?CompressStoresL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@AAVMVPbkBatchOperationObserver@@@Z @ 31 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::CompressStoresL(class MVPbkBatchOperationObserver &)
+	?ContactAttributeManagerL@CVPbkContactManager@@QAEAAVMVPbkContactAttributeManager@@XZ @ 32 NONAME ; class MVPbkContactAttributeManager & CVPbkContactManager::ContactAttributeManagerL(void)
+	?ContactSelector@CVPbkContactViewDefinition@@QBEPAVMVPbkContactSelector@@XZ @ 33 NONAME ; class MVPbkContactSelector * CVPbkContactViewDefinition::ContactSelector(void) const
+	?ContactStoresL@CVPbkContactManager@@QAEAAVMVPbkContactStoreList@@XZ @ 34 NONAME ; class MVPbkContactStoreList & CVPbkContactManager::ContactStoresL(void)
+	?CopyContactsL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABVMVPbkContactLinkArray@@PAVMVPbkContactStore@@AAVMVPbkBatchOperationObserver@@@Z @ 35 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::CopyContactsL(class MVPbkContactLinkArray const &, class MVPbkContactStore *, class MVPbkBatchOperationObserver &)
+	?Count@CVPbkContactStoreUriArray@@QBEHXZ @ 36 NONAME ; int CVPbkContactStoreUriArray::Count(void) const
+	?CreateContactViewLC@CVPbkContactManager@@QBEPAVMVPbkContactViewBase@@AAVMVPbkContactViewObserver@@ABVCVPbkContactViewDefinition@@ABVMVPbkFieldTypeList@@@Z @ 37 NONAME ; class MVPbkContactViewBase * CVPbkContactManager::CreateContactViewLC(class MVPbkContactViewObserver &, class CVPbkContactViewDefinition const &, class MVPbkFieldTypeList const &) const
+	?CreateLinksLC@CVPbkContactManager@@QBEPAVMVPbkContactLinkArray@@AAVRReadStream@@@Z @ 38 NONAME ; class MVPbkContactLinkArray * CVPbkContactManager::CreateLinksLC(class RReadStream &) const
+	?CreateLinksLC@CVPbkContactManager@@QBEPAVMVPbkContactLinkArray@@ABVTDesC8@@@Z @ 39 NONAME ; class MVPbkContactLinkArray * CVPbkContactManager::CreateLinksLC(class TDesC8 const &) const
+	?CurrentConfigurationL@CPbk2StoreConfiguration@@QBEPAVCVPbkContactStoreUriArray@@XZ @ 40 NONAME ; class CVPbkContactStoreUriArray * CPbk2StoreConfiguration::CurrentConfigurationL(void) const
+	?CurrentSeparator@CPbk2SortOrderManager@@QBEABVTDesC16@@XZ @ 41 NONAME ; class TDesC16 const & CPbk2SortOrderManager::CurrentSeparator(void) const
+	?DefaultCntDbUri@VPbkContactStoreUris@@YAABVTDesC16@@XZ @ 42 NONAME ; class TDesC16 const & VPbkContactStoreUris::DefaultCntDbUri(void)
+	?DefaultSavingStoreL@CPbk2StoreConfiguration@@QBE?AVTVPbkContactStoreUriPtr@@XZ @ 43 NONAME ; class TVPbkContactStoreUriPtr CPbk2StoreConfiguration::DefaultSavingStoreL(void) const
+	?DefaultSeparator@CPbk2SortOrderManager@@QAEABVTDesC16@@XZ @ 44 NONAME ; class TDesC16 const & CPbk2SortOrderManager::DefaultSeparator(void)
+	?Delete@CVPbkContactLinkArray@@QAEXH@Z @ 45 NONAME ; void CVPbkContactLinkArray::Delete(int)
+	?DeleteContactsL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABVMVPbkContactLinkArray@@AAVMVPbkBatchOperationObserver@@@Z @ 46 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::DeleteContactsL(class MVPbkContactLinkArray const &, class MVPbkBatchOperationObserver &)
+	?Deque@CActive@@QAEXXZ @ 47 NONAME ; void CActive::Deque(void)
+	?Extension_@CActive@@MAEHIAAPAXPAX@Z @ 48 NONAME ; int CActive::Extension_(unsigned int, void * &, void *)
+	?ExternalizeL@TVPbkContactStoreUriPtr@@UBEXAAVRWriteStream@@@Z @ 49 NONAME ; void TVPbkContactStoreUriPtr::ExternalizeL(class RWriteStream &) const
+	?ExternalizedSize@TVPbkContactStoreUriPtr@@UBEHXZ @ 50 NONAME ; int TVPbkContactStoreUriPtr::ExternalizedSize(void) const
+	?FieldTypeFilter@CVPbkContactViewDefinition@@QBEPAVCVPbkFieldTypeSelector@@XZ @ 51 NONAME ; class CVPbkFieldTypeSelector * CVPbkContactViewDefinition::FieldTypeFilter(void) const
+	?FieldTypes@CVPbkContactManager@@QBEABVMVPbkFieldTypeList@@XZ @ 52 NONAME ; class MVPbkFieldTypeList const & CVPbkContactManager::FieldTypes(void) const
+	?FindL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABVMDesC16Array@@ABVMVPbkFieldTypeList@@AAVMVPbkContactFindFromStoresObserver@@ABVTCallBack@@@Z @ 53 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::FindL(class MDesC16Array const &, class MVPbkFieldTypeList const &, class MVPbkContactFindFromStoresObserver &, class TCallBack const &)
+	?FindL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABVTDesC16@@ABVMVPbkFieldTypeList@@AAVMVPbkContactFindObserver@@@Z @ 54 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::FindL(class TDesC16 const &, class MVPbkFieldTypeList const &, class MVPbkContactFindObserver &)
+	?FlagIsOn@CVPbkContactViewDefinition@@QBEHW4TVPbkContactViewFlag@@@Z @ 55 NONAME ; int CVPbkContactViewDefinition::FlagIsOn(enum TVPbkContactViewFlag) const
+	?FsSession@CVPbkContactManager@@QAEAAVRFs@@XZ @ 56 NONAME ; class RFs & CVPbkContactManager::FsSession(void)
+	?Id@CVPbkContactViewDefinition@@QBEHXZ @ 57 NONAME ; int CVPbkContactViewDefinition::Id(void) const
+	?InsertL@CVPbkContactLinkArray@@QAEXPAVMVPbkContactLink@@H@Z @ 58 NONAME ; void CVPbkContactLinkArray::InsertL(class MVPbkContactLink *, int)
+	?IsIncluded@CVPbkContactStoreUriArray@@QBEHABVTVPbkContactStoreUriPtr@@@Z @ 59 NONAME ; int CVPbkContactStoreUriArray::IsIncluded(class TVPbkContactStoreUriPtr const &) const
+	?Length@TVPbkContactStoreUriPtr@@QBEHXZ @ 60 NONAME ; int TVPbkContactStoreUriPtr::Length(void) const
+	?LoadContactStoreL@CVPbkContactManager@@QAEXABVTVPbkContactStoreUriPtr@@@Z @ 61 NONAME ; void CVPbkContactManager::LoadContactStoreL(class TVPbkContactStoreUriPtr const &)
+	?MatchPhoneNumberL@CVPbkContactManager@@QAEPAVMVPbkContactOperationBase@@ABVTDesC16@@HAAVMVPbkContactFindObserver@@@Z @ 62 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::MatchPhoneNumberL(class TDesC16 const &, int, class MVPbkContactFindObserver &)
+	?Name@CVPbkContactViewDefinition@@QBEABVTDesC16@@XZ @ 63 NONAME ; class TDesC16 const & CVPbkContactViewDefinition::Name(void) const
+	?NameDisplayOrder@CPbk2SortOrderManager@@QBE?AW4TPbk2NameDisplayOrder@1@XZ @ 64 NONAME ; enum CPbk2SortOrderManager::TPbk2NameDisplayOrder CPbk2SortOrderManager::NameDisplayOrder(void) const
+	?NewL@CPbk2SortOrderManager@@SAPAV1@ABVMVPbkFieldTypeList@@PAVRFs@@@Z @ 65 NONAME ; class CPbk2SortOrderManager * CPbk2SortOrderManager::NewL(class MVPbkFieldTypeList const &, class RFs *)
+	?NewL@CPbk2StoreConfiguration@@SAPAV1@XZ @ 66 NONAME ; class CPbk2StoreConfiguration * CPbk2StoreConfiguration::NewL(void)
+	?NewL@CVPbkContactLinkArray@@SAPAV1@XZ @ 67 NONAME ; class CVPbkContactLinkArray * CVPbkContactLinkArray::NewL(void)
+	?NewL@CVPbkContactManager@@SAPAV1@ABVCVPbkContactStoreUriArray@@PAVRFs@@@Z @ 68 NONAME ; class CVPbkContactManager * CVPbkContactManager::NewL(class CVPbkContactStoreUriArray const &, class RFs *)
+	?NewL@CVPbkContactManager@@SAPAV1@VTSecurityInfo@@ABVCVPbkContactStoreUriArray@@PAVRFs@@@Z @ 69 NONAME ; class CVPbkContactManager * CVPbkContactManager::NewL(class TSecurityInfo, class CVPbkContactStoreUriArray const &, class RFs *)
+	?NewL@CVPbkContactStoreUriArray@@SAPAV1@XZ @ 70 NONAME ; class CVPbkContactStoreUriArray * CVPbkContactStoreUriArray::NewL(void)
+	?NewL@CVPbkContactViewDefinition@@SAPAV1@AAVTResourceReader@@@Z @ 71 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewL(class TResourceReader &)
+	?NewL@CVPbkContactViewDefinition@@SAPAV1@ABV1@@Z @ 72 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewL(class CVPbkContactViewDefinition const &)
+	?NewL@CVPbkContactViewDefinition@@SAPAV1@XZ @ 73 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewL(void)
+	?NewLC@CVPbkContactLinkArray@@SAPAV1@AAVRReadStream@@ABVMVPbkContactStoreList@@@Z @ 74 NONAME ; class CVPbkContactLinkArray * CVPbkContactLinkArray::NewLC(class RReadStream &, class MVPbkContactStoreList const &)
+	?NewLC@CVPbkContactLinkArray@@SAPAV1@ABVTDesC8@@ABVMVPbkContactStoreList@@@Z @ 75 NONAME ; class CVPbkContactLinkArray * CVPbkContactLinkArray::NewLC(class TDesC8 const &, class MVPbkContactStoreList const &)
+	?NewLC@CVPbkContactLinkArray@@SAPAV1@XZ @ 76 NONAME ; class CVPbkContactLinkArray * CVPbkContactLinkArray::NewLC(void)
+	?NewLC@CVPbkContactStoreUriArray@@SAPAV1@ABVTDesC8@@@Z @ 77 NONAME ; class CVPbkContactStoreUriArray * CVPbkContactStoreUriArray::NewLC(class TDesC8 const &)
+	?NewLC@CVPbkContactStoreUriArray@@SAPAV1@XZ @ 78 NONAME ; class CVPbkContactStoreUriArray * CVPbkContactStoreUriArray::NewLC(void)
+	?NewLC@CVPbkContactViewDefinition@@SAPAV1@AAVTResourceReader@@@Z @ 79 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewLC(class TResourceReader &)
+	?NewLC@CVPbkContactViewDefinition@@SAPAV1@ABV1@@Z @ 80 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewLC(class CVPbkContactViewDefinition const &)
+	?NewLC@CVPbkContactViewDefinition@@SAPAV1@XZ @ 81 NONAME ; class CVPbkContactViewDefinition * CVPbkContactViewDefinition::NewLC(void)
+	?PackLC@CVPbkContactStoreUriArray@@QBEPAVHBufC8@@XZ @ 82 NONAME ; class HBufC8 * CVPbkContactStoreUriArray::PackLC(void) const
+	?PackedBufferSize@CVPbkContactLinkArray@@QBEHXZ @ 83 NONAME ; int CVPbkContactLinkArray::PackedBufferSize(void) const
+	?Pbk2AppUi@Phonebook2@@YAPAVMPbk2AppUi@@XZ @ 84 NONAME ; class MPbk2AppUi * Phonebook2::Pbk2AppUi(void)
+	?Remove@CVPbkContactLinkArray@@QAEXH@Z @ 85 NONAME ; void CVPbkContactLinkArray::Remove(int)
+	?Remove@CVPbkContactStoreUriArray@@QAEXABVTVPbkContactStoreUriPtr@@@Z @ 86 NONAME ; void CVPbkContactStoreUriArray::Remove(class TVPbkContactStoreUriPtr const &)
+	?RemoveContactStoreURIL@CPbk2StoreConfiguration@@QAEXVTVPbkContactStoreUriPtr@@@Z @ 87 NONAME ; void CPbk2StoreConfiguration::RemoveContactStoreURIL(class TVPbkContactStoreUriPtr)
+	?RemoveDefaultSavingStoreObserver@CPbk2StoreConfiguration@@QAEXAAVMPbk2DefaultSavingStoreObserver@@@Z @ 88 NONAME ; void CPbk2StoreConfiguration::RemoveDefaultSavingStoreObserver(class MPbk2DefaultSavingStoreObserver &)
+	?RemoveObserver@CPbk2SortOrderManager@@QAEXAAVMPbk2SortOrderObserver@@@Z @ 89 NONAME ; void CPbk2SortOrderManager::RemoveObserver(class MPbk2SortOrderObserver &)
+	?RemoveObserver@CPbk2StoreConfiguration@@QAEXAAVMPbk2StoreConfigurationObserver@@@Z @ 90 NONAME ; void CPbk2StoreConfiguration::RemoveObserver(class MPbk2StoreConfigurationObserver &)
+	?RemoveSupportedContactStoreURIL@CPbk2StoreConfiguration@@QAEXVTVPbkContactStoreUriPtr@@@Z @ 91 NONAME ; void CPbk2StoreConfiguration::RemoveSupportedContactStoreURIL(class TVPbkContactStoreUriPtr)
+	?Reset@CVPbkContactLinkArray@@QAEXXZ @ 92 NONAME ; void CVPbkContactLinkArray::Reset(void)
+	?ResetAndDestroy@CVPbkContactLinkArray@@QAEXXZ @ 93 NONAME ; void CVPbkContactLinkArray::ResetAndDestroy(void)
+	?RetrieveContactL@CVPbkContactManager@@QBEPAVMVPbkContactOperationBase@@ABVMVPbkContactLink@@AAVMVPbkSingleContactOperationObserver@@@Z @ 94 NONAME ; class MVPbkContactOperationBase * CVPbkContactManager::RetrieveContactL(class MVPbkContactLink const &, class MVPbkSingleContactOperationObserver &) const
+	?RunError@CActive@@MAEHH@Z @ 95 NONAME ; int CActive::RunError(int)
+	?SearchStoreConfigurationL@CPbk2StoreConfiguration@@QAEPAVCVPbkContactStoreUriArray@@XZ @ 96 NONAME ; class CVPbkContactStoreUriArray * CPbk2StoreConfiguration::SearchStoreConfigurationL(void)
+	?Set@TVPbkContactStoreUriPtr@@QAEXABV1@@Z @ 97 NONAME ; void TVPbkContactStoreUriPtr::Set(class TVPbkContactStoreUriPtr const &)
+	?SetActive@CActive@@IAEXXZ @ 98 NONAME ; void CActive::SetActive(void)
+	?SetContactSelector@CVPbkContactViewDefinition@@QAEXPAVMVPbkContactSelector@@@Z @ 99 NONAME ; void CVPbkContactViewDefinition::SetContactSelector(class MVPbkContactSelector *)
+	?SetContactViewL@CPbk2SortOrderManager@@QAEXAAVMVPbkContactViewBase@@@Z @ 100 NONAME ; void CPbk2SortOrderManager::SetContactViewL(class MVPbkContactViewBase &)
+	?SetFieldTypeFilterL@CVPbkContactViewDefinition@@QAEXPAVCVPbkFieldTypeSelector@@@Z @ 101 NONAME ; void CVPbkContactViewDefinition::SetFieldTypeFilterL(class CVPbkFieldTypeSelector *)
+	?SetFlag@CVPbkContactViewDefinition@@QAEXW4TVPbkContactViewFlag@@H@Z @ 102 NONAME ; void CVPbkContactViewDefinition::SetFlag(enum TVPbkContactViewFlag, int)
+	?SetId@CVPbkContactViewDefinition@@QAEXH@Z @ 103 NONAME ; void CVPbkContactViewDefinition::SetId(int)
+	?SetNameDisplayOrderL@CPbk2SortOrderManager@@QAEXW4TPbk2NameDisplayOrder@1@ABVTDesC16@@@Z @ 104 NONAME ; void CPbk2SortOrderManager::SetNameDisplayOrderL(enum CPbk2SortOrderManager::TPbk2NameDisplayOrder, class TDesC16 const &)
+	?SetNameL@CVPbkContactViewDefinition@@QAEXABVTDesC16@@@Z @ 105 NONAME ; void CVPbkContactViewDefinition::SetNameL(class TDesC16 const &)
+	?SetPriority@CActive@@QAEXH@Z @ 106 NONAME ; void CActive::SetPriority(int)
+	?SetSharing@CVPbkContactViewDefinition@@QAEXW4TVPbkContactViewSharing@@@Z @ 107 NONAME ; void CVPbkContactViewDefinition::SetSharing(enum TVPbkContactViewSharing)
+	?SetSortPolicy@CVPbkContactViewDefinition@@QAEXW4TVPbkContactViewSortPolicy@@@Z @ 108 NONAME ; void CVPbkContactViewDefinition::SetSortPolicy(enum TVPbkContactViewSortPolicy)
+	?SetType@CVPbkContactViewDefinition@@QAEXW4TVPbkContactViewType@@@Z @ 109 NONAME ; void CVPbkContactViewDefinition::SetType(enum TVPbkContactViewType)
+	?SetUriL@CVPbkContactViewDefinition@@QAEXABVTDesC16@@@Z @ 110 NONAME ; void CVPbkContactViewDefinition::SetUriL(class TDesC16 const &)
+	?Sharing@CVPbkContactViewDefinition@@QBE?AW4TVPbkContactViewSharing@@XZ @ 111 NONAME ; enum TVPbkContactViewSharing CVPbkContactViewDefinition::Sharing(void) const
+	?SimGlobalAdnUri@VPbkContactStoreUris@@YAABVTDesC16@@XZ @ 112 NONAME ; class TDesC16 const & VPbkContactStoreUris::SimGlobalAdnUri(void)
+	?SimGlobalFdnUri@VPbkContactStoreUris@@YAABVTDesC16@@XZ @ 113 NONAME ; class TDesC16 const & VPbkContactStoreUris::SimGlobalFdnUri(void)
+	?SimGlobalOwnNumberUri@VPbkContactStoreUris@@YAABVTDesC16@@XZ @ 114 NONAME ; class TDesC16 const & VPbkContactStoreUris::SimGlobalOwnNumberUri(void)
+	?SimGlobalSdnUri@VPbkContactStoreUris@@YAABVTDesC16@@XZ @ 115 NONAME ; class TDesC16 const & VPbkContactStoreUris::SimGlobalSdnUri(void)
+	?SortOrder@CPbk2SortOrderManager@@QBEABVMVPbkFieldTypeList@@XZ @ 116 NONAME ; class MVPbkFieldTypeList const & CPbk2SortOrderManager::SortOrder(void) const
+	?SortPolicy@CVPbkContactViewDefinition@@QBE?AW4TVPbkContactViewSortPolicy@@XZ @ 117 NONAME ; enum TVPbkContactViewSortPolicy CVPbkContactViewDefinition::SortPolicy(void) const
+	?Start@CActiveSchedulerWait@@QAEXXZ @ 118 NONAME ; void CActiveSchedulerWait::Start(void)
+	?Start@CPeriodic@@QAEXVTTimeIntervalMicroSeconds32@@0VTCallBack@@@Z @ 119 NONAME ; void CPeriodic::Start(class TTimeIntervalMicroSeconds32, class TTimeIntervalMicroSeconds32, class TCallBack)
+	?SubViewAt@CVPbkContactViewDefinition@@QAEAAV1@H@Z @ 120 NONAME ; class CVPbkContactViewDefinition & CVPbkContactViewDefinition::SubViewAt(int)
+	?SubViewAt@CVPbkContactViewDefinition@@QBEABV1@H@Z @ 121 NONAME ; class CVPbkContactViewDefinition const & CVPbkContactViewDefinition::SubViewAt(int) const
+	?SubViewCount@CVPbkContactViewDefinition@@QBEHXZ @ 122 NONAME ; int CVPbkContactViewDefinition::SubViewCount(void) const
+	?SupportedStoreConfigurationL@CPbk2StoreConfiguration@@QBEPAVCVPbkContactStoreUriArray@@XZ @ 123 NONAME ; class CVPbkContactStoreUriArray * CPbk2StoreConfiguration::SupportedStoreConfigurationL(void) const
+	?Type@CVPbkContactViewDefinition@@QBE?AW4TVPbkContactViewType@@XZ @ 124 NONAME ; enum TVPbkContactViewType CVPbkContactViewDefinition::Type(void) const
+	?Uri@CVPbkContactViewDefinition@@QBEABVTDesC16@@XZ @ 125 NONAME ; class TDesC16 const & CVPbkContactViewDefinition::Uri(void) const
+	?UriDes@TVPbkContactStoreUriPtr@@QBEABVTDesC16@@XZ @ 126 NONAME ; class TDesC16 const & TVPbkContactStoreUriPtr::UriDes(void) const
+
