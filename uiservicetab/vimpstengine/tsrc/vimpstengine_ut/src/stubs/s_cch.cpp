@@ -15,7 +15,7 @@
 *
 */
 //  EXTERNAL INCLUDES
-#include <CEUnitTestSuiteClass.h>
+#include <platform/digia/eunit/ceunittestsuiteclass.h>
 #include <cch.h>
 
 #include "s_cch.h"

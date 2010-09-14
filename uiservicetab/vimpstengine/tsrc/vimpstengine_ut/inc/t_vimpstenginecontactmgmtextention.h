@@ -18,7 +18,7 @@
 #define _T_VIMPSTEngineContactMgmtExtention_H_
 
 //  EXTERNAL INCLUDES
-#include <CEUnitTestSuiteClass.h>
+#include <platform/digia/eunit/ceunittestsuiteclass.h>
 
 
 #include "cvimpstenginecontactmgmtextention.h"

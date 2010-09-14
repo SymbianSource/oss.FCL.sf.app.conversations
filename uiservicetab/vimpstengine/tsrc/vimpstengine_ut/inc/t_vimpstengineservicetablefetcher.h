@@ -18,7 +18,7 @@
 #define _T_VIMPSTEngineServiceTableFetcher_H_
 
 //  EXTERNAL INCLUDES
-#include <CEUnitTestSuiteClass.h>
+#include <platform/digia/eunit/ceunittestsuiteclass.h>
 
 #include <spdefinitions.h>
 

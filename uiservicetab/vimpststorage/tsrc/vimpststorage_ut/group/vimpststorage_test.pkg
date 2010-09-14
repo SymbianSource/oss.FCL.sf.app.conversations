@@ -1,0 +1,46 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: package file for vimpststorage_test
+;
+;Header
+#{"vimpststorage_test"}, (0x101FB3E3), 1, 2, 3, TYPE=SP
+
+;Language - standard language definitions
+&EN
+
+;Vendor ID
+:"Nokia Corporation"
+
+;Localised vendor
+%{"Vendor-EN"}
+
+;Supports Series 60 v 0.9
+[0x101F7961], 0, 0, 0, {"Series60ProductID"}
+
+
+;INI FILE
+; ttestframework , because rom will not allow to update , rename it 
+; after install to  testframework.ini
+
+"..\init\testframework.ini"        			- "c:\Testframework\testframework.ini"
+
+;CFG FILES
+ "..\conf\CVIMPSTStorageContact_UT.cfg"        			-"c:\Testframework\CVIMPSTStorageContact_UT.cfg"
+ "..\conf\CVIMPSTStorageContactList_UT.cfg"        			-"c:\Testframework\CVIMPSTStorageContactList_UT.cfg"
+ "..\conf\CVIMPSTStorageContactSorter_UT.cfg"        			-"c:\Testframework\CVIMPSTStorageContactSorter_UT.cfg"
+ 
+;vimststorage_test dll files
+ "\epoc32\release\armv5\urel\CVIMPSTStorageContact_UT.dll"              - "!:\Sys\Bin\CVIMPSTStorageContact_UT.dll" 
+ "\epoc32\release\armv5\urel\CVIMPSTStorageContactList_UT.dll"              - "!:\Sys\Bin\CVIMPSTStorageContactList_UT.dll"    
+ "\epoc32\release\armv5\urel\CVIMPSTStorageContactSorter_UT.dll"              - "!:\Sys\Bin\CVIMPSTStorageContactSorter_UTs.dll"

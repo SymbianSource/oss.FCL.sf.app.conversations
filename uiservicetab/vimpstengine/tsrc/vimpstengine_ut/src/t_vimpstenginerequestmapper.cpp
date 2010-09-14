@@ -14,9 +14,9 @@
 * Description: t_vimpstenginerequestmapper.cpp
 *
 */
-#include <EUnitMacros.h>
-#include <TEUnitAssertionInfo.h>
-#include <CEUnitAllocTestCaseDecorator.h>
+#include <platform/digia/eunit/eunitmacros.h>
+#include <platform/digia/eunit/teunitassertioninfo.h>
+#include <platform/digia/eunit/CEUnitAllocTestCaseDecorator.h>
 #include "t_vimpstenginerequestmapper.h"
 #include "cvimpstenginerequestmapper.h"
 #include "cvimpstenginerequest.h"

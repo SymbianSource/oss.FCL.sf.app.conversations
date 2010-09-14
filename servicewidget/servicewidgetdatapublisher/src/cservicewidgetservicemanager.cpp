@@ -312,7 +312,7 @@ void CServiceWidgetServiceManager::SetCurrentTextDataL()
                 SecondText.Append( *str );
                 CleanupStack::PopAndDestroy(str); //str	
                 }
-            iExecuteOperation = ESWALaunchSTAutoLogin;
+            iExecuteOperation = ESWAStartLogin;
             TInt isSuccessfullLogin = KErrNone;
             iSettingStore.GetL(iServiceId, EServiceSuccessfullLogin, isSuccessfullLogin );
             if( isSuccessfullLogin )
@@ -838,6 +838,7 @@ void CServiceWidgetServiceManager::ExecuteActionL()
         case ESWALaunchServiceTab:
             {
             RxSPViewServices viewServices;
+            iServiceviewId = iCchHandler->GetServiceViewIdL( iServiceTabUid );
             TInt err = viewServices.Activate(  iServiceTabUid, 
                     iServiceviewId ) ; 
             TRACE_SWP(TXT("CServiceWidgetServiceManager::ExecuteActionL() Activate = %d"), err), 
@@ -879,6 +880,7 @@ void CServiceWidgetServiceManager::ExecuteActionL()
              stream.CommitL();
                        
             RxSPViewServices viewServices;
+            iServiceviewId = iCchHandler->GetServiceViewIdL( iServiceTabUid );
             TInt err = viewServices.Activate(  iServiceTabUid, 
                                             iServiceviewId , dataPtr );
             TRACE_SWP(TXT("CServiceWidgetServiceManager::ExecuteActionL() Activate = %d"), err), 

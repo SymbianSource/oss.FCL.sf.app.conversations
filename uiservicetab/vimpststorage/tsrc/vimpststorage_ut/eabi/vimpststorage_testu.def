@@ -1,0 +1,157 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZN10Phonebook29Pbk2AppUiEv @ 2 NONAME
+	_ZN19CVPbkContactManager13CopyContactsLERK21MVPbkContactLinkArrayP17MVPbkContactStoreR27MVPbkBatchOperationObserver @ 3 NONAME
+	_ZN19CVPbkContactManager14ContactStoresLEv @ 4 NONAME
+	_ZN19CVPbkContactManager15CommitContactsLERK6TArrayIP17MVPbkStoreContactER27MVPbkBatchOperationObserver @ 5 NONAME
+	_ZN19CVPbkContactManager15CompressStoresLER27MVPbkBatchOperationObserver @ 6 NONAME
+	_ZN19CVPbkContactManager15DeleteContactsLERK21MVPbkContactLinkArrayR27MVPbkBatchOperationObserver @ 7 NONAME
+	_ZN19CVPbkContactManager17LoadContactStoreLERK23TVPbkContactStoreUriPtr @ 8 NONAME
+	_ZN19CVPbkContactManager17MatchPhoneNumberLERK7TDesC16iR24MVPbkContactFindObserver @ 9 NONAME
+	_ZN19CVPbkContactManager24ContactAttributeManagerLEv @ 10 NONAME
+	_ZN19CVPbkContactManager4NewLE13TSecurityInfoRK25CVPbkContactStoreUriArrayP3RFs @ 11 NONAME
+	_ZN19CVPbkContactManager4NewLERK25CVPbkContactStoreUriArrayP3RFs @ 12 NONAME
+	_ZN19CVPbkContactManager5FindLERK12MDesC16ArrayRK18MVPbkFieldTypeListR34MVPbkContactFindFromStoresObserverRK9TCallBack @ 13 NONAME
+	_ZN19CVPbkContactManager5FindLERK7TDesC16RK18MVPbkFieldTypeListR24MVPbkContactFindObserver @ 14 NONAME
+	_ZN19CVPbkContactManager9FsSessionEv @ 15 NONAME
+	_ZN20VPbkContactStoreUris15DefaultCntDbUriEv @ 16 NONAME
+	_ZN20VPbkContactStoreUris15SimGlobalAdnUriEv @ 17 NONAME
+	_ZN20VPbkContactStoreUris15SimGlobalFdnUriEv @ 18 NONAME
+	_ZN20VPbkContactStoreUris15SimGlobalSdnUriEv @ 19 NONAME
+	_ZN20VPbkContactStoreUris21SimGlobalOwnNumberUriEv @ 20 NONAME
+	_ZN21CPbk2SortOrderManager12AddObserverLER22MPbk2SortOrderObserver @ 21 NONAME
+	_ZN21CPbk2SortOrderManager14RemoveObserverER22MPbk2SortOrderObserver @ 22 NONAME
+	_ZN21CPbk2SortOrderManager15SetContactViewLER20MVPbkContactViewBase @ 23 NONAME
+	_ZN21CPbk2SortOrderManager16DefaultSeparatorEv @ 24 NONAME
+	_ZN21CPbk2SortOrderManager20SetNameDisplayOrderLENS_21TPbk2NameDisplayOrderERK7TDesC16 @ 25 NONAME
+	_ZN21CPbk2SortOrderManager4NewLERK18MVPbkFieldTypeListP3RFs @ 26 NONAME
+	_ZN21CVPbkContactLinkArray15ResetAndDestroyEv @ 27 NONAME
+	_ZN21CVPbkContactLinkArray4NewLEv @ 28 NONAME
+	_ZN21CVPbkContactLinkArray5NewLCER11RReadStreamRK21MVPbkContactStoreList @ 29 NONAME
+	_ZN21CVPbkContactLinkArray5NewLCERK6TDesC8RK21MVPbkContactStoreList @ 30 NONAME
+	_ZN21CVPbkContactLinkArray5NewLCEv @ 31 NONAME
+	_ZN21CVPbkContactLinkArray5ResetEv @ 32 NONAME
+	_ZN21CVPbkContactLinkArray6DeleteEi @ 33 NONAME
+	_ZN21CVPbkContactLinkArray6RemoveEi @ 34 NONAME
+	_ZN21CVPbkContactLinkArray7AppendLEP16MVPbkContactLink @ 35 NONAME
+	_ZN21CVPbkContactLinkArray7InsertLEP16MVPbkContactLinki @ 36 NONAME
+	_ZN23CPbk2StoreConfiguration4NewLEv @ 37 NONAME
+	_ZN23TVPbkContactStoreUriPtr3SetERKS_ @ 38 NONAME
+	_ZN23TVPbkContactStoreUriPtrC1ERK7TDesC16 @ 39 NONAME
+	_ZN23TVPbkContactStoreUriPtrC1Ev @ 40 NONAME
+	_ZN23TVPbkContactStoreUriPtrC2ERK7TDesC16 @ 41 NONAME
+	_ZN23TVPbkContactStoreUriPtrC2Ev @ 42 NONAME
+	_ZN24MVPbkContactFieldUriData4CastER21MVPbkContactFieldData @ 43 NONAME
+	_ZN24MVPbkContactFieldUriData4CastERK21MVPbkContactFieldData @ 44 NONAME
+	_ZN25CVPbkContactStoreUriArray10AppendAllLERKS_ @ 45 NONAME
+	_ZN25CVPbkContactStoreUriArray4NewLEv @ 46 NONAME
+	_ZN25CVPbkContactStoreUriArray5NewLCERK6TDesC8 @ 47 NONAME
+	_ZN25CVPbkContactStoreUriArray5NewLCEv @ 48 NONAME
+	_ZN25CVPbkContactStoreUriArray6RemoveERK23TVPbkContactStoreUriPtr @ 49 NONAME
+	_ZN25CVPbkContactStoreUriArray7AppendLERK23TVPbkContactStoreUriPtr @ 50 NONAME
+	_ZN25MVPbkContactFieldTextData4CastER21MVPbkContactFieldData @ 51 NONAME
+	_ZN25MVPbkContactFieldTextData4CastERK21MVPbkContactFieldData @ 52 NONAME
+	_ZN26CVPbkContactViewDefinition10SetSharingE23TVPbkContactViewSharing @ 53 NONAME
+	_ZN26CVPbkContactViewDefinition11AddSubViewLEPS_ @ 54 NONAME
+	_ZN26CVPbkContactViewDefinition13SetSortPolicyE26TVPbkContactViewSortPolicy @ 55 NONAME
+	_ZN26CVPbkContactViewDefinition18SetContactSelectorEP20MVPbkContactSelector @ 56 NONAME
+	_ZN26CVPbkContactViewDefinition19SetFieldTypeFilterLEP22CVPbkFieldTypeSelector @ 57 NONAME
+	_ZN26CVPbkContactViewDefinition4NewLER15TResourceReader @ 58 NONAME
+	_ZN26CVPbkContactViewDefinition4NewLERKS_ @ 59 NONAME
+	_ZN26CVPbkContactViewDefinition4NewLEv @ 60 NONAME
+	_ZN26CVPbkContactViewDefinition5NewLCER15TResourceReader @ 61 NONAME
+	_ZN26CVPbkContactViewDefinition5NewLCERKS_ @ 62 NONAME
+	_ZN26CVPbkContactViewDefinition5NewLCEv @ 63 NONAME
+	_ZN26CVPbkContactViewDefinition5SetIdEi @ 64 NONAME
+	_ZN26CVPbkContactViewDefinition7SetFlagE20TVPbkContactViewFlagi @ 65 NONAME
+	_ZN26CVPbkContactViewDefinition7SetTypeE20TVPbkContactViewType @ 66 NONAME
+	_ZN26CVPbkContactViewDefinition7SetUriLERK7TDesC16 @ 67 NONAME
+	_ZN26CVPbkContactViewDefinition8SetNameLERK7TDesC16 @ 68 NONAME
+	_ZN26CVPbkContactViewDefinition9SubViewAtEi @ 69 NONAME
+	_ZN27MVPbkContactFieldBinaryData4CastER21MVPbkContactFieldData @ 70 NONAME
+	_ZN27MVPbkContactFieldBinaryData4CastERK21MVPbkContactFieldData @ 71 NONAME
+	_ZN28CVIMPSTStorageManagerFactory14ItemInterfaceLEm @ 72 NONAME
+	_ZN28CVIMPSTStorageManagerFactory15InitialiseViewLEmRK7TDesC16S2_ @ 73 NONAME
+	_ZN28CVIMPSTStorageManagerFactory18InitialiseLibraryLEv @ 74 NONAME
+	_ZN28CVIMPSTStorageManagerFactory21ContactListInterfaceLEm @ 75 NONAME
+	_ZN28CVIMPSTStorageManagerFactory7ReleaseEv @ 76 NONAME
+	_ZNK19CVPbkContactManager10FieldTypesEv @ 77 NONAME
+	_ZNK19CVPbkContactManager13CreateLinksLCER11RReadStream @ 78 NONAME
+	_ZNK19CVPbkContactManager13CreateLinksLCERK6TDesC8 @ 79 NONAME
+	_ZNK19CVPbkContactManager16RetrieveContactLERK16MVPbkContactLinkR35MVPbkSingleContactOperationObserver @ 80 NONAME
+	_ZNK19CVPbkContactManager19CreateContactViewLCER24MVPbkContactViewObserverRK26CVPbkContactViewDefinitionRK18MVPbkFieldTypeList @ 81 NONAME
+	_ZNK21CPbk2SortOrderManager16CurrentSeparatorEv @ 82 NONAME
+	_ZNK21CPbk2SortOrderManager16NameDisplayOrderEv @ 83 NONAME
+	_ZNK21CPbk2SortOrderManager9SortOrderEv @ 84 NONAME
+	_ZNK21CVPbkContactLinkArray16PackedBufferSizeEv @ 85 NONAME
+	_ZNK23TVPbkContactStoreUriPtr12ExternalizeLER12RWriteStream @ 86 NONAME
+	_ZNK23TVPbkContactStoreUriPtr16ExternalizedSizeEv @ 87 NONAME
+	_ZNK23TVPbkContactStoreUriPtr6LengthEv @ 88 NONAME
+	_ZNK23TVPbkContactStoreUriPtr6UriDesEv @ 89 NONAME
+	_ZNK23TVPbkContactStoreUriPtr7CompareERK7TDesC16NS_29TVPbkContactStoreUriComponentE @ 90 NONAME
+	_ZNK23TVPbkContactStoreUriPtr7CompareERKS_NS_29TVPbkContactStoreUriComponentE @ 91 NONAME
+	_ZNK23TVPbkContactStoreUriPtr9ComponentENS_29TVPbkContactStoreUriComponentE @ 92 NONAME
+	_ZNK25CVPbkContactStoreUriArray10IsIncludedERK23TVPbkContactStoreUriPtr @ 93 NONAME
+	_ZNK25CVPbkContactStoreUriArray5CountEv @ 94 NONAME
+	_ZNK25CVPbkContactStoreUriArray6PackLCEv @ 95 NONAME
+	_ZNK25CVPbkContactStoreUriArrayixEi @ 96 NONAME
+	_ZNK26CVPbkContactViewDefinition10SortPolicyEv @ 97 NONAME
+	_ZNK26CVPbkContactViewDefinition12SubViewCountEv @ 98 NONAME
+	_ZNK26CVPbkContactViewDefinition15ContactSelectorEv @ 99 NONAME
+	_ZNK26CVPbkContactViewDefinition15FieldTypeFilterEv @ 100 NONAME
+	_ZNK26CVPbkContactViewDefinition2IdEv @ 101 NONAME
+	_ZNK26CVPbkContactViewDefinition3UriEv @ 102 NONAME
+	_ZNK26CVPbkContactViewDefinition4NameEv @ 103 NONAME
+	_ZNK26CVPbkContactViewDefinition4TypeEv @ 104 NONAME
+	_ZNK26CVPbkContactViewDefinition7SharingEv @ 105 NONAME
+	_ZNK26CVPbkContactViewDefinition8FlagIsOnE20TVPbkContactViewFlag @ 106 NONAME
+	_ZNK26CVPbkContactViewDefinition9SubViewAtEi @ 107 NONAME
+	_ZTI14CPbk2AppUiStub @ 108 NONAME ; #<TI>#
+	_ZTI19CVPbkContactManager @ 109 NONAME ; #<TI>#
+	_ZTI20CActiveSchedulerWait @ 110 NONAME ; #<TI>#
+	_ZTI20CVPbkContactLinkStub @ 111 NONAME ; #<TI>#
+	_ZTI20CVPbkContactViewStub @ 112 NONAME ; #<TI>#
+	_ZTI21CPbk2SortOrderManager @ 113 NONAME ; #<TI>#
+	_ZTI21CVIMPSTStorageManager @ 114 NONAME ; #<TI>#
+	_ZTI21CVPbkContactLinkArray @ 115 NONAME ; #<TI>#
+	_ZTI21CVPbkContactStoreStub @ 116 NONAME ; #<TI>#
+	_ZTI21CVPbkStoreContactStub @ 117 NONAME ; #<TI>#
+	_ZTI23CPbk2CommandHandlerStub @ 118 NONAME ; #<TI>#
+	_ZTI23CPbk2StoreConfiguration @ 119 NONAME ; #<TI>#
+	_ZTI23TVPbkContactStoreUriPtr @ 120 NONAME ; #<TI>#
+	_ZTI25CVPbkContactStoreListStub @ 121 NONAME ; #<TI>#
+	_ZTI25CVPbkContactStoreUriArray @ 122 NONAME ; #<TI>#
+	_ZTI26CVIMPSTLocalContactHandler @ 123 NONAME ; #<TI>#
+	_ZTI26CVPbkContactViewDefinition @ 124 NONAME ; #<TI>#
+	_ZTI26CVPbkStoreContactFieldStub @ 125 NONAME ; #<TI>#
+	_ZTI28CPbk2ApplicationServicesStub @ 126 NONAME ; #<TI>#
+	_ZTI29CVPbkContactFieldUriData_Stub @ 127 NONAME ; #<TI>#
+	_ZTI30CVPbkContactFieldTextData_stub @ 128 NONAME ; #<TI>#
+	_ZTI31CVPbkContactFieldBinaryDataStub @ 129 NONAME ; #<TI>#
+	_ZTI35CVPbkBaseContactFieldCollectionStub @ 130 NONAME ; #<TI>#
+	_ZTI7CActive @ 131 NONAME ; #<TI>#
+	_ZTV14CPbk2AppUiStub @ 132 NONAME ; #<VT>#
+	_ZTV19CVPbkContactManager @ 133 NONAME ; #<VT>#
+	_ZTV20CActiveSchedulerWait @ 134 NONAME ; #<VT>#
+	_ZTV20CVPbkContactLinkStub @ 135 NONAME ; #<VT>#
+	_ZTV20CVPbkContactViewStub @ 136 NONAME ; #<VT>#
+	_ZTV21CPbk2SortOrderManager @ 137 NONAME ; #<VT>#
+	_ZTV21CVIMPSTStorageManager @ 138 NONAME ; #<VT>#
+	_ZTV21CVPbkContactLinkArray @ 139 NONAME ; #<VT>#
+	_ZTV21CVPbkContactStoreStub @ 140 NONAME ; #<VT>#
+	_ZTV21CVPbkStoreContactStub @ 141 NONAME ; #<VT>#
+	_ZTV23CPbk2CommandHandlerStub @ 142 NONAME ; #<VT>#
+	_ZTV23CPbk2StoreConfiguration @ 143 NONAME ; #<VT>#
+	_ZTV23TVPbkContactStoreUriPtr @ 144 NONAME ; #<VT>#
+	_ZTV25CVPbkContactStoreListStub @ 145 NONAME ; #<VT>#
+	_ZTV25CVPbkContactStoreUriArray @ 146 NONAME ; #<VT>#
+	_ZTV26CVIMPSTLocalContactHandler @ 147 NONAME ; #<VT>#
+	_ZTV26CVPbkContactViewDefinition @ 148 NONAME ; #<VT>#
+	_ZTV26CVPbkStoreContactFieldStub @ 149 NONAME ; #<VT>#
+	_ZTV28CPbk2ApplicationServicesStub @ 150 NONAME ; #<VT>#
+	_ZTV29CVPbkContactFieldUriData_Stub @ 151 NONAME ; #<VT>#
+	_ZTV30CVPbkContactFieldTextData_stub @ 152 NONAME ; #<VT>#
+	_ZTV31CVPbkContactFieldBinaryDataStub @ 153 NONAME ; #<VT>#
+	_ZTV35CVPbkBaseContactFieldCollectionStub @ 154 NONAME ; #<VT>#
+	_ZTV7CActive @ 155 NONAME ; #<VT>#
+

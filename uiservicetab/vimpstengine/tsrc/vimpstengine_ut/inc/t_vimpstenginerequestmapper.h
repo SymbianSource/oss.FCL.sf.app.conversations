@@ -18,7 +18,7 @@
 #define _T_VIMPSTEngineRequestMapper_H_
 
 //  EXTERNAL INCLUDES
-#include <CEUnitTestSuiteClass.h>
+#include <platform/digia/eunit/ceunittestsuiteclass.h>
 
 
 #include "cvimpstenginerequestmapper.h"

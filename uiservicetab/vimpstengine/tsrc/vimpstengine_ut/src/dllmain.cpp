@@ -14,7 +14,7 @@
 * Description: dllmain.cpp
 *
 */
-#include <CEUnitTestSuite.h>
+#include <platform/digia/eunit/CEUnitTestSuite.h>
 
 #include "t_vimpstengine.h"
 #include "t_vimpstenginevoipsubservice.h"
