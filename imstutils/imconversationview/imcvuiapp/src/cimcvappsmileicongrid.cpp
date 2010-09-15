@@ -38,10 +38,17 @@
 // topleft and bottomright points of the first cell in the grid.
 // These co-ordinates to draw the grid lines and the logic to draw the grid lines is based on the topleft 
 // and bottomright points of the first cell in the grid.
+#define KTopLeft_x 28
+#define KTopLeft_y 55
+#define KBottomRight_x 88
+#define KBottomRight_y 120 //104
+
+/* Previous Value Since there are frequent changes in LAF 
 #define KTopLeft_x 56
 #define KTopLeft_y 55
 #define KBottomRight_x 105
 #define KBottomRight_y 104
+*/
 
 
 // ================= MEMBER FUNCTIONS =======================

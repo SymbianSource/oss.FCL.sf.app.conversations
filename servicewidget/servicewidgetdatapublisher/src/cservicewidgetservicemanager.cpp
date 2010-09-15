@@ -199,7 +199,7 @@ CServiceWidgetServiceManager::~CServiceWidgetServiceManager()
 void CServiceWidgetServiceManager::UpdateContentsL()
     {
     TRACE_SWP(TXT("CServiceWidgetServiceManager::UpdateContentsL() start") );
-    if( !iIsWidgetSuspended )
+    if( !iIsWidgetSuspended && iCchHandler)
         {
         SetCurrentTextDataL(); // to set the data in box 2 and 4 : Own id and new message or invite or presence
         }

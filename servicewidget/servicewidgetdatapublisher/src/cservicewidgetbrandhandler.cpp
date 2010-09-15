@@ -195,7 +195,7 @@ void CServiceWidgetBrandHandler::LoadBrandingBitmapsL()
     //Fetching bitmaps from the server. 
     if(!iBrandingAccess)
         {
-        PrepareBrandingAccess();    
+        User::LeaveIfError(PrepareBrandingAccess());    
         }
     
     // EWSonline has to be at 0th in enums
