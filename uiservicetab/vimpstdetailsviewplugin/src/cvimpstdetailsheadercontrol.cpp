@@ -352,7 +352,7 @@ void CVIMPSTDetailsHeaderControl::CreateHeaderPresentationL(MVPbkStoreContact& a
 		{
 		MVPbkStoreContactField& field = fieldCollection.FieldAt( i );	
 		const MVPbkFieldType* type = field.BestMatchingFieldType() ;
-		if(type && R_VPBK_FIELD_TYPE_THUMBNAILPIC == type->FieldTypeResId() )
+		if( R_VPBK_FIELD_TYPE_THUMBNAILPIC == type->FieldTypeResId() )
 			{
 			iHeaderField = field.CloneLC();
 			CleanupStack::Pop();

@@ -39,7 +39,7 @@
 #include <AiwCommon.hrh>
 //resource
 #include <vimpstuires.rsg>
-#include <extensionmanagerres.rsg>
+#include <ExtensionManagerRes.rsg>
 #include "uiservicetabtracer.h"
 
 using namespace Phonebook2;

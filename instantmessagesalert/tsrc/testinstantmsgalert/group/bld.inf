@@ -26,7 +26,6 @@ PRJ_TESTEXPORTS
 // 'abld test export'
 
 PRJ_EXPORTS
-../conf/testinstantmsgalert.cfg									/epoc32/winscw/c/TestFramework/testinstantmsgalert.cfg
 
 PRJ_TESTMMPFILES
 	testinstantmsgalert.mmp

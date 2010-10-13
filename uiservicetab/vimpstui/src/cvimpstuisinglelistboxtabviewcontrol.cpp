@@ -75,16 +75,14 @@ CVIMPSTUiSingleListBoxTabViewControl::CVIMPSTUiSingleListBoxTabViewControl(CVIMP
 														MVIMPSTCmdHandler& aCommandHandler,
 														TUint32 aServiceId,
 														CVIMPSTUiBrandData& aBrandHandler,
-														MVIMPSTEngine& aEngine,
-														CEikButtonGroupContainer* aCba)
+														MVIMPSTEngine& aEngine )
 	:iTabbedView(aTabbedView),
 	 iKeyEventHandler(aKeyEventHandler),
 	 iCommandHandler(aCommandHandler),
 	 iArrayProcess(iCommandHandler.GetProcessInterface()),
 	 iServiceId(aServiceId),
 	 iBrandHandler(aBrandHandler),
-	 iEngine(aEngine),
-	 iCba(aCba)
+	 iEngine(aEngine)
     {
 
     }
@@ -156,12 +154,11 @@ CVIMPSTUiSingleListBoxTabViewControl* CVIMPSTUiSingleListBoxTabViewControl::NewL
         (CVIMPSTUiTabbedView& aTabbedView,MPbk2KeyEventHandler* aKeyEventHandler, 
         MVIMPSTCmdHandler& aCommandHandler, TUint32 aServiceId,
         CVIMPSTUiBrandData& aBrandHandler,
-        MVIMPSTEngine& aEngine,
-        CEikButtonGroupContainer* aCba)
+        MVIMPSTEngine& aEngine)
     {
 	TRACER_AUTO;
     CVIMPSTUiSingleListBoxTabViewControl* self = NewLC(aTabbedView,aKeyEventHandler,
-    			aCommandHandler, aServiceId, aBrandHandler,aEngine,aCba);
+    			aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::Pop(self);
     return self;
     }
@@ -175,13 +172,12 @@ CVIMPSTUiSingleListBoxTabViewControl* CVIMPSTUiSingleListBoxTabViewControl::NewL
         (CVIMPSTUiTabbedView& aTabbedView,MPbk2KeyEventHandler* aKeyEventHandler,
         MVIMPSTCmdHandler& aCommandHandler, TUint32 aServiceId,
         CVIMPSTUiBrandData& aBrandHandler,
-        MVIMPSTEngine& aEngine,
-        CEikButtonGroupContainer* aCba)
+        MVIMPSTEngine& aEngine)
     {
 	TRACER_AUTO;
     CVIMPSTUiSingleListBoxTabViewControl* self =
         new (ELeave) CVIMPSTUiSingleListBoxTabViewControl(aTabbedView,aKeyEventHandler,
-        aCommandHandler, aServiceId, aBrandHandler,aEngine,aCba);
+        aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::PushL(self);
     self->ConstructL();
     return self;
@@ -1030,10 +1026,10 @@ void CVIMPSTUiSingleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= 
         TVIMPSTEnums::TItem itemtype = iArrayProcess.GetType(index);
         TVIMPSTEnums::TVIMPSTRegistrationState servicestate = iEngine.ServiceState();
         TBool updateinvalid( iLastFocusedItemType == TVIMPSTEnums::EInvalid );
-//         if ( !iCba )
-//            {
-//            iCba = CEikButtonGroupContainer::Current();
-//            }
+         if ( !iCba )
+            {
+            iCba = CEikButtonGroupContainer::Current();
+            }
 
         // default softkeys
         if( aUseDefaultCba || updateinvalid )

@@ -19,7 +19,7 @@
 #define MyCchServiceH
 
 //  EXTERNAL INCLUDES
-#include <platform/digia/eunit/ceunittestsuiteclass.h>
+#include <CEUnitTestSuiteClass.h>
 #include <cch.h>
 
 

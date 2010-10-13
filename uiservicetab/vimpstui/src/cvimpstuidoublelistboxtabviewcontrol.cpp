@@ -67,16 +67,14 @@ CVIMPSTUiDoubleListBoxTabViewControl::CVIMPSTUiDoubleListBoxTabViewControl(CVIMP
 														MVIMPSTCmdHandler& aCommandHandler,
 														TUint32 aServiceId,
 														CVIMPSTUiBrandData& aBrandHandler,
-														MVIMPSTEngine& aEngine,
-														CEikButtonGroupContainer* aCba)
+														MVIMPSTEngine& aEngine )
 	:iTabbedView(aTabbedView),
 	 iKeyEventHandler(aKeyEventHandler),
 	 iCommandHandler(aCommandHandler),
 	 iArrayProcess(iCommandHandler.GetProcessInterface()),
 	 iServiceId(aServiceId),
 	 iBrandHandler(aBrandHandler),
-	 iEngine(aEngine),
-	 iCba(aCba)
+	 iEngine(aEngine)
     {
 
     }
@@ -146,12 +144,11 @@ CVIMPSTUiDoubleListBoxTabViewControl* CVIMPSTUiDoubleListBoxTabViewControl::NewL
         (CVIMPSTUiTabbedView& aTabbedView,MPbk2KeyEventHandler* aKeyEventHandler, 
         MVIMPSTCmdHandler& aCommandHandler, TUint32 aServiceId,
         CVIMPSTUiBrandData& aBrandHandler,
-        MVIMPSTEngine& aEngine,
-        CEikButtonGroupContainer* aCba)
+        MVIMPSTEngine& aEngine)
     {
 	TRACER_AUTO;
     CVIMPSTUiDoubleListBoxTabViewControl* self = NewLC(aTabbedView,aKeyEventHandler,
-    			aCommandHandler, aServiceId, aBrandHandler,aEngine,aCba);
+    			aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::Pop(self);
     return self;
     }
@@ -165,13 +162,12 @@ CVIMPSTUiDoubleListBoxTabViewControl* CVIMPSTUiDoubleListBoxTabViewControl::NewL
         (CVIMPSTUiTabbedView& aTabbedView,MPbk2KeyEventHandler* aKeyEventHandler,
         MVIMPSTCmdHandler& aCommandHandler, TUint32 aServiceId,
         CVIMPSTUiBrandData& aBrandHandler,
-        MVIMPSTEngine& aEngine,
-        CEikButtonGroupContainer* aCba)
+        MVIMPSTEngine& aEngine)
     {
 	TRACER_AUTO;
     CVIMPSTUiDoubleListBoxTabViewControl* self =
         new (ELeave) CVIMPSTUiDoubleListBoxTabViewControl(aTabbedView,aKeyEventHandler,
-        aCommandHandler, aServiceId, aBrandHandler,aEngine,aCba);
+        aCommandHandler, aServiceId, aBrandHandler,aEngine);
     CleanupStack::PushL(self);
     self->ConstructL();
     return self;
@@ -1236,10 +1232,10 @@ void CVIMPSTUiDoubleListBoxTabViewControl::UpdateCbaL( TBool aUseDefaultCba /*= 
         TVIMPSTEnums::TOnlineStatus onlinestatus = iCommandHandler.GetProcessInterface().GetOnlineStatusL(index);        
         TVIMPSTEnums::TVIMPSTRegistrationState servicestate = iEngine.ServiceState();
         TBool updateinvalid( iLastFocusedItemType == TVIMPSTEnums::EInvalid );
-//         if ( !iCba )
-//            {
-//            iCba = CEikButtonGroupContainer::Current();        	
-//            }
+         if ( !iCba )
+            {
+            iCba = CEikButtonGroupContainer::Current();
+            }
 
         // default softkeys
          if(iCba)

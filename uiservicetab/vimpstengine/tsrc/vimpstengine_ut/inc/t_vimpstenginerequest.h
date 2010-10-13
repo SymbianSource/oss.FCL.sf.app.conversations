@@ -18,7 +18,7 @@
 #define _T_VIMPSTEngineRequest_H_
 
 //  EXTERNAL INCLUDES
-#include <platform/digia/eunit/ceunittestsuiteclass.h>
+#include <CEUnitTestSuiteClass.h>
 
 
 #include "cvimpstenginerequest.h"

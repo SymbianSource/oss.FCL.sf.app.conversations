@@ -61,8 +61,7 @@ void CIMCVEngineCchHandler::ConstructL(  )
 			{
 			service->SetObserver( *this );		
 			}
-		}
-	iPrevNwError = 0;
+		}		
 		
     }
 
@@ -281,8 +280,7 @@ void CIMCVEngineCchHandler::DoHandleServiceStatusChangedL(
 	{
 	
     IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL ") );   
-    IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL:TCCHSubserviceType=%d"),aType);
-    IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL:aServiceStatus.Error()=%d"),aServiceStatus.Error());
+
 	if (aType == ECCHPresenceSub)
 		{
 		/* SIP Adaptation -- sends error in Network Lost. This is added so that once we get it, we will unbindL and delete the context
@@ -307,25 +305,20 @@ void CIMCVEngineCchHandler::DoHandleServiceStatusChangedL(
 				}
 			case ECCHDisabled:
 				{
-				IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL DISABLED"));
-				if(iPrevNwError != KCCHErrorNetworkLost)
-					{
-					iEngine.CloseAllOpenChatsL ();					
-					}
+				IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL DISABLED"));   
+				iEngine.CloseAllOpenChatsL ();
 				iEngine.ReleaseConnectionL();
 				iEngine.DeleteContextL ();
+
 				break;	
 				}
 			case ECCHConnecting:
 				{
-				IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL ECCHConnecting") );
-				iPrevNwError = aServiceStatus.Error();
 				notifyEvent = MIMCVEngineCCHObserver::EConnecting;
 				break;	
 				}
 			case ECCHEnabled:
 				{
-				IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL ECCHEnabled") );
 				notifyEvent = MIMCVEngineCCHObserver::ELogin;
 				iEngine.CreateContextL();
 				break;	
@@ -334,14 +327,13 @@ void CIMCVEngineCchHandler::DoHandleServiceStatusChangedL(
 				{
 				// If NetworkErrorLost error is received by CCH on this state, then do not close all chats
 				// as user would loose all the on-going conversation when the network connection is
-				// restored.
-				IM_CV_LOGS(TXT("CVEngineCCHHnadler::DoHandleServiceStatusChangedL ECCHDisconnecting") );				
-//				if (aServiceStatus.Error () != KCCHErrorNetworkLost )
-//				   {
-//					iEngine.CloseAllOpenChatsL();
-//					iEngine.ReleaseConnectionL ();
-//					iEngine.DeleteContextL ();
-//				   }
+				// restored.				
+				if (aServiceStatus.Error () != KCCHErrorNetworkLost )
+				   {
+					iEngine.CloseAllOpenChatsL();
+					iEngine.ReleaseConnectionL ();
+					iEngine.DeleteContextL ();
+				   }
 				notifyEvent = MIMCVEngineCCHObserver::EDisconnecting;
 				break;	
 				}

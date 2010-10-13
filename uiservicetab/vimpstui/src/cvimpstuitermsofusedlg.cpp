@@ -42,7 +42,7 @@
 
 #include    <vimpstuires.rsg>  
 // item finder (Automatic highlight)
-#include    <finditemmenu.rsg>
+#include    <FindItemmenu.rsg>
 #include    <finditemmenu.h>
 #include    <finditem.hrh>
 #include    <finditemdialog.h>

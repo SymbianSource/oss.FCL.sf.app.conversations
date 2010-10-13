@@ -14,9 +14,9 @@
 * Description:t_vimpstenginevoipsubservice.cpp
 *
 */
-#include <platform/digia/eunit/eunitmacros.h>
-#include <platform/digia/eunit/teunitassertioninfo.h>
-#include <platform/digia/eunit/CEUnitAllocTestCaseDecorator.h>
+#include <EUnitMacros.h>
+#include <TEUnitAssertionInfo.h>
+#include <CEUnitAllocTestCaseDecorator.h>
 #include "t_vimpstenginevoipsubservice.h"
 
 #include <spentry.h>

@@ -51,8 +51,7 @@ class CVIMPSTUiDoubleListBoxTabViewControl :public CCoeControl,
         										MVIMPSTCmdHandler& aCommandHandler,
         										TUint32 aServiceId,
         										CVIMPSTUiBrandData& aBrandHandler,
-        										MVIMPSTEngine& aEngine,
-        										CEikButtonGroupContainer* aCba);
+        										MVIMPSTEngine& aEngine );
         
         /**
          * Creates a new CImContactsTabbedViewControl and leaves it to
@@ -70,8 +69,7 @@ class CVIMPSTUiDoubleListBoxTabViewControl :public CCoeControl,
         											MVIMPSTCmdHandler& aCommandHandler,
         											TUint32 aServiceId,
         											CVIMPSTUiBrandData& aBrandHandler,
-        											MVIMPSTEngine& aEngine,
-        											CEikButtonGroupContainer* aCba);
+        											MVIMPSTEngine& aEngine  );
         
         /**
          * Destructor.
@@ -256,8 +254,7 @@ class CVIMPSTUiDoubleListBoxTabViewControl :public CCoeControl,
                     							MVIMPSTCmdHandler& aCommandHandler,
                     							TUint32 aServiceId,
                     							CVIMPSTUiBrandData& aBrandHandler,
-                    							MVIMPSTEngine& aEngine,
-                    							CEikButtonGroupContainer* aCba);
+                    							MVIMPSTEngine& aEngine );
         
         /**
          * Performs the 2nd phase of construction.

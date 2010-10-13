@@ -20,7 +20,5 @@ DEFAULT
 PRJ_TESTMMPFILES
 vimpstengine_ut.mmp
 
-#ifdef WINSCW_UDEB
 GNUMAKEFILE test_mover.make
-#endif
 

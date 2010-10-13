@@ -20,7 +20,7 @@
 &EN
 
 ; Provide value for uid
-#{"STIF"},(0x00000000), 1, 0, 0, TYPE=SA
+#{"STIF"},(0x00000000),1,1,0,TYPE=SA
 
 ; Series60 product id for S60 3.0
 [0x101F7961], 0, 0, 0, {"Series60ProductID"}
@@ -31,23 +31,30 @@
 ; Unique Vendor name
 :"Nokia"
 
+; Logo
+; None
 
+; Package signature - Optional
+; None
 
-;INI FILE
-; ttestframework , because rom will not allow to update , rename it 
-; after install to  testframework.ini
+; Start of Package body
 
-"..\init\testframework.ini"        			- "c:\Testframework\ttestframework.ini"
+; Condition blocks
+; None
 
-
-;CFG FILES
- "..\conf\testinstantmsgalert.cfg"        			-"c:\Testframework\testinstantmsgalert.cfg"
-
+; Options list
+; None
 
 ; Install files
-;"/epoc32/release/armv5/urel/testinstantmsgalert.dll"   -   "!:/Sys/Bin/testinstantmsgalert.dll"
-
-;instantmessagesalert.dllt dll files
- "\epoc32\release\armv5\urel\testinstantmsgalert.dll"              - "!:\Sys\Bin\testinstantmsgalert.dll"
+"/epoc32/release/armv5/udeb/testinstantmsgalert.dll"   -   "!:/Sys/Bin/testinstantmsgalert.dll"
   
+; Embedded SIS 
+; None
 
+; End of Package body
+
+; PKG dependencies
+; None
+
+; PKG capabilities
+; None

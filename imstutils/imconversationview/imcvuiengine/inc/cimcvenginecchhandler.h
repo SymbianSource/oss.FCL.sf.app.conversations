@@ -167,8 +167,6 @@ NONSHARABLE_CLASS( CIMCVEngineCchHandler ) : public CBase,
 		
 		//doesnt own
 		MIMCVEngineCCHObserver* iObserver;
-		
-		TInt iPrevNwError;
         
     };
 

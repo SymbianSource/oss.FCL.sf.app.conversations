@@ -18,7 +18,7 @@
 #define _T_VimpstEngineCchHandler_H_
 
 //  EXTERNAL INCLUDES
-#include <platform/digia/eunit/ceunittestsuiteclass.h>
+#include <CEUnitTestSuiteClass.h>
 
 #include "mvimpstenginecchhandlerobserver.h"
 #include "mvimpstenginecchuieventobserver.h"

@@ -47,8 +47,7 @@ public:
                                                         MVIMPSTCmdHandler& aCommandHandler,
                                                         TUint32 aServiceId,
                                                         CVIMPSTUiBrandData& aBrandHandler,
-                                                        MVIMPSTEngine& aEngine,
-                                                        CEikButtonGroupContainer* aCba)
+                                                        MVIMPSTEngine& aEngine )
                                                         
         {
         // LOGIC : IF presence is enabled for that service then 
@@ -61,8 +60,7 @@ public:
                     aCommandHandler,
                     aServiceId, 
                     aBrandHandler ,
-                    aEngine,
-                    aCba);
+                    aEngine );
 
             }
         else
@@ -72,8 +70,7 @@ public:
                     aCommandHandler,
                     aServiceId, 
                     aBrandHandler ,
-                    aEngine,
-                    aCba);
+                    aEngine );
             }
         }
     

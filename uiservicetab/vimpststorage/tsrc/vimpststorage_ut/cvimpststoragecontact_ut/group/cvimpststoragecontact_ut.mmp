@@ -79,7 +79,7 @@ SOURCE			s_CPBK2StoreConfiguration.cpp
 LIBRARY         euser.lib
 LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY     flogger.lib
+
 LANG            SC
 
 /*

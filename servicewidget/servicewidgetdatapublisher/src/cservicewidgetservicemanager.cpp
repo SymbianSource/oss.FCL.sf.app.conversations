@@ -312,7 +312,7 @@ void CServiceWidgetServiceManager::SetCurrentTextDataL()
                 SecondText.Append( *str );
                 CleanupStack::PopAndDestroy(str); //str	
                 }
-            iExecuteOperation = ESWAStartLogin;
+            iExecuteOperation = ESWALaunchSTAutoLogin;
             TInt isSuccessfullLogin = KErrNone;
             iSettingStore.GetL(iServiceId, EServiceSuccessfullLogin, isSuccessfullLogin );
             if( isSuccessfullLogin )
@@ -735,20 +735,23 @@ void CServiceWidgetServiceManager::CreateHandlersL()
 		TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() ECCHEnabled ") );
 		// once logged in create all interfaces
 		// please note this is boot blugin so keep lesser memory use
-		if( !iPresenceHandler && iCchHandler->IsSubServiceSupported( ECCHPresenceSub ) )
-			{
-			TPtrC ownId = iCchHandler->OwnUserIdL();			
-			TPtrC str = iServiceName->Des().Left(iServiceName->Des().Length()-KThemeUid().Length());
-			iPresenceHandler = CServiceWidgetPresenceHandler::NewL(*this,str,ownId );
-			iPresenceHandler->GetConnectedSessionL( iCchHandler->XimpAdaptationUidL(), iServiceId );
-			TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() iPresenceHandler cretaed ") );	
-			}
-		if( !iMessageHandler && iCchHandler->IsSubServiceSupported( ECCHIMSub ) )
-			{
-			TPtrC ownId = iCchHandler->OwnUserIdL();
-			iMessageHandler = CServiceWidgetMessageHandler::NewL( *this, iServiceId, ownId);
-			TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() iMessageHandler created ") );	
-			}
+		if(iCchHandler)
+		    {
+		    if( !iPresenceHandler && iCchHandler->IsSubServiceSupported( ECCHPresenceSub ) )
+                {
+                TPtrC ownId = iCchHandler->OwnUserIdL();			
+                TPtrC str = iServiceName->Des().Left(iServiceName->Des().Length()-KThemeUid().Length());
+                iPresenceHandler = CServiceWidgetPresenceHandler::NewL(*this,str,ownId );
+                iPresenceHandler->GetConnectedSessionL( iCchHandler->XimpAdaptationUidL(), iServiceId );
+                TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() iPresenceHandler cretaed ") );	
+                }
+            if( !iMessageHandler && iCchHandler->IsSubServiceSupported( ECCHIMSub ) )
+                {
+                TPtrC ownId = iCchHandler->OwnUserIdL();
+                iMessageHandler = CServiceWidgetMessageHandler::NewL( *this, iServiceId, ownId);
+                TRACE_SWP(TXT("CServiceWidgetServiceManager::CreateHandlersL() iMessageHandler created ") );	
+                }
+		    }
 		if( !iWidgetTimer && ( iPresenceHandler || iMessageHandler  ) )
 			{
 			// create the timer only if required
@@ -838,7 +841,6 @@ void CServiceWidgetServiceManager::ExecuteActionL()
         case ESWALaunchServiceTab:
             {
             RxSPViewServices viewServices;
-            iServiceviewId = iCchHandler->GetServiceViewIdL( iServiceTabUid );
             TInt err = viewServices.Activate(  iServiceTabUid, 
                     iServiceviewId ) ; 
             TRACE_SWP(TXT("CServiceWidgetServiceManager::ExecuteActionL() Activate = %d"), err), 
@@ -880,7 +882,6 @@ void CServiceWidgetServiceManager::ExecuteActionL()
              stream.CommitL();
                        
             RxSPViewServices viewServices;
-            iServiceviewId = iCchHandler->GetServiceViewIdL( iServiceTabUid );
             TInt err = viewServices.Activate(  iServiceTabUid, 
                                             iServiceviewId , dataPtr );
             TRACE_SWP(TXT("CServiceWidgetServiceManager::ExecuteActionL() Activate = %d"), err), 

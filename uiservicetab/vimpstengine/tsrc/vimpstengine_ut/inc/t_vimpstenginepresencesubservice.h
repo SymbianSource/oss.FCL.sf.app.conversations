@@ -18,7 +18,7 @@
 #define _T_VimpstEnginePresenceSubService_H_
 
 //  EXTERNAL INCLUDES
-#include <platform/digia/eunit/ceunittestsuiteclass.h>
+#include <CEUnitTestSuiteClass.h>
 #include "mvimpstengineserviceconnectioneventobserver.h"
 #include "cvimpstenginesessioncntxtobserver.h" // MVIMPSTEngineSessionCntxtObserver
 #include "mvimpstenginecchuieventobserver.h"
